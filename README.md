@@ -1,6 +1,12 @@
+<p align="center">
+    <img width="128" height="128" src="./.wordpress-org/icon256.png" />
+</p>
+
 # Pressidium Cookie Consent
 
 🍪 Pressidium Cookie Consent makes it easy to add a stylish, customizable cookie consent banner to your website and conditionally load third-party scripts (analytics, performance, targeting, etc.) based on the user-selected preferences to help you comply with EU GDPR cookie law, CCPA, and similar regulations.
+
+![Cookie consent plugin screenshot](./.wordpress-org/screenshot-5.png)
 
 ## Table of Contents
 
@@ -37,6 +43,8 @@
 
 ### ⚙️ Fully customizable
 
+![Color picker screenshot](./.wordpress-org/screenshot-2.png)
+
 Easily modify the cookie consent banner and settings modal text. Pick one of the built-in color presets to match your website’s aesthetic, or adjust the color of individual components via our convenient color picker. Choose from a variety of layouts, positions, and transitions directly from the WordPress dashboard.
 
 ### 🪶 Lightweight
@@ -49,6 +57,8 @@ An a11y friendly plugin — fully accessible and WAI-ARIA compliant.
 
 ### 🌐 Translatable
 
+![Translations tab screenshot](./.wordpress-org/screenshot-4.png)
+
 Modify any text in the cookie consent banner and settings modal, and provide translations. Choose the language auto-detection strategy you prefer — either  read the user’s browser language or read the markup of the current page to identify its primary language.
 
 ### 📱 Responsive
@@ -57,9 +67,13 @@ Fully responsive and mobile-friendly cookie consent banner and settings modal.
 
 ### 🙅 Block scripts
 
+![Blocked scripts tab screenshot](./.wordpress-org/screenshot-7.png)
+
 Control which scripts are loaded based on the user’s preferences. List the URLs of the scripts you’d like to block (both exact matches and regular expressions are supported) and prevent them from running until the user has given consent.
 
 ### 🧹 Auto-clear cookies
+
+![Cookie tables screenshot](./.wordpress-org/screenshot-3.png)
 
 Automatically delete cookies when a user opts-out of a specific category inside cookie settings.
 
