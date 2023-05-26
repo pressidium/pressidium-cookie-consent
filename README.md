@@ -1,5 +1,5 @@
 <p align="center">
-    <img width="128" height="128" src="./.wordpress-org/icon256.png" />
+    <img width="128" height="128" src="./icon.png" />
 </p>
 
 # Pressidium Cookie Consent
