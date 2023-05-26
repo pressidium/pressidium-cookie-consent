@@ -1,0 +1,51 @@
+{
+    "name": "pressidium/pressidium-cookie-consent",
+    "description": "Lightweight, user-friendly and customizable cookie consent banner to help you comply with the EU GDPR cookie law and CCPA regulations",
+    "type": "wordpress-plugin",
+    "license": "GPL-2.0-or-later",
+    "autoload": {
+        "psr-4": {
+            "Pressidium\\WP\\CookieConsent\\": "includes/"
+        }
+    },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/pressidium/pressidium-cs.git"
+        }
+    ],
+    "authors": [
+        {
+            "name": "Konstantinos Pappas",
+            "email": "konpap@pressidium.com"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/pressidium/pressidium-cookie-consent/issues",
+        "source": "https://github.com/pressidium/pressidium-cookie-consent"
+    },
+    "require-dev": {
+        "squizlabs/php_codesniffer": "^3.7",
+        "wp-coding-standards/wpcs": "^2.3",
+        "phpcompatibility/phpcompatibility-wp": "^2.1",
+        "phpstan/phpstan": "^1.10",
+        "vimeo/psalm": "^5.8",
+        "phpmd/phpmd": "^2.13",
+        "szepeviktor/phpstan-wordpress": "^1.1",
+        "php-stubs/wordpress-stubs": "^6.1",
+        "phpstan/extension-installer": "^1.2",
+        "pressidium/pressidium-cs": "^1.0"
+    },
+    "post-install-cmd": "./vendor/squizlabs/php_codesniffer/bin/phpcs --config-set installed_paths vendor/wp-coding-standards/wpcs,vendor/phpcompatibility/php-compatibility,vendor/phpcompatibility/phpcompatibility-wp,vendor/phpcompatibility/phpcompatibility-paragonie,vendor/pressidium/pressidium-cs",
+    "post-update-cmd": "./vendor/squizlabs/php_codesniffer/bin/phpcs --config-set installed_paths vendor/wp-coding-standards/wpcs,vendor/phpcompatibility/php-compatibility,vendor/phpcompatibility/phpcompatibility-wp,vendor/phpcompatibility/phpcompatibility-paragonie,vendor/pressidium/pressidium-cs",
+    "lint": "./vendor/squizlabs/php_codesniffer/bin/phpcs",
+    "phpstan": "./vendor/bin/phpstan -c phpstan.neon",
+    "config": {
+        "allow-plugins": {
+            "phpstan/extension-installer": true
+        }
+    },
+    "require": {
+        "league/container": "^3.4"
+    }
+}

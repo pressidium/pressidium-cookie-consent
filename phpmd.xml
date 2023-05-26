@@ -1,0 +1,113 @@
+<?xml version="1.0"?>
+<ruleset name="phpmd.xml"
+         xmlns="http://pmd.sf.net/ruleset/1.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://pmd.sf.net/ruleset/1.0.0 http://pmd.sf.net/ruleset_xml_schema.xsd"
+         xsi:noNamespaceSchemaLocation="http://pmd.sf.net/ruleset_xml_schema.xsd">
+    <description>PHPMD ruleset for Pressidium</description>
+
+    <!-- Exclude some languages and tests -->
+    <exclude-pattern>*/phpunit.xml*</exclude-pattern>
+    <exclude-pattern>*/languages/*</exclude-pattern>
+    <exclude-pattern>*/tests/*</exclude-pattern>
+    <exclude-pattern>*/cypress/integration/*</exclude-pattern>
+
+    <!-- Exclude third-party code -->
+    <exclude-pattern>*/bower-components/*</exclude-pattern>
+    <exclude-pattern>*/node_modules/*</exclude-pattern>
+    <exclude-pattern>*/vendor/*</exclude-pattern>
+    <exclude-pattern>*/wordpress/*</exclude-pattern>
+
+    <!-- Use almost everything from the cleancode ruleset -->
+    <rule ref="rulesets/cleancode.xml">
+        <!--
+         ... We want to stop doing that, but we can't change it yet.
+         ... Excluding this rule, since this is used all over the place
+         ... and it will be too distracting.
+        -->
+        <exclude name="StaticAccess" />
+    </rule>
+
+    <!-- Use everything from the codesize ruleset -->
+    <rule ref="rulesets/codesize.xml" />
+
+    <!--
+     ... Use almost everything from the controversial ruleset
+     ... *except* for camel case, which is not the case with WordPress
+     ... and allow direct access to superglobals
+    -->
+    <rule ref="rulesets/controversial.xml">
+        <!-- Exclude any CamelCase-related rules -->
+        <exclude name="CamelCaseClassName" />
+        <exclude name="CamelCaseMethodName" />
+        <exclude name="CamelCaseParameterName" />
+        <exclude name="CamelCasePropertyName" />
+        <exclude name="CamelCaseVariableName" />
+        <!-- Allow direct access to superglobals -->
+        <exclude name="Superglobals" />
+    </rule>
+
+    <!--
+     ... Use almost everything from the design ruleset
+     ... *except* for the exit-expression, which is not the case with WordPress
+     ... (it's common practice when redirecting, etc.)
+    -->
+    <rule ref="rulesets/design.xml">
+        <!-- Allow `exit()` -->
+        <exclude name="ExitExpression" />
+    </rule>
+
+    <!-- Use everything from the naming ruleset -->
+    <rule ref="rulesets/naming.xml" />
+
+    <!-- Use everything from the unused code ruleset -->
+    <rule ref="rulesets/unusedcode.xml" />
+
+    <!-- Limit a method to 25 lines of code -->
+    <rule ref="rulesets/codesize.xml/ExcessiveMethodLength">
+        <properties>
+            <property name="minimum" value="25" />
+        </properties>
+    </rule>
+
+    <!-- Limit parameters to 6 -->
+    <rule ref="rulesets/codesize.xml/ExcessiveParameterList">
+        <properties>
+            <property name="minimum" value="6" />
+        </properties>
+    </rule>
+
+    <!-- Limit classes to 20 public methods -->
+    <rule ref="rulesets/codesize.xml/ExcessivePublicCount">
+        <properties>
+            <property name="minimum" value="20" />
+        </properties>
+    </rule>
+
+    <!-- Limit child classes to 5 -->
+    <rule ref="rulesets/design.xml/NumberOfChildren">
+        <properties>
+            <property name="minimum" value="5" />
+        </properties>
+    </rule>
+
+    <!-- Allow specific short names for variables -->
+    <rule ref="rulesets/naming.xml/ShortVariable">
+        <properties>
+            <!--
+             ... Allow common short names:
+             ... - `id`: is used all over the place, for post, page, user IDs etc.
+             ... - `ip`: is used in some places for IP addresses
+             ... - `e`: is used in some places for exceptions
+            -->
+            <property name="exceptions" value="id,ip,e" />
+        </properties>
+    </rule>
+
+    <!-- Allow unused variables in `foreach` statements -->
+    <rule ref="rulesets/unusedcode.xml/UnusedLocalVariable">
+        <properties>
+            <property name="allow-unused-foreach-variables" value="true" />
+        </properties>
+    </rule>
+</ruleset>

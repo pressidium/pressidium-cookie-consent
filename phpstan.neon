@@ -1,0 +1,27 @@
+parameters:
+    # level can be any integer between 0 (easier) and 8 (harder)
+    level: 6
+    bootstrapFiles:
+        - stubs.php
+    paths:
+        # Our project files live in this directory
+        - .
+    scanDirectories:
+        # Our project uses the (mounted) `wordpress/` directory that
+        # isn't part of our Composer dependencies, but we don't want
+        # to analyse it. That's why we use `scanDirectories`
+        - wordpress
+    excludePaths:
+        - ./bin/*
+        - ./node_modules/*
+        - ./src/fonts/*
+        - ./src/js/*
+        - ./src/scss/*
+        - ./src/ts/*
+        - ./tests/*
+        - ./types/*
+    fileExtensions:
+        # Scan all PHP files
+        - php
+    dynamicConstantNames:
+        - PRESSIDIUM_PLATFORM

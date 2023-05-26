@@ -1,0 +1,52 @@
+name: deploy-to-plugin-repository
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  release:
+    name: New release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Install Composer
+        uses: php-actions/composer@v6
+        with:
+          php-version: '7.4'
+          composer-options: '--no-dev --prefer-dist --optimize-autoloader --no-interaction --no-progress --no-suggest'
+
+      - name: Install Node.js LTS
+        uses: actions/setup-node@v3
+        with:
+          node-version: 'lts/*'
+          cache: 'npm'
+
+      - name: Install npm dependencies
+        run: npm install
+
+      - name: Build plugin
+        run: npm run build
+
+      - name: Deploy plugin to WordPress.org repository
+        uses: 10up/action-wordpress-plugin-deploy@stable
+        id: deploy
+        with:
+          generate-zip: true
+        env:
+          SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
+          SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
+          ASSETS_DIR: .wordpress-org
+          SLUG: pressidium-cookie-consent
+
+      - name: Upload release asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ github.event.release.upload_url }}
+          asset_path: ${{ steps.deploy.outputs.zip-path }}
+          asset_name: ${{ github.event.repository.name }}.zip
+          asset_content_type: application/zip

@@ -1,0 +1,47 @@
+{
+  "name": "pressidium-cookie-consent",
+  "version": "1.0.0",
+  "description": "Lightweight, user-friendly and customizable cookie consent banner to help you comply with the EU GDPR cookie law and CCPA regulations",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "wp-scripts start",
+    "build": "wp-scripts build",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pressidium/pressidium-cookie-consent.git"
+  },
+  "keywords": [
+    "cookie",
+    "consent",
+    "gdpr"
+  ],
+  "author": "Konstantinos Pappas <konpap@pressidium.com>",
+  "license": "GPL-2.0-or-later",
+  "private": true,
+  "bugs": {
+    "url": "https://github.com/pressidium/pressidium-cookie-consent/issues"
+  },
+  "homepage": "https://github.com/pressidium/pressidium-cookie-consent#readme",
+  "devDependencies": {
+    "@wordpress/eslint-plugin": "^14.2.0",
+    "@wordpress/scripts": "^26.0.0",
+    "eslint": "^8.37.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-jsx-a11y": "^6.7.1",
+    "eslint-plugin-react": "^7.32.2",
+    "eslint-plugin-react-hooks": "^4.6.0"
+  },
+  "dependencies": {
+    "@wordpress/api-fetch": "^6.29.0",
+    "@wordpress/components": "^23.6.0",
+    "@wordpress/element": "^5.6.0",
+    "@wordpress/i18n": "^4.29.0",
+    "@wordpress/icons": "^9.22.0",
+    "react-beforeunload": "^2.5.3",
+    "styled-components": "^5.3.9"
+  }
+}

@@ -1,0 +1,149 @@
+<?xml version="1.0"?>
+<ruleset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         name="Pressidium-Default"
+         xsi:noNamespaceSchemaLocation="./theme/vendor/squizlabs/php_codesniffer/phpcs.xsd">
+    <description>A base ruleset that all other Pressidium rulesets should extend.</description>
+
+    <!-- Exclude some languages and tests -->
+    <exclude-pattern>*/phpunit.xml*</exclude-pattern>
+    <exclude-pattern>*/theme/languages/*</exclude-pattern>
+    <exclude-pattern>*/tests/*</exclude-pattern>
+    <exclude-pattern>*/cypress/integration/*</exclude-pattern>
+
+    <!-- Exclude third-party code -->
+    <exclude-pattern>*/theme.bower-components/*</exclude-pattern>
+    <exclude-pattern>*/theme/node_modules/*</exclude-pattern>
+    <exclude-pattern>*/theme/vendor/*</exclude-pattern>
+
+    <!-- Set installed paths for the standards we're using -->
+    <config name="installed_paths" value="theme/vendor/wp-coding-standards/wpcs,theme/vendor/phpcompatibility/php-compatibility,theme/vendor/phpcompatibility/phpcompatibility-wp,theme/vendor/phpcompatibility/phpcompatibility-paragonie,theme/vendor/pressidium/pressidium-cs" />
+
+    <!-- Scan only PHP files in this directory and its subdirectories -->
+    <file>.</file>
+    <arg name="extensions" value="php" />
+
+    <!-- Whenever possible, cache the scan results and re-use those for unchanged files on the next scan -->
+    <arg name="cache" />
+
+    <!-- Strip the file paths down to the relevant bit -->
+    <arg name="basepath" value="./" />
+
+    <!-- Show results with colors -->
+    <arg name="colors" />
+
+    <!-- Parallel processing for faster results, check up to 8 files simultaneously -->
+    <arg name="parallel" value="8" />
+
+    <!-- Show sniff codes in all reports -->
+    <arg value="ps" />
+
+    <!-- Set the minimum supported WordPress version -->
+    <config name="minimum_supported_wp_version" value="6.0" />
+
+    <!-- Don't worry about files that don't contain any code -->
+    <rule ref="Internal.NoCodeFound">
+        <severity>0</severity>
+    </rule>
+
+    <!-- Use the WordPress Doc Standards as a basis -->
+    <rule ref="WordPress-Docs">
+        <!--
+         ... If files, variables, functions or methods are given descriptive names like they should be,
+         ... then an explicit description is often unnecessary, so leave this as a judgement call
+        -->
+        <exclude name="Squiz.Commenting.FunctionComment.MissingParamComment" />
+        <exclude name="Squiz.Commenting.FileComment.Missing" />
+        <exclude name="Squiz.Commenting.ClassComment.Missing" />
+        <exclude name="Squiz.Commenting.FunctionComment.MissingParamTag" />
+        <exclude name="Generic.Commenting.DocComment.MissingShort" />
+        <exclude name="Squiz.Commenting.VariableComment.Missing" />
+        <exclude name="Squiz.Commenting.VariableComment.MissingVar" />
+
+        <!-- Do not require a @package tag -->
+        <exclude name="Squiz.Commenting.FileComment.MissingPackageTag" />
+
+        <!--
+        ... Class comments are generally not useful, so they're left out,
+        ... but then PHPCS confuses the plugin headers for a class comment
+        -->
+        <exclude name="Squiz.Commenting.ClassComment.WrongStyle" />
+        <exclude name="Squiz.Commenting.ClassComment.SpacingAfter" />
+    </rule>
+
+    <!-- Prevent empty lines after a block comment -->
+    <rule ref="Squiz.Commenting.BlockComment.NoEmptyLineAfter" />
+
+    <!-- Use the WordPress Coding Standards as a basis -->
+    <rule ref="WordPress-Extra">
+        <!-- Forget about file names, comply with PSR-0 instead -->
+        <exclude name="WordPress.Files.FileName" />
+
+        <!-- Ignore yoda conditions, forbid "assignments in conditions" instead -->
+        <exclude name="WordPress.PHP.YodaConditions" />
+
+        <!-- A while loop is the only valid control structure where an assignment can be justified -->
+        <exclude name="WordPress.CodeAnalysis.AssignmentInCondition.FoundInWhileCondition" />
+
+        <!--
+         ... Warn about mis-aligned array items, but don't automatically "fix" them, because arrays in function
+         ... calls get extra lines added.
+		 ...
+		 ... @see https://github.com/WordPress-Coding-Standards/WordPress-Coding-Standards/issues/1305
+		-->
+        <exclude phpcbf-only="true" name="PEAR.Functions.FunctionCallSignature" />
+
+        <!-- Indent with spaces instead of tabs, comply with PSR-2 -->
+        <exclude name="Generic.WhiteSpace.DisallowSpaceIndent" />
+
+        <!-- Inline comments don't have to end in full-stops, exclamation marks or question marks -->
+        <exclude name="Squiz.Commenting.InlineComment.InvalidEndChar" />
+    </rule>
+
+    <!-- Disallow real tabs, indent with 4 spaces instead -->
+    <rule ref="Generic.WhiteSpace.ScopeIndent">
+        <properties>
+            <property name="indent" value="4" />
+            <property name="tabIndent" value="false" />
+        </properties>
+    </rule>
+    <rule ref="Generic.WhiteSpace.DisallowTabIndent" />
+
+    <!-- Disallow Yoda conditions -->
+    <rule ref="Generic.ControlStructures.DisallowYodaConditions" />
+
+    <!-- It's often obvious what the placeholder is, so let's make it a warning instead -->
+    <rule ref="WordPress.WP.I18n.MissingTranslatorsComment">
+        <type>warning</type>
+    </rule>
+
+    <!--
+     ... In multidimensional arrays, items in the child arrays should be aligned, but the parent arrays should
+     ... not be aligned, since they are not neighboring lines.
+     ...
+     ... @see https://github.com/WordPress-Coding-Standards/WordPress-Coding-Standards/issues/1565
+    -->
+    <rule ref="WordPress.Arrays.MultipleStatementAlignment">
+        <properties>
+            <property name="alignMultilineItems" value="!=100" />
+        </properties>
+    </rule>
+
+    <!-- Set custom line length limits -->
+    <rule ref="Generic.Files.LineLength">
+        <properties>
+            <property name="lineLimit" value="120" />
+            <property name="absoluteLineLimit" value="120" />
+        </properties>
+    </rule>
+
+    <!-- Pressidium Coding Standards -->
+    <rule ref="PressidiumCS" />
+
+    <!--
+     ... Load the WordPress specific ruleset to check for PHP cross version compatibility
+     ...
+     ... @see https://github.com/PHPCompatibility/PHPCompatibilityWP
+    -->
+    <rule ref="PHPCompatibilityWP" />
+    <config name="testVersion" value="7.4-" />
+</ruleset>
