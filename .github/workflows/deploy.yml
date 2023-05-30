@@ -1,4 +1,4 @@
-name: deploy-to-plugin-repository
+name: deploy-to-plugin-directory
 
 on:
   release:
@@ -30,7 +30,7 @@ jobs:
       - name: Build plugin
         run: npm run build
 
-      - name: Deploy plugin to WordPress.org repository
+      - name: Deploy plugin to WordPress Plugin Directory
         uses: 10up/action-wordpress-plugin-deploy@stable
         id: deploy
         with:
