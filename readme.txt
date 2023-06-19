@@ -6,7 +6,7 @@ Tags: cookie, consent, gdpr, ccpa, cookies
 Requires at least: 6.0
 Tested up to: 6.2
 Requires PHP: 7.4
-Stable Tag: 1.0.0
+Stable Tag: 1.0.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -144,6 +144,10 @@ If you have spotted any bugs, or would like to request additional features from 
 7. Blocked scripts
 
 == Changelog ==
+
+= 1.0.1: Jun 19, 2023 =
+
+* Update Plugin Directory icons
 
 = 1.0.0: May 26, 2023 =
 
