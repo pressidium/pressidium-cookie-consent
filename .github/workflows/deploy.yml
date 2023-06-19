@@ -15,8 +15,8 @@ jobs:
       - name: Install Composer
         uses: php-actions/composer@v6
         with:
-          php-version: '7.4'
-          composer-options: '--no-dev --prefer-dist --optimize-autoloader --no-interaction --no-progress --no-suggest'
+          php_version: '7.4'
+          dev: 'no'
 
       - name: Install Node.js LTS
         uses: actions/setup-node@v3
