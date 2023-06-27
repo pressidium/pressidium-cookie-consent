@@ -10,6 +10,7 @@
 .eslintrc.js
 DOCKER_ENV
 docker_tag
+output.log
 phpcs.xml
 phpmd.xml
 phpstan.neon
