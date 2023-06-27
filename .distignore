@@ -8,6 +8,8 @@
 .distignore
 .gitignore
 .eslintrc.js
+DOCKER_ENV
+docker_tag
 phpcs.xml
 phpmd.xml
 phpstan.neon

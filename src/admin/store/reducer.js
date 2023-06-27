@@ -330,8 +330,8 @@ function settingsReducer(state, action) {
             ...state.languages[action.payload.language],
             consent_modal: {
               ...state.languages[action.payload.language].consent_modal,
-              primary_btn: {
-                ...state.languages[action.payload.language].consent_modal.primary_btn,
+              secondary_btn: {
+                ...state.languages[action.payload.language].consent_modal.secondary_btn,
                 text: action.payload.value,
               },
             },
