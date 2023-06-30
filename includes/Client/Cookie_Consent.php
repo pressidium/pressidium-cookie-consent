@@ -144,8 +144,8 @@ class Cookie_Consent implements Actions, Filters {
      * @return void
      */
     private function print_inline_script(): void {
-        if ( ! $this->settings['page_scripts'] ) {
-            // Page scripts are disabled, bail early
+        if ( ! $this->settings['page_scripts'] || empty( $this->settings['pressidium_options']['blocked_scripts'] ) ) {
+            // Either "Page scripts" are disabled, or there are no blocked scripts, bail early
             return;
         }
 
