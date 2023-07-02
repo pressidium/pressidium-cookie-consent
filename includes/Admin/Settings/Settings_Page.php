@@ -176,11 +176,11 @@ class Settings_Page extends Page implements Actions, Filters {
     /**
      * Add information about this plugin to the left side of the admin footer.
      *
-     * @param string $content The existing content.
+     * @param string|null $content The existing content.
      *
-     * @return string The modified content including the plugin information.
+     * @return string|null The modified content including the plugin information.
      */
-    public function admin_footer_info( string $content ): string {
+    public function admin_footer_info( ?string $content ): ?string {
         if ( ! $this->is_settings_page() ) {
             // Not the settings page, bail early
             return $content;
@@ -208,11 +208,11 @@ class Settings_Page extends Page implements Actions, Filters {
     /**
      * Add plugin version to the right side of the admin footer.
      *
-     * @param string $content The existing content.
+     * @param string|null $content The existing content.
      *
-     * @return string The modified content including the plugin version.
+     * @return string|null The modified content including the plugin version.
      */
-    public function admin_footer_version( string $content ): string {
+    public function admin_footer_version( ?string $content ): ?string {
         if ( ! $this->is_settings_page() ) {
             // Not the settings page, bail early
             return $content;
