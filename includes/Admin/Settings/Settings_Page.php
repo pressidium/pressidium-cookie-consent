@@ -191,14 +191,14 @@ class Settings_Page extends Page implements Actions, Filters {
             '<span id="pressidium-cc-footer">%s</span>',
             sprintf(
                 /* translators: 1: Developer name, 2: Link to the docs. */
-                __( 'Developed by %s | For more information, read the %s.', 'pressidium-cookie-consent' ),
+                __( 'Developed by %1$s | For more information, read the %2$s.', 'pressidium-cookie-consent' ),
                 sprintf(
-                    '<a href="%s" target="_blank" rel="noopener noreferrer">%s</a>',
+                    '<a href="%1$s" target="_blank" rel="noopener noreferrer">%2$s</a>',
                     esc_url( 'https://pressidium.com/' ),
                     esc_html( 'Pressidium' )
                 ),
                 sprintf(
-                    '<a href="%s" target="_blank" rel="noopener noreferrer">%s</a>',
+                    '<a href="%1$s" target="_blank" rel="noopener noreferrer">%2$s</a>',
                     esc_url( 'https://github.com/pressidium/pressidium-cookie-consent/wiki' ),
                     __( 'documentation', 'pressidium-cookie-consent' )
                 )
