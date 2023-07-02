@@ -81,7 +81,7 @@ abstract class Page implements Actions {
      *
      * @return string
      */
-    protected function get_icon() {
+    protected function get_icon(): string {
         return 'dashicons-admin-generic';
     }
 
