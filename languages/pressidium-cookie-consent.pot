@@ -1,0 +1,69 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Pressidium Cookie Consent\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-07-12 20:32+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: \n"
+"Language: \n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Loco https://localise.biz/\n"
+"X-Loco-Version: 2.6.4; wp-6.2.2\n"
+"X-Domain: pressidium-cookie-consent"
+
+#: includes/Admin/Settings/Settings_Page.php:94
+msgid "Adjust your cookie consent preferences."
+msgstr ""
+
+#: includes/Admin/Settings/Settings_Page.php:65
+#: includes/Admin/Settings/Settings_Page.php:74
+msgid "Cookie Consent"
+msgstr ""
+
+#. 1: Developer name, 2: Link to the docs.
+#: includes/Admin/Settings/Settings_Page.php:194
+#, php-format
+msgid "Developed by %1$s | For more information, read the %2$s."
+msgstr ""
+
+#: includes/Admin/Settings/Settings_Page.php:203
+msgid "documentation"
+msgstr ""
+
+#. URI of the plugin
+msgid "https://github.com/pressidium/pressidium-cookie-consent/"
+msgstr ""
+
+#. Author URI of the plugin
+msgid "https://pressidium.com/"
+msgstr ""
+
+#: includes/Admin/Settings/Settings_API.php:570
+#: includes/Admin/Settings/Settings_API.php:622
+msgid "Invalid nonce."
+msgstr ""
+
+#. Description of the plugin
+msgid ""
+"Lightweight, user-friendly and customizable cookie consent banner to help "
+"you comply with the EU GDPR cookie law and CCPA regulations."
+msgstr ""
+
+#. Author of the plugin
+msgid "Pressidium"
+msgstr ""
+
+#. Name of the plugin
+msgid "Pressidium Cookie Consent"
+msgstr ""
+
+#. Plugin version.
+#: includes/Admin/Settings/Settings_Page.php:224
+#, php-format
+msgid "Version %s"
+msgstr ""
