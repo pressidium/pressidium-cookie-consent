@@ -606,6 +606,31 @@ class Settings_API implements Actions {
     }
 
     /**
+     * Delete ALL settings.
+     *
+     * @param WP_REST_Request $request
+     *
+     * @return WP_Error|WP_REST_Response
+     */
+    public function delete_settings( WP_REST_Request $request ) {
+        $nonce = $request->get_param( 'nonce' );
+
+        // Validate nonce
+        if ( ! wp_verify_nonce( $nonce, 'pressidium_cookie_consent_rest' ) ) {
+            return new WP_Error(
+                'invalid_nonce',
+                __( 'Invalid nonce.', 'pressidium-cookie-consent' ),
+                array( 'status' => 403 )
+            );
+        }
+
+        $deleted_successfully = $this->settings->remove();
+        $response             = array( 'success' => $deleted_successfully );
+
+        return rest_ensure_response( $response );
+    }
+
+    /**
      * Register REST routes.
      *
      * @return void
@@ -642,6 +667,25 @@ class Settings_API implements Actions {
                     ),
                 ),
                 'permissions_callback' => function () {
+                    return current_user_can( 'manage_options' );
+                },
+            )
+        );
+
+        register_rest_route(
+            self::REST_NAMESPACE,
+            '/settings',
+            array(
+                'methods'             => 'DELETE',
+                'callback'            => array( $this, 'delete_settings' ),
+                'args'                => array(
+                    'nonce' => array(
+                        'type'              => 'string',
+                        'required'          => true,
+                        'sanitize_callback' => 'sanitize_text_field',
+                    ),
+                ),
+                'permission_callback' => function () {
                     return current_user_can( 'manage_options' );
                 },
             )

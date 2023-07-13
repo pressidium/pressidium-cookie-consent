@@ -195,7 +195,7 @@ class Settings_Page extends Page implements Actions, Filters {
                 sprintf(
                     '<a href="%1$s" target="_blank" rel="noopener noreferrer">%2$s</a>',
                     esc_url( 'https://pressidium.com/' ),
-                    esc_html( 'Pressidium' )
+                    esc_html( 'Pressidium®' )
                 ),
                 sprintf(
                     '<a href="%1$s" target="_blank" rel="noopener noreferrer">%2$s</a>',

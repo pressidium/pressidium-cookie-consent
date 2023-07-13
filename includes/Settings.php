@@ -206,4 +206,13 @@ class Settings {
         return $this->options->set( self::OPTIONS_KEY, $settings );
     }
 
+    /**
+     * Remove settings.
+     *
+     * @return bool Whether the settings were removed successfully.
+     */
+    public function remove(): bool {
+        return $this->options->remove( self::OPTIONS_KEY );
+    }
+
 }
