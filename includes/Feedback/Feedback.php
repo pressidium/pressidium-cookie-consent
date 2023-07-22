@@ -35,6 +35,8 @@ class Feedback implements Actions {
 
     /**
      * Feedback constructor.
+     *
+     * @param Feedback_API $feedback_api Instance of `Feedback_API`.
      */
     public function __construct( Feedback_API $feedback_api ) {
         $this->feedback_api = $feedback_api;
