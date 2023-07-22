@@ -46,6 +46,7 @@
         }
     },
     "require": {
-        "league/container": "^3.4"
+        "league/container": "^3.4",
+        "ext-json": "*"
     }
 }
