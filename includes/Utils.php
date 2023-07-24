@@ -140,5 +140,33 @@ class Utils {
         return self::strip_suffix( '/', $string );
     }
 
+    /**
+     * Convert any emoji characters in the values of the given array to their equivalent HTML entity.
+     *
+     * This allows us to store emoji in a DB using the utf8 character set.
+     *
+     * @since 1.1.0
+     *
+     * @link https://developer.wordpress.org/reference/functions/wp_encode_emoji/
+     *
+     * @param array $arr Array to encode emoji characters in.
+     *
+     * @return array Array with emoji characters encoded.
+     */
+    public static function encode_emoji_array( array $arr ): array {
+        $encoded = array();
+
+        foreach ( $arr as $key => $value ) {
+            if ( is_array( $value ) ) {
+                $encoded[ $key ] = self::encode_emoji_array( $value );
+            }
+
+            if ( is_string( $value ) ) {
+                $encoded[ $key ] = wp_encode_emoji( $value );
+            }
+        }
+
+        return $encoded;
+    }
 
 }
