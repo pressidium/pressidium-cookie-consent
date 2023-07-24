@@ -159,6 +159,7 @@ class Utils {
         foreach ( $arr as $key => $value ) {
             if ( is_array( $value ) ) {
                 $encoded[ $key ] = self::encode_emoji_array( $value );
+                continue;
             }
 
             if ( is_string( $value ) ) {
