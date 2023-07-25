@@ -164,7 +164,10 @@ class Utils {
 
             if ( is_string( $value ) ) {
                 $encoded[ $key ] = wp_encode_emoji( $value );
+                continue;
             }
+
+            $encoded[ $key ] = $value;
         }
 
         return $encoded;
