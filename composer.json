@@ -42,7 +42,8 @@
     "phpstan": "./vendor/bin/phpstan -c phpstan.neon",
     "config": {
         "allow-plugins": {
-            "phpstan/extension-installer": true
+            "phpstan/extension-installer": true,
+            "dealerdirect/phpcodesniffer-composer-installer": true
         }
     },
     "require": {
