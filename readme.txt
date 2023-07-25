@@ -145,12 +145,14 @@ If you have spotted any bugs, or would like to request additional features from 
 
 == Changelog ==
 
-= 1.1.0: Jul 24, 2023 =
+= 1.1.0: Jul 25, 2023 =
 
 * Add the ability to export, import, and reset settings
 * Add POT file for localization
 * Ask for feedback on plugin deactivation
 * Support emoji even on databases using the `utf8` character set
+* Improve logging
+* Add a new Logs tab to the settings page to help with debugging
 
 = 1.0.4: Jul 2, 2023 =
 
