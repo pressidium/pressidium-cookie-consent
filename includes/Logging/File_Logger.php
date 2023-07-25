@@ -31,7 +31,7 @@ class File_Logger implements Logger {
     /**
      * @var string Log file path.
      */
-    const LOG_FILE = PLUGIN_DIR . '/logs/error.log';
+    const LOG_FILE = PLUGIN_DIR . 'logs/error.log';
 
     /**
      * Log a message with a level of an emergency — system is unusable.
