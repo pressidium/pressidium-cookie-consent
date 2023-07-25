@@ -21,7 +21,6 @@ use Pressidium\WP\CookieConsent\Hooks\Hooks_Manager;
 use Pressidium\WP\CookieConsent\Logging\File_Logger;
 use Pressidium\WP\CookieConsent\Logging\Logger;
 use Pressidium\WP\CookieConsent\Options\WP_Options;
-use Pressidium\WP\CookieConsent\Logs;
 
 if ( ! defined( 'ABSPATH' ) ) {
     die( 'Forbidden' );
