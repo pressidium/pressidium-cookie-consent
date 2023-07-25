@@ -31,7 +31,7 @@ class File_Logger implements Logger {
     /**
      * @var string Log file path.
      */
-    const LOG_FILE = PLUGIN_DIR . '/logs/error.log';
+    const LOG_FILE = PLUGIN_DIR . 'logs/error.log';
 
     /**
      * Log a message with a level of an emergency — system is unusable.
@@ -183,6 +183,12 @@ class File_Logger implements Logger {
      */
     public function get_logs(): string {
         $source = self::LOG_FILE;
+
+        if ( ! file_exists( $source ) ) {
+            // File does not exist, so there are no logs
+            return '';
+        }
+
         $logs = file_get_contents( $source );
 
         if ( $logs === false ) {
