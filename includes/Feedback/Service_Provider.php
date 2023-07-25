@@ -1,24 +1,29 @@
 <?php
 /**
- * Plugin admin settings service provider.
+ * API service provider.
  *
  * @author Konstantinos Pappas <konpap@pressidium.com>
  * @copyright 2023 Pressidium
  */
 
-namespace Pressidium\WP\CookieConsent\Admin\Settings;
+namespace Pressidium\WP\CookieConsent\Feedback;
 
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 
 use League\Container\ServiceProvider\AbstractServiceProvider;
 
+// Prevent direct access
+if ( ! defined( 'ABSPATH' ) ) {
+    die( 'Forbidden' );
+}
+
 /**
- * Service_Provider class.
+ * Class Service_Provider.
  *
- * @since 1.0.0
+ * @since 1.1.0
  */
-final class Service_Provider extends AbstractServiceProvider {
+class Service_Provider extends AbstractServiceProvider {
 
     /**
      * The provided array is a way to let the container
@@ -27,11 +32,11 @@ final class Service_Provider extends AbstractServiceProvider {
      * this service provider must have an alias added
      * to this array, or it will be ignored.
      *
-     * @var array
+     * @var string[]
      */
     protected $provides = array(
-        'settings_page',
-        'settings_api',
+        'feedback_api',
+        'feedback',
     );
 
     /**
@@ -42,18 +47,15 @@ final class Service_Provider extends AbstractServiceProvider {
      *
      * @throws NotFoundExceptionInterface  No entry was found in the container.
      * @throws ContainerExceptionInterface Something went wrong with the container.
-     *
-     * @return void
      */
     public function register(): void {
         $this->getContainer()
-             ->add( 'settings_page', Settings_Page::class );
+             ->add( 'feedback_api', Feedback_API::class )
+             ->addArgument( $this->getContainer()->get( 'logger' ) );
 
         $this->getContainer()
-             ->add( 'settings_api', Settings_API::class )
-             ->addArgument( $this->getContainer()->get( 'settings' ) )
-             ->addArgument( $this->getContainer()->get( 'logger' ) )
-             ->addArgument( $this->getContainer()->get( 'logs' ) );
+             ->add( 'feedback', Feedback::class )
+             ->addArgument( $this->getContainer()->get( 'feedback_api' ) );
     }
 
 }

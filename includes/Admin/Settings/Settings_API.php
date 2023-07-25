@@ -11,7 +11,9 @@ namespace Pressidium\WP\CookieConsent\Admin\Settings;
 use const Pressidium\WP\CookieConsent\VERSION;
 
 use Pressidium\WP\CookieConsent\Hooks\Actions;
+use Pressidium\WP\CookieConsent\Logging\Logger;
 use Pressidium\WP\CookieConsent\Settings;
+use Pressidium\WP\CookieConsent\Logs;
 
 use WP_REST_Request;
 use WP_REST_Response;
@@ -39,12 +41,26 @@ class Settings_API implements Actions {
     private Settings $settings;
 
     /**
+     * @var Logger Instance of `Logger`.
+     */
+    private Logger $logger;
+
+    /**
+     * @var Logs Instance of `Logs`.
+     */
+    private Logs $logs;
+
+    /**
      * Settings_API constructor.
      *
      * @param Settings $settings
+     * @param Logger   $logger
+     * @param Logs     $logs
      */
-    public function __construct( Settings $settings ) {
+    public function __construct( Settings $settings, Logger $logger, Logs $logs ) {
         $this->settings = $settings;
+        $this->logger   = $logger;
+        $this->logs     = $logs;
     }
 
     /**
@@ -565,6 +581,8 @@ class Settings_API implements Actions {
 
         // Validate nonce
         if ( ! wp_verify_nonce( $nonce, 'pressidium_cookie_consent_rest' ) ) {
+            $this->logger->error( 'Updating settings failed due to invalid nonce' );
+
             return new WP_Error(
                 'invalid_nonce',
                 __( 'Invalid nonce.', 'pressidium-cookie-consent' ),
@@ -579,13 +597,20 @@ class Settings_API implements Actions {
 
         $response = array( 'success' => false );
 
-        if ( $set_successfully ) {
-            $response['success'] = true;
-            $response['data']    = $settings;
+        if ( ! $set_successfully ) {
+            $this->logger->error( 'Could not update settings on the database' );
+
+            return rest_ensure_response( $response );
         }
+
+        $response['success'] = true;
+        $response['data']    = $settings;
+
+        $this->logger->info( 'Updated settings successfully' );
 
         return rest_ensure_response( $response );
     }
+
     /**
      * Return current settings.
      *
@@ -597,11 +622,108 @@ class Settings_API implements Actions {
         $response = array( 'success' => false );
         $settings = $this->settings->get();
 
-        if ( ! empty( $settings ) ) {
-            $response['success'] = true;
-            $response['data']    = $settings;
+        if ( empty( $settings ) ) {
+            $this->logger->error( 'Could not retrieve settings from the database' );
+
+            return rest_ensure_response( $response );
         }
 
+        $response['success'] = true;
+        $response['data']    = $settings;
+
+        return rest_ensure_response( $response );
+    }
+
+    /**
+     * Delete ALL settings.
+     *
+     * @param WP_REST_Request $request
+     *
+     * @return WP_Error|WP_REST_Response
+     */
+    public function delete_settings( WP_REST_Request $request ) {
+        $nonce = $request->get_param( 'nonce' );
+
+        // Validate nonce
+        if ( ! wp_verify_nonce( $nonce, 'pressidium_cookie_consent_rest' ) ) {
+            $this->logger->error( 'Deleting settings failed due to invalid nonce' );
+
+            return new WP_Error(
+                'invalid_nonce',
+                __( 'Invalid nonce.', 'pressidium-cookie-consent' ),
+                array( 'status' => 403 )
+            );
+        }
+
+        $deleted_successfully = $this->settings->remove();
+        $response             = array( 'success' => $deleted_successfully );
+
+        if ( ! $deleted_successfully ) {
+            $this->logger->error( 'Could not delete settings from the database' );
+        }
+
+        $this->logger->info( 'Reset settings successfully' );
+        return rest_ensure_response( $response );
+    }
+
+    /**
+     * Return logs.
+     *
+     * @param WP_REST_Request $request
+     *
+     * @return WP_Error|WP_REST_Response
+     */
+    public function get_logs( WP_REST_Request $request ) {
+        $nonce = $request->get_param( 'nonce' );
+
+        // Validate nonce
+        if ( ! wp_verify_nonce( $nonce, 'pressidium_cookie_consent_rest' ) ) {
+            $this->logger->error( 'Retrieving logs failed due to invalid nonce' );
+
+            return new WP_Error(
+                'invalid_nonce',
+                __( 'Invalid nonce.', 'pressidium-cookie-consent' ),
+                array( 'status' => 403 )
+            );
+        }
+
+        $response = array(
+            'success' => true,
+            'data'    => $this->logs->get_logs(),
+        );
+
+        return rest_ensure_response( $response );
+    }
+
+    /**
+     * Delete logs.
+     *
+     * @param WP_REST_Request $request
+     *
+     * @return WP_Error|WP_REST_Response
+     */
+    public function delete_logs( WP_REST_Request $request ) {
+        $nonce = $request->get_param( 'nonce' );
+
+        // Validate nonce
+        if ( ! wp_verify_nonce( $nonce, 'pressidium_cookie_consent_rest' ) ) {
+            $this->logger->error( 'Deleting logs failed due to invalid nonce' );
+
+            return new WP_Error(
+                'invalid_nonce',
+                __( 'Invalid nonce.', 'pressidium-cookie-consent' ),
+                array( 'status' => 403 )
+            );
+        }
+
+        $deleted_successfully = $this->logs->clear();
+        $response             = array( 'success' => $deleted_successfully );
+
+        if ( ! $deleted_successfully ) {
+            $this->logger->error( 'Could not clear the log file' );
+        }
+
+        $this->logger->info( 'Cleared logs successfully' );
         return rest_ensure_response( $response );
     }
 
@@ -611,7 +733,7 @@ class Settings_API implements Actions {
      * @return void
      */
     public function register_rest_routes(): void {
-        register_rest_route(
+        $did_register_routes = register_rest_route(
             self::REST_NAMESPACE,
             '/settings',
             array(
@@ -621,7 +743,7 @@ class Settings_API implements Actions {
             )
         );
 
-        register_rest_route(
+        $did_register_routes = $did_register_routes && register_rest_route(
             self::REST_NAMESPACE,
             '/settings',
             array(
@@ -646,6 +768,67 @@ class Settings_API implements Actions {
                 },
             )
         );
+
+        $did_register_routes = $did_register_routes && register_rest_route(
+            self::REST_NAMESPACE,
+            '/settings',
+            array(
+                'methods'             => 'DELETE',
+                'callback'            => array( $this, 'delete_settings' ),
+                'args'                => array(
+                    'nonce' => array(
+                        'type'              => 'string',
+                        'required'          => true,
+                        'sanitize_callback' => 'sanitize_text_field',
+                    ),
+                ),
+                'permission_callback' => function () {
+                    return current_user_can( 'manage_options' );
+                },
+            )
+        );
+
+        $did_register_routes = $did_register_routes && register_rest_route(
+            self::REST_NAMESPACE,
+            '/logs',
+            array(
+                'methods'             => 'GET',
+                'callback'            => array( $this, 'get_logs' ),
+                'args'                => array(
+                    'nonce' => array(
+                        'type'              => 'string',
+                        'required'          => true,
+                        'sanitize_callback' => 'sanitize_text_field',
+                    ),
+                ),
+                'permission_callback' => function() {
+                    return current_user_can( 'manage_options' );
+                },
+            )
+        );
+
+        $did_register_routes = $did_register_routes && register_rest_route(
+            self::REST_NAMESPACE,
+            '/logs',
+            array(
+                'methods'             => 'DELETE',
+                'callback'            => array( $this, 'delete_logs' ),
+                'args'                => array(
+                    'nonce' => array(
+                        'type'              => 'string',
+                        'required'          => true,
+                        'sanitize_callback' => 'sanitize_text_field',
+                    ),
+                ),
+                'permission_callback' => function () {
+                    return current_user_can( 'manage_options' );
+                },
+            )
+        );
+
+        if ( ! $did_register_routes ) {
+            $this->logger->error( 'Could not register REST route(s)' );
+        }
     }
 
     /**

@@ -23,5 +23,10 @@ parameters:
     fileExtensions:
         # Scan all PHP files
         - php
+    ignoreErrors:
+        - '#Constant Pressidium\\WP\\CookieConsent\\VERSION not found#'
+        - '#Constant Pressidium\\WP\\CookieConsent\\PLUGIN_DIR not found#'
+        - '#Constant Pressidium\\WP\\CookieConsent\\PLUGIN_URL not found#'
+        - '#Constant Pressidium\\WP\\CookieConsent\\PLUGIN_FILE not found#'
     dynamicConstantNames:
         - PRESSIDIUM_PLATFORM

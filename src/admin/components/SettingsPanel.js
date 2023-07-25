@@ -23,6 +23,7 @@ import TranslationsTab from './tabs/TranslationsTab';
 import ConsentModalTab from './tabs/ConsentModalTab';
 import SettingsModalTab from './tabs/SettingsModalTab';
 import BlockedScriptsTab from './tabs/BlockedScriptsTab';
+import LogsTab from './tabs/LogsTab';
 
 import SettingsContext from '../store/context';
 
@@ -47,35 +48,28 @@ function SettingsPanel() {
       method: 'GET',
     };
 
-    try {
-      const response = await apiFetch(options);
+    const response = await apiFetch(options);
 
-      if (!('success' in response) || !response.success || !('data' in response)) {
-        // Failed to fetch settings, bail early
-        console.error('Error fetching settings', response);
-        return;
-      }
-
-      const { data } = response;
-
-      dispatch({
-        type: 'SET_SETTINGS',
-        payload: data,
-      });
-    } catch (error) {
-      // Unexpected error occurred, bail early
-      console.error('Error fetching settings', error);
+    if (!('success' in response) || !response.success || !('data' in response)) {
+      // Failed to fetch settings, bail early
+      // eslint-disable-next-line no-console
+      console.error('Error fetching settings', response);
+      throw new Error('Invalid response while fetching settings');
     }
+
+    const { data } = response;
+
+    return data;
   };
 
-  const saveSettings = async () => {
+  const saveSettings = async (data) => {
     const { route, nonce } = pressidiumCCAdminDetails.api;
 
     const options = {
       path: route,
       method: 'POST',
       data: {
-        settings: state,
+        settings: data,
         nonce,
       },
     };
@@ -101,6 +95,49 @@ function SettingsPanel() {
     }
 
     setHasUnsavedChanges(false);
+  };
+
+  const resetSettings = async () => {
+    const { route, nonce } = pressidiumCCAdminDetails.api;
+
+    const options = {
+      path: route,
+      method: 'DELETE',
+      data: {
+        nonce,
+      },
+    };
+
+    try {
+      const response = await apiFetch(options);
+
+      if ('success' in response && response.success) {
+        setNoticeStatus('success');
+        setNoticeMessage(__('Settings reset successfully.', 'pressidium-cookie-consent'));
+      } else {
+        setNoticeStatus('error');
+        setNoticeMessage(__('Could not reset settings.', 'pressidium-cookie-consent'));
+      }
+    } catch (error) {
+      if ('code' in error && error.code === 'invalid_nonce') {
+        setNoticeStatus('error');
+        setNoticeMessage(__('Could not pass security check.', 'pressidium-cookie-consent'));
+      } else {
+        setNoticeStatus('error');
+        setNoticeMessage(__('Could not reset settings.', 'pressidium-cookie-consent'));
+      }
+    }
+
+    try {
+      const data = await fetchSettings();
+
+      dispatch({
+        type: 'SET_SETTINGS',
+        payload: data,
+      });
+    } catch (error) {
+      console.error('Could not reload default settings', error);
+    }
   };
 
   const ccSettings = useMemo(() => {
@@ -171,6 +208,71 @@ function SettingsPanel() {
     window.pressidiumCookieConsent.showSettings();
   };
 
+  const getCurrentTimestamp = () => {
+    const date = new Date();
+
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const day = date.getDate().toString().padStart(2, '0');
+
+    const hours = date.getHours().toString().padStart(2, '0');
+    const minutes = date.getMinutes().toString().padStart(2, '0');
+    const seconds = date.getSeconds().toString().padStart(2, '0');
+
+    return `${year}-${month}-${day}_${hours}-${minutes}-${seconds}`;
+  };
+
+  const downloadJsonFile = (data) => {
+    const blobType = 'text/json;charset=utf-8';
+    const blob = new Blob([JSON.stringify(data)], { type: blobType });
+    const url = URL.createObjectURL(blob);
+
+    const currentTimestamp = getCurrentTimestamp();
+    const filename = `pressidium-cookie-consent-settings_${currentTimestamp}.json`;
+
+    const anchor = document.createElement('a');
+    anchor.setAttribute('href', url);
+    anchor.setAttribute('download', filename);
+    anchor.click();
+    anchor.remove();
+
+    URL.revokeObjectURL(url);
+  };
+
+  const exportSettings = async () => {
+    try {
+      const data = await fetchSettings();
+      downloadJsonFile(data);
+    } catch (error) {
+      setNoticeStatus('error');
+      setNoticeMessage(__('Could not export settings.', 'pressidium-cookie-consent'));
+    }
+  };
+
+  const importSettings = async (files) => {
+    try {
+      if (files.length === 0) {
+        throw new Error(__('No files selected', 'pressidium-cookie-consent'));
+      }
+
+      const [file] = files;
+
+      const data = await file.text();
+      const parsedData = JSON.parse(data);
+
+      await saveSettings(parsedData);
+
+      dispatch({
+        type: 'SET_SETTINGS',
+        payload: parsedData,
+      });
+    } catch (error) {
+      console.error('Could not import settings', error);
+      setNoticeStatus('error');
+      setNoticeMessage(__('Could not import settings.', 'pressidium-cookie-consent'));
+    }
+  };
+
   useBeforeunload((e) => {
     if (!hasUnsavedChanges) {
       return '';
@@ -205,7 +307,16 @@ function SettingsPanel() {
     (async () => {
       setIsFetching(true);
 
-      await fetchSettings();
+      try {
+        const data = await fetchSettings();
+
+        dispatch({
+          type: 'SET_SETTINGS',
+          payload: data,
+        });
+      } catch (error) {
+        console.error('Could not fetch settings', error);
+      }
 
       setIsFetching(false);
     })();
@@ -268,6 +379,12 @@ function SettingsPanel() {
               className: 'tab-blocked-scripts',
               Component: BlockedScriptsTab,
             },
+            {
+              name: 'logs',
+              title: __('Logs', 'pressidium-cookie-consent'),
+              className: 'tab-logs',
+              Component: LogsTab,
+            },
           ]}
         >
           {({ Component }) => (
@@ -275,9 +392,13 @@ function SettingsPanel() {
           )}
         </TabPanel>
         <Footer
-          save={saveSettings}
+          save={() => saveSettings(state)}
           previewConsentModal={previewConsentModal}
           previewSettingsModal={previewSettingsModal}
+          hasUnsavedChanges={hasUnsavedChanges}
+          exportSettings={exportSettings}
+          importSettings={importSettings}
+          resetSettings={resetSettings}
         />
       </Panel>
     </>

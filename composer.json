@@ -42,10 +42,13 @@
     "phpstan": "./vendor/bin/phpstan -c phpstan.neon",
     "config": {
         "allow-plugins": {
-            "phpstan/extension-installer": true
+            "phpstan/extension-installer": true,
+            "dealerdirect/phpcodesniffer-composer-installer": true
         }
     },
     "require": {
-        "league/container": "^3.4"
+        "league/container": "^3.4",
+        "ext-json": "*",
+        "psr/log": "^1.1"
     }
 }

@@ -10,16 +10,17 @@ namespace Pressidium\WP\CookieConsent;
 
 use League\Container\Container;
 
-use Pressidium\WP\CookieConsent\Admin\Settings\Service_Provider as Settings_Service_Provider;
-use Pressidium\WP\CookieConsent\Client\Service_Provider as Client_Service_Provider;
-
-use Pressidium\WP\CookieConsent\Hooks\Hooks_Manager;
-use Pressidium\WP\CookieConsent\Options\WP_Options;
-use Pressidium\WP\CookieConsent\Logging\File_Logger;
-use Pressidium\WP\CookieConsent\Logging\Logger;
-
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
+
+use Pressidium\WP\CookieConsent\Admin\Settings\Service_Provider as Settings_Service_Provider;
+use Pressidium\WP\CookieConsent\Client\Service_Provider as Client_Service_Provider;
+use Pressidium\WP\CookieConsent\Feedback\Service_Provider as Feedback_Service_Provider;
+
+use Pressidium\WP\CookieConsent\Hooks\Hooks_Manager;
+use Pressidium\WP\CookieConsent\Logging\File_Logger;
+use Pressidium\WP\CookieConsent\Logging\Logger;
+use Pressidium\WP\CookieConsent\Options\WP_Options;
 
 if ( ! defined( 'ABSPATH' ) ) {
     die( 'Forbidden' );
@@ -68,6 +69,7 @@ class Plugin {
      */
     private function add_service_providers( Container $container ): void {
         try {
+            $container->addServiceProvider( Feedback_Service_Provider::class );
             $container->addServiceProvider( Settings_Service_Provider::class );
             $container->addServiceProvider( Client_Service_Provider::class );
         } catch ( ContainerExceptionInterface | NotFoundExceptionInterface $exception ) {
@@ -88,6 +90,7 @@ class Plugin {
             $hooks_manager->register( $container->get( 'settings_api' ) );
             $hooks_manager->register( $container->get( 'settings_page' ) );
             $hooks_manager->register( $container->get( 'cookie_consent' ) );
+            $hooks_manager->register( $container->get( 'feedback' ) );
         } catch ( ContainerExceptionInterface | NotFoundExceptionInterface $exception ) {
             $this->logger->log_exception( $exception );
         }
@@ -110,6 +113,9 @@ class Plugin {
 
         $this->logger = new File_Logger();
         $container->add( 'logger', $this->logger );
+
+        $logs = new Logs( $this->logger );
+        $container->add( 'logs', $logs );
 
         $options = new WP_Options();
         $container->add( 'options', $options );

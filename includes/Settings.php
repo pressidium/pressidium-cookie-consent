@@ -9,6 +9,7 @@
 namespace Pressidium\WP\CookieConsent;
 
 use Pressidium\WP\CookieConsent\Options\Options;
+use Pressidium\WP\CookieConsent\Utils;
 
 if ( ! defined( 'ABSPATH' ) ) {
     die( 'Forbidden' );
@@ -203,7 +204,16 @@ class Settings {
             $settings = $this->get_default_values();
         }
 
-        return $this->options->set( self::OPTIONS_KEY, $settings );
+        return $this->options->set( self::OPTIONS_KEY, Utils::encode_emoji_array( $settings ) );
+    }
+
+    /**
+     * Remove settings.
+     *
+     * @return bool Whether the settings were removed successfully.
+     */
+    public function remove(): bool {
+        return $this->options->remove( self::OPTIONS_KEY );
     }
 
 }

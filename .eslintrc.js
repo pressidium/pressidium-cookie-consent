@@ -20,6 +20,7 @@ module.exports = {
   globals: {
     pressidiumCCAdminDetails: 'readonly',
     pressidiumCCClientDetails: 'readonly',
+    pressidiumCCFeedbackDetails: 'readonly',
     initCookieConsent: true,
   },
   rules: {
