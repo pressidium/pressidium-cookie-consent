@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2023-07-22T20:24:26+00:00\n"
+"POT-Creation-Date: 2023-07-25T13:39:56+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.7.1\n"
 "X-Domain: pressidium-cookie-consent\n"
@@ -34,9 +34,11 @@ msgstr ""
 msgid "https://pressidium.com/"
 msgstr ""
 
-#: includes/Admin/Settings/Settings_API.php:570
-#: includes/Admin/Settings/Settings_API.php:622
-#: includes/Feedback/Feedback.php:135
+#: includes/Admin/Settings/Settings_API.php:587
+#: includes/Admin/Settings/Settings_API.php:652
+#: includes/Admin/Settings/Settings_API.php:684
+#: includes/Admin/Settings/Settings_API.php:713
+#: includes/Feedback/Feedback.php:137
 msgid "Invalid nonce."
 msgstr ""
 
@@ -50,838 +52,1081 @@ msgid "Adjust your cookie consent preferences."
 msgstr ""
 
 #. translators: 1: Developer name, 2: Link to the docs.
-#: includes/Admin/Settings/Settings_Page.php:194
+#: includes/Admin/Settings/Settings_Page.php:195
 msgid "Developed by %1$s | For more information, read the %2$s."
 msgstr ""
 
-#: includes/Admin/Settings/Settings_Page.php:203
+#: includes/Admin/Settings/Settings_Page.php:204
 msgid "documentation"
 msgstr ""
 
 #. translators: Plugin version.
-#: includes/Admin/Settings/Settings_Page.php:224
+#: includes/Admin/Settings/Settings_Page.php:225
 msgid "Version %s"
 msgstr ""
 
-#: includes/Feedback/Feedback.php:107
+#: includes/Feedback/Feedback.php:109
 msgid "Help us improve!"
 msgstr ""
 
-#: includes/Feedback/Feedback.php:109
+#: includes/Feedback/Feedback.php:111
 msgid "We value your feedback. Please let us know why youâ€™re deactivating Pressidium Cookie Consent."
 msgstr ""
 
-#: includes/Feedback/Feedback_API.php:59
-#: includes/Feedback/Feedback_API.php:61
+#: includes/Feedback/Feedback_API.php:75
+#: includes/Feedback/Feedback_API.php:83
 msgid "Unknown error"
 msgstr ""
 
-#: public/bundle.admin.js:3
-#: src/admin/components/ExportSettingsModal.js:18
-msgid "Export settings?"
-msgstr ""
-
-#: public/bundle.admin.js:3
-#: src/admin/components/ExportSettingsModal.js:24
-msgid "You have unsaved changes."
-msgstr ""
-
-#: public/bundle.admin.js:3
-#: src/admin/components/ExportSettingsModal.js:27
-msgid "Those changes won't be exported. Are you sure you want to proceed?"
-msgstr ""
-
-#: public/bundle.admin.js:3
-#: public/bundle.admin.js:57
-#: src/admin/components/ExportSettingsModal.js:35
-#: src/admin/components/NewLanguageModal.js:48
-#: src/admin/components/ResetSettingsModal.js:40
-msgid "Cancel"
-msgstr ""
-
-#: public/bundle.admin.js:3
-#: src/admin/components/ExportSettingsModal.js:46
-msgid "Export anyway"
-msgstr ""
-
-#: public/bundle.admin.js:3
-#: src/admin/components/ResetSettingsModal.js:18
-msgid "Reset settings?"
-msgstr ""
-
-#: public/bundle.admin.js:3
-#: src/admin/components/ResetSettingsModal.js:24
-msgid "This action cannot be undone."
-msgstr ""
-
-#: public/bundle.admin.js:3
-#: src/admin/components/ResetSettingsModal.js:28
-msgid "You are about to reset all settings to the default values. Are you sure you want to proceed?"
-msgstr ""
-
-#: public/bundle.admin.js:3
-#: src/admin/components/ResetSettingsModal.js:52
-msgid "Reset settings"
-msgstr ""
-
-#: public/bundle.admin.js:7
-#: src/admin/components/Footer.js:132
-msgid "Save"
-msgstr ""
-
-#: public/bundle.admin.js:7
-#: src/admin/components/Footer.js:142
-msgid "Preview Consent"
-msgstr ""
-
-#: public/bundle.admin.js:7
-#: src/admin/components/Footer.js:152
-msgid "Preview Settings"
-msgstr ""
-
-#: public/bundle.admin.js:7
-#: src/admin/components/Footer.js:166
-msgid "Export Settings"
-msgstr ""
-
-#: public/bundle.admin.js:7
-#: src/admin/components/Footer.js:182
-msgid "Import Settings"
-msgstr ""
-
-#: public/bundle.admin.js:7
-#: src/admin/components/Footer.js:193
-msgid "Reset Settings"
-msgstr ""
-
-#: public/bundle.admin.js:15
-#: src/admin/components/ColorControl.js:26
-msgid "Color"
-msgstr ""
-
-#: public/bundle.admin.js:15
-#: src/admin/themes/index.js:11
-msgid "Light"
-msgstr ""
-
-#: public/bundle.admin.js:15
-#: src/admin/themes/index.js:16
-msgid "Dark Blue"
-msgstr ""
-
-#: public/bundle.admin.js:15
-#: src/admin/themes/index.js:21
-msgid "Dark Turqoise"
-msgstr ""
-
-#: public/bundle.admin.js:15
-#: src/admin/components/tabs/GeneralTab.js:76
-msgid "Configuration"
-msgstr ""
-
-#: public/bundle.admin.js:15
-#: src/admin/components/tabs/GeneralTab.js:82
-msgid "Autorun"
-msgstr ""
-
-#: public/bundle.admin.js:15
-#: src/admin/components/tabs/GeneralTab.js:84
-msgid "Will show the cookie consent as soon as possible"
-msgstr ""
-
-#: public/bundle.admin.js:15
-#: src/admin/components/tabs/GeneralTab.js:85
-msgid "You will have to manually call the `.show()` method"
-msgstr ""
-
-#: public/bundle.admin.js:15
-#: src/admin/components/tabs/GeneralTab.js:93
-msgid "Force consent"
-msgstr ""
-
-#: public/bundle.admin.js:15
-#: src/admin/components/tabs/GeneralTab.js:95
-msgid "Page navigation will be blocked until user action"
-msgstr ""
-
-#: public/bundle.admin.js:15
-#: src/admin/components/tabs/GeneralTab.js:96
-msgid "Users will be able to navigate without needing to consent first"
-msgstr ""
-
-#: public/bundle.admin.js:15
-#: src/admin/components/tabs/GeneralTab.js:104
-msgid "Auto-clear cookies"
-msgstr ""
-
-#: public/bundle.admin.js:15
-#: src/admin/components/tabs/GeneralTab.js:106
-msgid "Cookies will be deleted automatically when user opts-out of a specific category inside cookie settings"
-msgstr ""
-
-#: public/bundle.admin.js:15
-#: src/admin/components/tabs/GeneralTab.js:107
-msgid "Cookies will have to be deleted manually"
-msgstr ""
-
-#: public/bundle.admin.js:15
-#: src/admin/components/tabs/GeneralTab.js:115
-msgid "Page scripts"
-msgstr ""
-
-#: public/bundle.admin.js:15
-#: src/admin/components/tabs/GeneralTab.js:117
-msgid "Will manage existing third-party script tags"
-msgstr ""
-
-#: public/bundle.admin.js:15
-#: src/admin/components/tabs/GeneralTab.js:118
-msgid "Won't manage existing third-party script tags"
-msgstr ""
-
-#: public/bundle.admin.js:15
-#: src/admin/components/tabs/GeneralTab.js:126
-msgid "Hide from bots"
-msgstr ""
-
-#: public/bundle.admin.js:15
-#: src/admin/components/tabs/GeneralTab.js:128
-msgid "Won't run when a bot/crawler/webdriver is detected"
-msgstr ""
-
-#: public/bundle.admin.js:15
-#: src/admin/components/tabs/GeneralTab.js:129
-msgid "Will always run, even when a bot/crawler/webdriver is detected"
-msgstr ""
-
-#: public/bundle.admin.js:15
-#: src/admin/components/tabs/GeneralTab.js:137
-msgid "Re-consent"
-msgstr ""
-
-#: public/bundle.admin.js:15
-#: src/admin/components/tabs/GeneralTab.js:139
-msgid "Will ask users to â€œre-consentâ€ when a cookies list changes"
-msgstr ""
-
-#: public/bundle.admin.js:15
-#: src/admin/components/tabs/GeneralTab.js:140
-msgid "Won't ask users for consent more than once"
-msgstr ""
-
-#: public/bundle.admin.js:15
-#: src/admin/components/tabs/GeneralTab.js:148
-msgid "Delay"
-msgstr ""
-
-#: public/bundle.admin.js:15
-#: src/admin/components/tabs/GeneralTab.js:149
-msgid "Number of milliseconds before showing the consent modal"
-msgstr ""
-
-#: public/bundle.admin.js:15
-#: src/admin/components/tabs/GeneralTab.js:157
-msgid "Cookie expiration"
-msgstr ""
-
-#: public/bundle.admin.js:15
-#: src/admin/components/tabs/GeneralTab.js:158
-msgid "Number of days before the cookie expires"
-msgstr ""
-
-#: public/bundle.admin.js:15
-#: src/admin/components/tabs/GeneralTab.js:166
-msgid "Cookie path"
-msgstr ""
-
-#: public/bundle.admin.js:15
-#: src/admin/components/tabs/GeneralTab.js:167
-msgid "Path where the cookie will be set"
-msgstr ""
-
-#: public/bundle.admin.js:15
-#: src/admin/components/tabs/GeneralTab.js:175
-msgid "Cookie domain"
-msgstr ""
-
-#: public/bundle.admin.js:15
-#: src/admin/components/tabs/GeneralTab.js:176
-msgid "Specify your domain or a subdomain"
-msgstr ""
-
-#: public/bundle.admin.js:15
-#: src/admin/components/tabs/GeneralTab.js:185
-msgid "Colors"
-msgstr ""
-
-#: public/bundle.admin.js:15
-#: src/admin/components/tabs/GeneralTab.js:191
-msgid "Theme"
-msgstr ""
-
-#: public/bundle.admin.js:15
-#: src/admin/components/tabs/GeneralTab.js:203
-msgid "Background"
-msgstr ""
-
-#: public/bundle.admin.js:15
-#: src/admin/components/tabs/GeneralTab.js:208
-msgid "Text"
-msgstr ""
-
-#: public/bundle.admin.js:15
-#: src/admin/components/tabs/GeneralTab.js:213
-msgid "Primary background"
-msgstr ""
-
-#: public/bundle.admin.js:15
-#: src/admin/components/tabs/GeneralTab.js:218
-msgid "Primary text"
-msgstr ""
-
-#: public/bundle.admin.js:15
-#: src/admin/components/tabs/GeneralTab.js:223
-msgid "Primary hover background"
-msgstr ""
-
-#: public/bundle.admin.js:15
-#: src/admin/components/tabs/GeneralTab.js:231
-msgid "Secondary background"
-msgstr ""
-
-#: public/bundle.admin.js:15
-#: src/admin/components/tabs/GeneralTab.js:239
-msgid "Secondary text"
-msgstr ""
-
-#: public/bundle.admin.js:15
-#: src/admin/components/tabs/GeneralTab.js:244
-msgid "Secondary hover background"
-msgstr ""
-
-#: public/bundle.admin.js:15
-#: src/admin/components/tabs/GeneralTab.js:252
-msgid "Toggle background (off)"
-msgstr ""
-
-#: public/bundle.admin.js:15
-#: src/admin/components/tabs/GeneralTab.js:260
-msgid "Toggle background (on)"
-msgstr ""
-
-#: public/bundle.admin.js:15
-#: src/admin/components/tabs/GeneralTab.js:268
-msgid "Toggle background (readonly)"
-msgstr ""
-
-#: public/bundle.admin.js:15
-#: src/admin/components/tabs/GeneralTab.js:276
-msgid "Toggle knob background"
-msgstr ""
-
-#: public/bundle.admin.js:15
-#: src/admin/components/tabs/GeneralTab.js:284
-msgid "Toggle knob icon color"
-msgstr ""
-
-#: public/bundle.admin.js:15
-#: src/admin/components/tabs/GeneralTab.js:292
-msgid "Cookie category block background"
-msgstr ""
-
-#: public/bundle.admin.js:15
-#: src/admin/components/tabs/GeneralTab.js:300
-msgid "Cookie category block background (hover)"
-msgstr ""
-
-#: public/bundle.admin.js:15
-#: src/admin/components/tabs/GeneralTab.js:308
-msgid "Section border"
-msgstr ""
-
-#: public/bundle.admin.js:15
-#: src/admin/components/tabs/GeneralTab.js:313
-msgid "Block text"
-msgstr ""
-
-#: public/bundle.admin.js:15
-#: src/admin/components/tabs/GeneralTab.js:318
-msgid "Cookie table border"
-msgstr ""
-
-#: public/bundle.admin.js:15
-#: src/admin/components/tabs/GeneralTab.js:323
-msgid "Overlay background"
-msgstr ""
-
-#: public/bundle.admin.js:15
-#: src/admin/components/tabs/GeneralTab.js:328
-msgid "Scrollbar background"
-msgstr ""
-
-#: public/bundle.admin.js:15
-#: src/admin/components/tabs/GeneralTab.js:336
-msgid "Scrollbar background (hover)"
-msgstr ""
-
-#: public/bundle.admin.js:46
-#: src/admin/components/CookiesTable.js:87
-msgid "Name"
-msgstr ""
-
-#: public/bundle.admin.js:46
-#: src/admin/components/CookiesTable.js:90
-msgid "Domain"
-msgstr ""
-
-#: public/bundle.admin.js:46
-#: src/admin/components/CookiesTable.js:93
-msgid "Expiration"
-msgstr ""
-
-#: public/bundle.admin.js:46
-#: src/admin/components/CookiesTable.js:96
-msgid "Path"
-msgstr ""
-
-#: public/bundle.admin.js:46
-#: src/admin/components/CookiesTable.js:99
-msgid "Description"
-msgstr ""
-
-#: public/bundle.admin.js:46
-#: public/bundle.admin.js:65
-#: src/admin/components/BlockedScriptsTable.js:86
-#: src/admin/components/CookiesTable.js:102
-msgid "Is Regex?"
-msgstr ""
-
-#: public/bundle.admin.js:46
-#: public/bundle.admin.js:57
-#: public/bundle.admin.js:65
-#: src/admin/components/BlockedScriptsTable.js:89
-#: src/admin/components/CookiesTable.js:105
-#: src/admin/components/TranslationsTable.js:39
-msgid "Actions"
-msgstr ""
-
-#: public/bundle.admin.js:46
-#: src/admin/components/CookiesTable.js:141
-msgid "This is an example cookie."
-msgstr ""
-
-#: public/bundle.admin.js:46
-#: public/bundle.admin.js:57
-#: public/bundle.admin.js:65
-#: src/admin/components/BlockedScriptsTable.js:127
-#: src/admin/components/CookiesTable.js:155
-#: src/admin/components/TranslationsTable.js:70
-msgid "Delete"
-msgstr ""
-
-#: public/bundle.admin.js:46
-#: src/admin/components/CookiesTable.js:164
-msgid "No cookies in this category."
-msgstr ""
-
-#: public/bundle.admin.js:46
-#: src/admin/components/CookiesTable.js:175
-msgid "New Cookie"
-msgstr ""
-
-#: public/bundle.admin.js:46
-#: public/bundle.admin.js:57
-#: src/admin/components/tabs/CookiesTab.js:18
-#: src/admin/components/tabs/TranslationsTab.js:331
-msgid "Analytics cookies"
-msgstr ""
-
-#: public/bundle.admin.js:46
-#: public/bundle.admin.js:57
-#: src/admin/components/tabs/CookiesTab.js:28
-#: src/admin/components/tabs/TranslationsTab.js:350
-msgid "Targeting cookies"
-msgstr ""
-
-#: public/bundle.admin.js:57
-#: src/admin/components/NewLanguageModal.js:29
-#: src/admin/components/TranslationsTable.js:36
-msgid "Language"
-msgstr ""
-
-#: public/bundle.admin.js:57
-#: src/admin/components/TranslationsTable.js:63
-msgid "Edit"
-msgstr ""
-
-#: public/bundle.admin.js:57
-#: src/admin/components/NewLanguageModal.js:24
-#: src/admin/components/tabs/TranslationsTab.js:171
-msgid "New Language"
-msgstr ""
-
-#: public/bundle.admin.js:57
-#: src/admin/components/NewLanguageModal.js:59
-msgid "Add"
-msgstr ""
-
-#: public/bundle.admin.js:57
-#: src/admin/components/tabs/TranslationsTab.js:145
-msgid "Language auto-detection strategy"
-msgstr ""
-
-#: public/bundle.admin.js:57
-#: src/admin/components/tabs/TranslationsTab.js:147
-msgid "Read the user's browser language"
-msgstr ""
-
-#: public/bundle.admin.js:57
-#: src/admin/components/tabs/TranslationsTab.js:148
-msgid "Read value from <html lang=\"...\"> of current page"
-msgstr ""
-
-#: public/bundle.admin.js:57
-#: src/admin/components/tabs/TranslationsTab.js:151
-msgid "Browser"
-msgstr ""
-
-#: public/bundle.admin.js:57
-#: src/admin/components/tabs/TranslationsTab.js:152
-msgid "document"
-msgstr ""
-
-#: public/bundle.admin.js:57
-#: src/admin/components/tabs/TranslationsTab.js:185
-msgid "Consent modal"
-msgstr ""
-
-#: public/bundle.admin.js:57
-#: src/admin/components/tabs/TranslationsTab.js:218
-msgid "Settings modal"
-msgstr ""
-
-#: public/bundle.admin.js:57
-#: src/admin/components/tabs/TranslationsTab.js:272
-msgid "Cookie table headers"
-msgstr ""
-
-#: public/bundle.admin.js:57
-#: src/admin/components/tabs/TranslationsTab.js:312
-msgid "Necessary cookies"
-msgstr ""
-
-#: public/bundle.admin.js:57
-#: src/admin/components/tabs/TranslationsTab.js:369
-msgid "More information block"
-msgstr ""
-
-#: public/bundle.admin.js:57
-#: src/admin/components/tabs/ConsentModalTab.js:54
-#: src/admin/components/tabs/SettingsModalTab.js:30
-msgid "Layout"
-msgstr ""
-
-#: public/bundle.admin.js:57
-#: src/admin/components/tabs/ConsentModalTab.js:57
-#: src/admin/components/tabs/SettingsModalTab.js:33
-msgid "Box"
-msgstr ""
-
-#: public/bundle.admin.js:57
-#: src/admin/components/tabs/ConsentModalTab.js:58
-msgid "Cloud"
-msgstr ""
-
-#: public/bundle.admin.js:57
-#: src/admin/components/tabs/ConsentModalTab.js:59
-#: src/admin/components/tabs/SettingsModalTab.js:34
-msgid "Bar"
-msgstr ""
-
-#: public/bundle.admin.js:57
-#: src/admin/components/tabs/ConsentModalTab.js:67
-msgid "Vertical position"
-msgstr ""
-
-#: public/bundle.admin.js:57
-#: src/admin/components/tabs/ConsentModalTab.js:70
-msgid "Top"
-msgstr ""
-
-#: public/bundle.admin.js:57
-#: src/admin/components/tabs/ConsentModalTab.js:71
-msgid "Middle"
-msgstr ""
-
-#: public/bundle.admin.js:57
-#: src/admin/components/tabs/ConsentModalTab.js:72
-msgid "Bottom"
-msgstr ""
-
-#: public/bundle.admin.js:57
-#: src/admin/components/tabs/ConsentModalTab.js:86
-msgid "Horizontal position"
-msgstr ""
-
-#: public/bundle.admin.js:57
-#: src/admin/components/tabs/ConsentModalTab.js:89
-#: src/admin/components/tabs/SettingsModalTab.js:51
-msgid "Left"
-msgstr ""
-
-#: public/bundle.admin.js:57
-#: src/admin/components/tabs/ConsentModalTab.js:90
-msgid "Center"
-msgstr ""
-
-#: public/bundle.admin.js:57
-#: src/admin/components/tabs/ConsentModalTab.js:91
-#: src/admin/components/tabs/SettingsModalTab.js:52
-msgid "Right"
-msgstr ""
-
-#: public/bundle.admin.js:57
-#: src/admin/components/tabs/ConsentModalTab.js:101
-#: src/admin/components/tabs/SettingsModalTab.js:62
-msgid "Transition"
-msgstr ""
-
-#: public/bundle.admin.js:57
-#: src/admin/components/tabs/ConsentModalTab.js:104
-#: src/admin/components/tabs/SettingsModalTab.js:65
-msgid "Slide"
-msgstr ""
-
-#: public/bundle.admin.js:57
-#: src/admin/components/tabs/ConsentModalTab.js:105
-#: src/admin/components/tabs/SettingsModalTab.js:66
-msgid "Zoom"
-msgstr ""
-
-#: public/bundle.admin.js:57
-#: src/admin/components/tabs/ConsentModalTab.js:113
-msgid "Primary button"
-msgstr ""
-
-#: public/bundle.admin.js:57
-#: src/admin/components/tabs/ConsentModalTab.js:116
-msgid "Accept selected"
-msgstr ""
-
-#: public/bundle.admin.js:57
-#: src/admin/components/tabs/ConsentModalTab.js:117
-msgid "Accept all"
-msgstr ""
-
-#: public/bundle.admin.js:57
-#: src/admin/components/tabs/ConsentModalTab.js:125
-msgid "Secondary button"
-msgstr ""
-
-#: public/bundle.admin.js:57
-#: src/admin/components/tabs/ConsentModalTab.js:128
-msgid "Settings"
-msgstr ""
-
-#: public/bundle.admin.js:57
-#: src/admin/components/tabs/ConsentModalTab.js:129
-msgid "Accept necessary"
-msgstr ""
-
-#: public/bundle.admin.js:57
-#: src/admin/components/tabs/ConsentModalTab.js:137
-msgid "Swap buttons"
-msgstr ""
-
-#: public/bundle.admin.js:57
-#: src/admin/components/tabs/ConsentModalTab.js:139
-msgid "Buttons are inverted"
-msgstr ""
-
-#: public/bundle.admin.js:57
-#: src/admin/components/tabs/ConsentModalTab.js:140
-msgid "Enable to invert buttons"
-msgstr ""
-
-#: public/bundle.admin.js:57
-#: src/admin/components/tabs/SettingsModalTab.js:48
-msgid "Position"
-msgstr ""
-
-#: public/bundle.admin.js:65
+#: public/bundle.admin.js:7328
 #: src/admin/components/BlockedScriptsTable.js:80
+#: public/bundle.admin.js:5165
 msgid "Script Source"
 msgstr ""
 
-#: public/bundle.admin.js:65
+#: public/bundle.admin.js:7328
 #: src/admin/components/BlockedScriptsTable.js:83
+#: public/bundle.admin.js:5168
 msgid "Cookie Category"
 msgstr ""
 
-#: public/bundle.admin.js:65
+#: public/bundle.admin.js:7332
+#: public/bundle.admin.js:7635
+#: src/admin/components/BlockedScriptsTable.js:86
+#: src/admin/components/CookiesTable.js:102
+#: public/bundle.admin.js:5171
+#: public/bundle.admin.js:5509
+msgid "Is Regex?"
+msgstr ""
+
+#: public/bundle.admin.js:7336
+#: public/bundle.admin.js:7639
+#: public/bundle.admin.js:9243
+#: src/admin/components/BlockedScriptsTable.js:89
+#: src/admin/components/CookiesTable.js:105
+#: src/admin/components/TranslationsTable.js:39
+#: public/bundle.admin.js:5174
+#: public/bundle.admin.js:5512
+#: public/bundle.admin.js:6859
+msgid "Actions"
+msgstr ""
+
+#: public/bundle.admin.js:7343
 #: src/admin/components/BlockedScriptsTable.js:106
+#: public/bundle.admin.js:5191
 msgid "Analytics"
 msgstr ""
 
-#: public/bundle.admin.js:65
+#: public/bundle.admin.js:7346
 #: src/admin/components/BlockedScriptsTable.js:110
+#: public/bundle.admin.js:5195
 msgid "Targeting"
 msgstr ""
 
-#: public/bundle.admin.js:65
+#: public/bundle.admin.js:7365
+#: public/bundle.admin.js:7674
+#: public/bundle.admin.js:9263
+#: src/admin/components/BlockedScriptsTable.js:127
+#: src/admin/components/CookiesTable.js:155
+#: src/admin/components/TranslationsTable.js:70
+#: public/bundle.admin.js:5212
+#: public/bundle.admin.js:5562
+#: public/bundle.admin.js:6890
+msgid "Delete"
+msgstr ""
+
+#: public/bundle.admin.js:7367
 #: src/admin/components/BlockedScriptsTable.js:136
+#: public/bundle.admin.js:5221
 msgid "No blocked scripts."
 msgstr ""
 
-#: public/bundle.admin.js:65
+#: public/bundle.admin.js:7374
 #: src/admin/components/BlockedScriptsTable.js:147
+#: public/bundle.admin.js:5232
 msgid "New Script"
 msgstr ""
 
-#: public/bundle.admin.js:65
-#: src/admin/components/tabs/BlockedScriptsTab.js:16
-msgid "Make sure that youâ€™ve enabled the â€œPage Scriptsâ€ option, located under the General tab."
+#: public/bundle.admin.js:7410
+#: src/admin/components/ClearLogsModal.js:18
+#: public/bundle.admin.js:5258
+msgid "Clear logs?"
 msgstr ""
 
-#: public/bundle.admin.js:65
-#: src/admin/components/tabs/BlockedScriptsTab.js:21
-msgid "Script blocking may not always be effective due to variations in script loading methods."
+#: public/bundle.admin.js:7414
+#: public/bundle.admin.js:8646
+#: src/admin/components/ClearLogsModal.js:24
+#: src/admin/components/ResetSettingsModal.js:24
+#: public/bundle.admin.js:5264
+#: public/bundle.admin.js:6280
+msgid "This action cannot be undone."
 msgstr ""
 
-#: public/bundle.admin.js:65
-#: src/admin/components/SettingsPanel.js:80
+#: public/bundle.admin.js:7414
+#: src/admin/components/ClearLogsModal.js:28
+#: public/bundle.admin.js:5268
+msgid "You are about to clear all logs. Are you sure you want to proceed?"
+msgstr ""
+
+#: public/bundle.admin.js:7419
+#: public/bundle.admin.js:7728
+#: public/bundle.admin.js:8571
+#: public/bundle.admin.js:8651
+#: src/admin/components/ClearLogsModal.js:40
+#: src/admin/components/ExportSettingsModal.js:35
+#: src/admin/components/NewLanguageModal.js:48
+#: src/admin/components/ResetSettingsModal.js:40
+#: public/bundle.admin.js:5280
+#: public/bundle.admin.js:5625
+#: public/bundle.admin.js:6217
+#: public/bundle.admin.js:6296
+msgid "Cancel"
+msgstr ""
+
+#: public/bundle.admin.js:7426
+#: public/bundle.admin.js:9927
+#: src/admin/components/ClearLogsModal.js:52
+#: src/admin/components/tabs/LogsTab.js:160
+#: public/bundle.admin.js:5292
+#: public/bundle.admin.js:7661
+msgid "Clear logs"
+msgstr ""
+
+#: public/bundle.admin.js:7466
+#: src/admin/components/ColorControl.js:26
+#: public/bundle.admin.js:5328
+msgid "Color"
+msgstr ""
+
+#: public/bundle.admin.js:7631
+#: src/admin/components/CookiesTable.js:87
+#: public/bundle.admin.js:5494
+msgid "Name"
+msgstr ""
+
+#: public/bundle.admin.js:7631
+#: src/admin/components/CookiesTable.js:90
+#: public/bundle.admin.js:5497
+msgid "Domain"
+msgstr ""
+
+#: public/bundle.admin.js:7631
+#: src/admin/components/CookiesTable.js:93
+#: public/bundle.admin.js:5500
+msgid "Expiration"
+msgstr ""
+
+#: public/bundle.admin.js:7631
+#: src/admin/components/CookiesTable.js:96
+#: public/bundle.admin.js:5503
+msgid "Path"
+msgstr ""
+
+#: public/bundle.admin.js:7631
+#: src/admin/components/CookiesTable.js:99
+#: public/bundle.admin.js:5506
+msgid "Description"
+msgstr ""
+
+#: public/bundle.admin.js:7657
+#: src/admin/components/CookiesTable.js:141
+#: public/bundle.admin.js:5548
+msgid "This is an example cookie."
+msgstr ""
+
+#: public/bundle.admin.js:7676
+#: src/admin/components/CookiesTable.js:164
+#: public/bundle.admin.js:5571
+msgid "No cookies in this category."
+msgstr ""
+
+#: public/bundle.admin.js:7683
+#: src/admin/components/CookiesTable.js:175
+#: public/bundle.admin.js:5582
+msgid "New Cookie"
+msgstr ""
+
+#: public/bundle.admin.js:7719
+#: src/admin/components/ExportSettingsModal.js:18
+#: public/bundle.admin.js:5608
+msgid "Export settings?"
+msgstr ""
+
+#: public/bundle.admin.js:7723
+#: src/admin/components/ExportSettingsModal.js:24
+#: public/bundle.admin.js:5614
+msgid "You have unsaved changes."
+msgstr ""
+
+#: public/bundle.admin.js:7723
+#: src/admin/components/ExportSettingsModal.js:27
+#: public/bundle.admin.js:5617
+msgid "Those changes won't be exported. Are you sure you want to proceed?"
+msgstr ""
+
+#: public/bundle.admin.js:7734
+#: src/admin/components/ExportSettingsModal.js:46
+#: public/bundle.admin.js:5636
+msgid "Export anyway"
+msgstr ""
+
+#: public/bundle.admin.js:7859
+#: src/admin/components/Footer.js:132
+#: public/bundle.admin.js:5778
+msgid "Save"
+msgstr ""
+
+#: public/bundle.admin.js:7863
+#: src/admin/components/Footer.js:142
+#: public/bundle.admin.js:5788
+msgid "Preview Consent"
+msgstr ""
+
+#: public/bundle.admin.js:7867
+#: src/admin/components/Footer.js:152
+#: public/bundle.admin.js:5798
+msgid "Preview Settings"
+msgstr ""
+
+#: public/bundle.admin.js:7874
+#: src/admin/components/Footer.js:166
+#: public/bundle.admin.js:5812
+msgid "Export Settings"
+msgstr ""
+
+#: public/bundle.admin.js:7883
+#: src/admin/components/Footer.js:182
+#: public/bundle.admin.js:5828
+msgid "Import Settings"
+msgstr ""
+
+#: public/bundle.admin.js:7888
+#: src/admin/components/Footer.js:193
+#: public/bundle.admin.js:5839
+msgid "Reset Settings"
+msgstr ""
+
+#: public/bundle.admin.js:8507
+#: src/admin/components/LogView.js:10
+#: public/bundle.admin.js:6153
+msgid "There are no logs yet."
+msgstr ""
+
+#: public/bundle.admin.js:8554
+#: public/bundle.admin.js:10178
+#: src/admin/components/NewLanguageModal.js:24
+#: src/admin/components/tabs/TranslationsTab.js:171
+#: public/bundle.admin.js:6193
+#: public/bundle.admin.js:7932
+msgid "New Language"
+msgstr ""
+
+#: public/bundle.admin.js:8559
+#: public/bundle.admin.js:9243
+#: src/admin/components/NewLanguageModal.js:29
+#: src/admin/components/TranslationsTable.js:36
+#: public/bundle.admin.js:6198
+#: public/bundle.admin.js:6856
+msgid "Language"
+msgstr ""
+
+#: public/bundle.admin.js:8577
+#: src/admin/components/NewLanguageModal.js:59
+#: public/bundle.admin.js:6228
+msgid "Add"
+msgstr ""
+
+#: public/bundle.admin.js:8642
+#: src/admin/components/ResetSettingsModal.js:18
+#: public/bundle.admin.js:6274
+msgid "Reset settings?"
+msgstr ""
+
+#: public/bundle.admin.js:8646
+#: src/admin/components/ResetSettingsModal.js:28
+#: public/bundle.admin.js:6284
+msgid "You are about to reset all settings to the default values. Are you sure you want to proceed?"
+msgstr ""
+
+#: public/bundle.admin.js:8658
+#: src/admin/components/ResetSettingsModal.js:52
+#: public/bundle.admin.js:6308
+msgid "Reset settings"
+msgstr ""
+
+#: public/bundle.admin.js:8764
+#: src/admin/components/SettingsPanel.js:82
+#: public/bundle.admin.js:6400
 msgid "Settings saved successfully."
 msgstr ""
 
-#: public/bundle.admin.js:65
-#: src/admin/components/SettingsPanel.js:83
-#: src/admin/components/SettingsPanel.js:91
+#: public/bundle.admin.js:8767
+#: public/bundle.admin.js:8775
+#: src/admin/components/SettingsPanel.js:85
+#: src/admin/components/SettingsPanel.js:93
+#: public/bundle.admin.js:6403
+#: public/bundle.admin.js:6411
 msgid "Could not save settings."
 msgstr ""
 
-#: public/bundle.admin.js:65
-#: src/admin/components/SettingsPanel.js:88
-#: src/admin/components/SettingsPanel.js:122
+#: public/bundle.admin.js:8772
+#: public/bundle.admin.js:8804
+#: src/admin/components/SettingsPanel.js:90
+#: src/admin/components/SettingsPanel.js:124
+#: public/bundle.admin.js:6408
+#: public/bundle.admin.js:6442
 msgid "Could not pass security check."
 msgstr ""
 
-#: public/bundle.admin.js:65
-#: src/admin/components/SettingsPanel.js:285
-msgid "You have unsaved changes. Are you sure you want to leave?"
-msgstr ""
-
-#: public/bundle.admin.js:65
-#: src/admin/components/SettingsPanel.js:346
-msgid "General"
-msgstr ""
-
-#: public/bundle.admin.js:65
-#: src/admin/components/SettingsPanel.js:352
-msgid "Cookies"
-msgstr ""
-
-#: public/bundle.admin.js:65
-#: src/admin/components/SettingsPanel.js:358
-msgid "Translations"
-msgstr ""
-
-#: public/bundle.admin.js:65
-#: src/admin/components/SettingsPanel.js:364
-msgid "Consent Modal"
-msgstr ""
-
-#: public/bundle.admin.js:65
-#: src/admin/components/SettingsPanel.js:370
-msgid "Settings Modal"
-msgstr ""
-
-#: public/bundle.admin.js:65
-#: src/admin/components/SettingsPanel.js:376
-msgid "Blocked Scripts"
-msgstr ""
-
-#: public/bundle.admin.js:65
-#: src/admin/components/SettingsPanel.js:246
-msgid "Could not export settings."
-msgstr ""
-
-#: public/bundle.admin.js:65
-#: src/admin/components/SettingsPanel.js:253
-msgid "No files selected"
-msgstr ""
-
-#: public/bundle.admin.js:65
-#: src/admin/components/SettingsPanel.js:270
-msgid "Could not import settings."
-msgstr ""
-
-#: public/bundle.admin.js:65
-#: src/admin/components/SettingsPanel.js:114
+#: public/bundle.admin.js:8796
+#: src/admin/components/SettingsPanel.js:116
+#: public/bundle.admin.js:6434
 msgid "Settings reset successfully."
 msgstr ""
 
-#: public/bundle.admin.js:65
-#: src/admin/components/SettingsPanel.js:117
-#: src/admin/components/SettingsPanel.js:125
+#: public/bundle.admin.js:8799
+#: public/bundle.admin.js:8807
+#: src/admin/components/SettingsPanel.js:119
+#: src/admin/components/SettingsPanel.js:127
+#: public/bundle.admin.js:6437
+#: public/bundle.admin.js:6445
 msgid "Could not reset settings."
 msgstr ""
 
-#: public/bundle.feedback.js:1
+#: public/bundle.admin.js:8912
+#: src/admin/components/SettingsPanel.js:248
+#: public/bundle.admin.js:6566
+msgid "Could not export settings."
+msgstr ""
+
+#: public/bundle.admin.js:8918
+#: src/admin/components/SettingsPanel.js:255
+#: public/bundle.admin.js:6573
+msgid "No files selected"
+msgstr ""
+
+#: public/bundle.admin.js:8931
+#: src/admin/components/SettingsPanel.js:272
+#: public/bundle.admin.js:6590
+msgid "Could not import settings."
+msgstr ""
+
+#: public/bundle.admin.js:8945
+#: src/admin/components/SettingsPanel.js:287
+#: public/bundle.admin.js:6605
+msgid "You have unsaved changes. Are you sure you want to leave?"
+msgstr ""
+
+#: public/bundle.admin.js:8982
+#: src/admin/components/SettingsPanel.js:348
+#: public/bundle.admin.js:6666
+msgid "General"
+msgstr ""
+
+#: public/bundle.admin.js:8987
+#: src/admin/components/SettingsPanel.js:354
+#: public/bundle.admin.js:6672
+msgid "Cookies"
+msgstr ""
+
+#: public/bundle.admin.js:8992
+#: src/admin/components/SettingsPanel.js:360
+#: public/bundle.admin.js:6678
+msgid "Translations"
+msgstr ""
+
+#: public/bundle.admin.js:8997
+#: src/admin/components/SettingsPanel.js:366
+#: public/bundle.admin.js:6684
+msgid "Consent Modal"
+msgstr ""
+
+#: public/bundle.admin.js:9002
+#: src/admin/components/SettingsPanel.js:372
+#: public/bundle.admin.js:6690
+msgid "Settings Modal"
+msgstr ""
+
+#: public/bundle.admin.js:9007
+#: src/admin/components/SettingsPanel.js:378
+#: public/bundle.admin.js:6696
+msgid "Blocked Scripts"
+msgstr ""
+
+#: public/bundle.admin.js:9012
+#: src/admin/components/SettingsPanel.js:384
+#: public/bundle.admin.js:6702
+msgid "Logs"
+msgstr ""
+
+#: public/bundle.admin.js:9259
+#: src/admin/components/TranslationsTable.js:63
+#: public/bundle.admin.js:6883
+msgid "Edit"
+msgstr ""
+
+#: public/bundle.admin.js:9329
+#: src/admin/components/tabs/BlockedScriptsTab.js:16
+#: public/bundle.admin.js:6938
+msgid "Make sure that youâ€™ve enabled the â€œPage Scriptsâ€ option, located under the General tab."
+msgstr ""
+
+#: public/bundle.admin.js:9329
+#: src/admin/components/tabs/BlockedScriptsTab.js:21
+#: public/bundle.admin.js:6943
+msgid "Script blocking may not always be effective due to variations in script loading methods."
+msgstr ""
+
+#: public/bundle.admin.js:9392
+#: public/bundle.admin.js:9977
+#: src/admin/components/tabs/ConsentModalTab.js:54
+#: src/admin/components/tabs/SettingsModalTab.js:30
+#: public/bundle.admin.js:7009
+#: public/bundle.admin.js:7714
+msgid "Layout"
+msgstr ""
+
+#: public/bundle.admin.js:9395
+#: public/bundle.admin.js:9980
+#: src/admin/components/tabs/ConsentModalTab.js:57
+#: src/admin/components/tabs/SettingsModalTab.js:33
+#: public/bundle.admin.js:7012
+#: public/bundle.admin.js:7717
+msgid "Box"
+msgstr ""
+
+#: public/bundle.admin.js:9398
+#: src/admin/components/tabs/ConsentModalTab.js:58
+#: public/bundle.admin.js:7013
+msgid "Cloud"
+msgstr ""
+
+#: public/bundle.admin.js:9401
+#: public/bundle.admin.js:9983
+#: src/admin/components/tabs/ConsentModalTab.js:59
+#: src/admin/components/tabs/SettingsModalTab.js:34
+#: public/bundle.admin.js:7014
+#: public/bundle.admin.js:7718
+msgid "Bar"
+msgstr ""
+
+#: public/bundle.admin.js:9406
+#: src/admin/components/tabs/ConsentModalTab.js:67
+#: public/bundle.admin.js:7022
+msgid "Vertical position"
+msgstr ""
+
+#: public/bundle.admin.js:9409
+#: src/admin/components/tabs/ConsentModalTab.js:70
+#: public/bundle.admin.js:7025
+msgid "Top"
+msgstr ""
+
+#: public/bundle.admin.js:9412
+#: src/admin/components/tabs/ConsentModalTab.js:71
+#: public/bundle.admin.js:7026
+msgid "Middle"
+msgstr ""
+
+#: public/bundle.admin.js:9415
+#: src/admin/components/tabs/ConsentModalTab.js:72
+#: public/bundle.admin.js:7027
+msgid "Bottom"
+msgstr ""
+
+#: public/bundle.admin.js:9425
+#: src/admin/components/tabs/ConsentModalTab.js:86
+#: public/bundle.admin.js:7041
+msgid "Horizontal position"
+msgstr ""
+
+#: public/bundle.admin.js:9428
+#: public/bundle.admin.js:9996
+#: src/admin/components/tabs/ConsentModalTab.js:89
+#: src/admin/components/tabs/SettingsModalTab.js:51
+#: public/bundle.admin.js:7044
+#: public/bundle.admin.js:7735
+msgid "Left"
+msgstr ""
+
+#: public/bundle.admin.js:9431
+#: src/admin/components/tabs/ConsentModalTab.js:90
+#: public/bundle.admin.js:7045
+msgid "Center"
+msgstr ""
+
+#: public/bundle.admin.js:9434
+#: public/bundle.admin.js:9999
+#: src/admin/components/tabs/ConsentModalTab.js:91
+#: src/admin/components/tabs/SettingsModalTab.js:52
+#: public/bundle.admin.js:7046
+#: public/bundle.admin.js:7736
+msgid "Right"
+msgstr ""
+
+#: public/bundle.admin.js:9440
+#: public/bundle.admin.js:10005
+#: src/admin/components/tabs/ConsentModalTab.js:101
+#: src/admin/components/tabs/SettingsModalTab.js:62
+#: public/bundle.admin.js:7056
+#: public/bundle.admin.js:7746
+msgid "Transition"
+msgstr ""
+
+#: public/bundle.admin.js:9443
+#: public/bundle.admin.js:10008
+#: src/admin/components/tabs/ConsentModalTab.js:104
+#: src/admin/components/tabs/SettingsModalTab.js:65
+#: public/bundle.admin.js:7059
+#: public/bundle.admin.js:7749
+msgid "Slide"
+msgstr ""
+
+#: public/bundle.admin.js:9446
+#: public/bundle.admin.js:10011
+#: src/admin/components/tabs/ConsentModalTab.js:105
+#: src/admin/components/tabs/SettingsModalTab.js:66
+#: public/bundle.admin.js:7060
+#: public/bundle.admin.js:7750
+msgid "Zoom"
+msgstr ""
+
+#: public/bundle.admin.js:9451
+#: src/admin/components/tabs/ConsentModalTab.js:113
+#: public/bundle.admin.js:7068
+msgid "Primary button"
+msgstr ""
+
+#: public/bundle.admin.js:9454
+#: src/admin/components/tabs/ConsentModalTab.js:116
+#: public/bundle.admin.js:7071
+msgid "Accept selected"
+msgstr ""
+
+#: public/bundle.admin.js:9457
+#: src/admin/components/tabs/ConsentModalTab.js:117
+#: public/bundle.admin.js:7072
+msgid "Accept all"
+msgstr ""
+
+#: public/bundle.admin.js:9462
+#: src/admin/components/tabs/ConsentModalTab.js:125
+#: public/bundle.admin.js:7080
+msgid "Secondary button"
+msgstr ""
+
+#: public/bundle.admin.js:9465
+#: src/admin/components/tabs/ConsentModalTab.js:128
+#: public/bundle.admin.js:7083
+msgid "Settings"
+msgstr ""
+
+#: public/bundle.admin.js:9468
+#: src/admin/components/tabs/ConsentModalTab.js:129
+#: public/bundle.admin.js:7084
+msgid "Accept necessary"
+msgstr ""
+
+#: public/bundle.admin.js:9473
+#: src/admin/components/tabs/ConsentModalTab.js:137
+#: public/bundle.admin.js:7092
+msgid "Swap buttons"
+msgstr ""
+
+#: public/bundle.admin.js:9474
+#: src/admin/components/tabs/ConsentModalTab.js:139
+#: public/bundle.admin.js:7094
+msgid "Buttons are inverted"
+msgstr ""
+
+#: public/bundle.admin.js:9474
+#: src/admin/components/tabs/ConsentModalTab.js:140
+#: public/bundle.admin.js:7095
+msgid "Enable to invert buttons"
+msgstr ""
+
+#: public/bundle.admin.js:9511
+#: public/bundle.admin.js:10271
+#: src/admin/components/tabs/CookiesTab.js:18
+#: src/admin/components/tabs/TranslationsTab.js:331
+#: public/bundle.admin.js:7125
+#: public/bundle.admin.js:8092
+msgid "Analytics cookies"
+msgstr ""
+
+#: public/bundle.admin.js:9517
+#: public/bundle.admin.js:10282
+#: src/admin/components/tabs/CookiesTab.js:28
+#: src/admin/components/tabs/TranslationsTab.js:350
+#: public/bundle.admin.js:7135
+#: public/bundle.admin.js:8111
+msgid "Targeting cookies"
+msgstr ""
+
+#: public/bundle.admin.js:9608
+#: src/admin/components/tabs/GeneralTab.js:76
+#: public/bundle.admin.js:7224
+msgid "Configuration"
+msgstr ""
+
+#: public/bundle.admin.js:9612
+#: src/admin/components/tabs/GeneralTab.js:82
+#: public/bundle.admin.js:7230
+msgid "Autorun"
+msgstr ""
+
+#: public/bundle.admin.js:9613
+#: src/admin/components/tabs/GeneralTab.js:84
+#: public/bundle.admin.js:7232
+msgid "Will show the cookie consent as soon as possible"
+msgstr ""
+
+#: public/bundle.admin.js:9613
+#: src/admin/components/tabs/GeneralTab.js:85
+#: public/bundle.admin.js:7233
+msgid "You will have to manually call the `.show()` method"
+msgstr ""
+
+#: public/bundle.admin.js:9618
+#: src/admin/components/tabs/GeneralTab.js:93
+#: public/bundle.admin.js:7241
+msgid "Force consent"
+msgstr ""
+
+#: public/bundle.admin.js:9619
+#: src/admin/components/tabs/GeneralTab.js:95
+#: public/bundle.admin.js:7243
+msgid "Page navigation will be blocked until user action"
+msgstr ""
+
+#: public/bundle.admin.js:9619
+#: src/admin/components/tabs/GeneralTab.js:96
+#: public/bundle.admin.js:7244
+msgid "Users will be able to navigate without needing to consent first"
+msgstr ""
+
+#: public/bundle.admin.js:9624
+#: src/admin/components/tabs/GeneralTab.js:104
+#: public/bundle.admin.js:7252
+msgid "Auto-clear cookies"
+msgstr ""
+
+#: public/bundle.admin.js:9625
+#: src/admin/components/tabs/GeneralTab.js:106
+#: public/bundle.admin.js:7254
+msgid "Cookies will be deleted automatically when user opts-out of a specific category inside cookie settings"
+msgstr ""
+
+#: public/bundle.admin.js:9625
+#: src/admin/components/tabs/GeneralTab.js:107
+#: public/bundle.admin.js:7255
+msgid "Cookies will have to be deleted manually"
+msgstr ""
+
+#: public/bundle.admin.js:9630
+#: src/admin/components/tabs/GeneralTab.js:115
+#: public/bundle.admin.js:7263
+msgid "Page scripts"
+msgstr ""
+
+#: public/bundle.admin.js:9631
+#: src/admin/components/tabs/GeneralTab.js:117
+#: public/bundle.admin.js:7265
+msgid "Will manage existing third-party script tags"
+msgstr ""
+
+#: public/bundle.admin.js:9631
+#: src/admin/components/tabs/GeneralTab.js:118
+#: public/bundle.admin.js:7266
+msgid "Won't manage existing third-party script tags"
+msgstr ""
+
+#: public/bundle.admin.js:9636
+#: src/admin/components/tabs/GeneralTab.js:126
+#: public/bundle.admin.js:7274
+msgid "Hide from bots"
+msgstr ""
+
+#: public/bundle.admin.js:9637
+#: src/admin/components/tabs/GeneralTab.js:128
+#: public/bundle.admin.js:7276
+msgid "Won't run when a bot/crawler/webdriver is detected"
+msgstr ""
+
+#: public/bundle.admin.js:9637
+#: src/admin/components/tabs/GeneralTab.js:129
+#: public/bundle.admin.js:7277
+msgid "Will always run, even when a bot/crawler/webdriver is detected"
+msgstr ""
+
+#: public/bundle.admin.js:9642
+#: src/admin/components/tabs/GeneralTab.js:137
+#: public/bundle.admin.js:7285
+msgid "Re-consent"
+msgstr ""
+
+#: public/bundle.admin.js:9643
+#: src/admin/components/tabs/GeneralTab.js:139
+#: public/bundle.admin.js:7287
+msgid "Will ask users to â€œre-consentâ€ when a cookies list changes"
+msgstr ""
+
+#: public/bundle.admin.js:9643
+#: src/admin/components/tabs/GeneralTab.js:140
+#: public/bundle.admin.js:7288
+msgid "Won't ask users for consent more than once"
+msgstr ""
+
+#: public/bundle.admin.js:9648
+#: src/admin/components/tabs/GeneralTab.js:148
+#: public/bundle.admin.js:7296
+msgid "Delay"
+msgstr ""
+
+#: public/bundle.admin.js:9649
+#: src/admin/components/tabs/GeneralTab.js:149
+#: public/bundle.admin.js:7297
+msgid "Number of milliseconds before showing the consent modal"
+msgstr ""
+
+#: public/bundle.admin.js:9654
+#: src/admin/components/tabs/GeneralTab.js:157
+#: public/bundle.admin.js:7305
+msgid "Cookie expiration"
+msgstr ""
+
+#: public/bundle.admin.js:9655
+#: src/admin/components/tabs/GeneralTab.js:158
+#: public/bundle.admin.js:7306
+msgid "Number of days before the cookie expires"
+msgstr ""
+
+#: public/bundle.admin.js:9660
+#: src/admin/components/tabs/GeneralTab.js:166
+#: public/bundle.admin.js:7314
+msgid "Cookie path"
+msgstr ""
+
+#: public/bundle.admin.js:9661
+#: src/admin/components/tabs/GeneralTab.js:167
+#: public/bundle.admin.js:7315
+msgid "Path where the cookie will be set"
+msgstr ""
+
+#: public/bundle.admin.js:9666
+#: src/admin/components/tabs/GeneralTab.js:175
+#: public/bundle.admin.js:7323
+msgid "Cookie domain"
+msgstr ""
+
+#: public/bundle.admin.js:9667
+#: src/admin/components/tabs/GeneralTab.js:176
+#: public/bundle.admin.js:7324
+msgid "Specify your domain or a subdomain"
+msgstr ""
+
+#: public/bundle.admin.js:9672
+#: src/admin/components/tabs/GeneralTab.js:185
+#: public/bundle.admin.js:7333
+msgid "Colors"
+msgstr ""
+
+#: public/bundle.admin.js:9676
+#: src/admin/components/tabs/GeneralTab.js:191
+#: public/bundle.admin.js:7339
+msgid "Theme"
+msgstr ""
+
+#: public/bundle.admin.js:9693
+#: src/admin/components/tabs/GeneralTab.js:203
+#: public/bundle.admin.js:7351
+msgid "Background"
+msgstr ""
+
+#: public/bundle.admin.js:9697
+#: src/admin/components/tabs/GeneralTab.js:208
+#: public/bundle.admin.js:7356
+msgid "Text"
+msgstr ""
+
+#: public/bundle.admin.js:9701
+#: src/admin/components/tabs/GeneralTab.js:213
+#: public/bundle.admin.js:7361
+msgid "Primary background"
+msgstr ""
+
+#: public/bundle.admin.js:9705
+#: src/admin/components/tabs/GeneralTab.js:218
+#: public/bundle.admin.js:7366
+msgid "Primary text"
+msgstr ""
+
+#: public/bundle.admin.js:9709
+#: src/admin/components/tabs/GeneralTab.js:223
+#: public/bundle.admin.js:7371
+msgid "Primary hover background"
+msgstr ""
+
+#: public/bundle.admin.js:9713
+#: src/admin/components/tabs/GeneralTab.js:231
+#: public/bundle.admin.js:7379
+msgid "Secondary background"
+msgstr ""
+
+#: public/bundle.admin.js:9717
+#: src/admin/components/tabs/GeneralTab.js:239
+#: public/bundle.admin.js:7387
+msgid "Secondary text"
+msgstr ""
+
+#: public/bundle.admin.js:9721
+#: src/admin/components/tabs/GeneralTab.js:244
+#: public/bundle.admin.js:7392
+msgid "Secondary hover background"
+msgstr ""
+
+#: public/bundle.admin.js:9725
+#: src/admin/components/tabs/GeneralTab.js:252
+#: public/bundle.admin.js:7400
+msgid "Toggle background (off)"
+msgstr ""
+
+#: public/bundle.admin.js:9729
+#: src/admin/components/tabs/GeneralTab.js:260
+#: public/bundle.admin.js:7408
+msgid "Toggle background (on)"
+msgstr ""
+
+#: public/bundle.admin.js:9733
+#: src/admin/components/tabs/GeneralTab.js:268
+#: public/bundle.admin.js:7416
+msgid "Toggle background (readonly)"
+msgstr ""
+
+#: public/bundle.admin.js:9737
+#: src/admin/components/tabs/GeneralTab.js:276
+#: public/bundle.admin.js:7424
+msgid "Toggle knob background"
+msgstr ""
+
+#: public/bundle.admin.js:9741
+#: src/admin/components/tabs/GeneralTab.js:284
+#: public/bundle.admin.js:7432
+msgid "Toggle knob icon color"
+msgstr ""
+
+#: public/bundle.admin.js:9745
+#: src/admin/components/tabs/GeneralTab.js:292
+#: public/bundle.admin.js:7440
+msgid "Cookie category block background"
+msgstr ""
+
+#: public/bundle.admin.js:9749
+#: src/admin/components/tabs/GeneralTab.js:300
+#: public/bundle.admin.js:7448
+msgid "Cookie category block background (hover)"
+msgstr ""
+
+#: public/bundle.admin.js:9753
+#: src/admin/components/tabs/GeneralTab.js:308
+#: public/bundle.admin.js:7456
+msgid "Section border"
+msgstr ""
+
+#: public/bundle.admin.js:9757
+#: src/admin/components/tabs/GeneralTab.js:313
+#: public/bundle.admin.js:7461
+msgid "Block text"
+msgstr ""
+
+#: public/bundle.admin.js:9761
+#: src/admin/components/tabs/GeneralTab.js:318
+#: public/bundle.admin.js:7466
+msgid "Cookie table border"
+msgstr ""
+
+#: public/bundle.admin.js:9765
+#: src/admin/components/tabs/GeneralTab.js:323
+#: public/bundle.admin.js:7471
+msgid "Overlay background"
+msgstr ""
+
+#: public/bundle.admin.js:9769
+#: src/admin/components/tabs/GeneralTab.js:328
+#: public/bundle.admin.js:7476
+msgid "Scrollbar background"
+msgstr ""
+
+#: public/bundle.admin.js:9773
+#: src/admin/components/tabs/GeneralTab.js:336
+#: public/bundle.admin.js:7484
+msgid "Scrollbar background (hover)"
+msgstr ""
+
+#: public/bundle.admin.js:9903
+#: src/admin/components/tabs/LogsTab.js:127
+#: public/bundle.admin.js:7628
+msgid "In this section, youâ€™ll find vital debugging logs. If you encounter any issues, open an issue and include these logs for reference in our investigation."
+msgstr ""
+
+#: public/bundle.admin.js:9921
+#: src/admin/components/tabs/LogsTab.js:149
+#: public/bundle.admin.js:7650
+msgid "Copy to clipboard"
+msgstr ""
+
+#: public/bundle.admin.js:9993
+#: src/admin/components/tabs/SettingsModalTab.js:48
+#: public/bundle.admin.js:7732
+msgid "Position"
+msgstr ""
+
+#: public/bundle.admin.js:10156
+#: src/admin/components/tabs/TranslationsTab.js:145
+#: public/bundle.admin.js:7906
+msgid "Language auto-detection strategy"
+msgstr ""
+
+#: public/bundle.admin.js:10157
+#: src/admin/components/tabs/TranslationsTab.js:147
+#: public/bundle.admin.js:7908
+msgid "Read the user's browser language"
+msgstr ""
+
+#: public/bundle.admin.js:10157
+#: src/admin/components/tabs/TranslationsTab.js:148
+#: public/bundle.admin.js:7909
+msgid "Read value from <html lang=\"...\"> of current page"
+msgstr ""
+
+#: public/bundle.admin.js:10160
+#: src/admin/components/tabs/TranslationsTab.js:151
+#: public/bundle.admin.js:7912
+msgid "Browser"
+msgstr ""
+
+#: public/bundle.admin.js:10163
+#: src/admin/components/tabs/TranslationsTab.js:152
+#: public/bundle.admin.js:7913
+msgid "document"
+msgstr ""
+
+#: public/bundle.admin.js:10187
+#: src/admin/components/tabs/TranslationsTab.js:185
+#: public/bundle.admin.js:7946
+msgid "Consent modal"
+msgstr ""
+
+#: public/bundle.admin.js:10206
+#: src/admin/components/tabs/TranslationsTab.js:218
+#: public/bundle.admin.js:7979
+msgid "Settings modal"
+msgstr ""
+
+#: public/bundle.admin.js:10237
+#: src/admin/components/tabs/TranslationsTab.js:272
+#: public/bundle.admin.js:8033
+msgid "Cookie table headers"
+msgstr ""
+
+#: public/bundle.admin.js:10260
+#: src/admin/components/tabs/TranslationsTab.js:312
+#: public/bundle.admin.js:8073
+msgid "Necessary cookies"
+msgstr ""
+
+#: public/bundle.admin.js:10293
+#: src/admin/components/tabs/TranslationsTab.js:369
+#: public/bundle.admin.js:8130
+msgid "More information block"
+msgstr ""
+
+#: public/bundle.admin.js:10988
+#: src/admin/themes/index.js:11
+#: public/bundle.admin.js:8775
+msgid "Light"
+msgstr ""
+
+#: public/bundle.admin.js:10992
+#: src/admin/themes/index.js:16
+#: public/bundle.admin.js:8780
+msgid "Dark Blue"
+msgstr ""
+
+#: public/bundle.admin.js:10996
+#: src/admin/themes/index.js:21
+#: public/bundle.admin.js:8785
+msgid "Dark Turqoise"
+msgstr ""
+
+#: public/bundle.feedback.js:37
 #: src/feedback/components/Feedback.js:21
+#: public/bundle.feedback.js:21
 msgid "Please share which plugin"
 msgstr ""
 
-#: public/bundle.feedback.js:1
+#: public/bundle.feedback.js:38
 #: src/feedback/components/Feedback.js:22
+#: public/bundle.feedback.js:22
 msgid "Please describe the feature you need"
 msgstr ""
 
-#: public/bundle.feedback.js:1
+#: public/bundle.feedback.js:39
 #: src/feedback/components/Feedback.js:23
+#: public/bundle.feedback.js:23
 msgid "Please share the reason"
 msgstr ""
 
-#: public/bundle.feedback.js:1
+#: public/bundle.feedback.js:41
 #: src/feedback/components/Feedback.js:26
+#: public/bundle.feedback.js:26
 msgid "Provide any additional details"
 msgstr ""
 
-#: public/bundle.feedback.js:1
+#: public/bundle.feedback.js:83
 #: src/feedback/components/Feedback.js:73
+#: public/bundle.feedback.js:73
 msgid "I no longer need the plugin"
 msgstr ""
 
-#: public/bundle.feedback.js:1
+#: public/bundle.feedback.js:86
 #: src/feedback/components/Feedback.js:77
+#: public/bundle.feedback.js:77
 msgid "I found a better plugin"
 msgstr ""
 
-#: public/bundle.feedback.js:1
+#: public/bundle.feedback.js:89
 #: src/feedback/components/Feedback.js:81
+#: public/bundle.feedback.js:81
 msgid "Itâ€™s missing a feature I need"
 msgstr ""
 
-#: public/bundle.feedback.js:1
+#: public/bundle.feedback.js:92
 #: src/feedback/components/Feedback.js:85
+#: public/bundle.feedback.js:85
 msgid "I couldnâ€™t get the plugin to work"
 msgstr ""
 
-#: public/bundle.feedback.js:1
+#: public/bundle.feedback.js:95
 #: src/feedback/components/Feedback.js:89
+#: public/bundle.feedback.js:89
 msgid "Itâ€™s a temporary deactivation"
 msgstr ""
 
-#: public/bundle.feedback.js:1
+#: public/bundle.feedback.js:98
 #: src/feedback/components/Feedback.js:93
+#: public/bundle.feedback.js:93
 msgid "Other"
 msgstr ""
 
-#: public/bundle.feedback.js:1
+#: public/bundle.feedback.js:114
 #: src/feedback/components/Feedback.js:120
+#: public/bundle.feedback.js:120
 msgid "Send feedback & deactivate"
 msgstr ""
 
-#: public/bundle.feedback.js:1
+#: public/bundle.feedback.js:116
 #: src/feedback/components/Feedback.js:125
+#: public/bundle.feedback.js:125
 msgid "Skip & deactivate"
 msgstr ""
