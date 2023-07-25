@@ -183,6 +183,12 @@ class File_Logger implements Logger {
      */
     public function get_logs(): string {
         $source = self::LOG_FILE;
+
+        if ( ! file_exists( $source ) ) {
+            // File does not exist, so there are no logs
+            return '';
+        }
+
         $logs = file_get_contents( $source );
 
         if ( $logs === false ) {
