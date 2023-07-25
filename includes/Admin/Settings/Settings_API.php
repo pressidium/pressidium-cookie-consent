@@ -46,7 +46,7 @@ class Settings_API implements Actions {
     private Logger $logger;
 
     /**
-     * @var Logger Instance of `Logs`.
+     * @var Logs Instance of `Logs`.
      */
     private Logs $logs;
 
@@ -55,6 +55,7 @@ class Settings_API implements Actions {
      *
      * @param Settings $settings
      * @param Logger   $logger
+     * @param Logs     $logs
      */
     public function __construct( Settings $settings, Logger $logger, Logs $logs ) {
         $this->settings = $settings;
