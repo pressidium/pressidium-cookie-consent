@@ -4,6 +4,10 @@
 
 # Pressidium Cookie Consent
 
+[![WordPress Plugin Version](https://img.shields.io/wordpress/plugin/v/pressidium-cookie-consent)](https://wordpress.org/plugins/pressidium-cookie-consent/)
+[![WordPress Plugin: Tested WP Version](https://img.shields.io/wordpress/plugin/tested/pressidium-cookie-consent)](https://wordpress.org/plugins/pressidium-cookie-consent/)
+[![WordPress Plugin Rating](https://img.shields.io/wordpress/plugin/stars/pressidium-cookie-consent)](https://wordpress.org/plugins/pressidium-cookie-consent/)
+
 🍪 Pressidium Cookie Consent makes it easy to add a stylish, customizable cookie consent banner to your website and conditionally load third-party scripts (analytics, performance, targeting, etc.) based on the user-selected preferences to help you comply with EU GDPR cookie law, CCPA, and similar regulations.
 
 ![Cookie consent plugin screenshot](./.wordpress-org/screenshot-5.png)
