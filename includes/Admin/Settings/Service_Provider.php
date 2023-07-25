@@ -51,7 +51,9 @@ final class Service_Provider extends AbstractServiceProvider {
 
         $this->getContainer()
              ->add( 'settings_api', Settings_API::class )
-             ->addArgument( $this->getContainer()->get( 'settings' ) );
+             ->addArgument( $this->getContainer()->get( 'settings' ) )
+             ->addArgument( $this->getContainer()->get( 'logger' ) )
+             ->addArgument( $this->getContainer()->get( 'logs' ) );
     }
 
 }

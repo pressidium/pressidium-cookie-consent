@@ -167,8 +167,9 @@ class Settings_Page extends Page implements Actions, Filters {
             array(
                 'domain' => Utils::get_domain(),
                 'api'    => array(
-                    'route' => 'pressidium-cookie-consent/v1/settings',
-                    'nonce' => wp_create_nonce( 'pressidium_cookie_consent_rest' ),
+                    'route'      => 'pressidium-cookie-consent/v1/settings',
+                    'logs_route' => 'pressidium-cookie-consent/v1/logs',
+                    'nonce'      => wp_create_nonce( 'pressidium_cookie_consent_rest' ),
                 ),
             )
         );

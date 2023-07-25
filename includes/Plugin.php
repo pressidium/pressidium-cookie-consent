@@ -21,6 +21,7 @@ use Pressidium\WP\CookieConsent\Hooks\Hooks_Manager;
 use Pressidium\WP\CookieConsent\Logging\File_Logger;
 use Pressidium\WP\CookieConsent\Logging\Logger;
 use Pressidium\WP\CookieConsent\Options\WP_Options;
+use Pressidium\WP\CookieConsent\Logs;
 
 if ( ! defined( 'ABSPATH' ) ) {
     die( 'Forbidden' );
@@ -113,6 +114,9 @@ class Plugin {
 
         $this->logger = new File_Logger();
         $container->add( 'logger', $this->logger );
+
+        $logs = new Logs( $this->logger );
+        $container->add( 'logs', $logs );
 
         $options = new WP_Options();
         $container->add( 'options', $options );
