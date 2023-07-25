@@ -59,4 +59,15 @@ class WP_Options implements Options {
         return delete_option( $name );
     }
 
+    /**
+     * Whether the option with the given name exists.
+     *
+     * @param string $name Option name.
+     *
+     * @return bool Whether the option exists.
+     */
+    public function has( string $name ): bool {
+        return get_option( $name ) !== false;
+    }
+
 }

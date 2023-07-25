@@ -47,4 +47,13 @@ interface Options {
      */
     public function remove( string $name ): bool;
 
+    /**
+     * Whether the option with the given name exists.
+     *
+     * @param string $name Option name.
+     *
+     * @return bool Whether the option exists.
+     */
+    public function has( string $name ): bool;
+
 }
