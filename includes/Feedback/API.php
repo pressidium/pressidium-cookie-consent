@@ -59,9 +59,6 @@ abstract class API {
     ) {
         $url = $this->get_api_url( $route );
 
-        error_log( 'Sending POST request to ' . $url );
-        error_log( 'Request payload: ' . print_r( $data, true ) );
-
         return wp_remote_post(
             $url,
             array(

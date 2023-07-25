@@ -23,6 +23,7 @@ import TranslationsTab from './tabs/TranslationsTab';
 import ConsentModalTab from './tabs/ConsentModalTab';
 import SettingsModalTab from './tabs/SettingsModalTab';
 import BlockedScriptsTab from './tabs/BlockedScriptsTab';
+import LogsTab from './tabs/LogsTab';
 
 import SettingsContext from '../store/context';
 
@@ -51,6 +52,7 @@ function SettingsPanel() {
 
     if (!('success' in response) || !response.success || !('data' in response)) {
       // Failed to fetch settings, bail early
+      // eslint-disable-next-line no-console
       console.error('Error fetching settings', response);
       throw new Error('Invalid response while fetching settings');
     }
@@ -376,6 +378,12 @@ function SettingsPanel() {
               title: __('Blocked Scripts', 'pressidium-cookie-consent'),
               className: 'tab-blocked-scripts',
               Component: BlockedScriptsTab,
+            },
+            {
+              name: 'logs',
+              title: __('Logs', 'pressidium-cookie-consent'),
+              className: 'tab-logs',
+              Component: LogsTab,
             },
           ]}
         >

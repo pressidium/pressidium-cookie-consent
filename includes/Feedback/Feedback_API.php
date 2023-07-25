@@ -11,6 +11,8 @@ namespace Pressidium\WP\CookieConsent\Feedback;
 use const Pressidium\WP\CookieConsent\PLUGIN_FILE;
 use const Pressidium\WP\CookieConsent\VERSION;
 
+use Pressidium\WP\CookieConsent\Logging\Logger;
+
 use WP_Error;
 use Exception;
 
@@ -20,6 +22,20 @@ use Exception;
  * @since 1.1.0
  */
 class Feedback_API extends API {
+
+    /**
+     * @var Logger Instance of `Logger`.
+     */
+    private Logger $logger;
+
+    /**
+     * Feedback_API constructor.
+     *
+     * @param Logger $logger Instance of `Logger`.
+     */
+    public function __construct( Logger $logger ) {
+        $this->logger = $logger;
+    }
 
     /**
      * Return the base URL for this API.
@@ -56,8 +72,14 @@ class Feedback_API extends API {
 
             $body = json_decode( wp_remote_retrieve_body( $response ), true );
 
-            return $body['error'] ?? __( 'Unknown error', 'pressidium-cookie-consent' );
+            $error_message = $body['error'] ?? __( 'Unknown error', 'pressidium-cookie-consent' );
+
+            $this->logger->error( 'Feedback API error: ' . $error_message );
+
+            return $error_message;
         } catch ( Exception $exception ) {
+            $this->logger->log_exception( $exception );
+
             return __( 'Unknown error', 'pressidium-cookie-consent' );
         }
     }
@@ -90,6 +112,8 @@ class Feedback_API extends API {
             $error_message = $this->get_error_message( $response );
             throw new Feedback_Exception( $error_message );
         }
+
+        $this->logger->info( 'Submitted feedback successfully' );
     }
 
 }

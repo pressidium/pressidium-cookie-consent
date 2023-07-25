@@ -50,7 +50,8 @@ class Service_Provider extends AbstractServiceProvider {
      */
     public function register(): void {
         $this->getContainer()
-             ->add( 'feedback_api', Feedback_API::class );
+             ->add( 'feedback_api', Feedback_API::class )
+             ->addArgument( $this->getContainer()->get( 'logger' ) );
 
         $this->getContainer()
              ->add( 'feedback', Feedback::class )
