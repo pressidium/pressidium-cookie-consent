@@ -1,7 +1,6 @@
 /.wordpress-org
 /.git
 /.github
-/logs
 /node_modules
 /src
 
