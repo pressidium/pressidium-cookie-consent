@@ -808,23 +808,23 @@ class Settings_API implements Actions {
         );
 
         $did_register_routes = $did_register_routes && register_rest_route(
-                self::REST_NAMESPACE,
-                '/logs',
-                array(
-                    'methods'             => 'DELETE',
-                    'callback'            => array( $this, 'delete_logs' ),
-                    'args'                => array(
-                        'nonce' => array(
-                            'type'              => 'string',
-                            'required'          => true,
-                            'sanitize_callback' => 'sanitize_text_field',
-                        ),
+            self::REST_NAMESPACE,
+            '/logs',
+            array(
+                'methods'             => 'DELETE',
+                'callback'            => array( $this, 'delete_logs' ),
+                'args'                => array(
+                    'nonce' => array(
+                        'type'              => 'string',
+                        'required'          => true,
+                        'sanitize_callback' => 'sanitize_text_field',
                     ),
-                    'permission_callback' => function () {
-                        return current_user_can( 'manage_options' );
-                    },
-                )
-            );
+                ),
+                'permission_callback' => function () {
+                    return current_user_can( 'manage_options' );
+                },
+            )
+        );
 
         if ( ! $did_register_routes ) {
             $this->logger->error( 'Could not register REST route(s)' );
