@@ -180,13 +180,20 @@ class Settings {
     /**
      * Return settings.
      *
+     * @param bool $decodeEmoji
+     *
      * @return array
      */
-    public function get(): array {
+    public function get(bool $decodeEmoji = true): array
+    {
         $settings = $this->options->get( self::OPTIONS_KEY );
 
-        if ( ! empty( $settings ) ) {
-            return Utils::decode_emoji_array( $settings );
+        if( !empty( $settings ) ) {
+
+            if( $decodeEmoji )
+                return Utils::decode_emoji_array( $settings );
+
+            return $settings;
         }
 
         return $this->get_default_values();
