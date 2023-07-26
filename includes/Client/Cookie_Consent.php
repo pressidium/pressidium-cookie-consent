@@ -53,17 +53,27 @@ class Cookie_Consent implements Actions, Filters {
          */
         $cc_settings = array_merge( array(), $this->settings );
 
-        $analytics_table = $cc_settings['pressidium_options']['cookie_table']['analytics'];
-        $targeting_table = $cc_settings['pressidium_options']['cookie_table']['targeting'];
+        $category_blocks_map = array(
+            'necessary' => 1,
+            'analytics' => 2,
+            'targeting' => 3,
+        );
 
-        $primary_btn_role = $cc_settings['pressidium_options']['primary_btn_role'];
+        $primary_btn_role   = $cc_settings['pressidium_options']['primary_btn_role'];
         $secondary_btn_role = $cc_settings['pressidium_options']['secondary_btn_role'];
 
         foreach ( $cc_settings['languages'] as $language => $language_settings ) {
-            $cc_settings['languages'][ $language ]['settings_modal']['blocks'][2]['cookie_table'] = $analytics_table;
-            $cc_settings['languages'][ $language ]['settings_modal']['blocks'][3]['cookie_table'] = $targeting_table;
+            foreach ( $category_blocks_map as $category => $index ) {
+                $table = $cc_settings['pressidium_options']['cookie_table'][ $category ];
 
-            $cc_settings['languages'][ $language ]['consent_modal']['primary_btn']['role'] = $primary_btn_role;
+                $cc_settings['languages'][ $language ]['settings_modal']['blocks'][ $index ]['cookie_table'] = $table;
+
+                if ( empty( $table ) ) {
+                    unset( $cc_settings['languages'][ $language ]['settings_modal']['blocks'][ $index ]['cookie_table'] );
+                }
+            }
+
+            $cc_settings['languages'][ $language ]['consent_modal']['primary_btn']['role']   = $primary_btn_role;
             $cc_settings['languages'][ $language ]['consent_modal']['secondary_btn']['role'] = $secondary_btn_role;
         }
 
