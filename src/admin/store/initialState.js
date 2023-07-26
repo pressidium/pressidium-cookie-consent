@@ -54,6 +54,7 @@ export default {
               enabled: true,
               readonly: true,
             },
+            cookie_table: [],
           },
           {
             title: 'Performance and Analytics cookies',
@@ -102,6 +103,7 @@ export default {
     primary_btn_role: 'accept_all',
     secondary_btn_role: 'accept_necessary',
     cookie_table: {
+      necessary: [],
       analytics: [],
       targeting: [],
     },
