@@ -186,7 +186,7 @@ class Settings {
         $settings = $this->options->get( self::OPTIONS_KEY );
 
         if ( ! empty( $settings ) ) {
-            return $settings;
+            return Utils::decode_emoji_array( $settings );
         }
 
         return $this->get_default_values();
