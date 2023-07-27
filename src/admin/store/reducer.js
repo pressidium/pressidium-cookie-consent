@@ -78,6 +78,7 @@ function settingsReducer(state, action) {
                     enabled: true,
                     readonly: true,
                   },
+                  cookie_table: [],
                 },
                 {
                   title: '',

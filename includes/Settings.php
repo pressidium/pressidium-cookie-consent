@@ -9,7 +9,6 @@
 namespace Pressidium\WP\CookieConsent;
 
 use Pressidium\WP\CookieConsent\Options\Options;
-use Pressidium\WP\CookieConsent\Utils;
 
 if ( ! defined( 'ABSPATH' ) ) {
     die( 'Forbidden' );
@@ -100,6 +99,7 @@ class Settings {
                                     'enabled' => true,
                                     'readonly' => true,
                                 ),
+                                'cookie_table' => array(),
                             ),
                             array(
                                 'title' => 'Performance and Analytics cookies',
@@ -146,6 +146,7 @@ class Settings {
                 'primary_btn_role' => 'accept_all',
                 'secondary_btn_role' => 'accept_necessary',
                 'cookie_table' => array(
+                    'necessary' => array(),
                     'analytics' => array(),
                     'targeting' => array(),
                 ),
@@ -204,7 +205,7 @@ class Settings {
             $settings = $this->get_default_values();
         }
 
-        return $this->options->set( self::OPTIONS_KEY, Utils::encode_emoji_array( $settings ) );
+        return $this->options->set( self::OPTIONS_KEY, Emoji::encode_array( $settings ) );
     }
 
     /**

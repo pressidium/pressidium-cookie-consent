@@ -13,6 +13,8 @@ use const Pressidium\WP\CookieConsent\VERSION;
 use Pressidium\WP\CookieConsent\Hooks\Actions;
 use Pressidium\WP\CookieConsent\Logging\Logger;
 use Pressidium\WP\CookieConsent\Settings;
+use Pressidium\WP\CookieConsent\Migrator;
+use Pressidium\WP\CookieConsent\Emoji;
 use Pressidium\WP\CookieConsent\Logs;
 
 use WP_REST_Request;
@@ -352,10 +354,45 @@ class Settings_API implements Actions {
                         'cookie_table' => array(
                             'type' => 'object',
                             'required' => array(
+                                'necessary',
                                 'analytics',
                                 'targeting',
                             ),
                             'properties' => array(
+                                'necessary' => array(
+                                    'type' => 'array',
+                                    'items' => array(
+                                        'type' => 'object',
+                                        'required' => array(
+                                            'name',
+                                            'domain',
+                                            'expiration',
+                                            'path',
+                                            'description',
+                                            'is_regex',
+                                        ),
+                                        'properties' => array(
+                                            'name' => array(
+                                                'type' => 'string',
+                                            ),
+                                            'domain' => array(
+                                                'type' => 'string',
+                                            ),
+                                            'expiration' => array(
+                                                'type' => 'string',
+                                            ),
+                                            'path' => array(
+                                                'type' => 'string',
+                                            ),
+                                            'description' => array(
+                                                'type' => 'string',
+                                            ),
+                                            'is_regex' => array(
+                                                'type' => 'boolean',
+                                            ),
+                                        ),
+                                    ),
+                                ),
                                 'analytics' => array(
                                     'type' => 'array',
                                     'items' => array(
@@ -539,12 +576,12 @@ class Settings_API implements Actions {
         $prev_cookie_table = $prev_settings['pressidium_options']['cookie_table'];
         $new_cookie_table = $new_settings['pressidium_options']['cookie_table'];
 
-        if ( $prev_cookie_table['analytics'] != $new_cookie_table['analytics'] ) {
-            return true;
-        }
+        $cookie_categories = array( 'necessary', 'analytics', 'targeting' );
 
-        if ( $prev_cookie_table['targeting'] != $new_cookie_table['targeting'] ) {
-            return true;
+        foreach ( $cookie_categories as $category ) {
+            if ( $prev_cookie_table[ $category ] != $new_cookie_table[ $category ] ) {
+                return true;
+            }
         }
 
         return false;
@@ -558,7 +595,7 @@ class Settings_API implements Actions {
      * @return int
      */
     private function maybe_increment_revision( array $new_settings ): int {
-        $prev_settings = $this->settings->get();
+        $prev_settings = Emoji::decode_array( $this->settings->get() );
         $revision      = $prev_settings['revision'] ?? 1;
 
         if ( $this->are_cookie_tables_changed( $prev_settings, $new_settings ) ) {
@@ -566,6 +603,20 @@ class Settings_API implements Actions {
         }
 
         return $revision;
+    }
+
+    /**
+     * Migrate the given settings to the latest version, if necessary.
+     *
+     * @param array $settings Settings to migrate.
+     *
+     * @return array
+     */
+    private function maybe_migrate( array $settings ): array {
+        $migrator          = new Migrator( $settings );
+        $mirgated_settings = $migrator->maybe_migrate();
+
+        return $mirgated_settings;
     }
 
     /**
@@ -589,6 +640,8 @@ class Settings_API implements Actions {
                 array( 'status' => 403 )
             );
         }
+
+        $settings = $this->maybe_migrate( $settings );
 
         $settings['revision'] = $this->maybe_increment_revision( $settings );
         $settings['version']  = VERSION;
@@ -620,7 +673,7 @@ class Settings_API implements Actions {
      */
     public function get_settings( WP_REST_Request $request ) {
         $response = array( 'success' => false );
-        $settings = $this->settings->get();
+        $settings = Emoji::decode_array( $this->settings->get() );
 
         if ( empty( $settings ) ) {
             $this->logger->error( 'Could not retrieve settings from the database' );
@@ -629,7 +682,7 @@ class Settings_API implements Actions {
         }
 
         $response['success'] = true;
-        $response['data']    = $settings;
+        $response['data']    = $this->maybe_migrate( $settings );
 
         return rest_ensure_response( $response );
     }
