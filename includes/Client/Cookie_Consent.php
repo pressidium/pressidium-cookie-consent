@@ -38,7 +38,7 @@ class Cookie_Consent implements Actions, Filters {
      * @param Settings $settings_object An instance of the `Settings` class.
      */
     public function __construct( Settings $settings_object ) {
-        $this->settings = $settings_object->get( false );
+        $this->settings = $settings_object->get();
     }
 
     /**
