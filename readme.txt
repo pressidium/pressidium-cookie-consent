@@ -145,9 +145,10 @@ If you have spotted any bugs, or would like to request additional features from 
 
 == Changelog ==
 
-= 1.1.2: Jul 26, 2023 =
+= 1.1.2: Jul 27, 2023 =
 
 * Add the ability to list necessary cookies
+* Fix emoji decoding to render correctly in text fields and textareas
 
 = 1.1.1: Jul 25, 2023 =
 
