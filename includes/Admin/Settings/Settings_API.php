@@ -14,6 +14,7 @@ use Pressidium\WP\CookieConsent\Hooks\Actions;
 use Pressidium\WP\CookieConsent\Logging\Logger;
 use Pressidium\WP\CookieConsent\Settings;
 use Pressidium\WP\CookieConsent\Migrator;
+use Pressidium\WP\CookieConsent\Emoji;
 use Pressidium\WP\CookieConsent\Logs;
 
 use WP_REST_Request;
