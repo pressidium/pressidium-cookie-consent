@@ -594,7 +594,7 @@ class Settings_API implements Actions {
      * @return int
      */
     private function maybe_increment_revision( array $new_settings ): int {
-        $prev_settings = $this->settings->get();
+        $prev_settings = Emoji::decode_array( $this->settings->get() );
         $revision      = $prev_settings['revision'] ?? 1;
 
         if ( $this->are_cookie_tables_changed( $prev_settings, $new_settings ) ) {
@@ -672,7 +672,7 @@ class Settings_API implements Actions {
      */
     public function get_settings( WP_REST_Request $request ) {
         $response = array( 'success' => false );
-        $settings = $this->settings->get();
+        $settings = Emoji::decode_array( $this->settings->get() );
 
         if ( empty( $settings ) ) {
             $this->logger->error( 'Could not retrieve settings from the database' );

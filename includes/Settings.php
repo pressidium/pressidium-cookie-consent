@@ -205,7 +205,7 @@ class Settings {
             $settings = $this->get_default_values();
         }
 
-        return $this->options->set( self::OPTIONS_KEY, Utils::encode_emoji_array( $settings ) );
+        return $this->options->set( self::OPTIONS_KEY, Emoji::encode_array( $settings ) );
     }
 
     /**
