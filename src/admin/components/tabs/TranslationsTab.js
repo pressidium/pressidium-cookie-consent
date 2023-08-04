@@ -276,35 +276,35 @@ function TranslationsTab() {
                   <TextControl
                     label="Cookie name header"
                     value={state.languages[selectedLanguage].settings_modal.cookie_table_headers[0].name}
-                    onChange={(value) => onCookieTableHeadersChange('name', value)}
+                    onChange={(value) => onCookieTableHeadersChange(0, 'name', value)}
                   />
                 </PanelRow>
                 <PanelRow>
                   <TextControl
                     label="Cookie domain header"
                     value={state.languages[selectedLanguage].settings_modal.cookie_table_headers[1].domain}
-                    onChange={(value) => onCookieTableHeadersChange('domain', value)}
+                    onChange={(value) => onCookieTableHeadersChange(1, 'domain', value)}
                   />
                 </PanelRow>
                 <PanelRow>
                   <TextControl
                     label="Cookie expiration header"
                     value={state.languages[selectedLanguage].settings_modal.cookie_table_headers[2].expiration}
-                    onChange={(value) => onCookieTableHeadersChange('expiration', value)}
+                    onChange={(value) => onCookieTableHeadersChange(2, 'expiration', value)}
                   />
                 </PanelRow>
                 <PanelRow>
                   <TextControl
                     label="Cookie path header"
                     value={state.languages[selectedLanguage].settings_modal.cookie_table_headers[3].path}
-                    onChange={(value) => onCookieTableHeadersChange('path', value)}
+                    onChange={(value) => onCookieTableHeadersChange(3, 'path', value)}
                   />
                 </PanelRow>
                 <PanelRow>
                   <TextControl
                     label="Cookie description header"
                     value={state.languages[selectedLanguage].settings_modal.cookie_table_headers[4].description}
-                    onChange={(value) => onCookieTableHeadersChange('description', value)}
+                    onChange={(value) => onCookieTableHeadersChange(4, 'description', value)}
                   />
                 </PanelRow>
               </PanelBody>
