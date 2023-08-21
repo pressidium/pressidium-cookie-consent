@@ -273,11 +273,7 @@ function SettingsPanel() {
     }
   };
 
-  useBeforeunload((e) => {
-    if (!hasUnsavedChanges) {
-      return '';
-    }
-
+  useBeforeunload(hasUnsavedChanges ? (e) => {
     /*
      * Some browsers used to display the returned string in
      * the confirmation dialog, enabling the event handle to
@@ -293,7 +289,7 @@ function SettingsPanel() {
     e.returnValue = customMessage;
 
     return customMessage;
-  });
+  } : null);
 
   const prevState = usePrevious(state);
 
