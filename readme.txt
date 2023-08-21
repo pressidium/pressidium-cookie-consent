@@ -6,7 +6,7 @@ Tags: cookie, consent, gdpr, ccpa, cookies
 Requires at least: 6.0
 Tested up to: 6.2
 Requires PHP: 7.4
-Stable Tag: 1.1.3
+Stable Tag: 1.1.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -144,6 +144,10 @@ If you have spotted any bugs, or would like to request additional features from 
 7. Blocked scripts
 
 == Changelog ==
+
+= 1.1.4: Aug 21, 2023 =
+
+* Fix an issue where the confirmation before leaving the tab was being triggered even when there were no unsaved changes
 
 = 1.1.3: Aug 4, 2023 =
 
