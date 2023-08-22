@@ -13,7 +13,7 @@ export const isNumeric = (value) => /^\d+$/.test(value);
 export const kebabToCamelCase = (str) => str.replace(/-([a-z])/g, (g) => g[1].toUpperCase());
 
 export const languageCodeToCamelCase = (languageCode) => {
-  const arr = languageCode.split('_');
+  const arr = languageCode.split('-');
 
   if (arr.length === 1) {
     return languageCode.toLowerCase();
