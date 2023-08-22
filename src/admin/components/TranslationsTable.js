@@ -30,12 +30,12 @@ function TranslationsTable(props) {
   } = props;
 
   return (
-    <Table style={{ width: '280px' }}>
+    <Table style={{ width: '340px' }}>
       <Header>
         <Column>
           {__('Language', 'pressidium-cookie-consent')}
         </Column>
-        <Column>
+        <Column style={{ maxWidth: '70px' }}>
           {__('Actions', 'pressidium-cookie-consent')}
         </Column>
       </Header>
@@ -50,12 +50,19 @@ function TranslationsTable(props) {
                   height={20}
                 />
               </FlexItem>
-              <FlexItem>
+              <FlexItem
+                style={{
+                  maxWidth: '160px',
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                  whiteSpace: 'nowrap',
+                }}
+              >
                 {nameByLanguageCode(languageCode)}
               </FlexItem>
             </Flex>
           </Column>
-          <Column>
+          <Column style={{ maxWidth: '70px' }}>
             <Flex style={{ justifyContent: 'flex-start' }}>
               <FlexItem>
                 <StyledButton
