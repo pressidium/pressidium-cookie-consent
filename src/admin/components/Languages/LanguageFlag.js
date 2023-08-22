@@ -1,6 +1,10 @@
 import * as FlagIcons from './icons';
 
-import { nameByLanguageCode, isNumeric, kebabToCamelCase } from './utils';
+import {
+  nameByLanguageCode,
+  isNumeric,
+  languageCodeToCamelCase,
+} from './utils';
 
 function LanguageFlag(props) {
   const {
@@ -10,7 +14,7 @@ function LanguageFlag(props) {
     style = {},
   } = props;
 
-  const iconName = `${kebabToCamelCase(language)}Icon`;
+  const iconName = `${languageCodeToCamelCase(language)}Icon`;
   const languageName = nameByLanguageCode(language);
 
   if (!(iconName in FlagIcons)) {
