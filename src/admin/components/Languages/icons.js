@@ -17,6 +17,7 @@ export { default as cyIcon } from './flags/language-cy.svg';
 export { default as daIcon } from './flags/language-da.svg';
 export { default as deAtIcon } from './flags/language-de-at.svg';
 export { default as deChIcon } from './flags/language-de-ch.svg';
+export { default as deDeIcon } from './flags/language-de-de.svg';
 export { default as deIcon } from './flags/language-de.svg';
 export { default as dzIcon } from './flags/language-dz.svg';
 export { default as elIcon } from './flags/language-el.svg';

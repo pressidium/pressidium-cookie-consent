@@ -18,6 +18,7 @@ export default {
   da: 'Danish',
   'de-AT': 'German (Austria)',
   'de-CH': 'German (Switzerland)',
+  'de-DE': 'German (Germany)',
   de: 'German',
   dz: 'Bhutani',
   el: 'Greek',
