@@ -4,9 +4,9 @@ Plugin URI: https://github.com/pressidium/pressidium-cookie-consent/
 Contributors: pressidium, overengineer
 Tags: cookie, consent, gdpr, ccpa, cookies
 Requires at least: 6.0
-Tested up to: 6.2
+Tested up to: 6.3
 Requires PHP: 7.4
-Stable Tag: 1.1.5
+Stable Tag: 1.1.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -144,6 +144,10 @@ If you have spotted any bugs, or would like to request additional features from 
 7. Blocked scripts
 
 == Changelog ==
+
+= 1.1.6: Aug 23, 2023 =
+
+* Fix an issue where languages with a hyphen in their code were not being detected correctly
 
 = 1.1.5: Aug 22, 2023 =
 
