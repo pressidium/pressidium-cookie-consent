@@ -53,7 +53,10 @@ final class Service_Provider extends AbstractServiceProvider {
              ->add( 'settings_api', Settings_API::class )
              ->addArgument( $this->getContainer()->get( 'settings' ) )
              ->addArgument( $this->getContainer()->get( 'logger' ) )
-             ->addArgument( $this->getContainer()->get( 'logs' ) );
+             ->addArgument( $this->getContainer()->get( 'logs' ) )
+             ->addArgument( $this->getContainer()->get( 'geo_locator' ) )
+             ->addArgument( $this->getContainer()->get( 'consents_table' ) )
+             ->addArgument( $this->getContainer()->get( 'db_table_exporter' ) );
     }
 
 }

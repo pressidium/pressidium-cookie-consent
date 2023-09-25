@@ -5,13 +5,19 @@ const StyledColumn = styled.div`
   text-align: left;
   flex: 1 1 0;
   width: 0;
+  min-width: 0;
 `;
 
 function Column(props) {
-  const { children, width = 'auto', style = {} } = props;
+  const {
+    children,
+    width = 'auto',
+    className = '',
+    style = {},
+  } = props;
 
   return (
-    <StyledColumn style={{ width, ...style }}>
+    <StyledColumn className={className} style={{ width, ...style }}>
       {children}
     </StyledColumn>
   );

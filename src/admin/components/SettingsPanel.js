@@ -7,6 +7,7 @@ import {
 } from '@wordpress/element';
 import { TabPanel, Spinner, Notice } from '@wordpress/components';
 import apiFetch from '@wordpress/api-fetch';
+import { addQueryArgs } from '@wordpress/url';
 import { __ } from '@wordpress/i18n';
 
 import { useBeforeunload } from 'react-beforeunload';
@@ -23,12 +24,14 @@ import TranslationsTab from './tabs/TranslationsTab';
 import ConsentModalTab from './tabs/ConsentModalTab';
 import SettingsModalTab from './tabs/SettingsModalTab';
 import BlockedScriptsTab from './tabs/BlockedScriptsTab';
+import ConsentRecordsTab from './tabs/ConsentRecordsTab';
 import LogsTab from './tabs/LogsTab';
 
 import SettingsContext from '../store/context';
 
 function SettingsPanel() {
   const [isFetching, setIsFetching] = useState(false);
+  const [isExportingCsv, setIsExportingCsv] = useState(false);
   const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
   const [noticeStatus, setNoticeStatus] = useState('info');
   const [noticeMessage, setNoticeMessage] = useState(null);
@@ -140,6 +143,38 @@ function SettingsPanel() {
     }
   };
 
+  const clearRecords = async () => {
+    const { consents_route: route, nonce } = pressidiumCCAdminDetails.api;
+
+    const options = {
+      path: route,
+      method: 'DELETE',
+      data: {
+        nonce,
+      },
+    };
+
+    try {
+      const response = await apiFetch(options);
+
+      if ('success' in response && response.success) {
+        setNoticeStatus('success');
+        setNoticeMessage(__('All consent records were cleared successfully.', 'pressidium-cookie-consent'));
+      } else {
+        setNoticeStatus('error');
+        setNoticeMessage(__('Could not clear records.', 'pressidium-cookie-consent'));
+      }
+    } catch (error) {
+      if ('code' in error && error.code === 'invalid_nonce') {
+        setNoticeStatus('error');
+        setNoticeMessage(__('Could not pass security check.', 'pressidium-cookie-consent'));
+      } else {
+        setNoticeStatus('error');
+        setNoticeMessage(__('Could not clear records.', 'pressidium-cookie-consent'));
+      }
+    }
+  };
+
   const ccSettings = useMemo(() => {
     const settings = { ...state };
 
@@ -239,6 +274,19 @@ function SettingsPanel() {
     URL.revokeObjectURL(url);
   };
 
+  const downloadCsvFile = async (response) => {
+    const blob = await response.blob();
+    const url = URL.createObjectURL(blob);
+
+    const filename = response.headers.get('Content-Disposition').split('filename=')[1];
+
+    const anchor = document.createElement('a');
+    anchor.setAttribute('href', url);
+    anchor.setAttribute('download', filename);
+    anchor.click();
+    anchor.remove();
+  };
+
   const exportSettings = async () => {
     try {
       const data = await fetchSettings();
@@ -271,6 +319,46 @@ function SettingsPanel() {
       setNoticeStatus('error');
       setNoticeMessage(__('Could not import settings.', 'pressidium-cookie-consent'));
     }
+  };
+
+  const exportConsentRecords = async () => {
+    const { export_route: route, nonce } = pressidiumCCAdminDetails.api;
+
+    const options = {
+      path: addQueryArgs(route, { nonce }),
+      method: 'GET',
+      parse: false,
+    };
+
+    setIsExportingCsv(true);
+
+    const response = await apiFetch(options);
+
+    if (response.status !== 200) {
+      // Failed to fetch logs, bail early
+      // eslint-disable-next-line no-console
+      console.error('Error exporting CSV', response);
+      setNoticeStatus('error');
+      setNoticeMessage(__('Could not export consent records.', 'pressidium-cookie-consent'));
+      setIsExportingCsv(false);
+      return;
+    }
+
+    const contentType = response.headers.get('Content-Type');
+
+    if (!contentType.toLowerCase().startsWith('text/csv')) {
+      // Failed to fetch logs, bail early
+      // eslint-disable-next-line no-console
+      console.error('Invalid content type while exporting CSV', contentType);
+      setNoticeStatus('error');
+      setNoticeMessage(__('Could not export consent records.', 'pressidium-cookie-consent'));
+      setIsExportingCsv(false);
+      return;
+    }
+
+    await downloadCsvFile(response);
+
+    setIsExportingCsv(false);
   };
 
   useBeforeunload(hasUnsavedChanges ? (e) => {
@@ -376,6 +464,13 @@ function SettingsPanel() {
               Component: BlockedScriptsTab,
             },
             {
+              name: 'consent-records',
+              title: __('Consent Records', 'pressidium-cookie-consent'),
+              className: 'tab-consent-records',
+              Component: ConsentRecordsTab,
+              foo: 'bar',
+            },
+            {
               name: 'logs',
               title: __('Logs', 'pressidium-cookie-consent'),
               className: 'tab-logs',
@@ -383,9 +478,24 @@ function SettingsPanel() {
             },
           ]}
         >
-          {({ Component }) => (
-            <Component />
-          )}
+          {({ Component }) => {
+            const componentPropsMap = {
+              ConsentRecordsTab: {
+                isExportingCsv,
+                exportConsentRecords,
+                clearRecords,
+              },
+            };
+
+            const props = Component.name in componentPropsMap
+              ? componentPropsMap[Component.name]
+              : {};
+
+            return (
+              // eslint-disable-next-line react/jsx-props-no-spreading
+              <Component {...props} />
+            );
+          }}
         </TabPanel>
         <Footer
           save={() => saveSettings(state)}
