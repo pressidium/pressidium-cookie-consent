@@ -1,5 +1,3 @@
-import apiFetch from '@wordpress/api-fetch';
-
 import './lib/cookieconsent';
 
 import './scss/main.scss';
@@ -27,11 +25,16 @@ import './scss/main.scss';
       return;
     }
 
+    const { rest_url: restUrl, consent_route: route } = details.api;
+
     try {
-      await apiFetch({
-        path: details.api.consent_route,
+      await fetch(`${restUrl}${route}`, {
         method: 'POST',
-        data: {
+        credentials: 'same-origin',
+        headers: new Headers({
+          'Content-Type': 'application/json;charset=UTF-8',
+        }),
+        body: JSON.stringify({
           consent_date: cookie.consent_date,
           uuid: cookie.consent_uuid,
           url: window.location.href,
@@ -39,7 +42,7 @@ import './scss/main.scss';
           necessary_consent: cookie.level.includes('necessary'),
           analytics_consent: cookie.level.includes('analytics'),
           targeting_consent: cookie.level.includes('targeting'),
-        },
+        }),
       });
     } catch (error) {
       // eslint-disable-next-line no-console
