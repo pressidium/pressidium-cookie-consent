@@ -183,7 +183,7 @@ class Feedback implements Actions {
                         'sanitize_callback' => 'sanitize_text_field',
                     ),
                 ),
-                'permissions_callback' => function () {
+                'permission_callback' => function () {
                     return current_user_can( 'activate_plugins' );
                 },
             )
