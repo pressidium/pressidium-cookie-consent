@@ -997,7 +997,7 @@ class Settings_API implements Actions {
                         },
                     ),
                 ),
-                'permissions_callback' => function () {
+                'permission_callback' => function () {
                     return current_user_can( 'manage_options' );
                 },
             )
