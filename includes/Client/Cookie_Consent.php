@@ -124,10 +124,14 @@ class Cookie_Consent implements Actions, Filters {
             'cookie-consent-client-script',
             'pressidiumCCClientDetails',
             array(
-                'settings' => $this->get_settings(),
-                'api'      => array(
-                    'route' => 'pressidium-cookie-consent/v1/settings',
+                'settings'        => $this->get_settings(),
+                'api'             => array(
+                    'rest_url'       => rest_url(),
+                    'route'          => 'pressidium-cookie-consent/v1/settings',
+                    'consent_route'  => 'pressidium-cookie-consent/v1/consent',
+                    'consents_route' => 'pressidium-cookie-consent/v1/consents',
                 ),
+                'record_consents' => $this->settings['pressidium_options']['record_consents'] ?? true,
             )
         );
     }

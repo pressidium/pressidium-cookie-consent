@@ -51,6 +51,17 @@ class Migrator {
     }
 
     /**
+     * Migrate settings coming from versions prior to 1.2.0.
+     *
+     * @return void
+     */
+    private function migrate_1_2_0(): void {
+        $record_consents = $this->settings['pressidium_options']['record_consents'] ?? true;
+
+        $this->settings['pressidium_options']['record_consents'] = $record_consents;
+    }
+
+    /**
      * Migrate settings if necessary.
      *
      * @return array Migrated settings.
@@ -64,6 +75,11 @@ class Migrator {
         if ( version_compare( $this->settings['version'], '1.1.2', '<' ) ) {
             // We are upgrading from a version prior to 1.1.2, so we need to migrate the settings
             $this->migrate_1_1_2();
+        }
+
+        if ( version_compare( $this->settings['version'], '1.2.0', '<' ) ) {
+            // We are upgrading from a version prior to 1.2.0, so we need to migrate the settings
+            $this->migrate_1_2_0();
         }
 
         return $this->settings;

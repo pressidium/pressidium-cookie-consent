@@ -6,7 +6,7 @@ Tags: cookie, consent, gdpr, ccpa, cookies
 Requires at least: 6.0
 Tested up to: 6.3
 Requires PHP: 7.4
-Stable Tag: 1.1.6
+Stable Tag: 1.2.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -144,6 +144,10 @@ If you have spotted any bugs, or would like to request additional features from 
 7. Blocked scripts
 
 == Changelog ==
+
+= 1.2.0: Sep 25, 2023 =
+
+* Add a new Consent Records tab to the settings page to be able to provide proof of consent for auditing purposes
 
 = 1.1.6: Aug 23, 2023 =
 

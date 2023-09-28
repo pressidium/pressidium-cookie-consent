@@ -373,6 +373,15 @@ function settingsReducer(state, action) {
         },
       };
 
+    case 'UPDATE_PRESSIDIUM_OPTION':
+      return {
+        ...state,
+        pressidium_options: {
+          ...state.pressidium_options,
+          [action.payload.key]: action.payload.value,
+        },
+      };
+
     default:
       return state;
   }

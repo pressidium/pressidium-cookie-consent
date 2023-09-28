@@ -69,6 +69,16 @@ function GeneralTab() {
     setColor(key, value);
   };
 
+  const onPressidiumOptionChange = (key, value) => {
+    dispatch({
+      type: 'UPDATE_PRESSIDIUM_OPTION',
+      payload: {
+        key,
+        value,
+      },
+    });
+  };
+
   return (
     <div>
       <Panel>
@@ -141,6 +151,17 @@ function GeneralTab() {
               checked={state.reconsent}
               className="pressidium-toggle-control"
               onChange={(value) => onGeneralSettingChange('reconsent', value)}
+            />
+          </PanelRow>
+          <PanelRow>
+            <ToggleControl
+              label={__('Record consents', 'pressidium-cookie-consent')}
+              help={state.pressidium_options.record_consents
+                ? __('Will record user consents to be able to provide proof of consent for auditing purposes', 'pressidium-cookie-consent')
+                : __('Won\'t record any user consents', 'pressidium-cookie-consent')}
+              checked={state.pressidium_options.record_consents}
+              className="pressidium-toggle-control"
+              onChange={(value) => onPressidiumOptionChange('record_consents', value)}
             />
           </PanelRow>
           <PanelRow>
