@@ -855,6 +855,18 @@ class Settings_API implements Actions {
      * @return WP_Error|WP_REST_Response
      */
     public function update_consent( WP_REST_Request $request ) {
+        $settings = $this->settings->get();
+
+        if ( ! $settings['pressidium_options']['record_consents'] ) {
+            $this->logger->warning( 'Attempted to update a consent record while recording was disabled' );
+
+            return new WP_Error(
+                'recording_is_disabled',
+                __( 'Consent recording is disabled.', 'pressidium-cookie-consent' ),
+                array( 'status' => 400 )
+            );
+        }
+
         $consent_date      = $request->get_param( 'consent_date' );
         $uuid              = $request->get_param( 'uuid' );
         $url               = $request->get_param( 'url' );
