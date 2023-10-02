@@ -128,6 +128,13 @@
         </properties>
     </rule>
 
+    <!-- Allow precision alignment for objects -->
+    <rule ref="WordPress.WhiteSpace.PrecisionAlignment">
+        <properties>
+            <property name="ignoreAlignmentTokens" type="array" value="T_OBJECT_OPERATOR" />
+        </properties>
+    </rule>
+
     <!-- Set custom line length limits -->
     <rule ref="Generic.Files.LineLength">
         <properties>

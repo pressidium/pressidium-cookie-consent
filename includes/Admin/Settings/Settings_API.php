@@ -8,6 +8,7 @@
 
 namespace Pressidium\WP\CookieConsent\Admin\Settings;
 
+use Pressidium\WP\CookieConsent\Database\Exporter;
 use const Pressidium\WP\CookieConsent\VERSION;
 
 use Pressidium\WP\CookieConsent\Hooks\Actions;
@@ -16,10 +17,14 @@ use Pressidium\WP\CookieConsent\Settings;
 use Pressidium\WP\CookieConsent\Migrator;
 use Pressidium\WP\CookieConsent\Emoji;
 use Pressidium\WP\CookieConsent\Logs;
+use Pressidium\WP\CookieConsent\Geo_Locator;
+use Pressidium\WP\CookieConsent\Database\Tables\Consents_Table;
 
 use WP_REST_Request;
 use WP_REST_Response;
 use WP_Error;
+
+use Exception;
 
 if ( ! defined( 'ABSPATH' ) ) {
     die( 'Forbidden' );
@@ -53,16 +58,43 @@ class Settings_API implements Actions {
     private Logs $logs;
 
     /**
+     * @var Geo_Locator Instance of `Geo_Locator`.
+     */
+    private Geo_Locator $geo_locator;
+
+    /**
+     * @var Consents_Table Instance of `Consents_Table`.
+     */
+    private Consents_Table $consents_table;
+
+    /**
+     * @var Exporter Instance of `Exporter`.
+     */
+    private Exporter $exporter;
+
+    /**
      * Settings_API constructor.
      *
-     * @param Settings $settings
-     * @param Logger   $logger
-     * @param Logs     $logs
+     * @param Settings    $settings
+     * @param Logger      $logger
+     * @param Logs        $logs
+     * @param Geo_Locator $geo_locator
+     * @param Exporter    $exporter
      */
-    public function __construct( Settings $settings, Logger $logger, Logs $logs ) {
-        $this->settings = $settings;
-        $this->logger   = $logger;
-        $this->logs     = $logs;
+    public function __construct(
+        Settings $settings,
+        Logger $logger,
+        Logs $logs,
+        Geo_Locator $geo_locator,
+        Consents_Table $consents_table,
+        Exporter $exporter
+    ) {
+        $this->settings       = $settings;
+        $this->logger         = $logger;
+        $this->logs           = $logs;
+        $this->geo_locator    = $geo_locator;
+        $this->consents_table = $consents_table;
+        $this->exporter       = $exporter;
     }
 
     /**
@@ -554,6 +586,9 @@ class Settings_API implements Actions {
                                 ),
                             ),
                         ),
+                        'record_consents' => array(
+                            'type' => 'boolean',
+                        ),
                     ),
                 ),
             ),
@@ -720,6 +755,38 @@ class Settings_API implements Actions {
     }
 
     /**
+     * Delete ALL consent records.
+     *
+     * @param WP_REST_Request $request
+     *
+     * @return WP_Error|WP_REST_Response
+     */
+    public function delete_consent_records( WP_REST_Request $request ) {
+        $nonce = $request->get_param( 'nonce' );
+
+        // Validate nonce
+        if ( ! wp_verify_nonce( $nonce, 'pressidium_cookie_consent_rest' ) ) {
+            $this->logger->error( 'Deleting consent records failed due to invalid nonce' );
+
+            return new WP_Error(
+                'invalid_nonce',
+                __( 'Invalid nonce.', 'pressidium-cookie-consent' ),
+                array( 'status' => 403 )
+            );
+        }
+
+        $deleted_successfully = $this->consents_table->clear();
+        $response             = array( 'success' => $deleted_successfully );
+
+        if ( ! $deleted_successfully ) {
+            $this->logger->error( 'Could not delete consent records from the database' );
+        }
+
+        $this->logger->info( 'Consent records were deleted successfully' );
+        return rest_ensure_response( $response );
+    }
+
+    /**
      * Return logs.
      *
      * @param WP_REST_Request $request
@@ -781,6 +848,132 @@ class Settings_API implements Actions {
     }
 
     /**
+     * Update consent record for a user.
+     *
+     * @param WP_REST_Request $request
+     *
+     * @return WP_Error|WP_REST_Response
+     */
+    public function update_consent( WP_REST_Request $request ) {
+        $settings = $this->settings->get();
+
+        if ( ! $settings['pressidium_options']['record_consents'] ) {
+            $this->logger->warning( 'Attempted to update a consent record while recording was disabled' );
+
+            return new WP_Error(
+                'recording_is_disabled',
+                __( 'Consent recording is disabled.', 'pressidium-cookie-consent' ),
+                array( 'status' => 400 )
+            );
+        }
+
+        $consent_date      = $request->get_param( 'consent_date' );
+        $uuid              = $request->get_param( 'uuid' );
+        $url               = $request->get_param( 'url' );
+        $user_agent        = $request->get_param( 'user_agent' );
+        $necessary_consent = $request->get_param( 'necessary_consent' );
+        $analytics_consent = $request->get_param( 'analytics_consent' );
+        $targeting_consent = $request->get_param( 'targeting_consent' );
+
+        $ip_address = $_SERVER['REMOTE_ADDR'];
+
+        $cookie_consent = new Consent_Record();
+        $cookie_consent->set_id( $uuid )
+            ->set_date( $consent_date )
+            ->set_url( $url )
+            ->set_geo_location( $this->geo_locator->maybe_get_country_code( $ip_address ) )
+            ->set_ip_address( $ip_address )
+            ->set_user_agent( $user_agent )
+            ->set_necessary_consent( $necessary_consent )
+            ->set_analytics_consent( $analytics_consent )
+            ->set_targeting_consent( $targeting_consent );
+
+        $updated_successfully = false;
+
+        try {
+            $this->consents_table->set_consent_record( $cookie_consent );
+        } catch ( Exception $exception ) {
+            $this->logger->log_exception( $exception );
+        }
+
+        $response = array( 'success' => $updated_successfully );
+
+        return rest_ensure_response( $response );
+    }
+
+    /**
+     * Return (paginated) consent records.
+     *
+     * @param WP_REST_Request $request
+     *
+     * @return WP_Error|WP_REST_Response
+     */
+    public function get_consent_records( WP_REST_Request $request ) {
+        $nonce    = $request->get_param( 'nonce' );
+        $page     = $request->get_param( 'page' );
+        $per_page = $request->get_param( 'per_page' ) ?? 10;
+
+        // Validate nonce
+        if ( ! wp_verify_nonce( $nonce, 'pressidium_cookie_consent_rest' ) ) {
+            $this->logger->error( 'Retrieving consent records failed due to invalid nonce' );
+
+            return new WP_Error(
+                'invalid_nonce',
+                __( 'Invalid nonce.', 'pressidium-cookie-consent' ),
+                array( 'status' => 403 )
+            );
+        }
+
+        $number_of_rows = $this->consents_table->get_total_number_of_rows();
+        $rows           = $this->consents_table->get_rows( $page, $per_page );
+
+        $data = array(
+            'success' => true,
+            'data'    => array_map(
+                function( $row ) {
+                    $row['necessary_consent'] = (bool) $row['necessary_consent'];
+                    $row['analytics_consent'] = (bool) $row['analytics_consent'];
+                    $row['targeting_consent'] = (bool) $row['targeting_consent'];
+
+                    return $row;
+                },
+                $rows
+            ),
+        );
+
+        $headers = array(
+            'X-WP-Total'      => $number_of_rows,
+            'X-WP-TotalPages' => ceil( $number_of_rows / $per_page ),
+        );
+
+        return rest_ensure_response( new WP_REST_Response( $data, 200, $headers ) );
+    }
+
+    /**
+     * Export consent records to file.
+     *
+     * @param WP_REST_Request $request
+     *
+     * @return WP_Error|WP_REST_Response
+     */
+    public function export_file( WP_REST_Request $request ) {
+        $nonce = $request->get_param( 'nonce' );
+
+        // Validate nonce
+        if ( ! wp_verify_nonce( $nonce, 'pressidium_cookie_consent_rest' ) ) {
+            $this->logger->error( 'Exporting file failed due to invalid nonce' );
+
+            return new WP_Error(
+                'invalid_nonce',
+                __( 'Invalid nonce.', 'pressidium-cookie-consent' ),
+                array( 'status' => 403 )
+            );
+        }
+
+        return $this->exporter->export( $this->consents_table );
+    }
+
+    /**
      * Register REST routes.
      *
      * @return void
@@ -816,7 +1009,7 @@ class Settings_API implements Actions {
                         },
                     ),
                 ),
-                'permissions_callback' => function () {
+                'permission_callback' => function () {
                     return current_user_can( 'manage_options' );
                 },
             )
@@ -866,6 +1059,116 @@ class Settings_API implements Actions {
             array(
                 'methods'             => 'DELETE',
                 'callback'            => array( $this, 'delete_logs' ),
+                'args'                => array(
+                    'nonce' => array(
+                        'type'              => 'string',
+                        'required'          => true,
+                        'sanitize_callback' => 'sanitize_text_field',
+                    ),
+                ),
+                'permission_callback' => function () {
+                    return current_user_can( 'manage_options' );
+                },
+            )
+        );
+
+        $did_register_routes = $did_register_routes && register_rest_route(
+            self::REST_NAMESPACE,
+            '/export',
+            array(
+                'methods'             => 'GET',
+                'callback'            => array( $this, 'export_file' ),
+                'args'                => array(
+                    'nonce' => array(
+                        'type'              => 'string',
+                        'required'          => true,
+                        'sanitize_callback' => 'sanitize_text_field',
+                    ),
+                ),
+                'permission_callback' => function () {
+                    return current_user_can( 'manage_options' );
+                },
+            ),
+        );
+
+        $did_register_routes = $did_register_routes && register_rest_route(
+            self::REST_NAMESPACE,
+            '/consent',
+            array(
+                'methods'             => 'POST',
+                'callback'            => array( $this, 'update_consent' ),
+                'args'                => array(
+                    'consent_date'      => array(
+                        'type'              => 'string',
+                        'required'          => true,
+                        'sanitize_callback' => 'sanitize_text_field',
+                    ),
+                    'uuid'              => array(
+                        'type'              => 'string',
+                        'required'          => true,
+                        'sanitize_callback' => 'sanitize_text_field',
+                    ),
+                    'url'               => array(
+                        'type'              => 'string',
+                        'required'          => true,
+                        'sanitize_callback' => 'sanitize_url',
+                    ),
+                    'user_agent'        => array(
+                        'type'              => 'string',
+                        'required'          => true,
+                        'sanitize_callback' => 'sanitize_text_field',
+                    ),
+                    'necessary_consent' => array(
+                        'type'              => 'boolean',
+                        'required'          => true,
+                        'sanitize_callback' => 'rest_sanitize_boolean',
+                    ),
+                    'analytics_consent' => array(
+                        'type'              => 'boolean',
+                        'required'          => true,
+                        'sanitize_callback' => 'rest_sanitize_boolean',
+                    ),
+                    'targeting_consent' => array(
+                        'type'              => 'boolean',
+                        'required'          => true,
+                        'sanitize_callback' => 'rest_sanitize_boolean',
+                    ),
+                ),
+                'permission_callback' => '__return_true',
+            ),
+        );
+
+        $did_register_routes = $did_register_routes && register_rest_route(
+                self::REST_NAMESPACE,
+            '/consents',
+            array(
+                'methods'             => 'GET',
+                'callback'            => array( $this, 'get_consent_records' ),
+                'args'                => array(
+                    'nonce' => array(
+                        'type'              => 'string',
+                        'required'          => true,
+                        'sanitize_callback' => 'sanitize_text_field',
+                    ),
+                    'page' => array(
+                        'type' => 'integer',
+                    ),
+                    'per_page' => array(
+                        'type' => 'integer',
+                    ),
+                ),
+                'permission_callback' => function () {
+                    return current_user_can( 'manage_options' );
+                },
+            )
+        );
+
+        $did_register_routes = $did_register_routes && register_rest_route(
+            self::REST_NAMESPACE,
+            '/consents',
+            array(
+                'methods'             => 'DELETE',
+                'callback'            => array( $this, 'delete_consent_records' ),
                 'args'                => array(
                     'nonce' => array(
                         'type'              => 'string',
