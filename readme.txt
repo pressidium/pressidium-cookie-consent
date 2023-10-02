@@ -142,6 +142,7 @@ If you have spotted any bugs, or would like to request additional features from 
 5. Consent modal
 6. Settings modal
 7. Blocked scripts
+8. Consent records
 
 == Changelog ==
 
