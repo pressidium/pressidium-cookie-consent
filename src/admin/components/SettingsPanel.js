@@ -35,6 +35,7 @@ function SettingsPanel() {
   const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
   const [noticeStatus, setNoticeStatus] = useState('info');
   const [noticeMessage, setNoticeMessage] = useState(null);
+  const [selectedTab, setSelectedTab] = useState('general');
 
   const { state, dispatch } = useContext(SettingsContext);
 
@@ -426,6 +427,7 @@ function SettingsPanel() {
         <TabPanel
           className="my-tab-panel"
           activeClass="active-tab"
+          onSelect={(tabName) => setSelectedTab(tabName)}
           tabs={[
             {
               name: 'general',
@@ -480,15 +482,15 @@ function SettingsPanel() {
         >
           {({ Component }) => {
             const componentPropsMap = {
-              ConsentRecordsTab: {
+              'consent-records': {
                 isExportingCsv,
                 exportConsentRecords,
                 clearRecords,
               },
             };
 
-            const props = Component.name in componentPropsMap
-              ? componentPropsMap[Component.name]
+            const props = selectedTab in componentPropsMap
+              ? componentPropsMap[selectedTab]
               : {};
 
             return (
