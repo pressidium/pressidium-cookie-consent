@@ -52,6 +52,10 @@ Block the user from interacting with the page until they consent to your cookie 
 
 Ask users to consent again when you update your cookie policy.
 
+= 📝 Consent records =
+
+Record user consents to be able to provide proof of consent for auditing purposes.
+
 = 🤖 Hide from bots =
 
 Automatically parse the user agent to detect bots, crawlers, and webdrivers. If one is detected, you have the option to hide the cookie consent banner from them.
