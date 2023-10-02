@@ -174,6 +174,7 @@ class Settings {
                     'webkit-scrollbar-bg' => '#ebeff9',
                     'webkit-scrollbar-bg-hover' => '#3859d0',
                 ),
+                'record_consents' => true,
             ),
         );
     }
