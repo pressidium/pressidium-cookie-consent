@@ -145,7 +145,7 @@ If you have spotted any bugs, or would like to request additional features from 
 
 == Changelog ==
 
-= 1.2.0: Sep 25, 2023 =
+= 1.2.0: Oct 2, 2023 =
 
 * Add a new Consent Records tab to the settings page to be able to provide proof of consent for auditing purposes
 

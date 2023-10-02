@@ -27,7 +27,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 function setup_constants(): void {
     if ( ! defined( 'Pressidium\WP\CookieConsent\VERSION' ) ) {
-        define( 'Pressidium\WP\CookieConsent\VERSION', '1.1.6' );
+        define( 'Pressidium\WP\CookieConsent\VERSION', '1.2.0' );
     }
 
     if ( ! defined( 'Pressidium\WP\CookieConsent\PLUGIN_DIR' ) ) {
