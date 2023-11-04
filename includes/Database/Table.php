@@ -67,6 +67,26 @@ abstract class Table {
     abstract public function get_version(): string;
 
     /**
+     * Checks if a table exists in the database.
+     *
+     * @param string $table_name The name of the table to check.
+     *
+     * @return bool True if the table exists, false if it doesn't.
+     */
+    private function table_exists(string $table_name): bool
+    {
+        global $wpdb;
+
+        // Use the $wpdb->get_var method to execute a SQL query to check for the table's existence.
+        $result = $wpdb->get_var(
+            $wpdb->prepare( "SHOW TABLES LIKE %s", $table_name )
+        );
+
+        // If the result matches the provided table name, the table exists; otherwise, it doesn't.
+        return $result === $table_name;
+    }
+
+    /**
      * Return the table's prefix.
      *
      * @return string
@@ -268,8 +288,16 @@ abstract class Table {
             require_once ABSPATH . 'wp-admin/includes/upgrade.php';
         }
 
+        // Get the table name
+        $table_name = $this->prefix . $this->get_table_slug();
+
+        // Check if the table already exists
+        if( $this->table_exists( $table_name ) ) {
+            return; // Table already exists, do nothing
+        }
+
         $schema = Schema::create(
-            $this->prefix . $this->get_table_slug(),
+            $table_name,
             $this->charset_collate,
             function( Blueprint $table ) {
                 $this->get_table_schema( $table );
