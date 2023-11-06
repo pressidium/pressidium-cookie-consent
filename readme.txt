@@ -6,7 +6,7 @@ Tags: cookie, consent, gdpr, ccpa, cookies
 Requires at least: 6.0
 Tested up to: 6.3
 Requires PHP: 7.4
-Stable Tag: 1.2.0
+Stable Tag: 1.2.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -149,6 +149,10 @@ If you have spotted any bugs, or would like to request additional features from 
 8. Consent records
 
 == Changelog ==
+
+= 1.2.1: Nov 6, 2023 =
+
+* Check if the table already exists in the database before attempting to create it
 
 = 1.2.0: Oct 2, 2023 =
 

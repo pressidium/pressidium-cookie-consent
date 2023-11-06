@@ -117,6 +117,25 @@ abstract class Table {
     }
 
     /**
+     * Check if a table exists in the database.
+     *
+     * @param string $table_name The name of the table to check.
+     *
+     * @return bool `true` if the table exists, `false` if it doesn't.
+     */
+    private function exists( string $table_name ): bool {
+        global $wpdb;
+
+        // Use `$wpdb->get_var()` to execute a SQL query to check for the table's existence
+        $result = $wpdb->get_var(
+            $wpdb->prepare( 'SHOW TABLES LIKE %s', $wpdb->esc_like( $table_name ) )
+        );
+
+        // If the result matches the provided table name, the table exists; otherwise, it doesn't
+        return $result === $table_name;
+    }
+
+    /**
      * Insert a row into the table.
      *
      * Wrapper around `wpdb::insert()`.
@@ -268,8 +287,15 @@ abstract class Table {
             require_once ABSPATH . 'wp-admin/includes/upgrade.php';
         }
 
+        $table_name = $this->prefix . $this->get_table_slug();
+
+        if ( $this->exists( $table_name ) ) {
+            // Table already exists, do nothing
+            return;
+        }
+
         $schema = Schema::create(
-            $this->prefix . $this->get_table_slug(),
+            $table_name,
             $this->charset_collate,
             function( Blueprint $table ) {
                 $this->get_table_schema( $table );
