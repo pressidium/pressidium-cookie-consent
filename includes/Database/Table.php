@@ -123,7 +123,7 @@ abstract class Table {
      *
      * @return bool True if the table exists, false if it doesn't.
      */
-    private function table_exists( string $table_name ): bool {
+    private function exists( string $table_name ): bool {
         global $wpdb;
 
         // Use the $wpdb->get_var method to execute a SQL query to check for the table's existence.
@@ -291,7 +291,7 @@ abstract class Table {
         $table_name = $this->prefix . $this->get_table_slug();
 
         // Check if the table already exists
-        if( $this->table_exists( $table_name ) ) {
+        if( $this->exists( $table_name ) ) {
             return; // Table already exists, do nothing
         }
 
