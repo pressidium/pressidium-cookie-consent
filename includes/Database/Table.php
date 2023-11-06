@@ -117,7 +117,7 @@ abstract class Table {
     }
 
     /**
-     * Checks if a table exists in the database.
+     * Check if a table exists in the database.
      *
      * @param string $table_name The name of the table to check.
      *
