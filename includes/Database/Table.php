@@ -128,7 +128,7 @@ abstract class Table {
 
         // Use the $wpdb->get_var method to execute a SQL query to check for the table's existence.
         $result = $wpdb->get_var(
-            $wpdb->prepare( 'SHOW TABLES LIKE %s', $table_name )
+            $wpdb->prepare( 'SHOW TABLES LIKE %s', $wpdb->esc_like( $table_name ) )
         );
 
         // If the result matches the provided table name, the table exists; otherwise, it doesn't.
