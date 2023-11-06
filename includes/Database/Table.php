@@ -287,12 +287,11 @@ abstract class Table {
             require_once ABSPATH . 'wp-admin/includes/upgrade.php';
         }
 
-        // Get the table name
         $table_name = $this->prefix . $this->get_table_slug();
 
-        // Check if the table already exists
-        if( $this->exists( $table_name ) ) {
-            return; // Table already exists, do nothing
+        if ( $this->exists( $table_name ) ) {
+            // Table already exists, do nothing
+            return;
         }
 
         $schema = Schema::create(
