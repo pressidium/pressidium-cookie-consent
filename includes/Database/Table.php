@@ -121,17 +121,17 @@ abstract class Table {
      *
      * @param string $table_name The name of the table to check.
      *
-     * @return bool True if the table exists, false if it doesn't.
+     * @return bool `true` if the table exists, `false` if it doesn't.
      */
     private function exists( string $table_name ): bool {
         global $wpdb;
 
-        // Use the $wpdb->get_var method to execute a SQL query to check for the table's existence.
+        // Use `$wpdb->get_var()` to execute a SQL query to check for the table's existence
         $result = $wpdb->get_var(
             $wpdb->prepare( 'SHOW TABLES LIKE %s', $wpdb->esc_like( $table_name ) )
         );
 
-        // If the result matches the provided table name, the table exists; otherwise, it doesn't.
+        // If the result matches the provided table name, the table exists; otherwise, it doesn't
         return $result === $table_name;
     }
 
