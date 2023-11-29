@@ -8,10 +8,10 @@
 
 namespace Pressidium\WP\CookieConsent\Feedback;
 
-use Psr\Container\ContainerExceptionInterface;
-use Psr\Container\NotFoundExceptionInterface;
+use Pressidium\WP\CookieConsent\Dependencies\Psr\Container\ContainerExceptionInterface;
+use Pressidium\WP\CookieConsent\Dependencies\Psr\Container\NotFoundExceptionInterface;
 
-use League\Container\ServiceProvider\AbstractServiceProvider;
+use Pressidium\WP\CookieConsent\Dependencies\League\Container\ServiceProvider\AbstractServiceProvider;
 
 // Prevent direct access
 if ( ! defined( 'ABSPATH' ) ) {

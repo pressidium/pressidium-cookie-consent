@@ -4,6 +4,9 @@
     "type": "wordpress-plugin",
     "license": "GPL-2.0-or-later",
     "autoload": {
+        "classmap": [
+            "includes/classes"
+        ],
         "psr-4": {
             "Pressidium\\WP\\CookieConsent\\": "includes/"
         }
@@ -24,6 +27,9 @@
         "issues": "https://github.com/pressidium/pressidium-cookie-consent/issues",
         "source": "https://github.com/pressidium/pressidium-cookie-consent"
     },
+    "require": {
+        "php": ">=7.4"
+    },
     "require-dev": {
         "squizlabs/php_codesniffer": "^3.7",
         "wp-coding-standards/wpcs": "^2.3",
@@ -34,7 +40,11 @@
         "szepeviktor/phpstan-wordpress": "^1.1",
         "php-stubs/wordpress-stubs": "^6.1",
         "phpstan/extension-installer": "^1.2",
-        "pressidium/pressidium-cs": "^1.0"
+        "pressidium/pressidium-cs": "^1.0",
+        "coenjacobs/mozart": "^0.7.1",
+        "league/container": "^3.4",
+        "ext-json": "*",
+        "psr/log": "^1.1"
     },
     "post-install-cmd": "./vendor/squizlabs/php_codesniffer/bin/phpcs --config-set installed_paths vendor/wp-coding-standards/wpcs,vendor/phpcompatibility/php-compatibility,vendor/phpcompatibility/phpcompatibility-wp,vendor/phpcompatibility/phpcompatibility-paragonie,vendor/pressidium/pressidium-cs",
     "post-update-cmd": "./vendor/squizlabs/php_codesniffer/bin/phpcs --config-set installed_paths vendor/wp-coding-standards/wpcs,vendor/phpcompatibility/php-compatibility,vendor/phpcompatibility/phpcompatibility-wp,vendor/phpcompatibility/phpcompatibility-paragonie,vendor/pressidium/pressidium-cs",
@@ -46,9 +56,27 @@
             "dealerdirect/phpcodesniffer-composer-installer": true
         }
     },
-    "require": {
-        "league/container": "^3.4",
-        "ext-json": "*",
-        "psr/log": "^1.1"
+    "extra": {
+        "mozart": {
+            "dep_namespace": "Pressidium\\WP\\CookieConsent\\Dependencies\\",
+            "dep_directory": "/includes/Dependencies/",
+            "classmap_directory": "/includes/classes/dependencies/",
+            "classmap_prefix": "Pressidium_Cookie_Consent_",
+            "packages": [
+                "league/container",
+                "psr/log"
+            ],
+            "delete_vendor_directories": false
+        }
+    },
+    "scripts": {
+        "post-install-cmd": [
+            "\"vendor/bin/mozart\" compose",
+            "composer dump-autoload"
+        ],
+        "post-update-cmd": [
+            "\"vendor/bin/mozart\" compose",
+            "composer dump-autoload"
+        ]
     }
 }

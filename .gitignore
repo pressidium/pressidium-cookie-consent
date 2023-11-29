@@ -227,3 +227,5 @@ dist
 # Built files
 /public/**/*
 !/public/.gitkeep
+includes/classes/dependencies/**/*
+includes/Dependencies/**/*

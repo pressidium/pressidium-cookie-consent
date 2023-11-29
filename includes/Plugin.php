@@ -8,11 +8,11 @@
 
 namespace Pressidium\WP\CookieConsent;
 
-use League\Container\Container;
+use Pressidium\WP\CookieConsent\Dependencies\League\Container\Container;
 
 use Pressidium\WP\CookieConsent\Database\CSV_Exporter;
-use Psr\Container\ContainerExceptionInterface;
-use Psr\Container\NotFoundExceptionInterface;
+use Pressidium\WP\CookieConsent\Dependencies\Psr\Container\ContainerExceptionInterface;
+use Pressidium\WP\CookieConsent\Dependencies\Psr\Container\NotFoundExceptionInterface;
 
 use Pressidium\WP\CookieConsent\Admin\Settings\Service_Provider as Settings_Service_Provider;
 use Pressidium\WP\CookieConsent\Client\Service_Provider as Client_Service_Provider;
