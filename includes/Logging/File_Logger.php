@@ -10,8 +10,8 @@ namespace Pressidium\WP\CookieConsent\Logging;
 
 use const Pressidium\WP\CookieConsent\PLUGIN_DIR;
 
-use Psr\Log\LogLevel;
-use Psr\Log\InvalidArgumentException;
+use Pressidium\WP\CookieConsent\Dependencies\Psr\Log\LogLevel;
+use Pressidium\WP\CookieConsent\Dependencies\Psr\Log\InvalidArgumentException;
 
 use RuntimeException;
 use Exception;
