@@ -228,4 +228,6 @@ dist
 /public/**/*
 !/public/.gitkeep
 includes/classes/dependencies/**/*
+!includes/classes/dependencies/.gitkeep
 includes/Dependencies/**/*
+!includes/Dependencies/.gitkeep
