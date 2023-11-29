@@ -8,10 +8,10 @@
 
 namespace Pressidium\WP\CookieConsent\Logging;
 
-use Psr\Log\LogLevel;
-use Psr\Log\LoggerInterface;
+use Pressidium\WP\CookieConsent\Dependencies\Psr\Log\LogLevel;
+use Pressidium\WP\CookieConsent\Dependencies\Psr\Log\LoggerInterface;
 
-use Psr\Log\InvalidArgumentException;
+use Pressidium\WP\CookieConsent\Dependencies\Psr\Log\InvalidArgumentException;
 
 use RuntimeException;
 use Exception;
