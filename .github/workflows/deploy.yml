@@ -12,11 +12,16 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Install Composer
-        uses: php-actions/composer@v6
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
         with:
-          php_version: '7.4'
-          dev: 'no'
+          php-version: '7.4'
+
+      - name: Install dependencies and wrap them
+        run: composer install
+
+      - name: Remove development dependencies and optimize autoloader
+        run: composer update --no-dev --no-scripts --optimize-autoloader
 
       - name: Install Node.js LTS
         uses: actions/setup-node@v3
