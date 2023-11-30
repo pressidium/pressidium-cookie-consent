@@ -248,6 +248,14 @@ function GeneralTab() {
                   color: state.pressidium_options.colors['btn-primary-hover-bg'],
                 },
                 {
+                  key: 'btn-primary-hover-text',
+                  label: __(
+                    'Primary hover text',
+                    'pressidium-cookie-consent',
+                  ),
+                  color: state.pressidium_options.colors['btn-primary-hover-text'],
+                },
+                {
                   key: 'btn-secondary-bg',
                   label: __(
                     'Secondary background',
@@ -267,6 +275,14 @@ function GeneralTab() {
                     'pressidium-cookie-consent',
                   ),
                   color: state.pressidium_options.colors['btn-secondary-hover-bg'],
+                },
+                {
+                  key: 'btn-secondary-hover-text',
+                  label: __(
+                    'Secondary hover text',
+                    'pressidium-cookie-consent',
+                  ),
+                  color: state.pressidium_options.colors['btn-secondary-hover-text'],
                 },
                 {
                   key: 'toggle-bg-off',
