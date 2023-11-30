@@ -62,6 +62,21 @@ class Migrator {
     }
 
     /**
+     * Migrate settings coming from versions prior to 1.3.0.
+     *
+     * @return void
+     */
+    private function migrate_1_3_0(): void {
+        $colors = $this->settings['pressidium_options']['colors'] ?? array();
+
+        $primary_hover   = $colors['btn-primary-hover-text'] ?? $colors['btn-primary-text'];
+        $secondary_hover = $colors['btn-secondary-hover-text'] ?? $colors['btn-secondary-text'];
+
+        $this->settings['pressidium_options']['colors']['btn-primary-hover-text']   = $primary_hover;
+        $this->settings['pressidium_options']['colors']['btn-secondary-hover-text'] = $secondary_hover;
+    }
+
+    /**
      * Migrate settings if necessary.
      *
      * @return array Migrated settings.
@@ -80,6 +95,11 @@ class Migrator {
         if ( version_compare( $this->settings['version'], '1.2.0', '<' ) ) {
             // We are upgrading from a version prior to 1.2.0, so we need to migrate the settings
             $this->migrate_1_2_0();
+        }
+
+        if ( version_compare( $this->settings['version'], '1.3.0', '<' ) ) {
+            // We are upgrading from a version prior to 1.3.0, so we need to migrate the settings
+            $this->migrate_1_3_0();
         }
 
         return $this->settings;
