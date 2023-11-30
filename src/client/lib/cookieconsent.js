@@ -15,7 +15,7 @@
     /**
      * CHANGE THIS FLAG FALSE TO DISABLE console.log()
      */
-    var ENABLE_LOGS = true;
+    var ENABLE_LOGS = false;
 
     var _config = {
       'mode': 'opt-in',                         // 'opt-in', 'opt-out'
