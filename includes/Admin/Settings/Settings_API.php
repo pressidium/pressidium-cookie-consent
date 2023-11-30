@@ -503,9 +503,11 @@ class Settings_API implements Actions {
                                 'btn-primary-bg',
                                 'btn-primary-text',
                                 'btn-primary-hover-bg',
+                                'btn-primary-hover-text',
                                 'btn-secondary-bg',
                                 'btn-secondary-text',
                                 'btn-secondary-hover-bg',
+                                'btn-secondary-hover-text',
                                 'toggle-bg-off',
                                 'toggle-bg-on',
                                 'toggle-bg-readonly',
@@ -536,6 +538,9 @@ class Settings_API implements Actions {
                                 'btn-primary-hover-bg' => array(
                                     'type' => 'string',
                                 ),
+                                'btn-primary-hover-text' => array(
+                                    'type' => 'string',
+                                ),
                                 'btn-secondary-bg' => array(
                                     'type' => 'string',
                                 ),
@@ -543,6 +548,9 @@ class Settings_API implements Actions {
                                     'type' => 'string',
                                 ),
                                 'btn-secondary-hover-bg' => array(
+                                    'type' => 'string',
+                                ),
+                                'btn-secondary-hover-text' => array(
                                     'type' => 'string',
                                 ),
                                 'toggle-bg-off' => array(

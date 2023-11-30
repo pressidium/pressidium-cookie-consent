@@ -66,8 +66,31 @@ function SettingsPanel() {
     return data;
   };
 
+  const validateState = () => {
+    let cleanState = { ...state };
+
+    const blockedScripts = state?.pressidium_options?.blocked_scripts;
+
+    if (Array.isArray(blockedScripts) && blockedScripts.length > 0) {
+      cleanState = {
+        ...state,
+        pressidium_options: {
+          ...state.pressidium_options,
+          blocked_scripts: blockedScripts.filter(({ src }) => src && src.trim().length > 0),
+        },
+      };
+    }
+
+    dispatch({
+      type: 'SET_SETTINGS',
+      payload: cleanState,
+    });
+  };
+
   const saveSettings = async (data) => {
     const { route, nonce } = pressidiumCCAdminDetails.api;
+
+    validateState();
 
     const options = {
       path: route,
