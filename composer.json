@@ -11,12 +11,6 @@
             "Pressidium\\WP\\CookieConsent\\": "includes/"
         }
     },
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/pressidium/pressidium-cs.git"
-        }
-    ],
     "authors": [
         {
             "name": "Konstantinos Pappas",
@@ -40,14 +34,13 @@
         "szepeviktor/phpstan-wordpress": "^1.1",
         "php-stubs/wordpress-stubs": "^6.1",
         "phpstan/extension-installer": "^1.2",
-        "pressidium/pressidium-cs": "^1.0",
         "coenjacobs/mozart": "^0.7.1",
         "league/container": "^3.4",
         "ext-json": "*",
         "psr/log": "^1.1"
     },
-    "post-install-cmd": "./vendor/squizlabs/php_codesniffer/bin/phpcs --config-set installed_paths vendor/wp-coding-standards/wpcs,vendor/phpcompatibility/php-compatibility,vendor/phpcompatibility/phpcompatibility-wp,vendor/phpcompatibility/phpcompatibility-paragonie,vendor/pressidium/pressidium-cs",
-    "post-update-cmd": "./vendor/squizlabs/php_codesniffer/bin/phpcs --config-set installed_paths vendor/wp-coding-standards/wpcs,vendor/phpcompatibility/php-compatibility,vendor/phpcompatibility/phpcompatibility-wp,vendor/phpcompatibility/phpcompatibility-paragonie,vendor/pressidium/pressidium-cs",
+    "post-install-cmd": "./vendor/squizlabs/php_codesniffer/bin/phpcs --config-set installed_paths vendor/wp-coding-standards/wpcs,vendor/phpcompatibility/php-compatibility,vendor/phpcompatibility/phpcompatibility-wp,vendor/phpcompatibility/phpcompatibility-paragonie",
+    "post-update-cmd": "./vendor/squizlabs/php_codesniffer/bin/phpcs --config-set installed_paths vendor/wp-coding-standards/wpcs,vendor/phpcompatibility/php-compatibility,vendor/phpcompatibility/phpcompatibility-wp,vendor/phpcompatibility/phpcompatibility-paragonie",
     "lint": "./vendor/squizlabs/php_codesniffer/bin/phpcs",
     "phpstan": "./vendor/bin/phpstan -c phpstan.neon",
     "config": {
