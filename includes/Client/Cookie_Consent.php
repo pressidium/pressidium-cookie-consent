@@ -94,7 +94,7 @@ class Cookie_Consent implements Actions, Filters {
      * @return void
      */
     public function enqueue_scripts(): void {
-        $assets_file = PLUGIN_DIR . 'public/' . 'bundle.client.asset.php';
+        $assets_file = PLUGIN_DIR . 'public/bundle.client.asset.php';
 
         if ( ! file_exists( $assets_file ) ) {
             // File doesn't exist, bail early
