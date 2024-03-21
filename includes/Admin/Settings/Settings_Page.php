@@ -166,6 +166,14 @@ class Settings_Page extends Page implements Actions, Filters {
             'pressidiumCCAdminDetails',
             array(
                 'domain' => Utils::get_domain(),
+                'assets' => array(
+                    'gtm_template_url' => esc_url( PLUGIN_URL . 'assets/templates/template.tpl' ),
+                    'screenshots'      => array(
+                        'import' => esc_url( PLUGIN_URL . 'assets/images/gtm-import.png' ),
+                        'tag'    => esc_url( PLUGIN_URL . 'assets/images/gtm-tag.png' ),
+                        'config' => esc_url( PLUGIN_URL . 'assets/images/gtm-config.png' ),
+                    ),
+                ),
                 'api'    => array(
                     'route'          => 'pressidium-cookie-consent/v1/settings',
                     'logs_route'     => 'pressidium-cookie-consent/v1/logs',

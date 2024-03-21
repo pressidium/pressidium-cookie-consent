@@ -23,11 +23,13 @@ import CookiesTab from './tabs/CookiesTab';
 import TranslationsTab from './tabs/TranslationsTab';
 import ConsentModalTab from './tabs/ConsentModalTab';
 import SettingsModalTab from './tabs/SettingsModalTab';
+import ConsentModeTab from './tabs/ConsentModeTab';
 import BlockedScriptsTab from './tabs/BlockedScriptsTab';
 import ConsentRecordsTab from './tabs/ConsentRecordsTab';
 import LogsTab from './tabs/LogsTab';
 
 import SettingsContext from '../store/context';
+import * as ActionTypes from '../store/actionTypes';
 
 function SettingsPanel() {
   const [isFetching, setIsFetching] = useState(false);
@@ -82,7 +84,7 @@ function SettingsPanel() {
     }
 
     dispatch({
-      type: 'SET_SETTINGS',
+      type: ActionTypes.SET_SETTINGS,
       payload: cleanState,
     });
   };
@@ -159,7 +161,7 @@ function SettingsPanel() {
       const data = await fetchSettings();
 
       dispatch({
-        type: 'SET_SETTINGS',
+        type: ActionTypes.SET_SETTINGS,
         payload: data,
       });
     } catch (error) {
@@ -204,6 +206,7 @@ function SettingsPanel() {
 
     const analyticsTable = settings.pressidium_options.cookie_table.analytics;
     const targetingTable = settings.pressidium_options.cookie_table.targeting;
+    const preferencesTable = settings.pressidium_options.cookie_table.preferences;
 
     const primaryBtnRole = settings.pressidium_options.primary_btn_role;
     const secondaryBtnRole = settings.pressidium_options.secondary_btn_role;
@@ -211,6 +214,7 @@ function SettingsPanel() {
     Object.keys(settings.languages).forEach((language) => {
       settings.languages[language].settings_modal.blocks[2].cookie_table = analyticsTable;
       settings.languages[language].settings_modal.blocks[3].cookie_table = targetingTable;
+      settings.languages[language].settings_modal.blocks[4].cookie_table = preferencesTable;
 
       settings.languages[language].consent_modal.primary_btn.role = primaryBtnRole;
       settings.languages[language].consent_modal.secondary_btn.role = secondaryBtnRole;
@@ -335,7 +339,7 @@ function SettingsPanel() {
       await saveSettings(parsedData);
 
       dispatch({
-        type: 'SET_SETTINGS',
+        type: ActionTypes.SET_SETTINGS,
         payload: parsedData,
       });
     } catch (error) {
@@ -419,7 +423,7 @@ function SettingsPanel() {
         const data = await fetchSettings();
 
         dispatch({
-          type: 'SET_SETTINGS',
+          type: ActionTypes.SET_SETTINGS,
           payload: data,
         });
       } catch (error) {
@@ -481,6 +485,12 @@ function SettingsPanel() {
               title: __('Settings Modal', 'pressidium-cookie-consent'),
               className: 'tab-settings-modal',
               Component: SettingsModalTab,
+            },
+            {
+              name: 'consent-mode',
+              title: __('Consent Mode', 'pressidium-cookie-consent'),
+              className: 'tab-consent-mode',
+              Component: ConsentModeTab,
             },
             {
               name: 'blocked-scripts',

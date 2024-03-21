@@ -8,7 +8,7 @@
 [![WordPress Plugin: Tested WP Version](https://img.shields.io/wordpress/plugin/tested/pressidium-cookie-consent)](https://wordpress.org/plugins/pressidium-cookie-consent/)
 [![WordPress Plugin Rating](https://img.shields.io/wordpress/plugin/stars/pressidium-cookie-consent)](https://wordpress.org/plugins/pressidium-cookie-consent/)
 
-🍪 Pressidium Cookie Consent makes it easy to add a stylish, customizable cookie consent banner to your website and conditionally load third-party scripts (analytics, performance, targeting, etc.) based on the user-selected preferences to help you comply with EU GDPR cookie law, CCPA, and similar regulations.
+🍪 Pressidium Cookie Consent makes it easy to add a stylish, customizable cookie consent banner to your website and conditionally load third-party scripts (preferences, analytics, targeting, etc.) based on the user-selected preferences to help you comply with EU GDPR cookie law, CCPA, and similar regulations.
 
 ![Cookie consent plugin screenshot](./.wordpress-org/screenshot-5.png)
 
@@ -96,6 +96,10 @@ Record user consents to be able to provide proof of consent for auditing purpose
 ### 🤖 Hide from bots
 
 Automatically parse the user agent to detect bots, crawlers, and webdrivers. If one is detected, you have the option to hide the cookie consent banner from them.
+
+### 🧩 Google Consent Mode (GCM) integration
+
+Integrate with Google Consent Mode (GCM) to adjust how Google tags behave based on the user’s consent preferences. Supports both Google tag (gtag.js) and Google Tag Manager (GTM) implementations.
 
 ### ⌨️ Control it programmatically
 

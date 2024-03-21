@@ -1,18 +1,20 @@
+import * as ActionTypes from './actionTypes';
+
 function settingsReducer(state, action) {
   switch (action.type) {
-    case 'SET_SETTINGS':
+    case ActionTypes.SET_SETTINGS:
       return {
         ...state,
         ...action.payload,
       };
 
-    case 'UPDATE_GENERAL_SETTING':
+    case ActionTypes.UPDATE_GENERAL_SETTING:
       return {
         ...state,
         [action.payload.key]: action.payload.value,
       };
 
-    case 'UPDATE_CONSENT_MODAL_SETTING':
+    case ActionTypes.UPDATE_CONSENT_MODAL_SETTING:
       return {
         ...state,
         gui_options: {
@@ -24,7 +26,7 @@ function settingsReducer(state, action) {
         },
       };
 
-    case 'UPDATE_SETTINGS_MODAL_SETTING':
+    case ActionTypes.UPDATE_SETTINGS_MODAL_SETTING:
       return {
         ...state,
         gui_options: {
@@ -36,7 +38,7 @@ function settingsReducer(state, action) {
         },
       };
 
-    case 'ADD_LANGUAGE':
+    case ActionTypes.ADD_LANGUAGE:
       return {
         ...state,
         languages: {
@@ -103,6 +105,16 @@ function settingsReducer(state, action) {
                 {
                   title: '',
                   description: '',
+                  toggle: {
+                    value: 'preferences',
+                    enabled: false,
+                    readonly: false,
+                  },
+                  cookie_table: [],
+                },
+                {
+                  title: '',
+                  description: '',
                 },
               ],
             },
@@ -110,7 +122,7 @@ function settingsReducer(state, action) {
         },
       };
 
-    case 'DELETE_LANGUAGE':
+    case ActionTypes.DELETE_LANGUAGE:
       return {
         ...state,
         languages: Object.keys(state.languages).reduce((acc, key) => {
@@ -121,7 +133,7 @@ function settingsReducer(state, action) {
         }, {}),
       };
 
-    case 'UPDATE_CONSENT_MODAL_LANGUAGE_SETTING':
+    case ActionTypes.UPDATE_CONSENT_MODAL_LANGUAGE_SETTING:
       return {
         ...state,
         languages: {
@@ -136,7 +148,7 @@ function settingsReducer(state, action) {
         },
       };
 
-    case 'UPDATE_SETTINGS_MODAL_LANGUAGE_SETTING':
+    case ActionTypes.UPDATE_SETTINGS_MODAL_LANGUAGE_SETTING:
       return {
         ...state,
         languages: {
@@ -151,7 +163,7 @@ function settingsReducer(state, action) {
         },
       };
 
-    case 'UPDATE_COOKIE_TABLE_HEADERS_LANGUAGE_SETTING':
+    case ActionTypes.UPDATE_COOKIE_TABLE_HEADERS_LANGUAGE_SETTING:
       return {
         ...state,
         languages: {
@@ -173,7 +185,7 @@ function settingsReducer(state, action) {
         },
       };
 
-    case 'UPDATE_SETTINGS_MODAL_BLOCK_LANGUAGE_SETTING':
+    case ActionTypes.UPDATE_SETTINGS_MODAL_BLOCK_LANGUAGE_SETTING:
       return {
         ...state,
         languages: {
@@ -195,7 +207,7 @@ function settingsReducer(state, action) {
         },
       };
 
-    case 'ADD_COOKIE_TABLE_ROW':
+    case ActionTypes.ADD_COOKIE_TABLE_ROW:
       return {
         ...state,
         pressidium_options: {
@@ -217,7 +229,7 @@ function settingsReducer(state, action) {
         },
       };
 
-    case 'UPDATE_COOKIE_TABLE_ROW':
+    case ActionTypes.UPDATE_COOKIE_TABLE_ROW:
       return {
         ...state,
         pressidium_options: {
@@ -236,7 +248,7 @@ function settingsReducer(state, action) {
         },
       };
 
-    case 'DELETE_COOKIE_TABLE_ROW':
+    case ActionTypes.DELETE_COOKIE_TABLE_ROW:
       return {
         ...state,
         pressidium_options: {
@@ -251,7 +263,7 @@ function settingsReducer(state, action) {
         },
       };
 
-    case 'ADD_BLOCKED_SCRIPT':
+    case ActionTypes.ADD_BLOCKED_SCRIPT:
       return {
         ...state,
         pressidium_options: {
@@ -267,7 +279,7 @@ function settingsReducer(state, action) {
         },
       };
 
-    case 'UPDATE_BLOCKED_SCRIPT':
+    case ActionTypes.UPDATE_BLOCKED_SCRIPT:
       return {
         ...state,
         pressidium_options: {
@@ -283,7 +295,7 @@ function settingsReducer(state, action) {
         },
       };
 
-    case 'DELETE_BLOCKED_SCRIPT':
+    case ActionTypes.DELETE_BLOCKED_SCRIPT:
       return {
         ...state,
         pressidium_options: {
@@ -295,7 +307,7 @@ function settingsReducer(state, action) {
         },
       };
 
-    case 'UPDATE_PRIMARY_BUTTON_TEXT':
+    case ActionTypes.UPDATE_PRIMARY_BUTTON_TEXT:
       return {
         ...state,
         languages: {
@@ -313,7 +325,7 @@ function settingsReducer(state, action) {
         },
       };
 
-    case 'UPDATE_PRIMARY_BUTTON_ROLE':
+    case ActionTypes.UPDATE_PRIMARY_BUTTON_ROLE:
       return {
         ...state,
         pressidium_options: {
@@ -322,7 +334,7 @@ function settingsReducer(state, action) {
         },
       };
 
-    case 'UPDATE_SECONDARY_BUTTON_TEXT':
+    case ActionTypes.UPDATE_SECONDARY_BUTTON_TEXT:
       return {
         ...state,
         languages: {
@@ -340,7 +352,7 @@ function settingsReducer(state, action) {
         },
       };
 
-    case 'UPDATE_SECONDARY_BUTTON_ROLE':
+    case ActionTypes.UPDATE_SECONDARY_BUTTON_ROLE:
       return {
         ...state,
         pressidium_options: {
@@ -349,7 +361,7 @@ function settingsReducer(state, action) {
         },
       };
 
-    case 'UPDATE_COLOR_SETTINGS':
+    case ActionTypes.UPDATE_COLOR_SETTINGS:
       return {
         ...state,
         pressidium_options: {
@@ -361,7 +373,7 @@ function settingsReducer(state, action) {
         },
       };
 
-    case 'UPDATE_COLOR_SETTING':
+    case ActionTypes.UPDATE_COLOR_SETTING:
       return {
         ...state,
         pressidium_options: {
@@ -373,7 +385,96 @@ function settingsReducer(state, action) {
         },
       };
 
-    case 'UPDATE_PRESSIDIUM_OPTION':
+    case ActionTypes.UPDATE_GCM_SETTINGS:
+      return {
+        ...state,
+        pressidium_options: {
+          ...state.pressidium_options,
+          gcm: {
+            ...state.pressidium_options.gcm,
+            ...action.payload,
+          },
+        },
+      };
+
+    case ActionTypes.UPDATE_GCM_SETTING:
+      return {
+        ...state,
+        pressidium_options: {
+          ...state.pressidium_options,
+          gcm: {
+            ...state.pressidium_options.gcm,
+            [action.payload.key]: action.payload.value,
+          },
+        },
+      };
+
+    case ActionTypes.ADD_GCM_REGION:
+      return {
+        ...state,
+        pressidium_options: {
+          ...state.pressidium_options,
+          gcm: {
+            ...state.pressidium_options.gcm,
+            regions: [
+              ...state.pressidium_options.gcm.regions,
+              {
+                country: action.payload.country,
+                subdivisions: action.payload.subdivisions,
+                default_consent_states: {
+                  ad_storage: false,
+                  ad_user_data: false, // GCM v2
+                  ad_personalization: false, // GCM v2
+                  analytics_storage: false,
+                  functionality_storage: false,
+                  personalization_storage: false,
+                  security_storage: false,
+                },
+              },
+            ],
+          },
+        },
+      };
+
+    case ActionTypes.UPDATE_GCM_REGION_SETTING:
+      return {
+        ...state,
+        pressidium_options: {
+          ...state.pressidium_options,
+          gcm: {
+            ...state.pressidium_options.gcm,
+            regions: [
+              ...state.pressidium_options.gcm.regions.slice(0, action.payload.index),
+              {
+                ...state.pressidium_options.gcm.regions[action.payload.index],
+                default_consent_states: {
+                  ...state.pressidium_options.gcm.regions[action.payload.index].default_consent_states,
+                  [action.payload.key]: action.payload.value,
+                },
+              },
+              ...state.pressidium_options.gcm.regions.slice(action.payload.index + 1),
+            ],
+          },
+        },
+      };
+
+    case ActionTypes.DELETE_GCM_REGION: {
+      return {
+        ...state,
+        pressidium_options: {
+          ...state.pressidium_options,
+          gcm: {
+            ...state.pressidium_options.gcm,
+            regions: [
+              ...state.pressidium_options.gcm.regions.slice(0, action.payload.index),
+              ...state.pressidium_options.gcm.regions.slice(action.payload.index + 1),
+            ],
+          },
+        },
+      };
+    }
+
+    case ActionTypes.UPDATE_PRESSIDIUM_OPTION:
       return {
         ...state,
         pressidium_options: {

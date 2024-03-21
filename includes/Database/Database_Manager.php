@@ -78,6 +78,11 @@ class Database_Manager {
 
         foreach ( $this->tables as $table ) {
             try {
+                if ( $table->exists() ) {
+                    // Table already exists, no need to create it
+                    continue;
+                }
+
                 $table->create();
 
                 $table_versions[ $table->get_table_slug() ] = $table->get_version();

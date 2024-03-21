@@ -37,7 +37,9 @@
     return allowedCategories.indexOf(cookieCategory) > -1;
   };
 
-  if (isCategoryAllowed('analytics') && isCategoryAllowed('targeting')) {
+  if (isCategoryAllowed('analytics')
+    && isCategoryAllowed('targeting')
+    && isCategoryAllowed('preferences')) {
     // All categories are allowed, bail early
     return;
   }

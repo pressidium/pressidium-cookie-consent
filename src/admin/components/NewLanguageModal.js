@@ -35,7 +35,7 @@ function NewLanguageModal(props) {
                 label: languages[key],
                 value: key,
               }))
-              .sort((a, b) => ((a.label > b.label) ? 1 : -1))
+              .toSorted((a, b) => ((a.label > b.label) ? 1 : -1))
           }
           onChange={setSelectedLanguage}
         />

@@ -8,13 +8,14 @@ import {
 import { __ } from '@wordpress/i18n';
 
 import SettingsContext from '../../store/context';
+import * as ActionTypes from '../../store/actionTypes';
 
 function SettingsModalTab() {
   const { state, dispatch } = useContext(SettingsContext);
 
   const onSettingChange = useCallback((key, value) => {
     dispatch({
-      type: 'UPDATE_SETTINGS_MODAL_SETTING',
+      type: ActionTypes.UPDATE_SETTINGS_MODAL_SETTING,
       payload: {
         key,
         value,

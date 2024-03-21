@@ -11,6 +11,7 @@ namespace Pressidium\WP\CookieConsent\Database\Tables;
 use Pressidium\WP\CookieConsent\Admin\Settings\Consent_Record;
 use Pressidium\WP\CookieConsent\Database\Blueprint;
 use Pressidium\WP\CookieConsent\Database\Table;
+use Pressidium\WP\CookieConsent\Database\Raw;
 
 use Exception;
 
@@ -41,25 +42,28 @@ final class Consents_Table extends Table {
      *
      * Schema:
      *
-     * | Column name       | Type         |
-     * | ----------------- | ------------ |
-     * | id                | VARCHAR(255) |
-     * | consent_date      | DATETIME     |
-     * | url               | VARCHAR(255) |
-     * | geo_location      | VARCHAR(255) |
-     * | ip_address        | VARCHAR(255) |
-     * | user_agent        | VARCHAR(255) |
-     * | necessary_consent | TINYINT(1)   |
-     * | analytics_consent | TINYINT(1)   |
-     * | targeting_consent | TINYINT(1)   |
-     * | created_at        | TIMESTAMP    |
-     * | updated_at        | TIMESTAMP    |
+     * | Column name         | Type         |
+     * | ------------------- | ------------ |
+     * | id                  | VARCHAR(255) |
+     * | consent_date        | DATETIME     |
+     * | url                 | VARCHAR(255) |
+     * | geo_location        | VARCHAR(255) |
+     * | ip_address          | VARCHAR(255) |
+     * | user_agent          | VARCHAR(255) |
+     * | necessary_consent   | TINYINT(1)   |
+     * | analytics_consent   | TINYINT(1)   |
+     * | targeting_consent   | TINYINT(1)   |
+     * | preferences_consent | TINYINT(1)   |
+     * | created_at          | TIMESTAMP    |
+     * | updated_at          | TIMESTAMP    |
      *
      * @param Blueprint $table Table's blueprint.
      *
      * @return void
      */
     protected function get_table_schema( Blueprint $table ): void {
+        $zero_int = new Raw( 0 );
+
         $table->string( 'id', 255 )
               ->not_nullable()
               ->primary();
@@ -81,13 +85,20 @@ final class Consents_Table extends Table {
               ->not_nullable();
 
         $table->boolean( 'necessary_consent' )
-              ->not_nullable();
+              ->not_nullable()
+              ->default_to( $zero_int );
 
         $table->boolean( 'analytics_consent' )
-              ->not_nullable();
+              ->not_nullable()
+              ->default_to( $zero_int );
 
         $table->boolean( 'targeting_consent' )
-              ->not_nullable();
+              ->not_nullable()
+              ->default_to( $zero_int );
+
+        $table->boolean( 'preferences_consent' )
+              ->not_nullable()
+              ->default_to( $zero_int );
 
         $table->timestamps();
     }
@@ -123,15 +134,16 @@ final class Consents_Table extends Table {
      */
     public function insert_consent_record( Consent_Record $consent_record ): bool {
         $record_data = array(
-            'id'                => $consent_record->get_id(),
-            'consent_date'      => $consent_record->get_date(),
-            'url'               => $consent_record->get_url(),
-            'geo_location'      => $consent_record->get_geo_location(),
-            'ip_address'        => $consent_record->get_ip_address(),
-            'user_agent'        => $consent_record->get_user_agent(),
-            'necessary_consent' => $consent_record->has_necessary_consent(),
-            'analytics_consent' => $consent_record->has_analytics_consent(),
-            'targeting_consent' => $consent_record->has_targeting_consent(),
+            'id'                  => $consent_record->get_id(),
+            'consent_date'        => $consent_record->get_date(),
+            'url'                 => $consent_record->get_url(),
+            'geo_location'        => $consent_record->get_geo_location(),
+            'ip_address'          => $consent_record->get_ip_address(),
+            'user_agent'          => $consent_record->get_user_agent(),
+            'necessary_consent'   => $consent_record->has_necessary_consent(),
+            'analytics_consent'   => $consent_record->has_analytics_consent(),
+            'targeting_consent'   => $consent_record->has_targeting_consent(),
+            'preferences_consent' => $consent_record->has_preferences_consent(),
         );
 
         $record_data_types = array(
@@ -141,6 +153,7 @@ final class Consents_Table extends Table {
             '%s',
             '%s',
             '%s',
+            '%d',
             '%d',
             '%d',
             '%d',
@@ -160,14 +173,15 @@ final class Consents_Table extends Table {
      */
     public function update_consent_record( Consent_Record $consent_record ): bool {
         $record_data = array(
-            'consent_date'      => $consent_record->get_date(),
-            'url'               => $consent_record->get_url(),
-            'geo_location'      => $consent_record->get_geo_location(),
-            'ip_address'        => $consent_record->get_ip_address(),
-            'user_agent'        => $consent_record->get_user_agent(),
-            'necessary_consent' => $consent_record->has_necessary_consent(),
-            'analytics_consent' => $consent_record->has_analytics_consent(),
-            'targeting_consent' => $consent_record->has_targeting_consent(),
+            'consent_date'        => $consent_record->get_date(),
+            'url'                 => $consent_record->get_url(),
+            'geo_location'        => $consent_record->get_geo_location(),
+            'ip_address'          => $consent_record->get_ip_address(),
+            'user_agent'          => $consent_record->get_user_agent(),
+            'necessary_consent'   => $consent_record->has_necessary_consent(),
+            'analytics_consent'   => $consent_record->has_analytics_consent(),
+            'targeting_consent'   => $consent_record->has_targeting_consent(),
+            'preferences_consent' => $consent_record->has_preferences_consent(),
         );
 
         $record_data_types = array(
@@ -176,6 +190,7 @@ final class Consents_Table extends Table {
             '%s',
             '%s',
             '%s',
+            '%d',
             '%d',
             '%d',
             '%d',
@@ -211,7 +226,7 @@ final class Consents_Table extends Table {
      * @return string
      */
     public function get_version(): string {
-        return '1.0';
+        return '1.1';
     }
 
 }

@@ -16,7 +16,7 @@
     <exclude-pattern>*/vendor/*</exclude-pattern>
 
     <!-- Set installed paths for the standards we're using -->
-    <config name="installed_paths" value="vendor/wp-coding-standards/wpcs,vendor/phpcompatibility/php-compatibility,vendor/phpcompatibility/phpcompatibility-wp,vendor/phpcompatibility/phpcompatibility-paragonie,vendor/pressidium/pressidium-cs" />
+    <config name="installed_paths" value="vendor/wp-coding-standards/wpcs,vendor/phpcompatibility/php-compatibility,vendor/phpcompatibility/phpcompatibility-wp,vendor/phpcompatibility/phpcompatibility-paragonie" />
 
     <!-- Scan only PHP files in this directory and its subdirectories -->
     <file>.</file>
@@ -142,9 +142,6 @@
             <property name="absoluteLineLimit" value="120" />
         </properties>
     </rule>
-
-    <!-- Pressidium Coding Standards -->
-    <rule ref="PressidiumCS" />
 
     <!--
      ... Load the WordPress specific ruleset to check for PHP cross version compatibility
