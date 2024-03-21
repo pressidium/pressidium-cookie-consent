@@ -34,7 +34,7 @@ const StyledNotice = styled(Notice)`
     margin: -16px -16px 24px !important;
 `;
 
-function TranslationsTab() {
+function ConsentModeTab() {
   const { state, dispatch } = useContext(SettingsContext);
 
   const [isNewRegionModalOpen, setIsNewRegionModalOpen] = useState(false);
@@ -374,4 +374,4 @@ function TranslationsTab() {
   );
 }
 
-export default TranslationsTab;
+export default ConsentModeTab;
