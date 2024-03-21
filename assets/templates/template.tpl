@@ -331,12 +331,14 @@ const main = (data) => {
   gtagSet('url_passthrough', data.url_passthrough);
 
   // Set default consent states
-  data.default_consent_states.forEach((settings) => {
-    const defaultData = parseCommandData(settings);
-    // `wait_for_update` (ms) allows for time to receive visitor choices
-    defaultData.wait_for_update = 500;
-    setDefaultConsentState(defaultData);
-  });
+  if (data.hasOwnProperty('default_consent_states')) {
+    data.default_consent_states.forEach((settings) => {
+      const defaultData = parseCommandData(settings);
+      // `wait_for_update` (ms) allows for time to receive visitor choices
+      defaultData.wait_for_update = 500;
+      setDefaultConsentState(defaultData);
+    });
+  }
 
   /*
    * Check if cookie is set and has values that correspond to
@@ -743,7 +745,7 @@ ___NOTES___
 
 == Changelog ==
 
-= GTM Template 1.0.0: Mar 20, 2024 =
+= GTM Template 1.0.0: Mar 21, 2024 =
 
 * Initial version
 
