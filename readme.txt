@@ -4,9 +4,9 @@ Plugin URI: https://github.com/pressidium/pressidium-cookie-consent/
 Contributors: pressidium, overengineer
 Tags: cookie, consent, gdpr, ccpa, cookies
 Requires at least: 6.0
-Tested up to: 6.4
+Tested up to: 6.5
 Requires PHP: 7.4
-Stable Tag: 1.3.0
+Stable Tag: 1.4.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -161,6 +161,12 @@ If you have spotted any bugs, or would like to request additional features from 
 8. Consent records
 
 == Changelog ==
+
+= 1.4.0: Mar 21, 2023 =
+
+* Introduce a new “Preferences” cookies category
+* Integrate with Google Consent Mode (GCM)
+* Dispatch custom JavaScript events on initial consent and when the user changes their consent
 
 = 1.3.0: Nov 30, 2023 =
 
