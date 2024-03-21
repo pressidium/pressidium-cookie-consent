@@ -19,6 +19,8 @@ import { __ } from '@wordpress/i18n';
 import { plus as PlusIcon } from '@wordpress/icons';
 
 import SettingsContext from '../../store/context';
+import * as ActionTypes from '../../store/actionTypes';
+
 import Wrapper from '../Wrapper';
 import TranslationsTable from '../TranslationsTable';
 import NewLanguageModal from '../NewLanguageModal';
@@ -41,7 +43,7 @@ function TranslationsTab() {
 
   const onAddLanguage = useCallback((language) => {
     dispatch({
-      type: 'ADD_LANGUAGE',
+      type: ActionTypes.ADD_LANGUAGE,
       payload: {
         language,
       },
@@ -52,7 +54,7 @@ function TranslationsTab() {
     setSelectedLanguage('');
 
     dispatch({
-      type: 'DELETE_LANGUAGE',
+      type: ActionTypes.DELETE_LANGUAGE,
       payload: {
         language,
       },
@@ -61,7 +63,7 @@ function TranslationsTab() {
 
   const onAutoDetectionStrategyChange = useCallback((strategy) => {
     dispatch({
-      type: 'UPDATE_GENERAL_SETTING',
+      type: ActionTypes.UPDATE_GENERAL_SETTING,
       payload: {
         key: 'auto_language',
         value: strategy,
@@ -71,7 +73,7 @@ function TranslationsTab() {
 
   const onConsentModalLanguageSettingChange = useCallback((key, value) => {
     dispatch({
-      type: 'UPDATE_CONSENT_MODAL_LANGUAGE_SETTING',
+      type: ActionTypes.UPDATE_CONSENT_MODAL_LANGUAGE_SETTING,
       payload: {
         language: selectedLanguage,
         key,
@@ -82,7 +84,7 @@ function TranslationsTab() {
 
   const onPrimaryButtonTextChange = useCallback((value) => {
     dispatch({
-      type: 'UPDATE_PRIMARY_BUTTON_TEXT',
+      type: ActionTypes.UPDATE_PRIMARY_BUTTON_TEXT,
       payload: {
         language: selectedLanguage,
         value,
@@ -92,7 +94,7 @@ function TranslationsTab() {
 
   const onSecondaryButtonTextChange = useCallback((value) => {
     dispatch({
-      type: 'UPDATE_SECONDARY_BUTTON_TEXT',
+      type: ActionTypes.UPDATE_SECONDARY_BUTTON_TEXT,
       payload: {
         language: selectedLanguage,
         value,
@@ -102,7 +104,7 @@ function TranslationsTab() {
 
   const onSettingsModalLanguageSettingChange = useCallback((key, value) => {
     dispatch({
-      type: 'UPDATE_SETTINGS_MODAL_LANGUAGE_SETTING',
+      type: ActionTypes.UPDATE_SETTINGS_MODAL_LANGUAGE_SETTING,
       payload: {
         language: selectedLanguage,
         key,
@@ -113,7 +115,7 @@ function TranslationsTab() {
 
   const onCookieTableHeadersChange = useCallback((index, key, value) => {
     dispatch({
-      type: 'UPDATE_COOKIE_TABLE_HEADERS_LANGUAGE_SETTING',
+      type: ActionTypes.UPDATE_COOKIE_TABLE_HEADERS_LANGUAGE_SETTING,
       payload: {
         language: selectedLanguage,
         index,
@@ -125,7 +127,7 @@ function TranslationsTab() {
 
   const onBlockLanguageSettingChange = useCallback((index, key, value) => {
     dispatch({
-      type: 'UPDATE_SETTINGS_MODAL_BLOCK_LANGUAGE_SETTING',
+      type: ActionTypes.UPDATE_SETTINGS_MODAL_BLOCK_LANGUAGE_SETTING,
       payload: {
         language: selectedLanguage,
         index,

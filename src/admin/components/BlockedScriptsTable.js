@@ -16,6 +16,8 @@ import {
 import styled from 'styled-components';
 
 import SettingsContext from '../store/context';
+import * as ActionTypes from '../store/actionTypes';
+
 import Table, { Header, Row, Column } from './Table';
 
 const StyledButton = styled(Button)`
@@ -41,13 +43,13 @@ function BlockedScriptsTable() {
 
   const onAddScript = useCallback(() => {
     dispatch({
-      type: 'ADD_BLOCKED_SCRIPT',
+      type: ActionTypes.ADD_BLOCKED_SCRIPT,
     });
   }, []);
 
   const onUpdateScript = useCallback((index, key, value) => {
     dispatch({
-      type: 'UPDATE_BLOCKED_SCRIPT',
+      type: ActionTypes.UPDATE_BLOCKED_SCRIPT,
       payload: {
         index,
         key,
@@ -58,7 +60,7 @@ function BlockedScriptsTable() {
 
   const onDeleteScript = useCallback((index) => {
     dispatch({
-      type: 'DELETE_BLOCKED_SCRIPT',
+      type: ActionTypes.DELETE_BLOCKED_SCRIPT,
       payload: {
         index,
       },

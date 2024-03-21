@@ -16,6 +16,8 @@ import {
 import styled from 'styled-components';
 
 import SettingsContext from '../store/context';
+import * as ActionTypes from '../store/actionTypes';
+
 import Table, { Header, Row, Column } from './Table';
 
 const StyledButton = styled(Button)`
@@ -46,7 +48,7 @@ function CookiesTable(props) {
 
   const onAddCookie = useCallback(() => {
     dispatch({
-      type: 'ADD_COOKIE_TABLE_ROW',
+      type: ActionTypes.ADD_COOKIE_TABLE_ROW,
       payload: {
         category,
       },
@@ -55,7 +57,7 @@ function CookiesTable(props) {
 
   const onUpdateCookie = useCallback((index, key, value) => {
     dispatch({
-      type: 'UPDATE_COOKIE_TABLE_ROW',
+      type: ActionTypes.UPDATE_COOKIE_TABLE_ROW,
       payload: {
         category,
         index,
@@ -67,7 +69,7 @@ function CookiesTable(props) {
 
   const onDeleteCookie = useCallback((index) => {
     dispatch({
-      type: 'DELETE_COOKIE_TABLE_ROW',
+      type: ActionTypes.DELETE_COOKIE_TABLE_ROW,
       payload: {
         category,
         index,

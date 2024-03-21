@@ -28,6 +28,7 @@ import ConsentRecordsTab from './tabs/ConsentRecordsTab';
 import LogsTab from './tabs/LogsTab';
 
 import SettingsContext from '../store/context';
+import * as ActionTypes from '../store/actionTypes';
 
 function SettingsPanel() {
   const [isFetching, setIsFetching] = useState(false);
@@ -82,7 +83,7 @@ function SettingsPanel() {
     }
 
     dispatch({
-      type: 'SET_SETTINGS',
+      type: ActionTypes.SET_SETTINGS,
       payload: cleanState,
     });
   };
@@ -159,7 +160,7 @@ function SettingsPanel() {
       const data = await fetchSettings();
 
       dispatch({
-        type: 'SET_SETTINGS',
+        type: ActionTypes.SET_SETTINGS,
         payload: data,
       });
     } catch (error) {
@@ -337,7 +338,7 @@ function SettingsPanel() {
       await saveSettings(parsedData);
 
       dispatch({
-        type: 'SET_SETTINGS',
+        type: ActionTypes.SET_SETTINGS,
         payload: parsedData,
       });
     } catch (error) {
@@ -421,7 +422,7 @@ function SettingsPanel() {
         const data = await fetchSettings();
 
         dispatch({
-          type: 'SET_SETTINGS',
+          type: ActionTypes.SET_SETTINGS,
           payload: data,
         });
       } catch (error) {
