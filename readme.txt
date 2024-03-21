@@ -145,6 +145,10 @@ Make sure that either the “Autorun” option is enabled on the plugin settings
 
 Make sure you have clicked the “Save” button on the plugin settings page.
 
+= Why does the cookie consent banner keep showing even after I have accepted the cookies? =
+
+Make sure you have set the “Cookie Domain” option to the correct domain on the plugin settings page.
+
 = Where can I report any bugs and/or request additional features? =
 
 If you have spotted any bugs, or would like to request additional features from the plugin, please [file an issue](https://github.com/pressidium/pressidium-cookie-consent/issues/).
