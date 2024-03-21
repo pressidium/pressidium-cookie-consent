@@ -117,14 +117,19 @@ abstract class Table {
     }
 
     /**
-     * Check if a table exists in the database.
-     *
-     * @param string $table_name The name of the table to check.
+     * Check if the table exists in the database.
      *
      * @return bool `true` if the table exists, `false` if it doesn't.
      */
-    private function exists( string $table_name ): bool {
+    public function exists(): bool {
         global $wpdb;
+
+        try {
+            $table_name = $this->prefix . $this->get_table_slug();
+        } catch ( Exception $exception ) {
+            // Table name doesn't exist, return `false`
+            return false;
+        }
 
         // Use `$wpdb->get_var()` to execute a SQL query to check for the table's existence
         $result = $wpdb->get_var(
@@ -288,11 +293,6 @@ abstract class Table {
         }
 
         $table_name = $this->prefix . $this->get_table_slug();
-
-        if ( $this->exists( $table_name ) ) {
-            // Table already exists, do nothing
-            return;
-        }
 
         $schema = Schema::create(
             $table_name,
