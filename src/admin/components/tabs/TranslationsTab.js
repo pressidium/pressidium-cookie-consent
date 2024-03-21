@@ -366,7 +366,7 @@ function TranslationsTab() {
                 </PanelRow>
               </PanelBody>
               <PanelBody
-                title={`(${formattedSelectedLanguageCode}) ${__('More information block', 'pressidium-cookie-consent')}`}
+                title={`(${formattedSelectedLanguageCode}) ${__('Preferences cookies', 'pressidium-cookie-consent')}`}
                 initialOpen
               >
                 <PanelRow>
@@ -381,6 +381,25 @@ function TranslationsTab() {
                     label="Description"
                     value={state.languages[selectedLanguage].settings_modal.blocks[4].description}
                     onChange={(value) => onBlockLanguageSettingChange(4, 'description', value)}
+                  />
+                </PanelRow>
+              </PanelBody>
+              <PanelBody
+                title={`(${formattedSelectedLanguageCode}) ${__('More information block', 'pressidium-cookie-consent')}`}
+                initialOpen
+              >
+                <PanelRow>
+                  <TextControl
+                    label="Title"
+                    value={state.languages[selectedLanguage].settings_modal.blocks[5].title}
+                    onChange={(value) => onBlockLanguageSettingChange(5, 'title', value)}
+                  />
+                </PanelRow>
+                <PanelRow>
+                  <TextControl
+                    label="Description"
+                    value={state.languages[selectedLanguage].settings_modal.blocks[5].description}
+                    onChange={(value) => onBlockLanguageSettingChange(5, 'description', value)}
                   />
                 </PanelRow>
               </PanelBody>

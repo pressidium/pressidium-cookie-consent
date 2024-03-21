@@ -389,6 +389,7 @@ class Settings_API implements Actions {
                                 'necessary',
                                 'analytics',
                                 'targeting',
+                                'preferences',
                             ),
                             'properties' => array(
                                 'necessary' => array(
@@ -460,6 +461,40 @@ class Settings_API implements Actions {
                                     ),
                                 ),
                                 'targeting' => array(
+                                    'type' => 'array',
+                                    'items' => array(
+                                        'type' => 'object',
+                                        'required' => array(
+                                            'name',
+                                            'domain',
+                                            'expiration',
+                                            'path',
+                                            'description',
+                                            'is_regex',
+                                        ),
+                                        'properties' => array(
+                                            'name' => array(
+                                                'type' => 'string',
+                                            ),
+                                            'domain' => array(
+                                                'type' => 'string',
+                                            ),
+                                            'expiration' => array(
+                                                'type' => 'string',
+                                            ),
+                                            'path' => array(
+                                                'type' => 'string',
+                                            ),
+                                            'description' => array(
+                                                'type' => 'string',
+                                            ),
+                                            'is_regex' => array(
+                                                'type' => 'boolean',
+                                            ),
+                                        ),
+                                    ),
+                                ),
+                                'preferences' => array(
                                     'type' => 'array',
                                     'items' => array(
                                         'type' => 'object',
@@ -1137,6 +1172,11 @@ class Settings_API implements Actions {
                         'sanitize_callback' => 'rest_sanitize_boolean',
                     ),
                     'targeting_consent' => array(
+                        'type'              => 'boolean',
+                        'required'          => true,
+                        'sanitize_callback' => 'rest_sanitize_boolean',
+                    ),
+                    'preferences_consent' => array(
                         'type'              => 'boolean',
                         'required'          => true,
                         'sanitize_callback' => 'rest_sanitize_boolean',

@@ -77,6 +77,16 @@ export default {
             cookie_table: [],
           },
           {
+            title: 'Functionality and Preferences cookies',
+            description: 'These cookies allow us to provide enhanced functionality and personalization by storing user preferences.',
+            toggle: {
+              value: 'preferences',
+              enabled: false,
+              readonly: false,
+            },
+            cookie_table: [],
+          },
+          {
             title: 'More information',
             description: 'For any queries in relation to our policy on cookies and your choices, please contact us.',
           },
@@ -106,6 +116,7 @@ export default {
       necessary: [],
       analytics: [],
       targeting: [],
+      preferences: [],
     },
     blocked_scripts: [],
     colors: {

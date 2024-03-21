@@ -204,6 +204,7 @@ function SettingsPanel() {
 
     const analyticsTable = settings.pressidium_options.cookie_table.analytics;
     const targetingTable = settings.pressidium_options.cookie_table.targeting;
+    const preferencesTable = settings.pressidium_options.cookie_table.preferences;
 
     const primaryBtnRole = settings.pressidium_options.primary_btn_role;
     const secondaryBtnRole = settings.pressidium_options.secondary_btn_role;
@@ -211,6 +212,7 @@ function SettingsPanel() {
     Object.keys(settings.languages).forEach((language) => {
       settings.languages[language].settings_modal.blocks[2].cookie_table = analyticsTable;
       settings.languages[language].settings_modal.blocks[3].cookie_table = targetingTable;
+      settings.languages[language].settings_modal.blocks[4].cookie_table = preferencesTable;
 
       settings.languages[language].consent_modal.primary_btn.role = primaryBtnRole;
       settings.languages[language].consent_modal.secondary_btn.role = secondaryBtnRole;

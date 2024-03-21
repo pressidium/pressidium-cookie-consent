@@ -42,6 +42,7 @@ import './scss/main.scss';
           necessary_consent: cookie.level.includes('necessary'),
           analytics_consent: cookie.level.includes('analytics'),
           targeting_consent: cookie.level.includes('targeting'),
+          preferences_consent: cookie.level.includes('preferences'),
         }),
       });
     } catch (error) {

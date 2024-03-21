@@ -122,6 +122,16 @@ class Settings {
                                 'cookie_table' => array(),
                             ),
                             array(
+                                'title' => 'Functionality and Preferences cookies',
+                                'description' => 'These cookies allow us to provide enhanced functionality and personalization by storing user preferences.',
+                                'toggle' => array(
+                                    'value' => 'preferences',
+                                    'enabled' => false,
+                                    'readonly' => false,
+                                ),
+                                'cookie_table' => array(),
+                            ),
+                            array(
                                 'title' => 'More information',
                                 'description' => 'For any queries in relation to our policy on cookies and your choices, please contact us.',
                             ),
@@ -149,6 +159,7 @@ class Settings {
                     'necessary' => array(),
                     'analytics' => array(),
                     'targeting' => array(),
+                    'preferences' => array(),
                 ),
                 'blocked_scripts' => array(),
                 'colors' => array(

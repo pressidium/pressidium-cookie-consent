@@ -110,6 +110,10 @@ function BlockedScriptsTable() {
                         label: __('Targeting', 'pressidium-cookie-consent'),
                         value: 'targeting',
                       },
+                      {
+                        label: __('Preferences', 'pressidium-cookie-consent'),
+                        value: 'preferences',
+                      },
                     ]}
                     onChange={(value) => onUpdateScript(index, 'category', value)}
                   />

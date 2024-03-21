@@ -54,9 +54,10 @@ class Cookie_Consent implements Actions, Filters {
         $cc_settings = array_merge( array(), $this->settings );
 
         $category_blocks_map = array(
-            'necessary' => 1,
-            'analytics' => 2,
-            'targeting' => 3,
+            'necessary'   => 1,
+            'analytics'   => 2,
+            'targeting'   => 3,
+            'preferences' => 4,
         );
 
         $primary_btn_role   = $cc_settings['pressidium_options']['primary_btn_role'];

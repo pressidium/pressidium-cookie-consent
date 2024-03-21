@@ -103,6 +103,16 @@ function settingsReducer(state, action) {
                 {
                   title: '',
                   description: '',
+                  toggle: {
+                    value: 'preferences',
+                    enabled: false,
+                    readonly: false,
+                  },
+                  cookie_table: [],
+                },
+                {
+                  title: '',
+                  description: '',
                 },
               ],
             },

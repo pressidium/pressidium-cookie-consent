@@ -159,6 +159,9 @@ function ConsentRecordsTab({ isExportingCsv, exportConsentRecords, clearRecords 
                   <Column>
                     {__('Targeting consent', 'pressidium-cookie-consent')}
                   </Column>
+                  <Column>
+                    {__('Preferences consent', 'pressidium-cookie-consent')}
+                  </Column>
                   <Column style={{ minWidth: '160px' }}>
                     {__('Recorded at', 'pressidium-cookie-consent')}
                   </Column>
@@ -221,6 +224,13 @@ function ConsentRecordsTab({ isExportingCsv, exportConsentRecords, clearRecords 
                     <Column>
                       <span>
                         {consentRecord.targeting_consent
+                          ? __('Accepted', 'pressidium-cookie-consent')
+                          : __('Denied', 'pressidium-cookie-consent')}
+                      </span>
+                    </Column>
+                    <Column>
+                      <span>
+                        {consentRecord.preferences_consent
                           ? __('Accepted', 'pressidium-cookie-consent')
                           : __('Denied', 'pressidium-cookie-consent')}
                       </span>
