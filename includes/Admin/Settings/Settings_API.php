@@ -966,13 +966,14 @@ class Settings_API implements Actions {
             );
         }
 
-        $consent_date      = $request->get_param( 'consent_date' );
-        $uuid              = $request->get_param( 'uuid' );
-        $url               = $request->get_param( 'url' );
-        $user_agent        = $request->get_param( 'user_agent' );
-        $necessary_consent = $request->get_param( 'necessary_consent' );
-        $analytics_consent = $request->get_param( 'analytics_consent' );
-        $targeting_consent = $request->get_param( 'targeting_consent' );
+        $consent_date        = $request->get_param( 'consent_date' );
+        $uuid                = $request->get_param( 'uuid' );
+        $url                 = $request->get_param( 'url' );
+        $user_agent          = $request->get_param( 'user_agent' );
+        $necessary_consent   = $request->get_param( 'necessary_consent' );
+        $analytics_consent   = $request->get_param( 'analytics_consent' );
+        $targeting_consent   = $request->get_param( 'targeting_consent' );
+        $preferences_consent = $request->get_param( 'preferences_consent' );
 
         $ip_address = $_SERVER['REMOTE_ADDR'];
 
@@ -985,7 +986,8 @@ class Settings_API implements Actions {
             ->set_user_agent( $user_agent )
             ->set_necessary_consent( $necessary_consent )
             ->set_analytics_consent( $analytics_consent )
-            ->set_targeting_consent( $targeting_consent );
+            ->set_targeting_consent( $targeting_consent )
+            ->set_preferences_consent( $preferences_consent );
 
         $updated_successfully = false;
 
@@ -1030,9 +1032,10 @@ class Settings_API implements Actions {
             'success' => true,
             'data'    => array_map(
                 function( $row ) {
-                    $row['necessary_consent'] = (bool) $row['necessary_consent'];
-                    $row['analytics_consent'] = (bool) $row['analytics_consent'];
-                    $row['targeting_consent'] = (bool) $row['targeting_consent'];
+                    $row['necessary_consent']   = (bool) $row['necessary_consent'];
+                    $row['analytics_consent']   = (bool) $row['analytics_consent'];
+                    $row['targeting_consent']   = (bool) $row['targeting_consent'];
+                    $row['preferences_consent'] = (bool) $row['preferences_consent'];
 
                     return $row;
                 },
