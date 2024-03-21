@@ -375,6 +375,7 @@ class Settings_API implements Actions {
                         'secondary_btn_role',
                         'cookie_table',
                         'colors',
+                        'gcm',
                     ),
                     'properties' => array(
                         'primary_btn_role' => array(
@@ -389,6 +390,7 @@ class Settings_API implements Actions {
                                 'necessary',
                                 'analytics',
                                 'targeting',
+                                'preferences',
                             ),
                             'properties' => array(
                                 'necessary' => array(
@@ -460,6 +462,40 @@ class Settings_API implements Actions {
                                     ),
                                 ),
                                 'targeting' => array(
+                                    'type' => 'array',
+                                    'items' => array(
+                                        'type' => 'object',
+                                        'required' => array(
+                                            'name',
+                                            'domain',
+                                            'expiration',
+                                            'path',
+                                            'description',
+                                            'is_regex',
+                                        ),
+                                        'properties' => array(
+                                            'name' => array(
+                                                'type' => 'string',
+                                            ),
+                                            'domain' => array(
+                                                'type' => 'string',
+                                            ),
+                                            'expiration' => array(
+                                                'type' => 'string',
+                                            ),
+                                            'path' => array(
+                                                'type' => 'string',
+                                            ),
+                                            'description' => array(
+                                                'type' => 'string',
+                                            ),
+                                            'is_regex' => array(
+                                                'type' => 'boolean',
+                                            ),
+                                        ),
+                                    ),
+                                ),
+                                'preferences' => array(
                                     'type' => 'array',
                                     'items' => array(
                                         'type' => 'object',
@@ -597,6 +633,61 @@ class Settings_API implements Actions {
                         'record_consents' => array(
                             'type' => 'boolean',
                         ),
+                        'gcm' => array(
+                            'type' => 'object',
+                            'required' => array(
+                                'enabled',
+                                'implementation',
+                                'ads_data_redaction',
+                                'url_passthrough',
+                                'regions',
+                            ),
+                            'properties' => array(
+                                'enabled' => array(
+                                    'type' => 'boolean',
+                                ),
+                                'implementation' => array(
+                                    'type' => 'string',
+                                ),
+                                'ads_data_redaction' => array(
+                                    'type' => 'boolean',
+                                ),
+                                'url_passthrough' => array(
+                                    'type' => 'boolean',
+                                ),
+                                'regions' => array(
+                                    'type' => 'object',
+                                    'properties' => array(
+                                        '[a-zA-Z]' => array(
+                                            'type' => 'object',
+                                            'properties' => array(
+                                                'ad_storage' => array(
+                                                    'type' => 'boolean'
+                                                ),
+                                                'ad_user_data' => array(
+                                                    'type' => 'boolean'
+                                                ),
+                                                'ad_personalization' => array(
+                                                    'type' => 'boolean'
+                                                ),
+                                                'analytics_storage' => array(
+                                                    'type' => 'boolean'
+                                                ),
+                                                'functionality_storage' => array(
+                                                    'type' => 'boolean'
+                                                ),
+                                                'personalization_storage' => array(
+                                                    'type' => 'boolean'
+                                                ),
+                                                'security_storage' => array(
+                                                    'type' => 'boolean'
+                                                ),
+                                            ),
+                                        ),
+                                    ),
+                                ),
+                            ),
+                        ),
                     ),
                 ),
             ),
@@ -619,7 +710,7 @@ class Settings_API implements Actions {
         $prev_cookie_table = $prev_settings['pressidium_options']['cookie_table'];
         $new_cookie_table = $new_settings['pressidium_options']['cookie_table'];
 
-        $cookie_categories = array( 'necessary', 'analytics', 'targeting' );
+        $cookie_categories = array( 'necessary', 'analytics', 'targeting', 'preferences' );
 
         foreach ( $cookie_categories as $category ) {
             if ( $prev_cookie_table[ $category ] != $new_cookie_table[ $category ] ) {
@@ -875,13 +966,14 @@ class Settings_API implements Actions {
             );
         }
 
-        $consent_date      = $request->get_param( 'consent_date' );
-        $uuid              = $request->get_param( 'uuid' );
-        $url               = $request->get_param( 'url' );
-        $user_agent        = $request->get_param( 'user_agent' );
-        $necessary_consent = $request->get_param( 'necessary_consent' );
-        $analytics_consent = $request->get_param( 'analytics_consent' );
-        $targeting_consent = $request->get_param( 'targeting_consent' );
+        $consent_date        = $request->get_param( 'consent_date' );
+        $uuid                = $request->get_param( 'uuid' );
+        $url                 = $request->get_param( 'url' );
+        $user_agent          = $request->get_param( 'user_agent' );
+        $necessary_consent   = $request->get_param( 'necessary_consent' );
+        $analytics_consent   = $request->get_param( 'analytics_consent' );
+        $targeting_consent   = $request->get_param( 'targeting_consent' );
+        $preferences_consent = $request->get_param( 'preferences_consent' );
 
         $ip_address = $_SERVER['REMOTE_ADDR'];
 
@@ -894,7 +986,8 @@ class Settings_API implements Actions {
             ->set_user_agent( $user_agent )
             ->set_necessary_consent( $necessary_consent )
             ->set_analytics_consent( $analytics_consent )
-            ->set_targeting_consent( $targeting_consent );
+            ->set_targeting_consent( $targeting_consent )
+            ->set_preferences_consent( $preferences_consent );
 
         $updated_successfully = false;
 
@@ -939,9 +1032,10 @@ class Settings_API implements Actions {
             'success' => true,
             'data'    => array_map(
                 function( $row ) {
-                    $row['necessary_consent'] = (bool) $row['necessary_consent'];
-                    $row['analytics_consent'] = (bool) $row['analytics_consent'];
-                    $row['targeting_consent'] = (bool) $row['targeting_consent'];
+                    $row['necessary_consent']   = (bool) $row['necessary_consent'];
+                    $row['analytics_consent']   = (bool) $row['analytics_consent'];
+                    $row['targeting_consent']   = (bool) $row['targeting_consent'];
+                    $row['preferences_consent'] = (bool) $row['preferences_consent'];
 
                     return $row;
                 },
@@ -1137,6 +1231,11 @@ class Settings_API implements Actions {
                         'sanitize_callback' => 'rest_sanitize_boolean',
                     ),
                     'targeting_consent' => array(
+                        'type'              => 'boolean',
+                        'required'          => true,
+                        'sanitize_callback' => 'rest_sanitize_boolean',
+                    ),
+                    'preferences_consent' => array(
                         'type'              => 'boolean',
                         'required'          => true,
                         'sanitize_callback' => 'rest_sanitize_boolean',

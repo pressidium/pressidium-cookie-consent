@@ -77,6 +77,63 @@ class Migrator {
     }
 
     /**
+     * Migrate settings coming from versions prior to 1.4.0.
+     *
+     * @return void
+     */
+    private function migrate_1_4_0(): void {
+        // Preferences cookies
+        foreach ( $this->settings['languages'] as $lang => $lang_settings ) {
+            if ( count( $this->settings['languages'][ $lang ]['settings_modal']['blocks'] ) >= 6 ) {
+                // Preferences block exists, so we do not need to migrate
+                continue;
+            }
+
+            $more_info_block = $this->settings['languages'][ $lang ]['settings_modal']['blocks'][4];
+
+            $this->settings['languages'][ $lang ]['settings_modal']['blocks'][5] = $more_info_block;
+            $this->settings['languages'][ $lang ]['settings_modal']['blocks'][4] = array(
+                'title'        => '',
+                'description'  => '',
+                'toggle'       => array(
+                    'value'    => 'preferences',
+                    'enabled'  => false,
+                    'readonly' => false,
+                ),
+                'cookie_table' => array(),
+            );
+        }
+
+        if ( isset( $this->settings['languages']['en'] ) ) {
+            $default_title       = 'Functionality and Preferences cookies';
+            $default_description = 'These cookies allow us to provide enhanced functionality and personalization by storing user preferences.';
+
+            $current_title       = $this->settings['languages']['en']['settings_modal']['blocks'][4]['title'];
+            $current_description = $this->settings['languages']['en']['settings_modal']['blocks'][4]['description'];
+
+            $this->settings['languages']['en']['settings_modal']['blocks'][4]['title']       = empty( $current_title ) ? $default_title : $current_title;
+            $this->settings['languages']['en']['settings_modal']['blocks'][4]['description'] = empty( $current_description ) ? $default_description : $current_description;
+        }
+
+        $preferences_cookie_table = $this->settings['pressidium_options']['cookie_table']['preferences'] ?? array();
+
+        $this->settings['pressidium_options']['cookie_table']['preferences'] = $preferences_cookie_table;
+
+        // GCM
+        $default_gcm = array(
+            'enabled'            => false,
+            'implementation'     => 'gtag',
+            'ads_data_redaction' => false,
+            'url_passthrough'    => false,
+            'regions'            => array(),
+        );
+
+        $gcm = $this->settings['pressidium_options']['gcm'] ?? $default_gcm;
+
+        $this->settings['pressidium_options']['gcm'] = $gcm;
+    }
+
+    /**
      * Migrate settings if necessary.
      *
      * @return array Migrated settings.
@@ -100,6 +157,11 @@ class Migrator {
         if ( version_compare( $this->settings['version'], '1.3.0', '<' ) ) {
             // We are upgrading from a version prior to 1.3.0, so we need to migrate the settings
             $this->migrate_1_3_0();
+        }
+
+        if ( version_compare( $this->settings['version'], '1.4.0', '<' ) ) {
+            // We are upgrading from a version prior to 1.4.0, so we need to migrate the settings
+            $this->migrate_1_4_0();
         }
 
         return $this->settings;

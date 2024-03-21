@@ -8,6 +8,7 @@ import {
   table as TableIcon,
   chartBar as ChartBarIcon,
   people as PeopleIcon,
+  more as MoreIcon,
 } from '@wordpress/icons';
 
 import CookiesTable from '../CookiesTable';
@@ -42,6 +43,16 @@ function CookiesTab() {
       >
         <PanelRow>
           <CookiesTable category="targeting" />
+        </PanelRow>
+      </PanelBody>
+
+      <PanelBody
+        title={__('Preferences cookies', 'pressidium-cookie-consent')}
+        icon={MoreIcon}
+        initialOpen
+      >
+        <PanelRow>
+          <CookiesTable category="preferences" />
         </PanelRow>
       </PanelBody>
     </Panel>

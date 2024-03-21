@@ -4,9 +4,9 @@ Plugin URI: https://github.com/pressidium/pressidium-cookie-consent/
 Contributors: pressidium, overengineer
 Tags: cookie, consent, gdpr, ccpa, cookies
 Requires at least: 6.0
-Tested up to: 6.4
+Tested up to: 6.5
 Requires PHP: 7.4
-Stable Tag: 1.3.0
+Stable Tag: 1.4.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -59,6 +59,10 @@ Record user consents to be able to provide proof of consent for auditing purpose
 = 🤖 Hide from bots =
 
 Automatically parse the user agent to detect bots, crawlers, and webdrivers. If one is detected, you have the option to hide the cookie consent banner from them.
+
+= 🧩 Google Consent Mode (GCM) integration =
+
+Integrate with Google Consent Mode (GCM) to adjust how Google tags behave based on the user’s consent preferences. Supports both Google tag (gtag.js) and Google Tag Manager (GTM) implementations.
 
 = ⌨️ Control it programmatically =
 
@@ -115,7 +119,7 @@ No, the plugin doesn’t automatically block third-party scripts. You will have 
 
 = Can I integrate this plugin with my WordPress theme/plugin to block any scripts it loads? =
 
-Yes. On wp-admin, go to Settings -> Cookie Consent, select the “General” tab and make sure the “Page Scripts” option is enabled. Then, set the `type` of your scripts tags to `"text/plain"` and set a `data-cookiecategory` attribute to `"analytics"` or `"targeting"`.
+Yes. On wp-admin, go to Settings -> Cookie Consent, select the “General” tab and make sure the “Page Scripts” option is enabled. Then, set the `type` of your scripts tags to `"text/plain"` and set a `data-cookiecategory` attribute to `"analytics"`, `"targeting"` or `"preferences"`.
 
 For example, `<script type="text/plain" data-cookiecategory="analytics" src="analytics.js" defer></script>`
 
@@ -124,6 +128,14 @@ For more information, refer to the [“Blocking scripts” section of our wiki](
 = Can I use the cookie consent plugin programmatically? Are there any other options/features? =
 
 For more information about the Pressidium Cookie Consent plugin, refer [to our wiki](https://github.com/pressidium/pressidium-cookie-consent/wiki/).
+
+= Can I export/import the plugin settings? =
+
+Yes, you can export/import the plugin settings. On wp-admin, go to Settings -> Cookie Consent, and use the “Export Settings” and “Import Settings” buttons.
+
+= Does the plugin support Google Consent Mode (GCM)? =
+
+Yes, the plugin supports Google Consent Mode (GCM). On wp-admin, go to Settings -> Cookie Consent, select the “Consent Mode” tab and enable the “Google Consent Mode v2 (GCM)” option. Then, select either the Google tag (gtag.js) or the Google Tag Manager (GTM) implementation, and configure it accordingly.
 
 = Why is the cookie consent banner not showing on my website? =
 
@@ -149,6 +161,12 @@ If you have spotted any bugs, or would like to request additional features from 
 8. Consent records
 
 == Changelog ==
+
+= 1.4.0: Mar 21, 2023 =
+
+* Introduce a new “Preferences” cookies category
+* Integrate with Google Consent Mode (GCM)
+* Dispatch custom JavaScript events on initial consent and when the user changes their consent
 
 = 1.3.0: Nov 30, 2023 =
 

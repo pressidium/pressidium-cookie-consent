@@ -9,6 +9,7 @@ import {
 import { __ } from '@wordpress/i18n';
 
 import SettingsContext from '../../store/context';
+import * as ActionTypes from '../../store/actionTypes';
 
 function ConsentModalTab() {
   const { state, dispatch } = useContext(SettingsContext);
@@ -20,7 +21,7 @@ function ConsentModalTab() {
 
   const onSettingChange = useCallback((key, value) => {
     dispatch({
-      type: 'UPDATE_CONSENT_MODAL_SETTING',
+      type: ActionTypes.UPDATE_CONSENT_MODAL_SETTING,
       payload: {
         key,
         value,
@@ -30,7 +31,7 @@ function ConsentModalTab() {
 
   const onPrimaryButtonRoleChange = useCallback((value) => {
     dispatch({
-      type: 'UPDATE_PRIMARY_BUTTON_ROLE',
+      type: ActionTypes.UPDATE_PRIMARY_BUTTON_ROLE,
       payload: {
         value,
       },
@@ -39,7 +40,7 @@ function ConsentModalTab() {
 
   const onSecondaryButtonRoleChange = useCallback((value) => {
     dispatch({
-      type: 'UPDATE_SECONDARY_BUTTON_ROLE',
+      type: ActionTypes.UPDATE_SECONDARY_BUTTON_ROLE,
       payload: {
         value,
       },

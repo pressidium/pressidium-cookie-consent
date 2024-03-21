@@ -18,6 +18,7 @@ import {
 } from '@wordpress/icons';
 
 import SettingsContext from '../../store/context';
+import * as ActionTypes from '../../store/actionTypes';
 
 import ColorsPanel from '../ColorsPanel';
 import themes from '../../themes';
@@ -34,7 +35,7 @@ function GeneralTab() {
 
   const onGeneralSettingChange = (key, value) => {
     dispatch({
-      type: 'UPDATE_GENERAL_SETTING',
+      type: ActionTypes.UPDATE_GENERAL_SETTING,
       payload: {
         key,
         value,
@@ -44,14 +45,14 @@ function GeneralTab() {
 
   const setColors = useCallback((colors) => {
     dispatch({
-      type: 'UPDATE_COLOR_SETTINGS',
+      type: ActionTypes.UPDATE_COLOR_SETTINGS,
       payload: colors,
     });
   }, []);
 
   const setColor = useCallback((key, value) => {
     dispatch({
-      type: 'UPDATE_COLOR_SETTING',
+      type: ActionTypes.UPDATE_COLOR_SETTING,
       payload: {
         key,
         value,
@@ -71,7 +72,7 @@ function GeneralTab() {
 
   const onPressidiumOptionChange = (key, value) => {
     dispatch({
-      type: 'UPDATE_PRESSIDIUM_OPTION',
+      type: ActionTypes.UPDATE_PRESSIDIUM_OPTION,
       payload: {
         key,
         value,

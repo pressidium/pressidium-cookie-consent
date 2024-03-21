@@ -54,9 +54,10 @@ class Cookie_Consent implements Actions, Filters {
         $cc_settings = array_merge( array(), $this->settings );
 
         $category_blocks_map = array(
-            'necessary' => 1,
-            'analytics' => 2,
-            'targeting' => 3,
+            'necessary'   => 1,
+            'analytics'   => 2,
+            'targeting'   => 3,
+            'preferences' => 4,
         );
 
         $primary_btn_role   = $cc_settings['pressidium_options']['primary_btn_role'];
@@ -93,7 +94,7 @@ class Cookie_Consent implements Actions, Filters {
      * @return void
      */
     public function enqueue_scripts(): void {
-        $assets_file = PLUGIN_DIR . 'public/' . 'bundle.client.asset.php';
+        $assets_file = PLUGIN_DIR . 'public/bundle.client.asset.php';
 
         if ( ! file_exists( $assets_file ) ) {
             // File doesn't exist, bail early
@@ -132,6 +133,7 @@ class Cookie_Consent implements Actions, Filters {
                     'consents_route' => 'pressidium-cookie-consent/v1/consents',
                 ),
                 'record_consents' => $this->settings['pressidium_options']['record_consents'] ?? true,
+                'gcm'             => $this->settings['pressidium_options']['gcm'] ?? array(),
             )
         );
     }

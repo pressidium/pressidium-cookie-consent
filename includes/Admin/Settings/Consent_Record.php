@@ -67,6 +67,11 @@ class Consent_Record {
     private bool $targeting_consent;
 
     /**
+     * @var bool Whether the consent was given for the preferences cookie category.
+     */
+    private bool $preferences_consent;
+
+    /**
      * Consent_Record constructor.
      */
     public function __construct() {
@@ -269,6 +274,28 @@ class Consent_Record {
      */
     public function set_targeting_consent( bool $targeting_consent ): Consent_Record {
         $this->targeting_consent = $targeting_consent;
+
+        return $this; // chainable
+    }
+
+    /**
+     * Return whether the consent was given for the preferences cookie category.
+     *
+     * @return bool
+     */
+    public function has_preferences_consent(): bool {
+        return $this->preferences_consent;
+    }
+
+    /**
+     * Set whether the consent was given for the preferences cookie category.
+     *
+     * @param bool $preferences_consent
+     *
+     * @return Consent_Record
+     */
+    public function set_preferences_consent( bool $preferences_consent ): Consent_Record {
+        $this->preferences_consent = $preferences_consent;
 
         return $this; // chainable
     }
