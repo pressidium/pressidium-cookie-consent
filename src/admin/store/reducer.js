@@ -385,7 +385,96 @@ function settingsReducer(state, action) {
         },
       };
 
-    case 'UPDATE_PRESSIDIUM_OPTION':
+    case ActionTypes.UPDATE_GCM_SETTINGS:
+      return {
+        ...state,
+        pressidium_options: {
+          ...state.pressidium_options,
+          gcm: {
+            ...state.pressidium_options.gcm,
+            ...action.payload,
+          },
+        },
+      };
+
+    case ActionTypes.UPDATE_GCM_SETTING:
+      return {
+        ...state,
+        pressidium_options: {
+          ...state.pressidium_options,
+          gcm: {
+            ...state.pressidium_options.gcm,
+            [action.payload.key]: action.payload.value,
+          },
+        },
+      };
+
+    case ActionTypes.ADD_GCM_REGION:
+      return {
+        ...state,
+        pressidium_options: {
+          ...state.pressidium_options,
+          gcm: {
+            ...state.pressidium_options.gcm,
+            regions: [
+              ...state.pressidium_options.gcm.regions,
+              {
+                country: action.payload.country,
+                subdivisions: action.payload.subdivisions,
+                default_consent_states: {
+                  ad_storage: false,
+                  ad_user_data: false, // GCM v2
+                  ad_personalization: false, // GCM v2
+                  analytics_storage: false,
+                  functionality_storage: false,
+                  personalization_storage: false,
+                  security_storage: false,
+                },
+              },
+            ],
+          },
+        },
+      };
+
+    case ActionTypes.UPDATE_GCM_REGION_SETTING:
+      return {
+        ...state,
+        pressidium_options: {
+          ...state.pressidium_options,
+          gcm: {
+            ...state.pressidium_options.gcm,
+            regions: [
+              ...state.pressidium_options.gcm.regions.slice(0, action.payload.index),
+              {
+                ...state.pressidium_options.gcm.regions[action.payload.index],
+                default_consent_states: {
+                  ...state.pressidium_options.gcm.regions[action.payload.index].default_consent_states,
+                  [action.payload.key]: action.payload.value,
+                },
+              },
+              ...state.pressidium_options.gcm.regions.slice(action.payload.index + 1),
+            ],
+          },
+        },
+      };
+
+    case ActionTypes.DELETE_GCM_REGION: {
+      return {
+        ...state,
+        pressidium_options: {
+          ...state.pressidium_options,
+          gcm: {
+            ...state.pressidium_options.gcm,
+            regions: [
+              ...state.pressidium_options.gcm.regions.slice(0, action.payload.index),
+              ...state.pressidium_options.gcm.regions.slice(action.payload.index + 1),
+            ],
+          },
+        },
+      };
+    }
+
+    case ActionTypes.UPDATE_PRESSIDIUM_OPTION:
       return {
         ...state,
         pressidium_options: {

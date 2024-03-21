@@ -375,6 +375,7 @@ class Settings_API implements Actions {
                         'secondary_btn_role',
                         'cookie_table',
                         'colors',
+                        'gcm',
                     ),
                     'properties' => array(
                         'primary_btn_role' => array(
@@ -632,6 +633,61 @@ class Settings_API implements Actions {
                         'record_consents' => array(
                             'type' => 'boolean',
                         ),
+                        'gcm' => array(
+                            'type' => 'object',
+                            'required' => array(
+                                'enabled',
+                                'implementation',
+                                'ads_data_redaction',
+                                'url_passthrough',
+                                'regions',
+                            ),
+                            'properties' => array(
+                                'enabled' => array(
+                                    'type' => 'boolean',
+                                ),
+                                'implementation' => array(
+                                    'type' => 'string',
+                                ),
+                                'ads_data_redaction' => array(
+                                    'type' => 'boolean',
+                                ),
+                                'url_passthrough' => array(
+                                    'type' => 'boolean',
+                                ),
+                                'regions' => array(
+                                    'type' => 'object',
+                                    'properties' => array(
+                                        '[a-zA-Z]' => array(
+                                            'type' => 'object',
+                                            'properties' => array(
+                                                'ad_storage' => array(
+                                                    'type' => 'boolean'
+                                                ),
+                                                'ad_user_data' => array(
+                                                    'type' => 'boolean'
+                                                ),
+                                                'ad_personalization' => array(
+                                                    'type' => 'boolean'
+                                                ),
+                                                'analytics_storage' => array(
+                                                    'type' => 'boolean'
+                                                ),
+                                                'functionality_storage' => array(
+                                                    'type' => 'boolean'
+                                                ),
+                                                'personalization_storage' => array(
+                                                    'type' => 'boolean'
+                                                ),
+                                                'security_storage' => array(
+                                                    'type' => 'boolean'
+                                                ),
+                                            ),
+                                        ),
+                                    ),
+                                ),
+                            ),
+                        ),
                     ),
                 ),
             ),
@@ -654,7 +710,7 @@ class Settings_API implements Actions {
         $prev_cookie_table = $prev_settings['pressidium_options']['cookie_table'];
         $new_cookie_table = $new_settings['pressidium_options']['cookie_table'];
 
-        $cookie_categories = array( 'necessary', 'analytics', 'targeting' );
+        $cookie_categories = array( 'necessary', 'analytics', 'targeting', 'preferences' );
 
         foreach ( $cookie_categories as $category ) {
             if ( $prev_cookie_table[ $category ] != $new_cookie_table[ $category ] ) {

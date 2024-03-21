@@ -133,6 +133,7 @@ class Cookie_Consent implements Actions, Filters {
                     'consents_route' => 'pressidium-cookie-consent/v1/consents',
                 ),
                 'record_consents' => $this->settings['pressidium_options']['record_consents'] ?? true,
+                'gcm'             => $this->settings['pressidium_options']['gcm'] ?? array(),
             )
         );
     }

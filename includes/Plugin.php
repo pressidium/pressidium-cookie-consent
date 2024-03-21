@@ -108,6 +108,7 @@ class Plugin {
             $hooks_manager->register( $container->get( 'settings_api' ) );
             $hooks_manager->register( $container->get( 'settings_page' ) );
             $hooks_manager->register( $container->get( 'cookie_consent' ) );
+            $hooks_manager->register( $container->get( 'consent_mode' ) );
             $hooks_manager->register( $container->get( 'feedback' ) );
         } catch ( ContainerExceptionInterface | NotFoundExceptionInterface $exception ) {
             $this->logger->log_exception( $exception );

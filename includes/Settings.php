@@ -188,6 +188,13 @@ class Settings {
                     'webkit-scrollbar-bg-hover' => '#3859d0',
                 ),
                 'record_consents' => true,
+                'gcm' => array(
+                    'enabled' => false,
+                    'implementation' => 'gtag',
+                    'ads_data_redaction' => false,
+                    'url_passthrough' => false,
+                    'regions' => array(),
+                ),
             ),
         );
     }
