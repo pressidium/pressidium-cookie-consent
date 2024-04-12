@@ -134,6 +134,18 @@ class Migrator {
     }
 
     /**
+     * Migrate settings coming from versions prior to 1.5.0.
+     *
+     * @return void
+     */
+    private function migrate_1_5_0(): void {
+        // Hide empty categories
+        $hide_empty_categories = $this->settings['pressidium_options']['hide_empty_categories'] ?? true;
+
+        $this->settings['pressidium_options']['hide_empty_categories'] = $hide_empty_categories;
+    }
+
+    /**
      * Migrate settings if necessary.
      *
      * @return array Migrated settings.
@@ -162,6 +174,11 @@ class Migrator {
         if ( version_compare( $this->settings['version'], '1.4.0', '<' ) ) {
             // We are upgrading from a version prior to 1.4.0, so we need to migrate the settings
             $this->migrate_1_4_0();
+        }
+
+        if ( version_compare( $this->settings['version'], '1.5.0', '<' ) ) {
+            // We are upgrading from a version prior to 1.5.0, so we need to migrate the settings
+            $this->migrate_1_5_0();
         }
 
         return $this->settings;

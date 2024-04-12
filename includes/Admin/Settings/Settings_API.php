@@ -633,6 +633,9 @@ class Settings_API implements Actions {
                         'record_consents' => array(
                             'type' => 'boolean',
                         ),
+                        'hide_empty_categories' => array(
+                            'type' => 'boolean',
+                        ),
                         'gcm' => array(
                             'type' => 'object',
                             'required' => array(

@@ -188,6 +188,7 @@ class Settings {
                     'webkit-scrollbar-bg-hover' => '#3859d0',
                 ),
                 'record_consents' => true,
+                'hide_empty_categories' => true,
                 'gcm' => array(
                     'enabled' => false,
                     'implementation' => 'gtag',

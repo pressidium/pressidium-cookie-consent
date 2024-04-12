@@ -166,6 +166,17 @@ function GeneralTab() {
             />
           </PanelRow>
           <PanelRow>
+            <ToggleControl
+              label={__('Hide empty categories', 'pressidium-cookie-consent')}
+              help={state.pressidium_options.hide_empty_categories
+                ? __('Will hide a cookie category if it has no cookies', 'pressidium-cookie-consent')
+                : __('Won\'t hide any cookie categories', 'pressidium-cookie-consent')}
+              checked={state.pressidium_options.hide_empty_categories}
+              className="pressidium-toggle-control"
+              onChange={(value) => onPressidiumOptionChange('hide_empty_categories', value)}
+            />
+          </PanelRow>
+          <PanelRow>
             <TextControl
               label={__('Delay', 'pressidium-cookie-consent')}
               help={__('Number of milliseconds before showing the consent modal', 'pressidium-cookie-consent')}

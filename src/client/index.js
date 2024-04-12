@@ -28,7 +28,12 @@ import './scss/main.scss';
     security_storage: 'denied',
   };
 
-  const { settings, gcm, record_consents: recordConsents } = details;
+  const {
+    settings,
+    gcm,
+    record_consents: recordConsents,
+    hide_empty_categories: hideEmptyCategories,
+  } = details;
 
   const updateConsentRecords = async (cookie) => {
     if (!recordConsents) {
@@ -206,6 +211,20 @@ import './scss/main.scss';
     );
     window.dispatchEvent(event);
   };
+
+  const isEmptyCategory = (block) => (
+    'toggle' in block && (!('cookie_table' in block) || block.cookie_table.length === 0)
+  );
+
+  if (hideEmptyCategories) {
+    Object.entries(settings.languages)
+      .forEach(([language, languageSettings]) => {
+        settings.languages[language].settings_modal.blocks = languageSettings
+          .settings_modal
+          .blocks
+          .filter((block) => !isEmptyCategory(block));
+      });
+  }
 
   window.pressidiumCookieConsent = initCookieConsent();
   window.pressidiumCookieConsent.run({
