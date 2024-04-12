@@ -6,7 +6,7 @@ Tags: cookie, consent, gdpr, ccpa, cookies
 Requires at least: 6.0
 Tested up to: 6.5
 Requires PHP: 7.4
-Stable Tag: 1.4.0
+Stable Tag: 1.5.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -165,6 +165,11 @@ If you have spotted any bugs, or would like to request additional features from 
 8. Consent records
 
 == Changelog ==
+
+= 1.5.0: Apr 13, 2023 =
+
+* Add a “Font” option to select one of the fonts that you have installed via the Font Library (WordPress 6.5+)
+* Add a new “Hide empty categories” option to hide a category if it has no cookies
 
 = 1.4.0: Mar 21, 2023 =
 
