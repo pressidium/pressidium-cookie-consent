@@ -119,6 +119,11 @@ export default {
       preferences: [],
     },
     blocked_scripts: [],
+    font: {
+      name: 'Default',
+      slug: 'default',
+      family: '',
+    },
     colors: {
       bg: '#f9faff',
       text: '#112954',

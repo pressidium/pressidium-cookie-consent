@@ -38,6 +38,7 @@ function SettingsPanel() {
   const [noticeStatus, setNoticeStatus] = useState('info');
   const [noticeMessage, setNoticeMessage] = useState(null);
   const [selectedTab, setSelectedTab] = useState('general');
+  const [fonts, setFonts] = useState([]);
 
   const { state, dispatch } = useContext(SettingsContext);
 
@@ -230,6 +231,10 @@ function SettingsPanel() {
     if (styleElement) {
       let css = '';
 
+      if (ccSettings.pressidium_options.font.slug !== 'default') {
+        css += `--cc-font-family: ${ccSettings.pressidium_options.font.family};\n`;
+      }
+
       Object.keys(ccSettings.pressidium_options.colors).forEach((key) => {
         const value = ccSettings.pressidium_options.colors[key];
         css += `--cc-${key}: ${value};\n`;
@@ -417,6 +422,37 @@ function SettingsPanel() {
 
   useEffect(() => {
     (async () => {
+      try {
+        const data = await apiFetch({
+          path: '/wp/v2/font-families',
+          method: 'GET',
+        });
+
+        if (Array.isArray(data) && data.length > 0) {
+          setFonts([
+            {
+              name: 'Default',
+              slug: 'default',
+              family: 'inherit',
+            },
+            ...data
+              .map(({ font_family_settings: settings }) => ({
+                name: settings.name,
+                slug: settings.slug,
+                family: settings.fontFamily,
+              }))
+              .toSorted((a, b) => a.name.localeCompare(b.name)),
+          ]);
+        }
+      } catch (error) {
+        console.error(error.message);
+        console.warn('Could not fetch installed fonts (maybe running on WordPress < 6.5?)');
+      }
+    })();
+  }, []);
+
+  useEffect(() => {
+    (async () => {
       setIsFetching(true);
 
       try {
@@ -503,7 +539,6 @@ function SettingsPanel() {
               title: __('Consent Records', 'pressidium-cookie-consent'),
               className: 'tab-consent-records',
               Component: ConsentRecordsTab,
-              foo: 'bar',
             },
             {
               name: 'logs',
@@ -515,6 +550,9 @@ function SettingsPanel() {
         >
           {({ Component }) => {
             const componentPropsMap = {
+              general: {
+                fonts,
+              },
               'consent-records': {
                 isExportingCsv,
                 exportConsentRecords,

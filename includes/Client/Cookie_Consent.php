@@ -196,11 +196,19 @@ class Cookie_Consent implements Actions, Filters {
 
         <style id="pressidium-cc-styles">
             .pressidium-cc-theme {
-            <?php
-            foreach ( $this->settings['pressidium_options']['colors'] as $key => $value ) {
-                echo "--cc-{$key}: {$value};\n";
-            }
-            ?>
+                <?php
+                $font_slug   = $this->settings['pressidium_options']['font']['slug'];
+                $font_family = $this->settings['pressidium_options']['font']['family'];
+
+                if ( $font_slug !== 'default' ) {
+                    echo "--cc-font-family: {$font_family};\n";
+                }
+
+                foreach ( $this->settings['pressidium_options']['colors'] as $key => $value ) {
+                    $value = esc_attr( $value );
+                    echo "--cc-{$key}: {$value};\n";
+                }
+                ?>
             }
         </style>
 

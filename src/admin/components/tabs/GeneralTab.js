@@ -28,7 +28,7 @@ const getThemeByName = (themeName) => {
   return theme;
 };
 
-function GeneralTab() {
+function GeneralTab({ fonts }) {
   const [selectedTheme, setSelectedTheme] = useState('light');
 
   const { state, dispatch } = useContext(SettingsContext);
@@ -68,6 +68,14 @@ function GeneralTab() {
 
   const onColorChange = (key, value) => {
     setColor(key, value);
+  };
+
+  const onFontChange = (value) => {
+    const font = fonts.find(({ slug }) => slug === value);
+    dispatch({
+      type: ActionTypes.UPDATE_FONT_SETTING,
+      payload: font,
+    });
   };
 
   const onPressidiumOptionChange = (key, value) => {
@@ -215,10 +223,22 @@ function GeneralTab() {
         </PanelBody>
 
         <PanelBody
-          title={__('Colors', 'pressidium-cookie-consent')}
+          title={__('Font & Colors', 'pressidium-cookie-consent')}
           icon={ColorIcon}
           initialOpen
         >
+          {fonts.length > 0 ? (
+            <PanelRow>
+              <SelectControl
+                label={__('Font', 'pressidium-cookie-consent')}
+                value={state.pressidium_options.font.slug}
+                options={fonts.map(({ name, slug }) => ({ label: name, value: slug }))}
+                onChange={onFontChange}
+                className="pressidium-select-control"
+                help={__('Fonts you have installed via the Font Library', 'pressidium-cookie-consent')}
+              />
+            </PanelRow>
+          ) : null}
           <PanelRow>
             <SelectControl
               label={__('Theme', 'pressidium-cookie-consent')}

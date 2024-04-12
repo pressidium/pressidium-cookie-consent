@@ -162,6 +162,11 @@ class Settings {
                     'preferences' => array(),
                 ),
                 'blocked_scripts' => array(),
+                'font' => array(
+                    'name'   => 'Default',
+                    'slug'   => 'default',
+                    'family' => '',
+                ),
                 'colors' => array(
                     'bg' => '#f9faff',
                     'text' => '#112954',

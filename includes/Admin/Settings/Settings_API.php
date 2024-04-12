@@ -374,6 +374,7 @@ class Settings_API implements Actions {
                         'primary_btn_role',
                         'secondary_btn_role',
                         'cookie_table',
+                        'font',
                         'colors',
                         'gcm',
                     ),
@@ -529,6 +530,14 @@ class Settings_API implements Actions {
                                         ),
                                     ),
                                 ),
+                            ),
+                        ),
+                        'font' => array(
+                            'type' => 'object',
+                            'required' => array(
+                                'name',
+                                'slug',
+                                'family',
                             ),
                         ),
                         'colors' => array(

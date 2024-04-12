@@ -483,6 +483,15 @@ function settingsReducer(state, action) {
         },
       };
 
+    case ActionTypes.UPDATE_FONT_SETTING:
+      return {
+        ...state,
+        pressidium_options: {
+          ...state.pressidium_options,
+          font: action.payload,
+        },
+      };
+
     default:
       return state;
   }
