@@ -143,6 +143,11 @@ class Migrator {
         $hide_empty_categories = $this->settings['pressidium_options']['hide_empty_categories'] ?? true;
 
         $this->settings['pressidium_options']['hide_empty_categories'] = $hide_empty_categories;
+
+        // Font
+        $font = $this->settings['pressidium_options']['font'] ?? 'default';
+
+        $this->settings['pressidium_options']['font'] = $font;
     }
 
     /**
