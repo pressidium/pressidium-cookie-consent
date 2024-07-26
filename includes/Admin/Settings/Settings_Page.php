@@ -169,9 +169,10 @@ class Settings_Page extends Page implements Actions, Filters {
                 'assets' => array(
                     'gtm_template_url' => esc_url( PLUGIN_URL . 'assets/templates/template.tpl' ),
                     'screenshots'      => array(
-                        'import' => esc_url( PLUGIN_URL . 'assets/images/gtm-import.png' ),
-                        'tag'    => esc_url( PLUGIN_URL . 'assets/images/gtm-tag.png' ),
-                        'config' => esc_url( PLUGIN_URL . 'assets/images/gtm-config.png' ),
+                        'gallery' => esc_url( PLUGIN_URL . 'assets/images/gtm-gallery.png' ),
+                        'import'  => esc_url( PLUGIN_URL . 'assets/images/gtm-import.png' ),
+                        'tag'     => esc_url( PLUGIN_URL . 'assets/images/gtm-tag.png' ),
+                        'config'  => esc_url( PLUGIN_URL . 'assets/images/gtm-config.png' ),
                     ),
                     'promo'            => esc_url( PLUGIN_URL . 'assets/images/promo.png' ),
                 ),
