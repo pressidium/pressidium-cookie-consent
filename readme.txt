@@ -166,10 +166,15 @@ If you have spotted any bugs, or would like to request additional features from 
 
 == Changelog ==
 
-= 1.5.0: Apr 13, 2023 =
+= 1.5.0: Jul 26, 2023 =
 
 * Add a “Font” option to select one of the fonts that you have installed via the Font Library (WordPress 6.5+)
 * Add a new “Hide empty categories” option to hide a category if it has no cookies
+* Add a customizable floating button to open the settings modal after the user has given consent
+* Add a new About tab
+* Add a new option for the Norwegian language (nb-NO)
+* Merged the “Consent Modal” and “Settings Modal” tabs into a single “Modals” tab to keep the settings page a bit more organized
+* Tabs panel in the settings page is now responsive and will scroll horizontally on smaller screens
 
 = 1.4.0: Mar 21, 2023 =
 
