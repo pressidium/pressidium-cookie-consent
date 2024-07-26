@@ -408,6 +408,26 @@ function GeneralTab({ fonts }) {
                   ),
                   color: state.pressidium_options.colors['webkit-scrollbar-bg-hover'],
                 },
+                {
+                  key: 'btn-floating-bg',
+                  label: __('Floating button background', 'pressidium-cookie-consent'),
+                  color: state.pressidium_options.colors['btn-floating-bg'],
+                },
+                {
+                  key: 'btn-floating-icon',
+                  label: __('Floating button icon', 'pressidium-cookie-consent'),
+                  color: state.pressidium_options.colors['btn-floating-icon'],
+                },
+                {
+                  key: 'btn-floating-hover-bg',
+                  label: __('Floating button hover background', 'pressidium-cookie-consent'),
+                  color: state.pressidium_options.colors['btn-floating-hover-bg'],
+                },
+                {
+                  key: 'btn-floating-hover-icon',
+                  label: __('Floating button hover icon', 'pressidium-cookie-consent'),
+                  color: state.pressidium_options.colors['btn-floating-hover-icon'],
+                },
               ]}
               onChange={onColorChange}
             />

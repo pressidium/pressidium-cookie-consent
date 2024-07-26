@@ -24,6 +24,7 @@ import TranslationsTab from './tabs/TranslationsTab';
 import ConsentModalTab from './tabs/ConsentModalTab';
 import SettingsModalTab from './tabs/SettingsModalTab';
 import ConsentModeTab from './tabs/ConsentModeTab';
+import FloatingButtonTab from './tabs/FloatingButtonTab';
 import BlockedScriptsTab from './tabs/BlockedScriptsTab';
 import ConsentRecordsTab from './tabs/ConsentRecordsTab';
 import LogsTab from './tabs/LogsTab';
@@ -224,6 +225,11 @@ function SettingsPanel() {
     return settings;
   }, [state]);
 
+  const eraseConsentCookies = () => {
+    const cookieName = window.pressidiumCookieConsent.getConfig('cookie_name');
+    window.pressidiumCookieConsent.eraseCookies(cookieName);
+  };
+
   const resetPreview = (customSettings = {}) => {
     // Re-create the style element
     const styleElement = document.querySelector('#pressidium-cc-styles');
@@ -247,10 +253,6 @@ function SettingsPanel() {
       `;
     }
 
-    // Erase consent cookies
-    const cookieName = window.pressidiumCookieConsent.getConfig('cookie_name');
-    window.pressidiumCookieConsent.eraseCookies(cookieName);
-
     // Remove existing consent element(s)
     removeElement(document.querySelector('#cc--main'));
 
@@ -259,10 +261,16 @@ function SettingsPanel() {
     window.pressidiumCookieConsent.run({
       ...ccSettings,
       ...customSettings,
+      onAccept: () => window.pressidiumFloatingButton.show(),
+      onChange: () => window.pressidiumFloatingButton.show(),
     });
+
+    // Re-initialize floating button
+    window.pressidiumFloatingButton.init(ccSettings.pressidium_options.floating_button);
   };
 
   const previewConsentModal = () => {
+    eraseConsentCookies();
     resetPreview();
 
     // Force show consent modal
@@ -270,10 +278,31 @@ function SettingsPanel() {
   };
 
   const previewSettingsModal = () => {
+    eraseConsentCookies();
     resetPreview({ autorun: false });
 
     // Show settings modal
     window.pressidiumCookieConsent.showSettings();
+  };
+
+  const previewFloatingButton = async () => {
+    resetPreview();
+
+    window.pressidiumFloatingButton.hide();
+
+    /*
+     * The recreated floating button is hidden by default.
+     *
+     * We use `delay()` which is a Promise-based version of `setTimeout()`
+     * to show the floating button after a `0` ms delay. This is necessary
+     * to ensure that the floating button is shown with the CSS transition.
+     *
+     * If we show the floating button immediately after hiding it, the
+     * transition will not be applied and the button will appear instantly.
+     */
+    await delay(0);
+
+    window.pressidiumFloatingButton.show();
   };
 
   const getCurrentTimestamp = () => {
@@ -529,6 +558,12 @@ function SettingsPanel() {
               Component: ConsentModeTab,
             },
             {
+              name: 'floating-button',
+              title: __('Floating Button', 'pressidium-cookie-consent'),
+              className: 'tab-floating-button',
+              Component: FloatingButtonTab,
+            },
+            {
               name: 'blocked-scripts',
               title: __('Blocked Scripts', 'pressidium-cookie-consent'),
               className: 'tab-blocked-scripts',
@@ -574,6 +609,7 @@ function SettingsPanel() {
           save={() => saveSettings(state)}
           previewConsentModal={previewConsentModal}
           previewSettingsModal={previewSettingsModal}
+          previewFloatingButton={previewFloatingButton}
           hasUnsavedChanges={hasUnsavedChanges}
           exportSettings={exportSettings}
           importSettings={importSettings}

@@ -148,6 +148,32 @@ class Migrator {
         $font = $this->settings['pressidium_options']['font'] ?? 'default';
 
         $this->settings['pressidium_options']['font'] = $font;
+
+        // Floating button
+        $default_floating_button = array(
+            'enabled'    => true,
+            'size'       => 'sm',
+            'position'   => 'left',
+            'icon'       => 'pressidium',
+            'transition' => 'fade-in-up',
+        );
+
+        $floating_button = $this->settings['pressidium_options']['floating_button'] ?? $default_floating_button;
+
+        $this->settings['pressidium_options']['floating_button'] = $floating_button;
+
+        // Floating button colors
+        $colors = $this->settings['pressidium_options']['colors'] ?? array();
+
+        $btn_bg         = $colors['btn-floating-bg'] ?? $colors['btn-primary-bg'];
+        $btn_icon       = $colors['btn-floating-icon'] ?? $colors['btn-primary-text'];
+        $btn_hover_bg   = $colors['btn-floating-hover-bg'] ?? $colors['btn-primary-hover-bg'];
+        $btn_hover_icon = $colors['btn-floating-hover-icon'] ?? $colors['btn-primary-hover-text'];
+
+        $this->settings['pressidium_options']['colors']['btn-floating-bg']         = $btn_bg;
+        $this->settings['pressidium_options']['colors']['btn-floating-icon']       = $btn_icon;
+        $this->settings['pressidium_options']['colors']['btn-floating-hover-bg']   = $btn_hover_bg;
+        $this->settings['pressidium_options']['colors']['btn-floating-hover-icon'] = $btn_hover_icon;
     }
 
     /**

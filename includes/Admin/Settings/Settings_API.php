@@ -375,6 +375,7 @@ class Settings_API implements Actions {
                         'secondary_btn_role',
                         'cookie_table',
                         'font',
+                        'floating_button',
                         'colors',
                         'gcm',
                     ),
@@ -540,6 +541,16 @@ class Settings_API implements Actions {
                                 'family',
                             ),
                         ),
+                        'floating_button' => array(
+                            'type' => 'object',
+                            'required' => array(
+                                'enabled',
+                                'size',
+                                'position',
+                                'icon',
+                                'transition',
+                            ),
+                        ),
                         'colors' => array(
                             'type' => 'object',
                             'required' => array(
@@ -566,6 +577,10 @@ class Settings_API implements Actions {
                                 'overlay-bg',
                                 'webkit-scrollbar-bg',
                                 'webkit-scrollbar-bg-hover',
+                                'btn-floating-bg',
+                                'btn-floating-icon',
+                                'btn-floating-hover-bg',
+                                'btn-floating-hover-icon',
                             ),
                             'properties' => array(
                                 'bg' => array(
@@ -635,6 +650,18 @@ class Settings_API implements Actions {
                                     'type' => 'string',
                                 ),
                                 'webkit-scrollbar-bg-hover' => array(
+                                    'type' => 'string',
+                                ),
+                                'btn-floating-bg' => array(
+                                    'type' => 'string',
+                                ),
+                                'btn-floating-icon' => array(
+                                    'type' => 'string',
+                                ),
+                                'btn-floating-hover-bg' => array(
+                                    'type' => 'string',
+                                ),
+                                'btn-floating-hover-icon' => array(
                                     'type' => 'string',
                                 ),
                             ),
@@ -1258,7 +1285,7 @@ class Settings_API implements Actions {
         );
 
         $did_register_routes = $did_register_routes && register_rest_route(
-                self::REST_NAMESPACE,
+            self::REST_NAMESPACE,
             '/consents',
             array(
                 'methods'             => 'GET',

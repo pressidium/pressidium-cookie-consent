@@ -25,6 +25,7 @@ function Footer(props) {
     save,
     previewConsentModal,
     previewSettingsModal,
+    previewFloatingButton,
     hasUnsavedChanges,
     exportSettings,
     importSettings,
@@ -73,6 +74,16 @@ function Footer(props) {
       setIsPreviewing(true);
 
       await previewSettingsModal(state);
+
+      setIsPreviewing(false);
+    })();
+  }, [state]);
+
+  const onFloatingButtonPreview = useCallback(() => {
+    (async () => {
+      setIsPreviewing(true);
+
+      await previewFloatingButton(state);
 
       setIsPreviewing(false);
     })();
@@ -150,6 +161,16 @@ function Footer(props) {
                 isBusy={isPreviewing}
               >
                 {__('Preview Settings', 'pressidium-cookie-consent')}
+              </Button>
+            </FlexItem>
+
+            <FlexItem>
+              <Button
+                variant="secondary"
+                onClick={onFloatingButtonPreview}
+                isBusy={isPreviewing}
+              >
+                {__('Preview Floating Button', 'pressidium-cookie-consent')}
               </Button>
             </FlexItem>
           </Flex>

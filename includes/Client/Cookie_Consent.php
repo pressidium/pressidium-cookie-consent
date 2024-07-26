@@ -134,6 +134,7 @@ class Cookie_Consent implements Actions, Filters {
                 ),
                 'record_consents'       => $this->settings['pressidium_options']['record_consents'] ?? true,
                 'hide_empty_categories' => $this->settings['pressidium_options']['hide_empty_categories'] ?? true,
+                'floating_button'       => $this->settings['pressidium_options']['floating_button'] ?? array(),
                 'gcm'                   => $this->settings['pressidium_options']['gcm'] ?? array(),
             )
         );
