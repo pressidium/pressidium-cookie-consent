@@ -21,10 +21,9 @@ import Footer from './Footer';
 import GeneralTab from './tabs/GeneralTab';
 import CookiesTab from './tabs/CookiesTab';
 import TranslationsTab from './tabs/TranslationsTab';
-import ConsentModalTab from './tabs/ConsentModalTab';
-import SettingsModalTab from './tabs/SettingsModalTab';
-import ConsentModeTab from './tabs/ConsentModeTab';
+import ModalsTab from './tabs/ModalsTab';
 import FloatingButtonTab from './tabs/FloatingButtonTab';
+import ConsentModeTab from './tabs/ConsentModeTab';
 import BlockedScriptsTab from './tabs/BlockedScriptsTab';
 import ConsentRecordsTab from './tabs/ConsentRecordsTab';
 import LogsTab from './tabs/LogsTab';
@@ -540,28 +539,22 @@ function SettingsPanel() {
               Component: TranslationsTab,
             },
             {
-              name: 'consent-modal',
-              title: __('Consent Modal', 'pressidium-cookie-consent'),
-              className: 'tab-consent-modal',
-              Component: ConsentModalTab,
-            },
-            {
-              name: 'settings-modal',
-              title: __('Settings Modal', 'pressidium-cookie-consent'),
-              className: 'tab-settings-modal',
-              Component: SettingsModalTab,
-            },
-            {
-              name: 'consent-mode',
-              title: __('Consent Mode', 'pressidium-cookie-consent'),
-              className: 'tab-consent-mode',
-              Component: ConsentModeTab,
+              name: 'modals',
+              title: __('Modals', 'pressidium-cookie-consent'),
+              className: 'tab-modals',
+              Component: ModalsTab,
             },
             {
               name: 'floating-button',
               title: __('Floating Button', 'pressidium-cookie-consent'),
               className: 'tab-floating-button',
               Component: FloatingButtonTab,
+            },
+            {
+              name: 'consent-mode',
+              title: __('Consent Mode', 'pressidium-cookie-consent'),
+              className: 'tab-consent-mode',
+              Component: ConsentModeTab,
             },
             {
               name: 'blocked-scripts',
