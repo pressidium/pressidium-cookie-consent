@@ -27,6 +27,7 @@ import ConsentModeTab from './tabs/ConsentModeTab';
 import BlockedScriptsTab from './tabs/BlockedScriptsTab';
 import ConsentRecordsTab from './tabs/ConsentRecordsTab';
 import LogsTab from './tabs/LogsTab';
+import AboutTab from './tabs/AboutTab';
 
 import SettingsContext from '../store/context';
 import * as ActionTypes from '../store/actionTypes';
@@ -573,6 +574,12 @@ function SettingsPanel() {
               title: __('Logs', 'pressidium-cookie-consent'),
               className: 'tab-logs',
               Component: LogsTab,
+            },
+            {
+              name: 'about',
+              title: __('About', 'pressidium-cookie-consent'),
+              className: 'tab-about',
+              Component: AboutTab,
             },
           ]}
         >

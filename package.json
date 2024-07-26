@@ -41,6 +41,7 @@
     "@wordpress/element": "^5.6.0",
     "@wordpress/i18n": "^4.29.0",
     "@wordpress/icons": "^9.22.0",
+    "@wordpress/primitives": "^4.4.0",
     "@wordpress/url": "^3.43.0",
     "iso-3166-2": "^1.0.0",
     "react-beforeunload": "^2.5.3",

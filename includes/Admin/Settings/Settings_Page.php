@@ -173,6 +173,7 @@ class Settings_Page extends Page implements Actions, Filters {
                         'tag'    => esc_url( PLUGIN_URL . 'assets/images/gtm-tag.png' ),
                         'config' => esc_url( PLUGIN_URL . 'assets/images/gtm-config.png' ),
                     ),
+                    'promo'            => esc_url( PLUGIN_URL . 'assets/images/promo.png' ),
                 ),
                 'api'    => array(
                     'route'          => 'pressidium-cookie-consent/v1/settings',
@@ -205,7 +206,8 @@ class Settings_Page extends Page implements Actions, Filters {
                 __( 'Developed by %1$s | For more information, read the %2$s.', 'pressidium-cookie-consent' ),
                 sprintf(
                     '<a href="%1$s" target="_blank" rel="noopener noreferrer">%2$s</a>',
-                    esc_url( 'https://pressidium.com/' ),
+                    // phpcs:ignore Generic.Files.LineLength
+                    esc_url( 'https://pressidium.com/?utm_source=cookieconsent&utm_medium=txtlink&utm_campaign=plugins&utm_content=footer' ),
                     esc_html( 'Pressidium®' )
                 ),
                 sprintf(
