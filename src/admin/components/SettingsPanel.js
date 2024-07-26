@@ -13,7 +13,7 @@ import { __ } from '@wordpress/i18n';
 import { useBeforeunload } from 'react-beforeunload';
 
 import { usePrevious } from '../hooks';
-import { removeElement } from '../utils';
+import { removeElement, delay } from '../utils';
 
 import Panel from './Panel';
 import Footer from './Footer';
