@@ -177,7 +177,7 @@ function ModalsTab() {
               { label: __('Box', 'pressidium-cookie-consent'), value: 'box' },
               { label: __('Bar', 'pressidium-cookie-consent'), value: 'bar' },
             ]}
-            onChange={(value) => onConsentModalSettingChange('layout', value)}
+            onChange={(value) => onSettingsModalSettingChange('layout', value)}
           />
         </PanelRow>
 
