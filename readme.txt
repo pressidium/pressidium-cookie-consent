@@ -156,17 +156,20 @@ If you have spotted any bugs, or would like to request additional features from 
 == Screenshots ==
 
 1. General settings
-2. Themes and colors
+2. Font and colors
 3. Cookie tables
 4. Translations
 5. Consent modal
 6. Settings modal
-7. Blocked scripts
-8. Consent records
+7. Floating button
+8. Google Consent Mode
+9. Google Tag Manager template
+10. Blocked scripts
+11. Consent records
 
 == Changelog ==
 
-= 1.5.0: Jul 26, 2023 =
+= 1.5.0: Jul 30, 2023 =
 
 * Add a “Font” option to select one of the fonts that you have installed via the Font Library (WordPress 6.5+)
 * Add a new “Hide empty categories” option to hide a category if it has no cookies
