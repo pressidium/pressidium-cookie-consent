@@ -1,9 +1,4 @@
-import {
-  useState,
-  useContext,
-  useCallback,
-  useMemo,
-} from '@wordpress/element';
+import { useContext, useCallback, useMemo } from '@wordpress/element';
 import {
   Panel,
   PanelBody,
@@ -22,8 +17,6 @@ import * as ActionTypes from '../../store/actionTypes';
 import icons from '../../icons';
 
 function FloatingButtonTab() {
-  const [selectedIcon, setSelectedIcon] = useState('pressidium');
-
   const { state, dispatch } = useContext(SettingsContext);
 
   const onSettingChange = useCallback((key, value) => {
@@ -36,14 +29,9 @@ function FloatingButtonTab() {
     });
   }, []);
 
-  const onIconChange = useCallback((value) => {
-    setSelectedIcon(value);
-    onSettingChange('icon', value);
-  }, []);
-
   const Icon = useMemo(
-    () => icons.find((icon) => icon.value === selectedIcon).Component,
-    [icons, selectedIcon],
+    () => icons.find((icon) => icon.value === state.pressidium_options.floating_button.icon).Component,
+    [icons, state.pressidium_options.floating_button.icon],
   );
 
   return (
@@ -89,9 +77,9 @@ function FloatingButtonTab() {
             <FlexItem>
               <SelectControl
                 label={__('Icon', 'pressidium-cookie-consent')}
-                value={selectedIcon}
+                value={state.pressidium_options.floating_button.icon}
                 options={icons.map(({ label, value }) => ({ label, value }))}
-                onChange={onIconChange}
+                onChange={(value) => onSettingChange('icon', value)}
                 className="pressidium-select-control"
               />
             </FlexItem>
