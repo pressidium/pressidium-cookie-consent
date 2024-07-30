@@ -28,7 +28,7 @@ const getThemeByName = (themeName) => {
   return theme;
 };
 
-function GeneralTab() {
+function GeneralTab({ fonts }) {
   const [selectedTheme, setSelectedTheme] = useState('light');
 
   const { state, dispatch } = useContext(SettingsContext);
@@ -68,6 +68,14 @@ function GeneralTab() {
 
   const onColorChange = (key, value) => {
     setColor(key, value);
+  };
+
+  const onFontChange = (value) => {
+    const font = fonts.find(({ slug }) => slug === value);
+    dispatch({
+      type: ActionTypes.UPDATE_FONT_SETTING,
+      payload: font,
+    });
   };
 
   const onPressidiumOptionChange = (key, value) => {
@@ -166,6 +174,17 @@ function GeneralTab() {
             />
           </PanelRow>
           <PanelRow>
+            <ToggleControl
+              label={__('Hide empty categories', 'pressidium-cookie-consent')}
+              help={state.pressidium_options.hide_empty_categories
+                ? __('Will hide a cookie category if it has no cookies', 'pressidium-cookie-consent')
+                : __('Won\'t hide any cookie categories', 'pressidium-cookie-consent')}
+              checked={state.pressidium_options.hide_empty_categories}
+              className="pressidium-toggle-control"
+              onChange={(value) => onPressidiumOptionChange('hide_empty_categories', value)}
+            />
+          </PanelRow>
+          <PanelRow>
             <TextControl
               label={__('Delay', 'pressidium-cookie-consent')}
               help={__('Number of milliseconds before showing the consent modal', 'pressidium-cookie-consent')}
@@ -204,10 +223,22 @@ function GeneralTab() {
         </PanelBody>
 
         <PanelBody
-          title={__('Colors', 'pressidium-cookie-consent')}
+          title={__('Font & Colors', 'pressidium-cookie-consent')}
           icon={ColorIcon}
           initialOpen
         >
+          {fonts.length > 0 ? (
+            <PanelRow>
+              <SelectControl
+                label={__('Font', 'pressidium-cookie-consent')}
+                value={state.pressidium_options.font.slug}
+                options={fonts.map(({ name, slug }) => ({ label: name, value: slug }))}
+                onChange={onFontChange}
+                className="pressidium-select-control"
+                help={__('Fonts you have installed via the Font Library', 'pressidium-cookie-consent')}
+              />
+            </PanelRow>
+          ) : null}
           <PanelRow>
             <SelectControl
               label={__('Theme', 'pressidium-cookie-consent')}
@@ -376,6 +407,26 @@ function GeneralTab() {
                     'pressidium-cookie-consent',
                   ),
                   color: state.pressidium_options.colors['webkit-scrollbar-bg-hover'],
+                },
+                {
+                  key: 'btn-floating-bg',
+                  label: __('Floating button background', 'pressidium-cookie-consent'),
+                  color: state.pressidium_options.colors['btn-floating-bg'],
+                },
+                {
+                  key: 'btn-floating-icon',
+                  label: __('Floating button icon', 'pressidium-cookie-consent'),
+                  color: state.pressidium_options.colors['btn-floating-icon'],
+                },
+                {
+                  key: 'btn-floating-hover-bg',
+                  label: __('Floating button hover background', 'pressidium-cookie-consent'),
+                  color: state.pressidium_options.colors['btn-floating-hover-bg'],
+                },
+                {
+                  key: 'btn-floating-hover-icon',
+                  label: __('Floating button hover icon', 'pressidium-cookie-consent'),
+                  color: state.pressidium_options.colors['btn-floating-hover-icon'],
                 },
               ]}
               onChange={onColorChange}

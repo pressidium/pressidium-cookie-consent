@@ -162,6 +162,18 @@ class Settings {
                     'preferences' => array(),
                 ),
                 'blocked_scripts' => array(),
+                'font' => array(
+                    'name'   => 'Default',
+                    'slug'   => 'default',
+                    'family' => '',
+                ),
+                'floating_button' => array(
+                    'enabled'    => false,
+                    'size'       => 'sm',
+                    'position'   => 'left',
+                    'icon'       => 'pressidium',
+                    'transition' => 'fade-in-up',
+                ),
                 'colors' => array(
                     'bg' => '#f9faff',
                     'text' => '#112954',
@@ -186,8 +198,13 @@ class Settings {
                     'overlay-bg' => 'rgba(230, 235, 255, .85)',
                     'webkit-scrollbar-bg' => '#ebeff9',
                     'webkit-scrollbar-bg-hover' => '#3859d0',
+                    'btn-floating-bg' => '#3859d0',
+                    'btn-floating-icon' => '#f9faff',
+                    'btn-floating-hover-bg' => '#1d2e38',
+                    'btn-floating-hover-icon' => '#f9faff',
                 ),
                 'record_consents' => true,
+                'hide_empty_categories' => true,
                 'gcm' => array(
                     'enabled' => false,
                     'implementation' => 'gtag',

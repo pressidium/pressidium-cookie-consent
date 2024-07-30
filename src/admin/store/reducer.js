@@ -483,6 +483,27 @@ function settingsReducer(state, action) {
         },
       };
 
+    case ActionTypes.UPDATE_FONT_SETTING:
+      return {
+        ...state,
+        pressidium_options: {
+          ...state.pressidium_options,
+          font: action.payload,
+        },
+      };
+
+    case ActionTypes.UPDATE_FLOATING_BUTTON_SETTING:
+      return {
+        ...state,
+        pressidium_options: {
+          ...state.pressidium_options,
+          floating_button: {
+            ...state.pressidium_options.floating_button,
+            [action.payload.key]: action.payload.value,
+          },
+        },
+      };
+
     default:
       return state;
   }

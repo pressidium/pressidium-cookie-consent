@@ -13,7 +13,7 @@ import { __ } from '@wordpress/i18n';
 import { useBeforeunload } from 'react-beforeunload';
 
 import { usePrevious } from '../hooks';
-import { removeElement } from '../utils';
+import { removeElement, delay } from '../utils';
 
 import Panel from './Panel';
 import Footer from './Footer';
@@ -21,12 +21,13 @@ import Footer from './Footer';
 import GeneralTab from './tabs/GeneralTab';
 import CookiesTab from './tabs/CookiesTab';
 import TranslationsTab from './tabs/TranslationsTab';
-import ConsentModalTab from './tabs/ConsentModalTab';
-import SettingsModalTab from './tabs/SettingsModalTab';
+import ModalsTab from './tabs/ModalsTab';
+import FloatingButtonTab from './tabs/FloatingButtonTab';
 import ConsentModeTab from './tabs/ConsentModeTab';
 import BlockedScriptsTab from './tabs/BlockedScriptsTab';
 import ConsentRecordsTab from './tabs/ConsentRecordsTab';
 import LogsTab from './tabs/LogsTab';
+import AboutTab from './tabs/AboutTab';
 
 import SettingsContext from '../store/context';
 import * as ActionTypes from '../store/actionTypes';
@@ -38,6 +39,7 @@ function SettingsPanel() {
   const [noticeStatus, setNoticeStatus] = useState('info');
   const [noticeMessage, setNoticeMessage] = useState(null);
   const [selectedTab, setSelectedTab] = useState('general');
+  const [fonts, setFonts] = useState([]);
 
   const { state, dispatch } = useContext(SettingsContext);
 
@@ -223,12 +225,21 @@ function SettingsPanel() {
     return settings;
   }, [state]);
 
+  const eraseConsentCookies = () => {
+    const cookieName = window.pressidiumCookieConsent.getConfig('cookie_name');
+    window.pressidiumCookieConsent.eraseCookies(cookieName);
+  };
+
   const resetPreview = (customSettings = {}) => {
     // Re-create the style element
     const styleElement = document.querySelector('#pressidium-cc-styles');
 
     if (styleElement) {
       let css = '';
+
+      if (ccSettings.pressidium_options.font.slug !== 'default') {
+        css += `--cc-font-family: ${ccSettings.pressidium_options.font.family};\n`;
+      }
 
       Object.keys(ccSettings.pressidium_options.colors).forEach((key) => {
         const value = ccSettings.pressidium_options.colors[key];
@@ -242,10 +253,6 @@ function SettingsPanel() {
       `;
     }
 
-    // Erase consent cookies
-    const cookieName = window.pressidiumCookieConsent.getConfig('cookie_name');
-    window.pressidiumCookieConsent.eraseCookies(cookieName);
-
     // Remove existing consent element(s)
     removeElement(document.querySelector('#cc--main'));
 
@@ -254,10 +261,16 @@ function SettingsPanel() {
     window.pressidiumCookieConsent.run({
       ...ccSettings,
       ...customSettings,
+      onAccept: () => window.pressidiumFloatingButton.show(),
+      onChange: () => window.pressidiumFloatingButton.show(),
     });
+
+    // Re-initialize floating button
+    window.pressidiumFloatingButton.init(ccSettings.pressidium_options.floating_button);
   };
 
   const previewConsentModal = () => {
+    eraseConsentCookies();
     resetPreview();
 
     // Force show consent modal
@@ -265,10 +278,31 @@ function SettingsPanel() {
   };
 
   const previewSettingsModal = () => {
+    eraseConsentCookies();
     resetPreview({ autorun: false });
 
     // Show settings modal
     window.pressidiumCookieConsent.showSettings();
+  };
+
+  const previewFloatingButton = async () => {
+    resetPreview();
+
+    window.pressidiumFloatingButton.hide();
+
+    /*
+     * The recreated floating button is hidden by default.
+     *
+     * We use `delay()` which is a Promise-based version of `setTimeout()`
+     * to show the floating button after a `0` ms delay. This is necessary
+     * to ensure that the floating button is shown with the CSS transition.
+     *
+     * If we show the floating button immediately after hiding it, the
+     * transition will not be applied and the button will appear instantly.
+     */
+    await delay(0);
+
+    window.pressidiumFloatingButton.show();
   };
 
   const getCurrentTimestamp = () => {
@@ -417,6 +451,37 @@ function SettingsPanel() {
 
   useEffect(() => {
     (async () => {
+      try {
+        const data = await apiFetch({
+          path: '/wp/v2/font-families',
+          method: 'GET',
+        });
+
+        if (Array.isArray(data) && data.length > 0) {
+          setFonts([
+            {
+              name: 'Default',
+              slug: 'default',
+              family: 'inherit',
+            },
+            ...data
+              .map(({ font_family_settings: settings }) => ({
+                name: settings.name,
+                slug: settings.slug,
+                family: settings.fontFamily,
+              }))
+              .toSorted((a, b) => a.name.localeCompare(b.name)),
+          ]);
+        }
+      } catch (error) {
+        console.error(error.message);
+        console.warn('Could not fetch installed fonts (maybe running on WordPress < 6.5?)');
+      }
+    })();
+  }, []);
+
+  useEffect(() => {
+    (async () => {
       setIsFetching(true);
 
       try {
@@ -475,16 +540,16 @@ function SettingsPanel() {
               Component: TranslationsTab,
             },
             {
-              name: 'consent-modal',
-              title: __('Consent Modal', 'pressidium-cookie-consent'),
-              className: 'tab-consent-modal',
-              Component: ConsentModalTab,
+              name: 'modals',
+              title: __('Modals', 'pressidium-cookie-consent'),
+              className: 'tab-modals',
+              Component: ModalsTab,
             },
             {
-              name: 'settings-modal',
-              title: __('Settings Modal', 'pressidium-cookie-consent'),
-              className: 'tab-settings-modal',
-              Component: SettingsModalTab,
+              name: 'floating-button',
+              title: __('Floating Button', 'pressidium-cookie-consent'),
+              className: 'tab-floating-button',
+              Component: FloatingButtonTab,
             },
             {
               name: 'consent-mode',
@@ -503,7 +568,6 @@ function SettingsPanel() {
               title: __('Consent Records', 'pressidium-cookie-consent'),
               className: 'tab-consent-records',
               Component: ConsentRecordsTab,
-              foo: 'bar',
             },
             {
               name: 'logs',
@@ -511,10 +575,19 @@ function SettingsPanel() {
               className: 'tab-logs',
               Component: LogsTab,
             },
+            {
+              name: 'about',
+              title: __('About', 'pressidium-cookie-consent'),
+              className: 'tab-about',
+              Component: AboutTab,
+            },
           ]}
         >
           {({ Component }) => {
             const componentPropsMap = {
+              general: {
+                fonts,
+              },
               'consent-records': {
                 isExportingCsv,
                 exportConsentRecords,
@@ -536,6 +609,7 @@ function SettingsPanel() {
           save={() => saveSettings(state)}
           previewConsentModal={previewConsentModal}
           previewSettingsModal={previewSettingsModal}
+          previewFloatingButton={previewFloatingButton}
           hasUnsavedChanges={hasUnsavedChanges}
           exportSettings={exportSettings}
           importSettings={importSettings}

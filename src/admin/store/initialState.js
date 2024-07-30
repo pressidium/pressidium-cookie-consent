@@ -119,6 +119,18 @@ export default {
       preferences: [],
     },
     blocked_scripts: [],
+    font: {
+      name: 'Default',
+      slug: 'default',
+      family: '',
+    },
+    floating_button: {
+      enabled: true,
+      size: 'sm',
+      position: 'left',
+      icon: 'pressidium',
+      transition: 'fade-in-up',
+    },
     colors: {
       bg: '#f9faff',
       text: '#112954',
@@ -143,8 +155,13 @@ export default {
       'overlay-bg': 'rgba(230, 235, 255, .85)',
       'webkit-scrollbar-bg': '#ebeff9',
       'webkit-scrollbar-bg-hover': '#3859d0',
+      'btn-floating-bg': '#3859d0',
+      'btn-floating-icon': '#f9faff',
+      'btn-floating-hover-bg': '#1d2e38',
+      'btn-floating-hover-icon': '#f9faff',
     },
     record_consents: true,
+    hide_empty_categories: true,
     gcm: {
       enabled: false,
       implementation: 'gtag',

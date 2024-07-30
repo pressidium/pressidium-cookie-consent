@@ -134,6 +134,49 @@ class Migrator {
     }
 
     /**
+     * Migrate settings coming from versions prior to 1.5.0.
+     *
+     * @return void
+     */
+    private function migrate_1_5_0(): void {
+        // Hide empty categories
+        $hide_empty_categories = $this->settings['pressidium_options']['hide_empty_categories'] ?? true;
+
+        $this->settings['pressidium_options']['hide_empty_categories'] = $hide_empty_categories;
+
+        // Font
+        $font = $this->settings['pressidium_options']['font'] ?? 'default';
+
+        $this->settings['pressidium_options']['font'] = $font;
+
+        // Floating button
+        $default_floating_button = array(
+            'enabled'    => true,
+            'size'       => 'sm',
+            'position'   => 'left',
+            'icon'       => 'pressidium',
+            'transition' => 'fade-in-up',
+        );
+
+        $floating_button = $this->settings['pressidium_options']['floating_button'] ?? $default_floating_button;
+
+        $this->settings['pressidium_options']['floating_button'] = $floating_button;
+
+        // Floating button colors
+        $colors = $this->settings['pressidium_options']['colors'] ?? array();
+
+        $btn_bg         = $colors['btn-floating-bg'] ?? $colors['btn-primary-bg'];
+        $btn_icon       = $colors['btn-floating-icon'] ?? $colors['btn-primary-text'];
+        $btn_hover_bg   = $colors['btn-floating-hover-bg'] ?? $colors['btn-primary-hover-bg'];
+        $btn_hover_icon = $colors['btn-floating-hover-icon'] ?? $colors['btn-primary-hover-text'];
+
+        $this->settings['pressidium_options']['colors']['btn-floating-bg']         = $btn_bg;
+        $this->settings['pressidium_options']['colors']['btn-floating-icon']       = $btn_icon;
+        $this->settings['pressidium_options']['colors']['btn-floating-hover-bg']   = $btn_hover_bg;
+        $this->settings['pressidium_options']['colors']['btn-floating-hover-icon'] = $btn_hover_icon;
+    }
+
+    /**
      * Migrate settings if necessary.
      *
      * @return array Migrated settings.
@@ -162,6 +205,11 @@ class Migrator {
         if ( version_compare( $this->settings['version'], '1.4.0', '<' ) ) {
             // We are upgrading from a version prior to 1.4.0, so we need to migrate the settings
             $this->migrate_1_4_0();
+        }
+
+        if ( version_compare( $this->settings['version'], '1.5.0', '<' ) ) {
+            // We are upgrading from a version prior to 1.5.0, so we need to migrate the settings
+            $this->migrate_1_5_0();
         }
 
         return $this->settings;

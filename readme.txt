@@ -4,9 +4,9 @@ Plugin URI: https://github.com/pressidium/pressidium-cookie-consent/
 Contributors: pressidium, overengineer
 Tags: cookie, consent, gdpr, ccpa, cookies
 Requires at least: 6.0
-Tested up to: 6.5
+Tested up to: 6.6
 Requires PHP: 7.4
-Stable Tag: 1.4.0
+Stable Tag: 1.5.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -156,15 +156,28 @@ If you have spotted any bugs, or would like to request additional features from 
 == Screenshots ==
 
 1. General settings
-2. Themes and colors
+2. Font and colors
 3. Cookie tables
 4. Translations
 5. Consent modal
 6. Settings modal
-7. Blocked scripts
-8. Consent records
+7. Floating button
+8. Google Consent Mode
+9. Google Tag Manager template
+10. Blocked scripts
+11. Consent records
 
 == Changelog ==
+
+= 1.5.0: Jul 30, 2023 =
+
+* Add a “Font” option to select one of the fonts that you have installed via the Font Library (WordPress 6.5+)
+* Add a new “Hide empty categories” option to hide a category if it has no cookies
+* Add a customizable floating button to open the settings modal after the user has given consent
+* Add a new About tab
+* Add a new option for the Norwegian language (nb-NO)
+* Merged the “Consent Modal” and “Settings Modal” tabs into a single “Modals” tab to keep the settings page a bit more organized
+* Tabs panel in the settings page is now responsive and will scroll horizontally on smaller screens
 
 = 1.4.0: Mar 21, 2023 =
 

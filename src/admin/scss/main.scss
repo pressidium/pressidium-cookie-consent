@@ -2,9 +2,14 @@
 
   .components-tab-panel {
     &__tabs {
-      //border-bottom: 1px solid rgba(0, 0, 0, 0.1);
       border: 1px solid rgba(0, 0, 0, 0.1);
       border-bottom: none;
+
+      overflow-x: auto;
+    }
+
+    &__tabs-item {
+      white-space: nowrap;
     }
 
     &__tabs-item:focus,

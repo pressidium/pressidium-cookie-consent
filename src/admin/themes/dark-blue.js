@@ -22,4 +22,8 @@ export default {
   'overlay-bg': 'rgba(15, 16, 21, .9)',
   'webkit-scrollbar-bg': '#2b2c3c',
   'webkit-scrollbar-bg-hover': '#8892ec',
+  'btn-floating-bg': '#8892ec',
+  'btn-floating-icon': '#000000',
+  'btn-floating-hover-bg': '#555faf',
+  'btn-floating-hover-icon': '#000000',
 };

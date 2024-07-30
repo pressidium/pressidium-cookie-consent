@@ -30,6 +30,10 @@
     --cc-consent-modal-box-shadow: 0 0.625rem 1.875rem rgba(2, 2, 3, 0.28);
     --cc-webkit-scrollbar-bg: #cfd5db;
     --cc-webkit-scrollbar-bg-hover: #9199a0;
+    --cc-btn-floating-bg: #2d4156;
+    --cc-btn-floating-icon: var(--cc-bg);
+    --cc-btn-floating-hover-bg: #1d2e38;
+    --cc-btn-floating-hover-icon: var(--cc-btn-floating-icon);
 }
 
 /** Dark color-scheme **/
@@ -56,6 +60,10 @@
     --cc-cookie-table-border: #2b3035;
     --cc-webkit-scrollbar-bg: #667481;
     --cc-webkit-scrollbar-bg-hover: #9199a0;
+    --cc-btn-floating-bg: #a6c4dd;
+    --cc-btn-floating-icon: #000;
+    --cc-btn-floating-hover-bg: #c2dff7;
+    --cc-btn-floating-hover-icon: var(--cc-btn-floating-icon);
 }
 
 #cc--main {
