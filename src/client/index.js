@@ -65,8 +65,6 @@ import './scss/main.scss';
       return;
     }
 
-    console.log('Showing floating button');
-
     document
       .querySelector('pressidium-floating-button')
       .status = 'visible';
@@ -163,7 +161,7 @@ import './scss/main.scss';
     const intersectionObserver = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
-          console.log('Consent modal is visible, hide floating button');
+          // Consent modal is visible, hide floating button
           hideFloatingButton();
         }
       });
@@ -333,7 +331,6 @@ import './scss/main.scss';
       updateGTM(cookie.categories);
     }
 
-    console.log('Cookie consent accepted');
     showFloatingButton();
 
     // Fire custom event for developers to extend the functionality
