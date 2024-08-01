@@ -42,10 +42,6 @@ function SettingsPanel() {
 
   const { state, dispatch } = useContext(SettingsContext);
 
-  const onNoticeHidden = useCallback((id) => {
-    setNotices((prevNotices) => prevNotices.filter((notice) => notice.id !== id));
-  }, []);
-
   const appendNotice = useCallback(({ message, status, id = null }) => {
     setNotices((prevNotices) => [
       ...prevNotices,
@@ -59,6 +55,10 @@ function SettingsPanel() {
 
   const dismissNotice = useCallback((id) => {
     setNotices((prevNotices) => prevNotices.filter((notice) => notice.id !== id));
+  }, []);
+
+  const onDismissNotice = useCallback((id) => {
+    dismissNotice(id);
   }, []);
 
   const fetchSettings = async () => {
@@ -391,8 +391,10 @@ function SettingsPanel() {
       const data = await fetchSettings();
       downloadJsonFile(data);
     } catch (error) {
-      setNoticeStatus('error');
-      setNoticeMessage(__('Could not export settings.', 'pressidium-cookie-consent'));
+      appendNotice({
+        message: __('Could not export settings.', 'pressidium-cookie-consent'),
+        status: 'error',
+      });
     }
   };
 
@@ -578,8 +580,7 @@ function SettingsPanel() {
     <>
       {notices.map(({ message, status, id }) => (
         <Notice
-          onNoticeHidden={onNoticeHidden}
-          id={id}
+          onRemove={() => onDismissNotice(id)}
           status={status}
         >
           {message}
