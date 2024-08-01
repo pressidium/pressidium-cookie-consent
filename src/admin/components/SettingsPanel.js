@@ -36,16 +36,29 @@ function SettingsPanel() {
   const [isFetching, setIsFetching] = useState(false);
   const [isExportingCsv, setIsExportingCsv] = useState(false);
   const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
-  const [noticeStatus, setNoticeStatus] = useState('info');
-  const [noticeMessage, setNoticeMessage] = useState(null);
+  const [notices, setNotices] = useState([]);
   const [selectedTab, setSelectedTab] = useState('general');
   const [fonts, setFonts] = useState([]);
 
   const { state, dispatch } = useContext(SettingsContext);
 
-  const dismissNotice = useCallback(() => {
-    setNoticeStatus('info');
-    setNoticeMessage(null);
+  const onNoticeHidden = useCallback((id) => {
+    setNotices((prevNotices) => prevNotices.filter((notice) => notice.id !== id));
+  }, []);
+
+  const appendNotice = useCallback(({ message, status, id = null }) => {
+    setNotices((prevNotices) => [
+      ...prevNotices,
+      {
+        id: id || prevNotices.length,
+        message,
+        status,
+      },
+    ]);
+  }, []);
+
+  const dismissNotice = useCallback((id) => {
+    setNotices((prevNotices) => prevNotices.filter((notice) => notice.id !== id));
   }, []);
 
   const fetchSettings = async () => {
@@ -109,19 +122,27 @@ function SettingsPanel() {
       const response = await apiFetch(options);
 
       if ('success' in response && response.success) {
-        setNoticeStatus('success');
-        setNoticeMessage(__('Settings saved successfully.', 'pressidium-cookie-consent'));
+        appendNotice({
+          message: __('Settings saved successfully.', 'pressidium-cookie-consent'),
+          status: 'success',
+        });
       } else {
-        setNoticeStatus('error');
-        setNoticeMessage(__('Could not save settings.', 'pressidium-cookie-consent'));
+        appendNotice({
+          message: __('Could not save settings.', 'pressidium-cookie-consent'),
+          status: 'error',
+        });
       }
     } catch (error) {
       if ('code' in error && error.code === 'invalid_nonce') {
-        setNoticeStatus('error');
-        setNoticeMessage(__('Could not pass security check.', 'pressidium-cookie-consent'));
+        appendNotice({
+          message: __('Could not pass security check.', 'pressidium-cookie-consent'),
+          status: 'error',
+        });
       } else {
-        setNoticeStatus('error');
-        setNoticeMessage(__('Could not save settings.', 'pressidium-cookie-consent'));
+        appendNotice({
+          message: __('Could not save settings.', 'pressidium-cookie-consent'),
+          status: 'error',
+        });
       }
     }
 
@@ -143,19 +164,27 @@ function SettingsPanel() {
       const response = await apiFetch(options);
 
       if ('success' in response && response.success) {
-        setNoticeStatus('success');
-        setNoticeMessage(__('Settings reset successfully.', 'pressidium-cookie-consent'));
+        appendNotice({
+          message: __('Settings reset successfully.', 'pressidium-cookie-consent'),
+          status: 'success',
+        });
       } else {
-        setNoticeStatus('error');
-        setNoticeMessage(__('Could not reset settings.', 'pressidium-cookie-consent'));
+        appendNotice({
+          message: __('Could not reset settings.', 'pressidium-cookie-consent'),
+          status: 'error',
+        });
       }
     } catch (error) {
       if ('code' in error && error.code === 'invalid_nonce') {
-        setNoticeStatus('error');
-        setNoticeMessage(__('Could not pass security check.', 'pressidium-cookie-consent'));
+        appendNotice({
+          message: __('Could not pass security check.', 'pressidium-cookie-consent'),
+          status: 'error',
+        });
       } else {
-        setNoticeStatus('error');
-        setNoticeMessage(__('Could not reset settings.', 'pressidium-cookie-consent'));
+        appendNotice({
+          message: __('Could not reset settings.', 'pressidium-cookie-consent'),
+          status: 'error',
+        });
       }
     }
 
@@ -186,19 +215,27 @@ function SettingsPanel() {
       const response = await apiFetch(options);
 
       if ('success' in response && response.success) {
-        setNoticeStatus('success');
-        setNoticeMessage(__('All consent records were cleared successfully.', 'pressidium-cookie-consent'));
+        appendNotice({
+          message: __('All consent records were cleared successfully.', 'pressidium-cookie-consent'),
+          status: 'success',
+        });
       } else {
-        setNoticeStatus('error');
-        setNoticeMessage(__('Could not clear records.', 'pressidium-cookie-consent'));
+        appendNotice({
+          message: __('Could not clear records.', 'pressidium-cookie-consent'),
+          status: 'error',
+        });
       }
     } catch (error) {
       if ('code' in error && error.code === 'invalid_nonce') {
-        setNoticeStatus('error');
-        setNoticeMessage(__('Could not pass security check.', 'pressidium-cookie-consent'));
+        appendNotice({
+          message: __('Could not pass security check.', 'pressidium-cookie-consent'),
+          status: 'error',
+        });
       } else {
-        setNoticeStatus('error');
-        setNoticeMessage(__('Could not clear records.', 'pressidium-cookie-consent'));
+        appendNotice({
+          message: __('Could not clear records.', 'pressidium-cookie-consent'),
+          status: 'error',
+        });
       }
     }
   };
@@ -378,8 +415,10 @@ function SettingsPanel() {
       });
     } catch (error) {
       console.error('Could not import settings', error);
-      setNoticeStatus('error');
-      setNoticeMessage(__('Could not import settings.', 'pressidium-cookie-consent'));
+      appendNotice({
+        message: error.message,
+        status: 'error',
+      });
     }
   };
 
@@ -400,8 +439,10 @@ function SettingsPanel() {
       // Failed to fetch logs, bail early
       // eslint-disable-next-line no-console
       console.error('Error exporting CSV', response);
-      setNoticeStatus('error');
-      setNoticeMessage(__('Could not export consent records.', 'pressidium-cookie-consent'));
+      appendNotice({
+        message: __('Could not export consent records.', 'pressidium-cookie-consent'),
+        status: 'error',
+      });
       setIsExportingCsv(false);
       return;
     }
@@ -412,8 +453,10 @@ function SettingsPanel() {
       // Failed to fetch logs, bail early
       // eslint-disable-next-line no-console
       console.error('Invalid content type while exporting CSV', contentType);
-      setNoticeStatus('error');
-      setNoticeMessage(__('Could not export consent records.', 'pressidium-cookie-consent'));
+      appendNotice({
+        message: __('Could not export consent records.', 'pressidium-cookie-consent'),
+        status: 'error',
+      });
       setIsExportingCsv(false);
       return;
     }
@@ -448,6 +491,32 @@ function SettingsPanel() {
       setHasUnsavedChanges(true);
     }
   }, [state]);
+
+  useEffect(() => {
+    const {
+      cookie_table: cookieTable,
+      hide_empty_categories: hideEmptyCategories,
+      gcm,
+    } = state.pressidium_options;
+
+    const noCookiesListed = ['necessary', 'analytics', 'targeting', 'preferences']
+      .every((category) => cookieTable[category].length === 0);
+
+    const shouldShowNotice = hideEmptyCategories && gcm.enabled && noCookiesListed;
+
+    const noticeId = 'empty-categories-no-cookies-gcm-warning';
+    const noticeExists = notices.find(({ id }) => id === noticeId);
+
+    if (shouldShowNotice && !noticeExists) {
+      appendNotice({
+        message: __('Empty categories are hidden, and no cookies are listed, which might lead to issues with Google Consent Mode.', 'pressidium-cookie-consent'),
+        status: 'warning',
+        id: noticeId,
+      });
+    } else if (!shouldShowNotice && noticeExists) {
+      dismissNotice(noticeId);
+    }
+  }, [state.pressidium_options]);
 
   useEffect(() => {
     (async () => {
@@ -507,14 +576,15 @@ function SettingsPanel() {
 
   return (
     <>
-      {noticeMessage && (
+      {notices.map(({ message, status, id }) => (
         <Notice
-          status={noticeStatus}
-          onDismiss={dismissNotice}
+          onNoticeHidden={onNoticeHidden}
+          id={id}
+          status={status}
         >
-          {noticeMessage}
+          {message}
         </Notice>
-      )}
+      ))}
       <Panel>
         <TabPanel
           className="my-tab-panel"
