@@ -71,7 +71,7 @@ Fully responsive and mobile-friendly cookie consent banner and settings modal.
 
 ### 🙅 Block scripts
 
-![Blocked scripts tab screenshot](./.wordpress-org/screenshot-7.png)
+![Blocked scripts tab screenshot](./.wordpress-org/screenshot-10.png)
 
 Control which scripts are loaded based on the user’s preferences. List the URLs of the scripts you’d like to block (both exact matches and regular expressions are supported) and prevent them from running until the user has given consent.
 
@@ -98,6 +98,8 @@ Record user consents to be able to provide proof of consent for auditing purpose
 Automatically parse the user agent to detect bots, crawlers, and webdrivers. If one is detected, you have the option to hide the cookie consent banner from them.
 
 ### 🧩 Google Consent Mode (GCM) integration
+
+![Google Consent Mode screenshot](./.wordpress-org/screenshot-9.png)
 
 Integrate with Google Consent Mode (GCM) to adjust how Google tags behave based on the user’s consent preferences. Supports both Google tag (gtag.js) and Google Tag Manager (GTM) implementations.
 
