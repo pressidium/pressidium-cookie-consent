@@ -172,6 +172,7 @@ If you have spotted any bugs, or would like to request additional features from 
 = 1.5.1: Aug 2, 2023 =
 
 * Add a notice to warn users for potential issues with specific configurations
+* Fix an issue where importing settings from older versions would not work correctly
 
 = 1.5.0: Jul 30, 2023 =
 

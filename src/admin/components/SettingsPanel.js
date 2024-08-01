@@ -411,9 +411,11 @@ function SettingsPanel() {
 
       await saveSettings(parsedData);
 
+      const newData = await fetchSettings();
+
       dispatch({
         type: ActionTypes.SET_SETTINGS,
-        payload: parsedData,
+        payload: newData,
       });
     } catch (error) {
       console.error('Could not import settings', error);

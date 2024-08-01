@@ -122,7 +122,7 @@ export default {
     font: {
       name: 'Default',
       slug: 'default',
-      family: '',
+      family: 'inherit',
     },
     floating_button: {
       enabled: true,
