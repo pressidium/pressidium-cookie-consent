@@ -177,6 +177,7 @@ If you have spotted any bugs, or would like to request additional features from 
 
 * Add a notice to warn users for potential issues with specific configurations
 * Add more information to the logs to help with debugging
+* Switch the default value of the “Hide empty categories” option to be disabled
 * Fix an issue where importing settings from older versions would not work correctly
 * Fix an issue where consent recording would always be reported as failed
 * Fix an issue where the “Hide empty categories” wasn’t being applied when previewing the modal on the settings page
