@@ -161,7 +161,7 @@ export default {
       'btn-floating-hover-icon': '#f9faff',
     },
     record_consents: true,
-    hide_empty_categories: true,
+    hide_empty_categories: false,
     gcm: {
       enabled: false,
       implementation: 'gtag',

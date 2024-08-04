@@ -140,7 +140,7 @@ class Migrator {
      */
     private function migrate_1_5_0(): void {
         // Hide empty categories
-        $hide_empty_categories = $this->settings['pressidium_options']['hide_empty_categories'] ?? true;
+        $hide_empty_categories = $this->settings['pressidium_options']['hide_empty_categories'] ?? false;
 
         $this->settings['pressidium_options']['hide_empty_categories'] = $hide_empty_categories;
 
