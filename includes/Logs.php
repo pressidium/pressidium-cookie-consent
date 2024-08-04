@@ -45,13 +45,19 @@ class Logs {
      * @return string
      */
     private function get_debug_info(): string {
-        return sprintf(
-            "Pressidium Cookie Consent v%s\nPHP v%s\nWordPress v%s\nInstallation @ %s\n",
-            VERSION,
-            phpversion(),
-            get_bloginfo( 'version' ),
-            get_bloginfo( 'url' ),
-        );
+        global $wpdb;
+
+        return implode(
+            "\n",
+            array(
+                sprintf( 'Pressidium Cookie Consent v%s', VERSION ),
+                sprintf( 'WordPress v%s', get_bloginfo( 'version' ) ),
+                sprintf( 'PHP v%s', phpversion() ),
+                $wpdb->db_server_info(),
+                $wpdb->get_charset_collate(),
+                sprintf( 'Installation @ %s', get_bloginfo( 'url' ) ),
+            )
+        ) . "\n";
     }
 
     /**
