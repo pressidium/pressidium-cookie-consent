@@ -243,6 +243,7 @@ function SettingsPanel() {
   const ccSettings = useMemo(() => {
     const settings = { ...state };
 
+    const necessaryTable = settings.pressidium_options.cookie_table.necessary;
     const analyticsTable = settings.pressidium_options.cookie_table.analytics;
     const targetingTable = settings.pressidium_options.cookie_table.targeting;
     const preferencesTable = settings.pressidium_options.cookie_table.preferences;
@@ -251,6 +252,7 @@ function SettingsPanel() {
     const secondaryBtnRole = settings.pressidium_options.secondary_btn_role;
 
     Object.keys(settings.languages).forEach((language) => {
+      settings.languages[language].settings_modal.blocks[1].cookie_table = necessaryTable;
       settings.languages[language].settings_modal.blocks[2].cookie_table = analyticsTable;
       settings.languages[language].settings_modal.blocks[3].cookie_table = targetingTable;
       settings.languages[language].settings_modal.blocks[4].cookie_table = preferencesTable;
