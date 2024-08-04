@@ -91,7 +91,15 @@ Ask users to consent again when you update your cookie policy.
 
 ### 📝️ Consent records
 
+![Consent Records tab screenshot](./.wordpress-org/screenshot-11.png)
+
 Record user consents to be able to provide proof of consent for auditing purposes.
+
+### 🎛️ Floating settings button
+
+![Floating settings button screenshot](./.wordpress-org/screenshot-7.png)
+
+Add a floating settings button to your website that allows users to change their cookie preferences at any time.
 
 ### 🤖 Hide from bots
 

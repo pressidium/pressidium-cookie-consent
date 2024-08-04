@@ -39,6 +39,7 @@ function AboutTab() {
     raisedHand: <>&#9995;</>,
     repeatButton: <>&#128257;</>,
     memo: <>&#128221;</>,
+    controlKnobs: <>&#127899;&#65039;</>,
     robot: <>&#129302;</>,
     puzzlePiece: <>&#x1F9E9;</>,
     keyboard: <>&#x2328;&#xFE0F;</>,
@@ -174,6 +175,15 @@ function AboutTab() {
             </FlexItem>
             <FlexItem>
               <StyledHeading>
+                <Emoji symbol={emojis.controlKnobs} style={{ marginRight: '0.3em' }} />
+                {__('Floating settings button', 'pressidium-cookie-consent')}
+              </StyledHeading>
+              <p>
+                {__('Add a floating settings button to your website that allows users to change their cookie preferences at any time.', 'pressidium-cookie-consent')}
+              </p>
+            </FlexItem>
+            <FlexItem>
+              <StyledHeading>
                 <Emoji symbol={emojis.robot} style={{ marginRight: '0.3em' }} />
                 {__('Hide from bots', 'pressidium-cookie-consent')}
               </StyledHeading>
@@ -221,6 +231,24 @@ function AboutTab() {
                     paddingLeft: '1em',
                   }}
                 >
+                  <li>
+                    {
+                      createInterpolateElement(
+                        __('Developed and maintained by <a>Pressidium®</a>', 'pressidium-cookie-consent'),
+                        {
+                          a: (
+                            // eslint-disable-next-line max-len
+                            // eslint-disable-next-line jsx-a11y/anchor-has-content,jsx-a11y/control-has-associated-label
+                            <a
+                              href={urls.pressidium.home}
+                              target="_blank"
+                              rel="noreferrer noopener"
+                            />
+                          ),
+                        },
+                      )
+                    }
+                  </li>
                   <li>
                     {
                       createInterpolateElement(

@@ -56,6 +56,10 @@ Ask users to consent again when you update your cookie policy.
 
 Record user consents to be able to provide proof of consent for auditing purposes.
 
+= 🎛️ Floating settings button =
+
+Add a floating settings button to your website that allows users to change their cookie preferences at any time.
+
 = 🤖 Hide from bots =
 
 Automatically parse the user agent to detect bots, crawlers, and webdrivers. If one is detected, you have the option to hide the cookie consent banner from them.
@@ -169,10 +173,15 @@ If you have spotted any bugs, or would like to request additional features from 
 
 == Changelog ==
 
-= 1.5.1: Aug 2, 2023 =
+= 1.5.1: Aug 4, 2023 =
 
 * Add a notice to warn users for potential issues with specific configurations
+* Add more information to the logs to help with debugging
 * Fix an issue where importing settings from older versions would not work correctly
+* Fix an issue where consent recording would always be reported as failed
+* Fix an issue where the “Hide empty categories” wasn’t being applied when previewing the modal on the settings page
+* Fix an issue where the necessary cookies were not being listed when previewing the modal on the settings page
+* Fix an issue where the consent records table was not being created
 
 = 1.5.0: Jul 30, 2023 =
 
