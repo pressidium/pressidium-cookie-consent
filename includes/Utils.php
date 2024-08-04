@@ -140,4 +140,20 @@ class Utils {
         return self::strip_suffix( '/', $string );
     }
 
+    /**
+     * Truncate a string to the given length.
+     *
+     * @param ?string $string String to truncate.
+     * @param int     $length Length to truncate the string to.
+     *
+     * @return ?string Truncated string.
+     */
+    public static function truncate( ?string $string, int $length ): ?string {
+        if ( is_null( $string ) ) {
+            return null;
+        }
+
+        return substr( $string, 0, $length );
+    }
+
 }

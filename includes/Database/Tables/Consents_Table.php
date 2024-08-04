@@ -64,7 +64,7 @@ final class Consents_Table extends Table {
     protected function get_table_schema( Blueprint $table ): void {
         $zero_int = new Raw( 0 );
 
-        $table->string( 'id', 255 )
+        $table->string( 'id', 40 )
               ->not_nullable()
               ->primary();
 
@@ -75,10 +75,10 @@ final class Consents_Table extends Table {
               ->default_to( '' )
               ->not_nullable();
 
-        $table->string( 'geo_location', 255 )
+        $table->string( 'geo_location', 8 )
               ->nullable();
 
-        $table->string( 'ip_address', 255 )
+        $table->string( 'ip_address', 40 )
               ->not_nullable();
 
         $table->string( 'user_agent', 255 )
@@ -226,7 +226,7 @@ final class Consents_Table extends Table {
      * @return string
      */
     public function get_version(): string {
-        return '1.1';
+        return '1.2';
     }
 
 }
