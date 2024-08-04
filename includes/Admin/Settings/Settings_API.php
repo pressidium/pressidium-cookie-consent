@@ -1031,7 +1031,7 @@ class Settings_API implements Actions {
         $updated_successfully = false;
 
         try {
-            $this->consents_table->set_consent_record( $cookie_consent );
+            $updated_successfully = $this->consents_table->set_consent_record( $cookie_consent );
         } catch ( Exception $exception ) {
             $this->logger->log_exception( $exception );
         }
