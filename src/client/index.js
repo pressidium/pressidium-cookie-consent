@@ -30,13 +30,14 @@ import './scss/main.scss';
     security_storage: 'denied',
   };
 
+  const { settings, additional_options: additionalOptions } = details;
+
   const {
-    settings,
-    gcm,
-    floating_button: floatingButton,
     record_consents: recordConsents,
     hide_empty_categories: hideEmptyCategories,
-  } = details;
+    floating_button: floatingButton,
+    gcm,
+  } = additionalOptions;
 
   /**
    * Return the i18n strings.
