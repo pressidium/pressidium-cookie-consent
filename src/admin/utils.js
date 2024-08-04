@@ -12,6 +12,18 @@ export const removeElement = (element) => {
 };
 
 /**
+ * Deep copy the given object.
+ *
+ * Note that this method won't work with objects that contain
+ * `Date` objects, functions, symbols, or circular references.
+ *
+ * @param {object} obj Object to copy.
+ *
+ * @return {object} Deep copy of the given object.
+ */
+export const deepCopy = (obj) => JSON.parse(JSON.stringify(obj));
+
+/**
  * Wait for a given number of milliseconds before resolving.
  *
  * @param {number} ms Number of milliseconds to wait.

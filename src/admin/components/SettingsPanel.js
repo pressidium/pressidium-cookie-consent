@@ -13,7 +13,7 @@ import { __ } from '@wordpress/i18n';
 import { useBeforeunload } from 'react-beforeunload';
 
 import { usePrevious } from '../hooks';
-import { removeElement, delay } from '../utils';
+import { removeElement, delay, deepCopy } from '../utils';
 
 import Panel from './Panel';
 import Footer from './Footer';
@@ -294,13 +294,25 @@ function SettingsPanel() {
     removeElement(document.querySelector('#cc--main'));
 
     // Re-initialize cookie consent
-    window.pressidiumCookieConsent = window.initCookieConsent();
-    window.pressidiumCookieConsent.run({
+    const config = deepCopy({
       ...ccSettings,
       ...customSettings,
       onAccept: () => window.pressidiumFloatingButton.show(),
       onChange: () => window.pressidiumFloatingButton.show(),
     });
+
+    if (ccSettings.pressidium_options.hide_empty_categories) {
+      Object.keys(ccSettings.languages).forEach((language) => {
+        config.languages[language].settings_modal.blocks = ccSettings
+          .languages[language]
+          .settings_modal
+          .blocks
+          .filter((block) => !('cookie_table' in block) || block.cookie_table.length > 0);
+      });
+    }
+
+    window.pressidiumCookieConsent = window.initCookieConsent();
+    window.pressidiumCookieConsent.run(config);
 
     // Re-initialize floating button
     window.pressidiumFloatingButton.init(ccSettings.pressidium_options.floating_button);
