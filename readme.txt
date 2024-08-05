@@ -173,7 +173,7 @@ If you have spotted any bugs, or would like to request additional features from 
 
 == Changelog ==
 
-= 1.5.1: Aug 4, 2023 =
+= 1.5.1: Aug 5, 2023 =
 
 * Add a notice to warn users for potential issues with specific configurations
 * Add more information to the logs to help with debugging
