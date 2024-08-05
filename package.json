@@ -25,8 +25,8 @@
   },
   "homepage": "https://github.com/pressidium/pressidium-cookie-consent#readme",
   "devDependencies": {
-    "@wordpress/eslint-plugin": "^20.1.0",
-    "@wordpress/scripts": "^28.4.0",
+    "@wordpress/eslint-plugin": "^14.2.0",
+    "@wordpress/scripts": "^26.0.0",
     "eslint": "^8.37.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-airbnb-base": "^15.0.0",
@@ -36,13 +36,13 @@
     "eslint-plugin-react-hooks": "^4.6.0"
   },
   "dependencies": {
-    "@wordpress/api-fetch": "^7.4.0",
-    "@wordpress/components": "^28.4.0",
-    "@wordpress/element": "^6.4.0",
-    "@wordpress/i18n": "^5.4.0",
-    "@wordpress/icons": "^10.4.0",
+    "@wordpress/api-fetch": "^6.29.0",
+    "@wordpress/components": "^23.6.0",
+    "@wordpress/element": "^5.6.0",
+    "@wordpress/i18n": "^4.29.0",
+    "@wordpress/icons": "^9.22.0",
     "@wordpress/primitives": "^4.4.0",
-    "@wordpress/url": "^4.4.0",
+    "@wordpress/url": "^3.43.0",
     "iso-3166-2": "^1.0.0",
     "react-beforeunload": "^2.5.3",
     "styled-components": "^5.3.9"
