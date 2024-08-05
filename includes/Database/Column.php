@@ -92,7 +92,7 @@ class Column {
      *
      * @return string
      */
-    private function get_name(): string {
+    public function get_name(): string {
         return $this->name;
     }
 
@@ -214,12 +214,12 @@ class Column {
     }
 
     /**
-     * Return the `PRIMARY KEY` keyword if the column is the primary key.
+     * Whether the column is the primary key or part of a composite primary key.
      *
-     * @return string
+     * @return bool
      */
-    private function get_primary_key(): string {
-        return $this->primary_key ? 'PRIMARY KEY' : '';
+    public function is_primary_key(): bool {
+        return $this->primary_key;
     }
 
     /**
@@ -313,7 +313,6 @@ class Column {
                 $this->get_default(),
                 $this->get_nullable(),
                 $this->get_auto_increment(),
-                $this->get_primary_key(),
                 $this->get_unique(),
                 $this->get_unsigned(),
                 $this->get_on_update(),

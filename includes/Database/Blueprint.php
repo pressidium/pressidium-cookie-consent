@@ -207,6 +207,33 @@ class Blueprint {
     }
 
     /**
+     * Return the primary key for the table's blueprint object.
+     *
+     * @link https://developer.wordpress.org/reference/functions/dbdelta/
+     *
+     * @return string
+     */
+    private function get_primary_key(): string {
+        $columns = array();
+
+        foreach ( $this->columns as $column ) {
+            if ( $column->is_primary_key() ) {
+                $columns[] = $column->get_name();
+            }
+        }
+
+        if ( empty( $columns ) ) {
+            return '';
+        }
+
+        /*
+         * Keep two spaces between `PRIMARY KEY` and the column(s),
+         * which is required for `dbDelta()` to work correctly.
+         */
+        return sprintf( 'PRIMARY KEY  (%s)', implode( ', ', $columns ) );
+    }
+
+    /**
      * Generate SQL for the table's blueprint object.
      *
      * @param string $table_name      Name of the table.
@@ -224,6 +251,12 @@ class Blueprint {
                 $this->columns
             )
         );
+
+        $primary_key = $this->get_primary_key();
+
+        if ( ! empty( $primary_key ) ) {
+            $columns_sql .= ", \n{$primary_key}";
+        }
 
         return "CREATE TABLE {$table_name} (\n{$columns_sql}\n) {$charset_collate}";
     }
