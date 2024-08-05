@@ -8,6 +8,8 @@
 
 namespace Pressidium\WP\CookieConsent\Admin\Settings;
 
+use Pressidium\WP\CookieConsent\Utils;
+
 use DateTime;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -119,7 +121,7 @@ class Consent_Record {
      * @return Consent_Record
      */
     public function set_id( string $id ): Consent_Record {
-        $this->id = $id;
+        $this->id = Utils::truncate( $id, 40 );
 
         return $this; // chainable
     }
@@ -141,7 +143,7 @@ class Consent_Record {
      * @return Consent_Record
      */
     public function set_url( string $url ): Consent_Record {
-        $this->url = $url;
+        $this->url = Utils::truncate( $url, 255 );
 
         return $this; // chainable
     }
@@ -163,7 +165,7 @@ class Consent_Record {
      * @return Consent_Record
      */
     public function set_geo_location( ?string $geo_location ): Consent_Record {
-        $this->geo_location = $geo_location;
+        $this->geo_location = Utils::truncate( $geo_location, 8 );
 
         return $this; // chainable
     }
@@ -185,7 +187,7 @@ class Consent_Record {
      * @return Consent_Record
      */
     public function set_ip_address( string $ip_address ): Consent_Record {
-        $this->ip_address = wp_privacy_anonymize_ip( $ip_address );
+        $this->ip_address = Utils::truncate( wp_privacy_anonymize_ip( $ip_address ), 40 );
 
         return $this; // chainable
     }
@@ -207,7 +209,7 @@ class Consent_Record {
      * @return Consent_Record
      */
     public function set_user_agent( string $user_agent ): Consent_Record {
-        $this->user_agent = $user_agent;
+        $this->user_agent = Utils::truncate( $user_agent, 255 );
 
         return $this; // chainable
     }

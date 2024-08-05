@@ -6,7 +6,7 @@ Tags: cookie, consent, gdpr, ccpa, cookies
 Requires at least: 6.0
 Tested up to: 6.6
 Requires PHP: 7.4
-Stable Tag: 1.5.0
+Stable Tag: 1.5.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -55,6 +55,10 @@ Ask users to consent again when you update your cookie policy.
 = 📝 Consent records =
 
 Record user consents to be able to provide proof of consent for auditing purposes.
+
+= 🎛️ Floating settings button =
+
+Add a floating settings button to your website that allows users to change their cookie preferences at any time.
 
 = 🤖 Hide from bots =
 
@@ -168,6 +172,19 @@ If you have spotted any bugs, or would like to request additional features from 
 11. Consent records
 
 == Changelog ==
+
+= 1.5.1: Aug 5, 2023 =
+
+* Add a notice to warn users for potential issues with specific configurations
+* Add more information to the logs to help with debugging
+* Add the flag of Norway for the Norwegian language (nb-NO)
+* Switch the default value of the “Hide empty categories” option to be disabled
+* Fix an issue where importing settings from older versions would not work correctly
+* Fix an issue where consent recording would always be reported as failed
+* Fix an issue where the “Hide empty categories” wasn’t being applied when previewing the modal on the settings page
+* Fix an issue where the necessary cookies were not being listed when previewing the modal on the settings page
+* Fix an issue where the consent records table was not being created
+* Fix an issue where the consent records table schema was not being updated correctly
 
 = 1.5.0: Jul 30, 2023 =
 

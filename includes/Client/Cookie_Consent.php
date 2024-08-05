@@ -125,17 +125,25 @@ class Cookie_Consent implements Actions, Filters {
             'cookie-consent-client-script',
             'pressidiumCCClientDetails',
             array(
-                'settings'              => $this->get_settings(),
-                'api'                   => array(
+                'settings'           => $this->get_settings(),
+                'api'                => array(
                     'rest_url'       => rest_url(),
                     'route'          => 'pressidium-cookie-consent/v1/settings',
                     'consent_route'  => 'pressidium-cookie-consent/v1/consent',
                     'consents_route' => 'pressidium-cookie-consent/v1/consents',
                 ),
-                'record_consents'       => $this->settings['pressidium_options']['record_consents'] ?? true,
-                'hide_empty_categories' => $this->settings['pressidium_options']['hide_empty_categories'] ?? true,
-                'floating_button'       => $this->settings['pressidium_options']['floating_button'] ?? array(),
-                'gcm'                   => $this->settings['pressidium_options']['gcm'] ?? array(),
+
+                /*
+                 * `wp_localize_script()` casts all scalars to strings,
+                 * so we need a nested array to avoid the stringification
+                 * of our boolean values.
+                 */
+                'additional_options' => array(
+                    'record_consents'       => boolval( $this->settings['pressidium_options']['record_consents'] ?? true ),
+                    'hide_empty_categories' => boolval( $this->settings['pressidium_options']['hide_empty_categories'] ?? false ),
+                    'floating_button'       => $this->settings['pressidium_options']['floating_button'] ?? array(),
+                    'gcm'                   => $this->settings['pressidium_options']['gcm'] ?? array(),
+                ),
             )
         );
     }

@@ -92,6 +92,7 @@ export { default as msIcon } from './flags/language-ms.svg';
 export { default as mtIcon } from './flags/language-mt.svg';
 export { default as myIcon } from './flags/language-my.svg';
 export { default as naIcon } from './flags/language-na.svg';
+export { default as nbNoIcon } from './flags/language-nb-no.svg';
 export { default as neIcon } from './flags/language-ne.svg';
 export { default as nlBeIcon } from './flags/language-nl-be.svg';
 export { default as nlIcon } from './flags/language-nl.svg';
