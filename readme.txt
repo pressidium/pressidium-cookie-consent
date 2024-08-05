@@ -183,6 +183,7 @@ If you have spotted any bugs, or would like to request additional features from 
 * Fix an issue where the “Hide empty categories” wasn’t being applied when previewing the modal on the settings page
 * Fix an issue where the necessary cookies were not being listed when previewing the modal on the settings page
 * Fix an issue where the consent records table was not being created
+* Fix an issue where the consent records table schema was not being updated correctly
 
 = 1.5.0: Jul 30, 2023 =
 
