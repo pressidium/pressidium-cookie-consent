@@ -6,7 +6,7 @@ Tags: cookie, consent, gdpr, ccpa, cookies
 Requires at least: 6.0
 Tested up to: 6.6
 Requires PHP: 7.4
-Stable Tag: 1.5.1
+Stable Tag: 1.5.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -173,7 +173,10 @@ If you have spotted any bugs, or would like to request additional features from 
 
 == Changelog ==
 
-= 1.5.1: Aug 5, 2023 =
+= 1.5.2: Sep 4, 2024 =
+
+* Fix an issue where settings didn't automatically migrate from the previous version, requiring users to manually save them
+
 = 1.5.1: Aug 5, 2024 =
 
 * Add a notice to warn users for potential issues with specific configurations
