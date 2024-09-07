@@ -6,7 +6,7 @@ Tags: cookie, consent, gdpr, ccpa, cookies
 Requires at least: 6.0
 Tested up to: 6.6
 Requires PHP: 7.4
-Stable Tag: 1.5.1
+Stable Tag: 1.5.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -173,7 +173,11 @@ If you have spotted any bugs, or would like to request additional features from 
 
 == Changelog ==
 
-= 1.5.1: Aug 5, 2023 =
+= 1.5.2: Sep 7, 2024 =
+
+* Fix an issue where settings didn't automatically migrate from the previous version, requiring users to manually save them
+
+= 1.5.1: Aug 5, 2024 =
 
 * Add a notice to warn users for potential issues with specific configurations
 * Add more information to the logs to help with debugging
@@ -186,7 +190,7 @@ If you have spotted any bugs, or would like to request additional features from 
 * Fix an issue where the consent records table was not being created
 * Fix an issue where the consent records table schema was not being updated correctly
 
-= 1.5.0: Jul 30, 2023 =
+= 1.5.0: Jul 30, 2024 =
 
 * Add a “Font” option to select one of the fonts that you have installed via the Font Library (WordPress 6.5+)
 * Add a new “Hide empty categories” option to hide a category if it has no cookies
@@ -196,7 +200,7 @@ If you have spotted any bugs, or would like to request additional features from 
 * Merged the “Consent Modal” and “Settings Modal” tabs into a single “Modals” tab to keep the settings page a bit more organized
 * Tabs panel in the settings page is now responsive and will scroll horizontally on smaller screens
 
-= 1.4.0: Mar 21, 2023 =
+= 1.4.0: Mar 21, 2024 =
 
 * Introduce a new “Preferences” cookies category
 * Integrate with Google Consent Mode (GCM)

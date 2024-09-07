@@ -206,8 +206,8 @@ class Cookie_Consent implements Actions, Filters {
         <style id="pressidium-cc-styles">
             .pressidium-cc-theme {
                 <?php
-                $font_slug   = $this->settings['pressidium_options']['font']['slug'];
-                $font_family = $this->settings['pressidium_options']['font']['family'];
+                $font_slug   = $this->settings['pressidium_options']['font']['slug'] ?? 'default';
+                $font_family = $this->settings['pressidium_options']['font']['family'] ?? 'inherit';
 
                 if ( $font_slug !== 'default' ) {
                     echo "--cc-font-family: {$font_family};\n";

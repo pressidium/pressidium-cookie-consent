@@ -173,9 +173,18 @@ class Plugin {
         $settings = new Settings( $options );
         $container->add( 'settings', $settings );
 
+        $upgrader = new Upgrader( $this->logger, $settings );
+        $container->add( 'upgrader', $upgrader );
+
         $this->add_service_providers( $container );
         $this->register_tables( $database_manager, $container );
         $this->register_hooks( $hooks_manager, $container );
+
+        /*
+         * Run the upgrader on every request to check if the plugin was upgraded
+         * and if so, migrate the settings to the latest version and resave them.
+         */
+        $upgrader->maybe_upgrade();
     }
 
 }
