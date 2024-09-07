@@ -173,7 +173,7 @@ If you have spotted any bugs, or would like to request additional features from 
 
 == Changelog ==
 
-= 1.5.2: Sep 6, 2024 =
+= 1.5.2: Sep 7, 2024 =
 
 * Fix an issue where settings didn't automatically migrate from the previous version, requiring users to manually save them
 
