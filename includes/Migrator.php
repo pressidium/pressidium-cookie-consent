@@ -183,6 +183,73 @@ class Migrator {
     }
 
     /**
+     * Migrate settings coming from versions prior to 1.7.0.
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
+     *
+     * @return void
+     */
+    private function migrate_1_7_0(): void {
+        $lang_codes_mapping = array(
+            'be'    => 'bel',
+            'bg'    => 'bg-BG',
+            'bn'    => 'bn-BD',
+            'cs'    => 'cs-CZ',
+            'da'    => 'da-DK',
+            'en-ZA' => 'en-SA',
+            'gl'    => 'gl-ES',
+            'gu'    => 'gu-IN',
+            'he'    => 'he-IL',
+            'hi'    => 'hi-IN',
+            'hu'    => 'hu-HU',
+            'id'    => 'id-ID',
+            'is'    => 'is-IS',
+            'it'    => 'it-IT',
+            'ka'    => 'ka-GE',
+            'kl'    => 'kal',
+            'ko'    => 'ko-KR',
+            'ky'    => 'ky-KY',
+            'ln'    => 'lin',
+            'lt'    => 'lt-LT',
+            'mg'    => 'mg-MG',
+            'mi'    => 'mri',
+            'ml'    => 'ml-IN',
+            'ms'    => 'ms-MY',
+            'mt'    => 'mlt',
+            'my'    => 'my-MM',
+            'nl'    => 'nl-NL',
+            'pa'    => 'pa-IN',
+            'pl'    => 'pl-PL',
+            'ro'    => 'ro-RO',
+            'ru'    => 'ru-RU',
+            'rw'    => 'kin',
+            'sd'    => 'sd-PK',
+            'sk'    => 'sk-SK',
+            'sl'    => 'sl-SI',
+            'sn'    => 'sna',
+            'so'    => 'so-SO',
+            'sr'    => 'sr-RS',
+            'su'    => 'su-ID',
+            'sv'    => 'sv-SE',
+            'ta'    => 'ta-IN',
+            'tk'    => 'tuk',
+            'tr'    => 'tr-TR',
+            'uz'    => 'uz-UZ',
+            'xh'    => 'xho',
+            'yo'    => 'yor',
+        );
+
+        foreach ( $this->settings['languages'] as $lang => $lang_settings ) {
+            if ( ! array_key_exists( $lang, $lang_codes_mapping ) ) {
+                continue;
+            }
+
+            $this->settings['languages'][ $lang_codes_mapping[ $lang ] ] = $lang_settings;
+            unset( $this->settings['languages'][ $lang ] );
+        }
+    }
+
+    /**
      * Migrate settings if necessary.
      *
      * @return array Migrated settings.
@@ -216,6 +283,11 @@ class Migrator {
         if ( version_compare( $this->settings['version'], '1.5.0', '<' ) ) {
             // We are upgrading from a version prior to 1.5.0, so we need to migrate the settings
             $this->migrate_1_5_0();
+        }
+
+        if ( version_compare( $this->settings['version'], '1.7.0', '<' ) ) {
+            // We are upgrading from a version prior to 1.7.0, so we need to migrate the settings
+            $this->migrate_1_7_0();
         }
 
         return $this->settings;
