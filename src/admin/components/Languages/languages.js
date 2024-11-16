@@ -140,5 +140,5 @@ export default {
   yi: 'Yiddish',
   yor: 'Yoruba',
   zh: 'Chinese',
-  zu: 'Zul'
+  zu: 'Zul',
 };
