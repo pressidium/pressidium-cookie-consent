@@ -173,7 +173,7 @@ If you have spotted any bugs, or would like to request additional features from 
 
 == Changelog ==
 
-= 1.7.0: Nov 16, 2024 =
+= 1.7.0: Nov 18, 2024 =
 
 * Update language codes to be consistent with locale codes used in WordPress
 
