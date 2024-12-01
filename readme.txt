@@ -173,6 +173,10 @@ If you have spotted any bugs, or would like to request additional features from 
 
 == Changelog ==
 
+= 1.7.1: Dec 2, 2024 =
+
+* Fix an issue where the floating button was being rendered behind other content
+
 = 1.7.0: Nov 18, 2024 =
 
 * Update language codes to be consistent with locale codes used in WordPress
