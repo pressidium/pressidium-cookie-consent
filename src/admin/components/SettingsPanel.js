@@ -617,7 +617,7 @@ function SettingsPanel() {
             {
               name: 'cookies',
               title: __('Cookies', 'pressidium-cookie-consent'),
-              className: 'tab-cookies',
+              className: 'tab-cookies-list',
               Component: CookiesTab,
             },
             {
