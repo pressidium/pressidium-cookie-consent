@@ -173,10 +173,12 @@ If you have spotted any bugs, or would like to request additional features from 
 
 == Changelog ==
 
-= 1.7.1: Dec 3, 2024 =
+= 1.7.1: Dec 4, 2024 =
 
 * Fix an issue where the floating button was being rendered behind other content
 * Fix an issue where the cookies tab was hidden in the Brave browser
+* Fix an issue where closing the settings modal without saving would cause the necessary cookies toggle to be disabled
+* Update the cookieconsent library to version 2.9.2
 
 = 1.7.0: Nov 18, 2024 =
 
