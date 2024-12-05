@@ -3,7 +3,7 @@
  * Plugin Name: Pressidium Cookie Consent
  * Plugin URI: https://github.com/pressidium/pressidium-cookie-consent/
  * Description: Lightweight, user-friendly and customizable cookie consent banner to help you comply with the EU GDPR cookie law and CCPA regulations.
- * Version: 1.7.0
+ * Version: 1.7.1
  * Author: Pressidium
  * Author URI: https://pressidium.com/
  * Text Domain: pressidium-cookie-consent
@@ -27,7 +27,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 function setup_constants(): void {
     if ( ! defined( 'Pressidium\WP\CookieConsent\VERSION' ) ) {
-        define( 'Pressidium\WP\CookieConsent\VERSION', '1.7.0' );
+        define( 'Pressidium\WP\CookieConsent\VERSION', '1.7.1' );
     }
 
     if ( ! defined( 'Pressidium\WP\CookieConsent\PLUGIN_DIR' ) ) {
