@@ -1,6 +1,6 @@
 == Pressidium Cookie Consent ==
 Author URI: https://pressidium.com/
-Plugin URI: https://github.com/pressidium/pressidium-cookie-consent/
+Plugin URI: https://pressidium.com/open-source/cookie-consent-plugin/
 Contributors: pressidium, overengineer
 Tags: cookie, consent, gdpr, ccpa, cookies
 Requires at least: 6.0
@@ -173,7 +173,7 @@ If you have spotted any bugs, or would like to request additional features from 
 
 == Changelog ==
 
-= 1.7.1: Dec 4, 2024 =
+= 1.7.1: Dec 6, 2024 =
 
 * Fix an issue where the floating button was being rendered behind other content
 * Fix an issue where the cookies tab was hidden in the Brave browser
