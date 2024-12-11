@@ -19,6 +19,7 @@
 * [Features](#features)
 * [Credits](#credits)
 * [License](#license)
+* [About Pressidium](#about-pressidium)
 
 ## Setup
 
