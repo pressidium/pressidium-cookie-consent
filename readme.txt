@@ -173,7 +173,7 @@ If you have spotted any bugs, or would like to request additional features from 
 
 == Changelog ==
 
-= 1.7.1: Dec 6, 2024 =
+= 1.7.1: Dec 11, 2024 =
 
 * Fix an issue where the floating button was being rendered behind other content
 * Fix an issue where the cookies tab was hidden in the Brave browser
