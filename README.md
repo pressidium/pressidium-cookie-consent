@@ -124,3 +124,13 @@ Programmatically control the plugin. Conditionally show/hide the cookie consent 
 ## License
 
 GNU GPL v2 or later, check the [`LICENSE`](./LICENSE) file.
+
+## About Pressidium
+
+<p align="center">
+    <a href="https://pressidium.com/free-trial/?utm_source=pccplugin&utm_medium=ghreadme&utm_campaign=wpplugins">
+        <img width="850" src="./assets/images/banner.png" />
+    </a>
+</p>
+
+This is a free and open source WordPress plugin developed by Pressidium®. Pressidium offers Managed WordPress hosting for web professionals designed to optimize the performance, security, and scalability of WordPress websites. With a strong emphasis on reliability, Pressidium utilizes high-available architecture to ensure your website’s uptime.
