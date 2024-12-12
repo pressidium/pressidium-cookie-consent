@@ -7,6 +7,7 @@
 [![WordPress Plugin Version](https://img.shields.io/wordpress/plugin/v/pressidium-cookie-consent)](https://wordpress.org/plugins/pressidium-cookie-consent/)
 [![WordPress Plugin: Tested WP Version](https://img.shields.io/wordpress/plugin/tested/pressidium-cookie-consent)](https://wordpress.org/plugins/pressidium-cookie-consent/)
 [![WordPress Plugin Rating](https://img.shields.io/wordpress/plugin/stars/pressidium-cookie-consent)](https://wordpress.org/plugins/pressidium-cookie-consent/)
+[![WordPress Plugin Active Installs](https://img.shields.io/wordpress/plugin/installs/pressidium-cookie-consent)](https://wordpress.org/plugins/pressidium-cookie-consent/)
 
 🍪 Pressidium Cookie Consent makes it easy to add a stylish, customizable cookie consent banner to your website and conditionally load third-party scripts (preferences, analytics, targeting, etc.) based on the user-selected preferences to help you comply with EU GDPR cookie law, CCPA, and similar regulations.
 
@@ -18,6 +19,7 @@
 * [Features](#features)
 * [Credits](#credits)
 * [License](#license)
+* [About Pressidium](#about-pressidium)
 
 ## Setup
 
@@ -123,3 +125,13 @@ Programmatically control the plugin. Conditionally show/hide the cookie consent 
 ## License
 
 GNU GPL v2 or later, check the [`LICENSE`](./LICENSE) file.
+
+## About Pressidium
+
+<p align="center">
+    <a href="https://pressidium.com/free-trial/?utm_source=pccplugin&utm_medium=ghreadme&utm_campaign=wpplugins">
+        <img width="850" src="./assets/images/banner.png" />
+    </a>
+</p>
+
+This is a free and open source WordPress plugin developed by Pressidium®. Pressidium offers Managed WordPress hosting for web professionals designed to optimize the performance, security, and scalability of WordPress websites. With a strong emphasis on reliability, Pressidium utilizes high-available architecture to ensure your website’s uptime.
