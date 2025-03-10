@@ -243,7 +243,7 @@ class Settings_Page extends Page implements Actions, Filters {
     /**
      * Return the actions to register.
      *
-     * @return array
+     * @return array<string, array{0: string, 1?: int, 2?: int}>
      */
     public function get_actions(): array {
         $actions = parent::get_actions();
@@ -256,7 +256,7 @@ class Settings_Page extends Page implements Actions, Filters {
     /**
      * Return the filters to register.
      *
-     * @return array
+     * @return array<string, array{0: string, 1?: int, 2?: int}>
      */
     public function get_filters(): array {
         return array(

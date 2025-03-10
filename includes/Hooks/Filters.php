@@ -18,7 +18,7 @@ interface Filters {
     /**
      * Return the filters to register.
      *
-     * @return array
+     * @return array<string, array{0: string, 1?: int, 2?: int}>
      */
     public function get_filters(): array;
 
