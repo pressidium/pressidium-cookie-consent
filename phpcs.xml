@@ -15,9 +15,6 @@
     <exclude-pattern>*/node_modules/*</exclude-pattern>
     <exclude-pattern>*/vendor/*</exclude-pattern>
 
-    <!-- Set installed paths for the standards we're using -->
-    <config name="installed_paths" value="vendor/wp-coding-standards/wpcs,vendor/phpcompatibility/php-compatibility,vendor/phpcompatibility/phpcompatibility-wp,vendor/phpcompatibility/phpcompatibility-paragonie" />
-
     <!-- Scan only PHP files in this directory and its subdirectories -->
     <file>.</file>
     <arg name="extensions" value="php" />
@@ -38,7 +35,7 @@
     <arg value="ps" />
 
     <!-- Set the minimum supported WordPress version -->
-    <config name="minimum_supported_wp_version" value="6.0" />
+    <config name="minimum_wp_version" value="6.0" />
 
     <!-- Don't worry about files that don't contain any code -->
     <rule ref="Internal.NoCodeFound">
@@ -81,9 +78,6 @@
         <!-- Ignore yoda conditions, forbid "assignments in conditions" instead -->
         <exclude name="WordPress.PHP.YodaConditions" />
 
-        <!-- A while loop is the only valid control structure where an assignment can be justified -->
-        <exclude name="WordPress.CodeAnalysis.AssignmentInCondition.FoundInWhileCondition" />
-
         <!--
          ... Warn about mis-aligned array items, but don't automatically "fix" them, because arrays in function
          ... calls get extra lines added.
@@ -97,6 +91,11 @@
 
         <!-- Inline comments don't have to end in full-stops, exclamation marks or question marks -->
         <exclude name="Squiz.Commenting.InlineComment.InvalidEndChar" />
+    </rule>
+
+    <!-- A while loop is the only valid control structure where an assignment can be justified -->
+    <rule ref="Generic.CodeAnalysis.AssignmentInCondition">
+        <exclude name="Generic.CodeAnalysis.AssignmentInCondition.FoundInWhileCondition"/>
     </rule>
 
     <!-- Disallow real tabs, indent with 4 spaces instead -->
@@ -128,10 +127,16 @@
         </properties>
     </rule>
 
-    <!-- Allow precision alignment for objects -->
-    <rule ref="WordPress.WhiteSpace.PrecisionAlignment">
+    <!-- Allow precision alignment for inline HTML and objects -->
+    <rule ref="Universal.WhiteSpace.PrecisionAlignment">
         <properties>
-            <property name="ignoreAlignmentTokens" type="array" value="T_OBJECT_OPERATOR" />
+            <property name="ignoreAlignmentBefore" type="array">
+                <!-- Ignore precision alignment in inline HTML -->
+                <element value="T_INLINE_HTML" />
+                <!-- Ignore precision alignment in multiline chained method calls. -->
+                <element value="T_OBJECT_OPERATOR" />
+                <element value="T_NULLSAFE_OBJECT_OPERATOR" />
+            </property>
         </properties>
     </rule>
 
