@@ -40,10 +40,6 @@
         "psr/log": "^1.1",
         "phpcsstandards/phpcsutils": "^1.0"
     },
-    "post-install-cmd": "./vendor/squizlabs/php_codesniffer/bin/phpcs --config-set installed_paths vendor/wp-coding-standards/wpcs,vendor/phpcompatibility/php-compatibility,vendor/phpcompatibility/phpcompatibility-wp,vendor/phpcompatibility/phpcompatibility-paragonie",
-    "post-update-cmd": "./vendor/squizlabs/php_codesniffer/bin/phpcs --config-set installed_paths vendor/wp-coding-standards/wpcs,vendor/phpcompatibility/php-compatibility,vendor/phpcompatibility/phpcompatibility-wp,vendor/phpcompatibility/phpcompatibility-paragonie",
-    "lint": "./vendor/squizlabs/php_codesniffer/bin/phpcs",
-    "phpstan": "./vendor/bin/phpstan -c phpstan.neon",
     "config": {
         "allow-plugins": {
             "phpstan/extension-installer": true,
@@ -64,6 +60,8 @@
         }
     },
     "scripts": {
+        "lint": "./vendor/squizlabs/php_codesniffer/bin/phpcs",
+        "phpstan": "./vendor/bin/phpstan -c phpstan.neon",
         "post-install-cmd": [
             "\"vendor/bin/mozart\" compose",
             "composer dump-autoload"
