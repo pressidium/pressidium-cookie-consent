@@ -85,6 +85,9 @@ function init_plugin(): void {
     // Setup plugin constants
     setup_constants();
 
+    // Global functions
+    require_once __DIR__ . '/includes/functions.php';
+
     // Instantiate the `Plugin` object
     $plugin = new Plugin();
 

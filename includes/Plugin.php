@@ -180,6 +180,13 @@ class Plugin {
         $this->register_tables( $database_manager, $container );
         $this->register_hooks( $hooks_manager, $container );
 
+        add_filter(
+            'pressidium_cookie_consent_container',
+            function () use ( $container ) {
+                return $container;
+            }
+        );
+
         /*
          * Run the upgrader on every request to check if the plugin was upgraded
          * and if so, migrate the settings to the latest version and resave them.
