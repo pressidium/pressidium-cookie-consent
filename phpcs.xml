@@ -42,6 +42,11 @@
         <severity>0</severity>
     </rule>
 
+    <!-- Allow the closing brace of a class to have an empty line before it -->
+    <rule ref="PSR2.Classes.ClassDeclaration.CloseBraceAfterBody">
+        <severity>0</severity>
+    </rule>
+
     <!-- Use the WordPress Doc Standards as a basis -->
     <rule ref="WordPress-Docs">
         <!--
