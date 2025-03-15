@@ -1,0 +1,11 @@
+// The following styles get applied inside the editor only
+
+.wp-block-pressidium-cookies {
+  &:focus {
+    td.selected,
+    th.selected {
+      background-color: #e6f2f8;
+      box-shadow: -1px 0px 0px 0px #037cba, 1px 0px 0px 0px #037cba;
+    }
+  }
+}
