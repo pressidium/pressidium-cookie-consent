@@ -357,6 +357,9 @@
       if(all_languages.hasOwnProperty(lang)){
         return lang;
       }else if(_getKeys(all_languages).length > 0){
+        for (var k in all_languages) {
+          if(k.indexOf('-') !== -1 && k.split("-")[0] === lang) return k;
+        }
         if(all_languages.hasOwnProperty(_config.current_lang)){
           return _config.current_lang ;
         }else{
