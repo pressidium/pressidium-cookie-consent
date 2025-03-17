@@ -18,6 +18,7 @@ use Pressidium\WP\CookieConsent\Admin\Settings\Service_Provider as Settings_Serv
 use Pressidium\WP\CookieConsent\Client\Service_Provider as Client_Service_Provider;
 use Pressidium\WP\CookieConsent\Feedback\Service_Provider as Feedback_Service_Provider;
 use Pressidium\WP\CookieConsent\Blocks\Service_Provider as Blocks_Service_Provider;
+use Pressidium\WP\CookieConsent\Shortcodes\Service_Provider as Shortcodes_Service_Provider;
 
 use Pressidium\WP\CookieConsent\Hooks\Hooks_Manager;
 use Pressidium\WP\CookieConsent\Logging\File_Logger;
@@ -96,6 +97,7 @@ class Plugin {
             $this->container->addServiceProvider( Settings_Service_Provider::class );
             $this->container->addServiceProvider( Client_Service_Provider::class );
             $this->container->addServiceProvider( Blocks_Service_Provider::class );
+            $this->container->addServiceProvider( Shortcodes_Service_Provider::class );
         } catch ( ContainerExceptionInterface | NotFoundExceptionInterface $exception ) {
             $this->logger->log_exception( $exception );
         }
@@ -116,6 +118,19 @@ class Plugin {
             $hooks_manager->register( $this->container->get( 'consent_mode' ) );
             $hooks_manager->register( $this->container->get( 'feedback' ) );
             $hooks_manager->register( $this->container->get( 'cookies_block' ) );
+        } catch ( ContainerExceptionInterface | NotFoundExceptionInterface $exception ) {
+            $this->logger->log_exception( $exception );
+        }
+    }
+
+    /**
+     * Register shortcodes with the `Shortcodes_Manager`.
+     *
+     * @return void
+     */
+    private function register_shortcodes(): void {
+        try {
+            $this->container->get( 'shortcodes_manager' )->register( $this->container->get( 'cookies_shortcode' ) );
         } catch ( ContainerExceptionInterface | NotFoundExceptionInterface $exception ) {
             $this->logger->log_exception( $exception );
         }
@@ -197,6 +212,7 @@ class Plugin {
         $this->add_service_providers();
         $this->register_tables( $database_manager );
         $this->register_hooks( $hooks_manager );
+        $this->register_shortcodes();
 
         add_filter(
             'pressidium_cookie_consent_container',
