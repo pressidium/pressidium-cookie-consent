@@ -20,7 +20,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @since 1.8.0
  */
-class Blocks_Manager {
+final class Blocks_Manager {
 
     /**
      * @var Logger An instance of the `Logger` class.

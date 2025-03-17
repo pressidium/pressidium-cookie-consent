@@ -52,8 +52,7 @@ final class Service_Provider extends AbstractServiceProvider {
              ->addArgument( $this->getContainer()->get( 'logger' ) );
 
         $this->getContainer()
-             ->add( 'cookies_block', Cookies_Block::class )
-             ->addArgument( $this->getContainer()->get( 'settings' ) );
+             ->add( 'cookies_block', Cookies_Block::class );
     }
 
 }

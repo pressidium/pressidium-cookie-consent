@@ -10,7 +10,6 @@ namespace Pressidium\WP\CookieConsent\Blocks\Cookies_Block;
 
 use Pressidium\WP\CookieConsent\Blocks\Block;
 use Pressidium\WP\CookieConsent\Hooks\Actions;
-use Pressidium\WP\CookieConsent\Settings;
 
 use const Pressidium\WP\CookieConsent\PLUGIN_DIR;
 
@@ -23,21 +22,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @since 1.8.0
  */
-class Cookies_Block implements Block, Actions {
-
-    /**
-     * @var array<string, mixed> Settings.
-     */
-    private array $settings;
-
-    /**
-     * Cookie_Consent constructor.
-     *
-     * @param Settings $settings_object An instance of the `Settings` class.
-     */
-    public function __construct( Settings $settings_object ) {
-        $this->settings = $settings_object->get();
-    }
+final class Cookies_Block implements Block, Actions {
 
     /**
      * Return the path to the `block.json` file.
@@ -75,7 +60,7 @@ class Cookies_Block implements Block, Actions {
             'pressidiumCookiesBlockData',
             array(
                 // Pass the registered cookies to the block
-                'cookies' => $this->settings['pressidium_options']['cookie_table'],
+                'cookies' => pressidium_cookie_consent_get_cookies(),
             )
         );
     }
