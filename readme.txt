@@ -68,6 +68,10 @@ Automatically parse the user agent to detect bots, crawlers, and webdrivers. If 
 
 Integrate with Google Consent Mode (GCM) to adjust how Google tags behave based on the user’s consent preferences. Supports both Google tag (gtag.js) and Google Tag Manager (GTM) implementations.
 
+= 🧱 Block for the WordPress Block Editor =
+
+Easily add the `pressidium/cookies` block to the Block Editor to display the list of cookies used on your website, when used in a block theme. Use the `[pressidium_cookie_consent_cookies]` shortcode, when used in a classic theme.
+
 = ⌨️ Control it programmatically =
 
 Programmatically control the plugin. Conditionally show/hide the cookie consent banner and/or the settings modal, accept one (or more) cookie categories, erase cookies, load previously blocked scripts, etc.
