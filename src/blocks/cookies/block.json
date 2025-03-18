@@ -12,7 +12,8 @@
       "type": "string"
     },
     "customStripeColor": {
-      "type": "string"
+      "type": "string",
+      "default": "#ebebeb"
     },
     "cookieCategory": {
       "type": "string",
