@@ -9,6 +9,7 @@
 namespace Pressidium\WP\CookieConsent;
 
 use Pressidium\WP\CookieConsent\Options\Options;
+use Pressidium\WP\CookieConsent\Utils\WP_Utils;
 
 if ( ! defined( 'ABSPATH' ) ) {
     die( 'Forbidden' );
@@ -56,7 +57,7 @@ class Settings {
             'delay' => 0,
             'cookie_expiration' => 182,
             'cookie_path' => '/',
-            'cookie_domain' => Utils::get_domain(),
+            'cookie_domain' => WP_Utils::get_domain(),
             'auto_language' => 'browser',
             'cookie_name' => 'pressidium_cookie_consent',
             'languages' => array(

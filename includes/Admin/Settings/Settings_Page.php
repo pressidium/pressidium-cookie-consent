@@ -8,15 +8,15 @@
 
 namespace Pressidium\WP\CookieConsent\Admin\Settings;
 
+use Pressidium\WP\CookieConsent\Hooks\Actions;
+use Pressidium\WP\CookieConsent\Hooks\Filters;
+use Pressidium\WP\CookieConsent\Admin\Page;
+use Pressidium\WP\CookieConsent\Utils\String_Utils;
+use Pressidium\WP\CookieConsent\Utils\WP_Utils;
+
 use const Pressidium\WP\CookieConsent\PLUGIN_DIR;
 use const Pressidium\WP\CookieConsent\PLUGIN_URL;
 use const Pressidium\WP\CookieConsent\VERSION;
-
-use Pressidium\WP\CookieConsent\Hooks\Actions;
-use Pressidium\WP\CookieConsent\Hooks\Filters;
-
-use Pressidium\WP\CookieConsent\Admin\Page;
-use Pressidium\WP\CookieConsent\Utils;
 
 if ( ! defined( 'ABSPATH' ) ) {
     die( 'Forbidden' );
@@ -120,7 +120,7 @@ class Settings_Page extends Page implements Actions, Filters {
             return false;
         }
 
-        return Utils::ends_with( $screen->id, $this->get_menu_slug() );
+        return String_Utils::ends_with( $screen->id, $this->get_menu_slug() );
     }
 
     /**
@@ -165,7 +165,7 @@ class Settings_Page extends Page implements Actions, Filters {
             'cookie-consent-admin-script',
             'pressidiumCCAdminDetails',
             array(
-                'domain' => Utils::get_domain(),
+                'domain' => WP_Utils::get_domain(),
                 'assets' => array(
                     'gtm_template_url' => esc_url( PLUGIN_URL . 'assets/templates/template.tpl' ),
                     'screenshots'      => array(
