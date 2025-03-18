@@ -5,7 +5,6 @@
 
 .wp-block-pressidium-cookies {
   $border-width: '2px';
-  $stripe-color: #ebebeb;
 
   overflow-x: auto;
 
@@ -83,15 +82,13 @@
     background-color: transparent;
 
     tbody tr:nth-child(odd) {
-      background-color: $stripe-color;
+      background-color: var(--cc-block-stripe-color);
     }
 
     th,
     td {
       border-color: transparent;
     }
-
-    border-bottom: 1px solid $stripe-color;
   }
 
   // Border Styles

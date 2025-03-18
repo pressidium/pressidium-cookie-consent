@@ -1,8 +1,30 @@
 <?php
+/**
+ * Cookies Block.
+ *
+ * We use this file to render the Cookies Block at the front end.
+ * We have to render the block in PHP because it is a dynamic block.
+ * The block is used to display the cookies of a specific category
+ * and has to retrieve the listed cookies dynamically.
+ *
+ * Learn more about dynamic blocks in WordPress:
+ *
+ * @link https://developer.wordpress.org/block-editor/how-to-guides/block-tutorial/creating-dynamic-blocks/
+ *
+ * @author Konstantinos Pappas <konpap@pressidium.com>
+ * @copyright 2025 Pressidium
+ */
+
+// Let phpstan know that the $attributes variable is defined.
+/** @var array<string, mixed> $attributes */
+
+use Pressidium\WP\CookieConsent\Utils\Color_Utils;
+
 $all_cookies     = pressidium_cookie_consent_get_cookies();
 $cookie_category = $attributes['cookieCategory'] ?? '';
 $cookies         = $all_cookies[ $cookie_category ] ?? array();
 
+// Columns
 $column_names = array(
     'name',
     'domain',
@@ -19,9 +41,16 @@ $column_headers = array(
     'description' => __( 'Description', 'pressidium-cookie-consent' ),
 );
 
-$fallback_color    = $attributes['textColor'] ?? '#000000';
-$border_color      = \Pressidium\WP\CookieConsent\Utils::get_color_hex_by_slug( $attributes['borderColor'] );
-$border_color      = ! empty( $border_color ) ? $border_color : $fallback_color;
+// Border
+$fallback_border_color = $attributes['textColor'] ?? '#000000';
+
+if ( ! isset( $attributes['borderColor'] ) ) {
+    $border_color = $fallback_border_color;
+} else {
+    $border_color = Color_Utils::get_color_hex_by_slug( $attributes['borderColor'] );
+    $border_color = ! empty( $border_color ) ? $border_color : $fallback_border_color;
+}
+
 $border_color_attr = 'border-color: ' . $border_color;
 
 $border_styles = array(
@@ -33,9 +62,26 @@ $border_css = array();
 foreach ( $border_styles as $property => $value ) {
     $border_css[] = esc_attr( $property ) . ':' . esc_attr( $value );
 }
+
+// Stripes
+$fallback_stripe_color = '#ebebeb';
+
+if ( isset( $attributes['stripeColor'] ) ) {
+    $stripe_color = Color_Utils::get_color_preset_var_by_slug( $attributes['stripeColor'] );
+} elseif ( isset( $attributes['customStripeColor'] ) ) {
+    $stripe_color = $attributes['customStripeColor'];
+} else {
+    $stripe_color = $fallback_stripe_color;
+}
+
+$block_wrapper_attributes = get_block_wrapper_attributes(
+    array(
+        'style' => sprintf( '--cc-block-stripe-color: %s;', esc_attr( $stripe_color ) ),
+    )
+);
 ?>
 
-<div <?php echo wp_kses_data( get_block_wrapper_attributes() ); ?>>
+<div <?php echo wp_kses_data( $block_wrapper_attributes ); ?>>
     <table
         data-cookie-category="<?php echo esc_attr( $cookie_category ); ?>"
         style="<?php echo esc_attr( implode( ';', $border_css ) ); ?>"

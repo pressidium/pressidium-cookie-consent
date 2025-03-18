@@ -11,8 +11,11 @@ import {
   BlockControls,
   InspectorControls,
   AlignmentControl,
+  withColors,
   __experimentalUseColorProps as useColorProps,
   __experimentalUseBorderProps as useBorderProps,
+  __experimentalColorGradientSettingsDropdown as ColorGradientSettingsDropdown,
+  __experimentalUseMultipleOriginColorsAndGradients as useMultipleOriginColorsAndGradients,
 } from '@wordpress/block-editor';
 import {
   alignLeft,
@@ -52,12 +55,28 @@ const COLUMN_NAMES = [
   'description',
 ];
 
-export default function Edit(props) {
-  const { attributes, setAttributes } = props;
+function Edit(props) {
+  const {
+    attributes,
+    setAttributes,
+    stripeColor,
+    setStripeColor,
+    style,
+    clientId,
+  } = props;
 
-  const blockProps = useBlockProps();
+  const blockProps = useBlockProps({
+    style: {
+      ...style,
+      '--cc-block-stripe-color': stripeColor.slug
+        ? `var(--wp--preset--color--${stripeColor.slug})`
+        : attributes.customStripeColor,
+    },
+  });
   const colorProps = useColorProps(attributes);
   const borderProps = useBorderProps(attributes);
+
+  const colorGradientSettings = useMultipleOriginColorsAndGradients();
 
   const [selectedColumn, setSelectedColumn] = useState(null);
 
@@ -128,6 +147,14 @@ export default function Edit(props) {
       },
     });
   }, [attributes.columnsVisibility]);
+
+  const onStripeColorChange = (value) => {
+    setStripeColor(value);
+
+    setAttributes({
+      customStripeColor: value,
+    });
+  };
 
   return (
     <>
@@ -241,6 +268,21 @@ export default function Edit(props) {
         </PanelBody>
       </InspectorControls>
 
+      <InspectorControls group="color">
+        <ColorGradientSettingsDropdown
+          settings={[{
+            label: __('Stripe', 'pressidium-cookie-consent'),
+            colorValue: stripeColor.color || attributes.customStripeColor,
+            onColorChange: onStripeColorChange,
+          }]}
+          panelId={clientId}
+          hasColorsOrGradients={false}
+          disableCustomColors={false}
+          __experimentalIsRenderedInSidebar
+          {...colorGradientSettings}
+        />
+      </InspectorControls>
+
       <div {...blockProps}>
         <table
           data-cookie-category={attributes.cookieCategory}
@@ -304,3 +346,5 @@ export default function Edit(props) {
     </>
   );
 }
+
+export default withColors({ stripeColor: 'stripe-color' })(Edit);
