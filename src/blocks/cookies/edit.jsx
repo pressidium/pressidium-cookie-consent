@@ -87,6 +87,14 @@ function Edit(props) {
     preferences: pressidiumCookiesBlockData.cookies.preferences || [],
   }), [pressidiumCookiesBlockData]);
 
+  const i18nColumnNames = {
+    name: __('Name', 'pressidium-cookie-consent'),
+    domain: __('Domain', 'pressidium-cookie-consent'),
+    expiration: __('Expiration', 'pressidium-cookie-consent'),
+    path: __('Path', 'pressidium-cookie-consent'),
+    description: __('Description', 'pressidium-cookie-consent'),
+  };
+
   const selectedCookies = useMemo(
     () => cookies[attributes.cookieCategory],
     [cookies, attributes.cookieCategory],
@@ -120,7 +128,6 @@ function Edit(props) {
   }, []);
 
   const onChangeHeaderAlignment = useCallback((alignment) => {
-    console.log('Updating header alignment', alignment);
     setAttributes({
       headerAlignment: alignment,
     });
@@ -306,7 +313,7 @@ function Edit(props) {
                       },
                     )}
                   >
-                    {columnName}
+                    {i18nColumnNames[columnName] || columnName}
                   </th>
                 );
               })}

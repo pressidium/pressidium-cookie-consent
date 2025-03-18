@@ -53,10 +53,15 @@ if ( ! isset( $attributes['borderColor'] ) ) {
 
 $border_color_attr = 'border-color: ' . $border_color;
 
-$border_styles = array(
-    'border-width' => $attributes['style']['border']['width'] ?? '0',
-    'border-style' => $attributes['style']['border']['style'] ?? 'solid',
-);
+$border_styles = array();
+
+if ( isset( $attributes['style']['border']['width'] ) ) {
+    $border_styles['border-width'] = $attributes['style']['border']['width'];
+}
+
+if ( isset( $attributes['style']['border']['style'] ) ) {
+    $border_styles['border-style'] = $attributes['style']['border']['style'];
+}
 
 $border_css = array();
 foreach ( $border_styles as $property => $value ) {
@@ -64,14 +69,12 @@ foreach ( $border_styles as $property => $value ) {
 }
 
 // Stripes
-$fallback_stripe_color = '#ebebeb';
-
 if ( isset( $attributes['stripeColor'] ) ) {
     $stripe_color = Color_Utils::get_color_preset_var_by_slug( $attributes['stripeColor'] );
 } elseif ( isset( $attributes['customStripeColor'] ) ) {
     $stripe_color = $attributes['customStripeColor'];
 } else {
-    $stripe_color = $fallback_stripe_color;
+    $stripe_color = 'transparent';
 }
 
 $block_wrapper_attributes = get_block_wrapper_attributes(
