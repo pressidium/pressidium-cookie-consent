@@ -42,6 +42,7 @@ function AboutTab() {
     controlKnobs: <>&#127899;&#65039;</>,
     robot: <>&#129302;</>,
     puzzlePiece: <>&#x1F9E9;</>,
+    brick: <>&#x1F9F1;</>,
     keyboard: <>&#x2328;&#xFE0F;</>,
   };
 
@@ -198,6 +199,24 @@ function AboutTab() {
               </StyledHeading>
               <p>
                 {__('Integrate with Google Consent Mode (GCM) to adjust how Google tags behave based on the user’s consent preferences. Supports both Google tag (gtag.js) and Google Tag Manager (GTM) implementations.', 'pressidium-cookie-consent')}
+              </p>
+            </FlexItem>
+            <FlexItem>
+              <StyledHeading>
+                <Emoji symbol={emojis.brick} style={{ marginRight: '0.3em' }} />
+                {__('Block for the WordPress Block Editor', 'pressidium-cookie-consent')}
+              </StyledHeading>
+              <p>
+                {
+                  createInterpolateElement(
+                    __('Easily add the <code>pressidium/cookies</code> block to the Block Editor to display the list of cookies used on your website, when used in a block theme. Use the <code>[pressidium_cookie_consent_cookies]</code> shortcode, when used in a classic theme.', 'pressidium-cookie-consent'),
+                    {
+                      code: (
+                        <code />
+                      ),
+                    },
+                  )
+                }
               </p>
             </FlexItem>
             <FlexItem>
