@@ -8,6 +8,12 @@
   "icon": "block-default",
   "description": "Display a table containing all cookies of a category.",
   "attributes": {
+    "stripeColor": {
+      "type": "string"
+    },
+    "customStripeColor": {
+      "type": "string"
+    },
     "cookieCategory": {
       "type": "string",
       "default": "necessary"
@@ -68,6 +74,7 @@
         "fontSize": true
       }
     },
+    "shadow": true,
     "spacing": {
       "margin": true,
       "padding": true,
