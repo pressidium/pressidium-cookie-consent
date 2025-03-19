@@ -167,13 +167,14 @@ If you have spotted any bugs, or would like to request additional features from 
 2. Font and colors
 3. Cookie tables
 4. Translations
-5. Consent modal
+5. Modals
 6. Settings modal
 7. Floating button
 8. Google Consent Mode
 9. Google Tag Manager template
 10. Blocked scripts
 11. Consent records
+12. Pressidium Cookies Table block
 
 == Changelog ==
 
