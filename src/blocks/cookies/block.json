@@ -3,10 +3,10 @@
   "apiVersion": 2,
   "name": "pressidium/cookies",
   "version": "1.0.0",
-  "title": "Cookies",
+  "title": "Pressidium Cookies Table",
   "category": "widgets",
   "icon": "block-default",
-  "description": "Display a table containing all cookies of a category.",
+  "description": "Display a dynamic table listing all cookies under the selected category, making it easy for users to understand what cookies are being used on the site.",
   "attributes": {
     "stripeColor": {
       "type": "string"
