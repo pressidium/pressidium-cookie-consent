@@ -209,10 +209,10 @@ function AboutTab() {
               <p>
                 {
                   createInterpolateElement(
-                    __('Easily add the <code>pressidium/cookies</code> block to the Block Editor to display the list of cookies used on your website, when used in a block theme. Use the <code>[pressidium_cookie_consent_cookies]</code> shortcode, when used in a classic theme.', 'pressidium-cookie-consent'),
+                    __('Add the <b>Pressidium Cookies Table</b> block for the Block Editor to display a dynamic table listing all cookies under the selected category, making it easy for users to understand what cookies are being used on the site.', 'pressidium-cookie-consent'),
                     {
-                      code: (
-                        <code />
+                      b: (
+                        <b />
                       ),
                     },
                   )
