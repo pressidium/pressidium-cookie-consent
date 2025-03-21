@@ -6,7 +6,7 @@ Tags: cookie, consent, gdpr, ccpa, cookies
 Requires at least: 6.0
 Tested up to: 6.7
 Requires PHP: 7.4
-Stable Tag: 1.7.1
+Stable Tag: 1.8.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -177,6 +177,15 @@ If you have spotted any bugs, or would like to request additional features from 
 12. Pressidium Cookies Table block
 
 == Changelog ==
+
+= 1.8.0: Mar 24, 2025 =
+
+* Introduce the Pressidium Cookies Table block for the WordPress Block Editor (also known as Gutenberg)
+* Introduce the `[pressidium_cookie_consent_cookies]` shortcode
+* Expose the `pressidium_cookie_consent_get_cookies()` global function to retrieve the cookies list
+* Integrate with WP Consent API
+* Wrap the “Domain” column in the cookie settings modal
+* Update Composer and npm dependencies
 
 = 1.7.1: Dec 12, 2024 =
 
