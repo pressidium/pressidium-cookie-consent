@@ -235,7 +235,7 @@ function TranslationsTab() {
                   />
                 </PanelRow>
                 <PanelRow>
-                  <TextControl
+                  <TextareaControl
                     label="Description"
                     value={state.languages[selectedLanguage].settings_modal.blocks[0].description}
                     onChange={(value) => onBlockLanguageSettingChange(0, 'description', value)}
@@ -322,7 +322,7 @@ function TranslationsTab() {
                   />
                 </PanelRow>
                 <PanelRow>
-                  <TextControl
+                  <TextareaControl
                     label="Description"
                     value={state.languages[selectedLanguage].settings_modal.blocks[1].description}
                     onChange={(value) => onBlockLanguageSettingChange(1, 'description', value)}
@@ -341,7 +341,7 @@ function TranslationsTab() {
                   />
                 </PanelRow>
                 <PanelRow>
-                  <TextControl
+                  <TextareaControl
                     label="Description"
                     value={state.languages[selectedLanguage].settings_modal.blocks[2].description}
                     onChange={(value) => onBlockLanguageSettingChange(2, 'description', value)}
@@ -360,7 +360,7 @@ function TranslationsTab() {
                   />
                 </PanelRow>
                 <PanelRow>
-                  <TextControl
+                  <TextareaControl
                     label="Description"
                     value={state.languages[selectedLanguage].settings_modal.blocks[3].description}
                     onChange={(value) => onBlockLanguageSettingChange(3, 'description', value)}
@@ -379,7 +379,7 @@ function TranslationsTab() {
                   />
                 </PanelRow>
                 <PanelRow>
-                  <TextControl
+                  <TextareaControl
                     label="Description"
                     value={state.languages[selectedLanguage].settings_modal.blocks[4].description}
                     onChange={(value) => onBlockLanguageSettingChange(4, 'description', value)}
@@ -398,7 +398,7 @@ function TranslationsTab() {
                   />
                 </PanelRow>
                 <PanelRow>
-                  <TextControl
+                  <TextareaControl
                     label="Description"
                     value={state.languages[selectedLanguage].settings_modal.blocks[5].description}
                     onChange={(value) => onBlockLanguageSettingChange(5, 'description', value)}
