@@ -184,6 +184,7 @@ If you have spotted any bugs, or would like to request additional features from 
 * Introduce the `[pressidium_cookie_consent_cookies]` shortcode
 * Expose the `pressidium_cookie_consent_get_cookies()` global function to retrieve the cookies list
 * Integrate with WP Consent API
+* Switch description text fields to textareas under the “Translations” tab
 * Wrap the “Domain” column in the cookie settings modal
 * Update Composer and npm dependencies
 
