@@ -19,6 +19,7 @@ use Pressidium\WP\CookieConsent\Client\Service_Provider as Client_Service_Provid
 use Pressidium\WP\CookieConsent\Feedback\Service_Provider as Feedback_Service_Provider;
 use Pressidium\WP\CookieConsent\Blocks\Service_Provider as Blocks_Service_Provider;
 use Pressidium\WP\CookieConsent\Shortcodes\Service_Provider as Shortcodes_Service_Provider;
+use Pressidium\WP\CookieConsent\Integrations\Service_Provider as Integrations_Service_Provider;
 
 use Pressidium\WP\CookieConsent\Hooks\Hooks_Manager;
 use Pressidium\WP\CookieConsent\Logging\File_Logger;
@@ -98,6 +99,7 @@ class Plugin {
             $this->container->addServiceProvider( Client_Service_Provider::class );
             $this->container->addServiceProvider( Blocks_Service_Provider::class );
             $this->container->addServiceProvider( Shortcodes_Service_Provider::class );
+            $this->container->addServiceProvider( Integrations_Service_Provider::class );
         } catch ( ContainerExceptionInterface | NotFoundExceptionInterface $exception ) {
             $this->logger->log_exception( $exception );
         }
@@ -118,6 +120,7 @@ class Plugin {
             $hooks_manager->register( $this->container->get( 'consent_mode' ) );
             $hooks_manager->register( $this->container->get( 'feedback' ) );
             $hooks_manager->register( $this->container->get( 'cookies_block' ) );
+            $hooks_manager->register( $this->container->get( 'wp_consent_api' ) );
         } catch ( ContainerExceptionInterface | NotFoundExceptionInterface $exception ) {
             $this->logger->log_exception( $exception );
         }
