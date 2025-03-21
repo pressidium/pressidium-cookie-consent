@@ -70,7 +70,7 @@ Integrate with Google Consent Mode (GCM) to adjust how Google tags behave based 
 
 = 🧱 Block for the WordPress Block Editor =
 
-Easily add the `pressidium/cookies` block to the Block Editor to display the list of cookies used on your website, when used in a block theme. Use the `[pressidium_cookie_consent_cookies]` shortcode, when used in a classic theme.
+Add the **Pressidium Cookies Table** block for the Block Editor to display a dynamic table listing all cookies under the selected category, making it easy for users to understand what cookies are being used on the site.
 
 = ⌨️ Control it programmatically =
 
