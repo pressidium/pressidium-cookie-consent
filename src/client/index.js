@@ -1,6 +1,7 @@
 import './lib/cookieconsent';
 
 import './components';
+import './wp-consent-api';
 
 import './scss/main.scss';
 

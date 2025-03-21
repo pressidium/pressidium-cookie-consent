@@ -18,6 +18,7 @@ module.exports = {
     'react',
   ],
   globals: {
+    pressidiumCookieConsent: 'readonly',
     pressidiumCCAdminDetails: 'readonly',
     pressidiumCCClientDetails: 'readonly',
     pressidiumCCFeedbackDetails: 'readonly',
