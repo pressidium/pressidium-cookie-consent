@@ -76,6 +76,10 @@ Add the **Pressidium Cookies Table** block for the Block Editor to display a dyn
 
 Programmatically control the plugin. Conditionally show/hide the cookie consent banner and/or the settings modal, accept one (or more) cookie categories, erase cookies, load previously blocked scripts, etc.
 
+= About Pressidium =
+
+This is a free and open source WordPress plugin developed by Pressidium®. Pressidium offers Managed WordPress hosting for web professionals designed to optimize the performance, security, and scalability of WordPress websites. With a strong emphasis on reliability, Pressidium utilizes high-available architecture to ensure your website’s uptime.
+
 == Installation ==
 
 = Automatic installation =
