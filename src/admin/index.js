@@ -1,6 +1,7 @@
 import { render } from '@wordpress/element';
 
 import SettingsProvider from './store/provider';
+import { AIProvider } from './hooks/ai';
 
 import SettingsPanel from './components/SettingsPanel';
 
@@ -9,7 +10,9 @@ import './scss/main.scss';
 function Root() {
   return (
     <SettingsProvider>
-      <SettingsPanel />
+      <AIProvider>
+        <SettingsPanel />
+      </AIProvider>
     </SettingsProvider>
   );
 }
