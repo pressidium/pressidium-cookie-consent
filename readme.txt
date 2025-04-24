@@ -184,12 +184,15 @@ If you have spotted any bugs, or would like to request additional features from 
 
 = 1.8.0: Apr 25, 2025 =
 
+* Integrate with AI — supports GPT and Gemini to generate translations and cookie descriptions
 * Introduce the Pressidium Cookies Table block for the WordPress Block Editor (also known as Gutenberg)
 * Introduce the `[pressidium_cookie_consent_cookies]` shortcode
 * Expose the `pressidium_cookie_consent_get_cookies()` global function to retrieve the cookies list
 * Integrate with WP Consent API
 * Switch description text fields to textareas under the “Translations” tab
 * Wrap the “Domain” column in the cookie settings modal
+* Add a notice to warn users for potential issues with a misconfigured cookie domain and/or path
+* Prevent duplicated admin notices
 * Update Composer and npm dependencies
 
 = 1.7.1: Dec 12, 2024 =
