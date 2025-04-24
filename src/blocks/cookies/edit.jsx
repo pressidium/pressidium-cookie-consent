@@ -293,7 +293,7 @@ function Edit(props) {
       <div {...blockProps}>
         <table
           data-cookie-category={attributes.cookieCategory}
-          className={clsx(colorProps.className, borderProps.className, )}
+          className={clsx(colorProps.className, borderProps.className)}
           style={{ ...colorProps.style, ...borderProps.style }}
         >
           <thead>
