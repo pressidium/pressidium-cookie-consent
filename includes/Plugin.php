@@ -20,11 +20,14 @@ use Pressidium\WP\CookieConsent\Feedback\Service_Provider as Feedback_Service_Pr
 use Pressidium\WP\CookieConsent\Blocks\Service_Provider as Blocks_Service_Provider;
 use Pressidium\WP\CookieConsent\Shortcodes\Service_Provider as Shortcodes_Service_Provider;
 use Pressidium\WP\CookieConsent\Integrations\Service_Provider as Integrations_Service_Provider;
+use Pressidium\WP\CookieConsent\AI\Service_Provider as AI_Service_Provider;
 
 use Pressidium\WP\CookieConsent\Hooks\Hooks_Manager;
 use Pressidium\WP\CookieConsent\Logging\File_Logger;
 use Pressidium\WP\CookieConsent\Logging\Logger;
 use Pressidium\WP\CookieConsent\Options\WP_Options;
+use Pressidium\WP\CookieConsent\Options\Data_Encryption;
+use Pressidium\WP\CookieConsent\Options\Encrypted_Options;
 
 use Pressidium\WP\CookieConsent\Database\Tables\Consents_Table;
 use Pressidium\WP\CookieConsent\Database\Database_Manager;
@@ -100,6 +103,7 @@ class Plugin {
             $this->container->addServiceProvider( Blocks_Service_Provider::class );
             $this->container->addServiceProvider( Shortcodes_Service_Provider::class );
             $this->container->addServiceProvider( Integrations_Service_Provider::class );
+            $this->container->addServiceProvider( AI_Service_Provider::class );
         } catch ( ContainerExceptionInterface | NotFoundExceptionInterface $exception ) {
             $this->logger->log_exception( $exception );
         }
@@ -115,6 +119,7 @@ class Plugin {
     private function register_hooks( Hooks_Manager $hooks_manager ): void {
         try {
             $hooks_manager->register( $this->container->get( 'settings_api' ) );
+            $hooks_manager->register( $this->container->get( 'ai_api' ) );
             $hooks_manager->register( $this->container->get( 'settings_page' ) );
             $hooks_manager->register( $this->container->get( 'cookie_consent' ) );
             $hooks_manager->register( $this->container->get( 'consent_mode' ) );
@@ -196,6 +201,9 @@ class Plugin {
 
         $options = new WP_Options();
         $this->container->add( 'options', $options );
+
+        $encrypted_options = new Encrypted_Options( new Data_Encryption(), $options );
+        $this->container->add( 'encrypted_options', $encrypted_options );
 
         $database_manager = new Database_Manager( $options, $this->logger );
         $this->container->add( 'database_manager', $database_manager );
