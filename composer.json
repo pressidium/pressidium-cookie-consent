@@ -38,12 +38,17 @@
         "league/container": "^3.4",
         "ext-json": "*",
         "psr/log": "^1.1",
-        "phpcsstandards/phpcsutils": "^1.0"
+        "phpcsstandards/phpcsutils": "^1.0",
+        "openai-php/client": "^0.10.3",
+        "symfony/http-client": "^6.4",
+        "nyholm/psr7": "^1.8",
+        "gemini-api-php/client": "^1.7"
     },
     "config": {
         "allow-plugins": {
             "phpstan/extension-installer": true,
-            "dealerdirect/phpcodesniffer-composer-installer": true
+            "dealerdirect/phpcodesniffer-composer-installer": true,
+            "php-http/discovery": true
         }
     },
     "extra": {
