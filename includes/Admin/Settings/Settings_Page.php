@@ -177,11 +177,18 @@ class Settings_Page extends Page implements Actions, Filters {
                     'promo'            => esc_url( PLUGIN_URL . 'assets/images/promo.png' ),
                 ),
                 'api'    => array(
-                    'route'          => 'pressidium-cookie-consent/v1/settings',
-                    'logs_route'     => 'pressidium-cookie-consent/v1/logs',
-                    'consents_route' => 'pressidium-cookie-consent/v1/consents',
-                    'export_route'   => 'pressidium-cookie-consent/v1/export',
-                    'nonce'          => wp_create_nonce( 'pressidium_cookie_consent_rest' ),
+                    'route'                    => 'pressidium-cookie-consent/v1/settings',
+                    'logs_route'               => 'pressidium-cookie-consent/v1/logs',
+                    'consents_route'           => 'pressidium-cookie-consent/v1/consents',
+                    'export_route'             => 'pressidium-cookie-consent/v1/export',
+                    'credentials_route'        => 'pressidium-cookie-consent/v1/ai/credentials',
+                    'provider_route'           => 'pressidium-cookie-consent/v1/ai/provider',
+                    'models_route'             => 'pressidium-cookie-consent/v1/ai/models',
+                    'model_route'              => 'pressidium-cookie-consent/v1/ai/model',
+                    'translate_route'          => 'pressidium-cookie-consent/v1/ai/translate',
+                    'translate_all_route'      => 'pressidium-cookie-consent/v1/ai/translate-all',
+                    'cookie_description_route' => 'pressidium-cookie-consent/v1/ai/cookie-description',
+                    'nonce'                    => wp_create_nonce( 'pressidium_cookie_consent_rest' ),
                 ),
             )
         );
