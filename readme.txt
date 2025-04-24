@@ -182,7 +182,7 @@ If you have spotted any bugs, or would like to request additional features from 
 
 == Changelog ==
 
-= 1.8.0: Mar 24, 2025 =
+= 1.8.0: Apr 25, 2025 =
 
 * Introduce the Pressidium Cookies Table block for the WordPress Block Editor (also known as Gutenberg)
 * Introduce the `[pressidium_cookie_consent_cookies]` shortcode
