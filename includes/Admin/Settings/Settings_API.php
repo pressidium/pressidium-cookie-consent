@@ -9,8 +9,6 @@
 namespace Pressidium\WP\CookieConsent\Admin\Settings;
 
 use Pressidium\WP\CookieConsent\Database\Exporter;
-use const Pressidium\WP\CookieConsent\VERSION;
-
 use Pressidium\WP\CookieConsent\Hooks\Actions;
 use Pressidium\WP\CookieConsent\Logging\Logger;
 use Pressidium\WP\CookieConsent\Settings;
@@ -25,6 +23,8 @@ use WP_REST_Response;
 use WP_Error;
 
 use Exception;
+
+use const Pressidium\WP\CookieConsent\VERSION;
 
 if ( ! defined( 'ABSPATH' ) ) {
     die( 'Forbidden' );

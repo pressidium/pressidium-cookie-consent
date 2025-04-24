@@ -33,8 +33,8 @@ class WP_Options implements Options {
     /**
      * Store the given value to an option with the given name.
      *
-     * @param string $name Option name.
-     * @param mixed $value Option value.
+     * @param string $name  Option name.
+     * @param mixed  $value Option value.
      *
      * @return bool Whether the option was added successfully.
      */
