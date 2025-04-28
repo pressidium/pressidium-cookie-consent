@@ -186,8 +186,8 @@ class Cookie_Consent implements Actions, Filters {
         ?>
 
         <script type="text/javascript" data-pressidium-cc-no-block>
-          window.pressidiumCCBlockedScripts = <?php echo wp_json_encode( $this->settings['pressidium_options']['blocked_scripts'] ); ?>;
-          window.pressidiumCCCookieName = '<?php echo esc_js( $this->settings['cookie_name'] ); ?>';
+            window.pressidiumCCBlockedScripts = <?php echo wp_json_encode( $this->settings['pressidium_options']['blocked_scripts'] ); ?>;
+            window.pressidiumCCCookieName = '<?php echo esc_js( $this->settings['cookie_name'] ); ?>';
         </script>
 
         <script src="<?php echo esc_url( $block_scripts_url ); ?>" type="text/javascript" data-pressidium-cc-no-block></script>
