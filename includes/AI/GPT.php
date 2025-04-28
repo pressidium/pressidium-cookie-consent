@@ -8,8 +8,8 @@
 
 namespace Pressidium\WP\CookieConsent\AI;
 
-use OpenAI;
-use OpenAI\Client;
+use Pressidium\WP\CookieConsent\Dependencies\OpenAI;
+use Pressidium\WP\CookieConsent\Dependencies\OpenAI\Client;
 
 use RuntimeException;
 

@@ -10,10 +10,11 @@ namespace Pressidium\WP\CookieConsent\AI;
 
 use Pressidium\WP\CookieConsent\Utils\String_Utils;
 
-use GeminiAPI\Client;
-use GeminiAPI\Resources\Parts\TextPart;
+use Pressidium\WP\CookieConsent\Dependencies\GeminiAPI\Client;
+use Pressidium\WP\CookieConsent\Dependencies\GeminiAPI\Resources\Parts\TextPart;
 
-use Psr\Http\Client\ClientExceptionInterface;
+use Pressidium\WP\CookieConsent\Dependencies\Psr\Http\Client\ClientExceptionInterface;
+
 use RuntimeException;
 
 if ( ! defined( 'ABSPATH' ) ) {
