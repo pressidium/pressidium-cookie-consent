@@ -59,7 +59,9 @@
             "classmap_prefix": "Pressidium_Cookie_Consent_",
             "packages": [
                 "league/container",
-                "psr/log"
+                "psr/log",
+                "openai-php/client",
+                "gemini-api-php/client"
             ],
             "delete_vendor_directories": false
         }
