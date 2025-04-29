@@ -8,10 +8,10 @@
 
 namespace Pressidium\WP\CookieConsent\AI;
 
-use Pressidium\WP\CookieConsent\Dependencies\OpenAI;
-use Pressidium\WP\CookieConsent\Dependencies\OpenAI\Client;
+use Pressidium\WP\CookieConsent\Dependencies\Orhanerday\OpenAi\OpenAi;
 
 use RuntimeException;
+use Exception;
 
 if ( ! defined( 'ABSPATH' ) ) {
     die( 'Forbidden' );
@@ -25,9 +25,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 final class GPT extends AI {
 
     /**
-     * @var ?Client OpenAI client.
+     * @var ?OpenAi OpenAI client.
      */
-    private ?Client $client = null;
+    private ?OpenAi $client = null;
 
     /**
      * Initialize GPT client.
@@ -37,7 +37,7 @@ final class GPT extends AI {
      * @return GPT
      */
     public function init( string $api_key ): GPT {
-        $this->client = OpenAI::client( $api_key );
+        $this->client = new OpenAi( $api_key );
 
         return $this; // chainable
     }
@@ -54,7 +54,10 @@ final class GPT extends AI {
     /**
      * Return the models OpenAI supports.
      *
-     * @throws RuntimeException If API key is not set.
+     * @throws RuntimeException If an API key is not set.
+     * @throws RuntimeException If the response from the OpenAI API could not be decoded.
+     * @throws RuntimeException If the response from the OpenAI API is invalid.
+     * @throws RuntimeException If no models are found in the response from the OpenAI API.
      *
      * @return array<array<string, string>>
      */
@@ -63,17 +66,33 @@ final class GPT extends AI {
             throw new RuntimeException( 'API key not set.' );
         }
 
-        $response = $this->client->models()->list();
+        $response      = $this->client->listModels();
+        $response_data = json_decode( $response );
 
-        return array_map(
-            function ( $model ) {
-                return array(
+        if ( json_last_error() !== JSON_ERROR_NONE ) {
+            throw new RuntimeException( 'Could not decode the response from the OpenAI API' );
+        }
+
+        if ( ! is_object( $response_data ) || ! isset( $response_data->data ) || ! is_array( $response_data->data ) ) {
+            throw new RuntimeException( 'Invalid response from the OpenAI API' );
+        }
+
+        $models = array();
+
+        foreach ( $response_data->data as $model ) {
+            if ( isset( $model->id ) && is_string( $model->id ) ) {
+                $models[] = array(
                     'id'   => $model->id,
                     'name' => $model->id,
                 );
-            },
-            $response->data
-        );
+            }
+        }
+
+        if ( empty( $models ) ) {
+            throw new RuntimeException( 'No models found in the response from the OpenAI API' );
+        }
+
+        return $models;
     }
 
     /**
@@ -94,7 +113,7 @@ final class GPT extends AI {
     /**
      * Send a message to GPT.
      *
-     * @throws RuntimeException If API key is not set.
+     * @throws RuntimeException If an API key is not set.
      *
      * @param string $text Message to send.
      *
@@ -105,21 +124,39 @@ final class GPT extends AI {
             throw new RuntimeException( 'API key not set.' );
         }
 
-        $result = $this->client->chat()->create(
-            array(
-                'model'    => $this->model,
-                'messages' => array(
-                    array(
-                        'role'    => 'system',
-                        'content' => $this->system_prompt,
+        try {
+            $response = $this->client->chat(
+                array(
+                    'model'    => $this->model,
+                    'messages' => array(
+                        array(
+                            'role'    => 'system',
+                            'content' => $this->system_prompt,
+                        ),
+                        array(
+                            'role'    => 'user',
+                            'content' => $text,
+                        ),
                     ),
-                    array(
-                        'role'    => 'user',
-                        'content' => $text,
-                    ),
-                ),
-            )
-        );
+                )
+            );
+        } catch ( Exception $exception ) {
+            throw new RuntimeException( $exception->getMessage() );
+        }
+
+        $result = json_decode( $response );
+
+        if ( json_last_error() !== JSON_ERROR_NONE ) {
+            throw new RuntimeException( 'Could not decode the response from the OpenAI API' );
+        }
+
+        if ( ! is_object( $result ) || ! isset( $result->choices ) || ! is_array( $result->choices ) ) {
+            throw new RuntimeException( 'Unexpected response structure from the OpenAI API' );
+        }
+
+        if ( ! isset( $result->choices[0]->message->content ) ) {
+            throw new RuntimeException( 'Invalid response from the OpenAI API' );
+        }
 
         return $result->choices[0]->message->content;
     }

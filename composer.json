@@ -39,9 +39,10 @@
         "ext-json": "*",
         "psr/log": "^1.1",
         "phpcsstandards/phpcsutils": "^1.0",
-        "openai-php/client": "^0.10.3",
         "symfony/http-client": "^6.4",
         "nyholm/psr7": "^1.8",
+        "orhanerday/open-ai": "^5.3",
+        "guzzlehttp/guzzle": "^7.9",
         "gemini-api-php/client": "^1.7"
     },
     "config": {
