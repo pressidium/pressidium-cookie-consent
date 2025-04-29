@@ -196,6 +196,34 @@ class Cookie_Consent implements Actions, Filters {
     }
 
     /**
+     * Print inline script for Google Consent Mode.
+     *
+     * @return void
+     */
+    private function print_consent_mode_inline_script(): void {
+        if ( ! $this->settings['pressidium_options']['gcm']['enabled'] ) {
+            // GCM is not enabled, bail early
+            return;
+        }
+        ?>
+
+        <script type="text/javascript" data-pressidium-cc-no-block>
+            function onPressidiumCookieConsentUpdated(event) {
+                window.dataLayer = window.dataLayer || [];
+                window.dataLayer.push({
+                    event: 'pressidium-cookie-consent-' + event.type,
+                    consent: event.detail,
+                });
+            }
+
+            window.addEventListener('pressidium-cookie-consent-accepted', onPressidiumCookieConsentUpdated);
+            window.addEventListener('pressidium-cookie-consent-changed', onPressidiumCookieConsentUpdated);
+        </script>
+
+        <?php
+    }
+
+    /**
      * Print inline style.
      *
      * @return void
@@ -231,6 +259,7 @@ class Cookie_Consent implements Actions, Filters {
      */
     public function print_inline_head(): void {
         $this->print_inline_script();
+        $this->print_consent_mode_inline_script();
         $this->print_inline_style();
     }
 
