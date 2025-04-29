@@ -182,7 +182,7 @@ If you have spotted any bugs, or would like to request additional features from 
 
 == Changelog ==
 
-= 1.8.0: Apr 25, 2025 =
+= 1.8.0: Apr 30, 2025 =
 
 * Integrate with AI — supports GPT and Gemini to generate translations and cookie descriptions
 * Introduce the Pressidium Cookies Table block for the WordPress Block Editor (also known as Gutenberg)
