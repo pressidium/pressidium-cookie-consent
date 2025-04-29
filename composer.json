@@ -61,7 +61,9 @@
             "packages": [
                 "league/container",
                 "psr/log",
-                "openai-php/client",
+                "nyholm/psr7",
+                "guzzlehttp/guzzle",
+                "orhanerday/open-ai",
                 "gemini-api-php/client"
             ],
             "delete_vendor_directories": false

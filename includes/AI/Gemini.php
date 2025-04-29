@@ -10,6 +10,9 @@ namespace Pressidium\WP\CookieConsent\AI;
 
 use Pressidium\WP\CookieConsent\Utils\String_Utils;
 
+use Pressidium\WP\CookieConsent\Dependencies\GuzzleHttp\Client as GuzzleClient;
+use Pressidium\WP\CookieConsent\Dependencies\Nyholm\Psr7\Factory\Psr17Factory;
+
 use Pressidium\WP\CookieConsent\Dependencies\GeminiAPI\Client;
 use Pressidium\WP\CookieConsent\Dependencies\GeminiAPI\Resources\Parts\TextPart;
 
@@ -41,7 +44,15 @@ final class Gemini extends AI {
      * @return Gemini
      */
     public function init( string $api_key ): Gemini {
-        $this->client = new Client( $api_key );
+        $guzzle       = new GuzzleClient();
+        $psr17Factory = new Psr17Factory();
+
+        $this->client = new Client(
+            $api_key,
+            $guzzle,
+            $psr17Factory, // request factory
+            $psr17Factory  // stream factory
+        );
 
         return $this; // chainable
     }
@@ -58,7 +69,7 @@ final class Gemini extends AI {
     /**
      * Return the models Gemini supports.
      *
-     * @throws RuntimeException If API key is not set or if there is an error communicating with the Gemini API.
+     * @throws RuntimeException If an API key is not set, or if there is an error communicating with the Gemini API.
      *
      * @return array<array<string, string>>
      */
@@ -102,7 +113,7 @@ final class Gemini extends AI {
     /**
      * Send a message to Gemini.
      *
-     * @throws RuntimeException If API key is not set.
+     * @throws RuntimeException If an API key is not set.
      * @throws RuntimeException If there is an error communicating with the Gemini API.
      *
      * @param string $text Message to send.
