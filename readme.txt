@@ -191,6 +191,7 @@ If you have spotted any bugs, or would like to request additional features from 
 * Integrate with WP Consent API
 * Push custom events to the data layer for Google Tag Manager (`pressidium-cookie-consent-accepted` and `pressidium-cookie-consent-changed`)
 * Fix JavaScript i18n
+* Fix a warning for an undefined array key when no table version exists during plugin updates
 * Switch description text fields to textareas under the “Translations” tab
 * Wrap the “Domain” column in the cookie settings modal
 * Add a notice to warn users for potential issues with a misconfigured cookie domain and/or path
