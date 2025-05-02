@@ -113,9 +113,10 @@ class Database_Manager {
         foreach ( $this->tables as $table ) {
             try {
                 $new_version     = $table->get_version();
-                $current_version = $table_versions[ $table->get_table_slug() ];
+                $current_version = $table_versions[ $table->get_table_slug() ] ?? null;
 
-                if ( version_compare( $new_version, $current_version, '<=' ) ) {
+                if ( $current_version && version_compare( $new_version, $current_version, '<=' ) ) {
+                    // Table is already up to date, no need to upgrade it
                     continue;
                 }
 
