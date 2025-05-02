@@ -92,6 +92,11 @@ class Feedback implements Actions {
                 ),
             )
         );
+
+        wp_set_script_translations(
+            'cookie-consent-feedback-admin-script',
+            'pressidium-cookie-consent'
+        );
     }
 
     /**
