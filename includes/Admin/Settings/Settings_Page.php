@@ -192,6 +192,11 @@ class Settings_Page extends Page implements Actions, Filters {
                 ),
             )
         );
+
+        wp_set_script_translations(
+            'cookie-consent-admin-script',
+            'pressidium-cookie-consent'
+        );
     }
 
     /**
