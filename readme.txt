@@ -5,7 +5,7 @@ Contributors: pressidium, overengineer
 Tags: cookie, consent, gdpr, ccpa, cookies
 Requires at least: 6.0
 Tested up to: 6.8
-Requires PHP: 7.4
+Requires PHP: 8.1
 Stable Tag: 1.8.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -182,8 +182,9 @@ If you have spotted any bugs, or would like to request additional features from 
 
 == Changelog ==
 
-= 1.8.0: May 2, 2025 =
+= 1.8.0: May 5, 2025 =
 
+* Bump minimum required PHP version to 8.1
 * Integrate with AI — supports GPT and Gemini to generate translations and cookie descriptions
 * Introduce the Pressidium Cookies Table block for the WordPress Block Editor (also known as Gutenberg)
 * Introduce the `[pressidium_cookie_consent_cookies]` shortcode
