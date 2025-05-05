@@ -42,6 +42,7 @@ function AboutTab() {
     controlKnobs: <>&#127899;&#65039;</>,
     robot: <>&#129302;</>,
     puzzlePiece: <>&#x1F9E9;</>,
+    sparkles: <>&#10024;</>,
     brick: <>&#x1F9F1;</>,
     keyboard: <>&#x2328;&#xFE0F;</>,
   };
@@ -199,6 +200,15 @@ function AboutTab() {
               </StyledHeading>
               <p>
                 {__('Integrate with Google Consent Mode (GCM) to adjust how Google tags behave based on the user’s consent preferences. Supports both Google tag (gtag.js) and Google Tag Manager (GTM) implementations.', 'pressidium-cookie-consent')}
+              </p>
+            </FlexItem>
+            <FlexItem>
+              <StyledHeading>
+                <Emoji symbol={emojis.sparkles} style={{ marginRight: '0.3em' }} />
+                {__('AI integration', 'pressidium-cookie-consent')}
+              </StyledHeading>
+              <p>
+                {__('Integrate with AI to generate translations and cookie descriptions. Supports both GPT and Gemini.', 'pressidium-cookie-consent')}
               </p>
             </FlexItem>
             <FlexItem>
