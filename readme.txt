@@ -4,9 +4,9 @@ Plugin URI: https://pressidium.com/open-source/cookie-consent-plugin/
 Contributors: pressidium, overengineer
 Tags: cookie, consent, gdpr, ccpa, cookies
 Requires at least: 6.0
-Tested up to: 6.7
-Requires PHP: 7.4
-Stable Tag: 1.7.1
+Tested up to: 6.8
+Requires PHP: 8.1
+Stable Tag: 1.8.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -68,9 +68,21 @@ Automatically parse the user agent to detect bots, crawlers, and webdrivers. If 
 
 Integrate with Google Consent Mode (GCM) to adjust how Google tags behave based on the user’s consent preferences. Supports both Google tag (gtag.js) and Google Tag Manager (GTM) implementations.
 
+= ✨ AI integration =
+
+Integrate with AI to generate translations and cookie descriptions. Supports both GPT and Gemini.
+
+= 🧱 Block for the WordPress Block Editor =
+
+Add the **Pressidium Cookies Table** block for the Block Editor to display a dynamic table listing all cookies under the selected category, making it easy for users to understand what cookies are being used on the site.
+
 = ⌨️ Control it programmatically =
 
 Programmatically control the plugin. Conditionally show/hide the cookie consent banner and/or the settings modal, accept one (or more) cookie categories, erase cookies, load previously blocked scripts, etc.
+
+= About Pressidium =
+
+This is a free and open source WordPress plugin developed by Pressidium®. Pressidium offers Managed WordPress hosting for web professionals designed to optimize the performance, security, and scalability of WordPress websites. With a strong emphasis on reliability, Pressidium utilizes high-available architecture to ensure your website’s uptime.
 
 == Installation ==
 
@@ -163,15 +175,33 @@ If you have spotted any bugs, or would like to request additional features from 
 2. Font and colors
 3. Cookie tables
 4. Translations
-5. Consent modal
+5. Modals
 6. Settings modal
 7. Floating button
 8. Google Consent Mode
 9. Google Tag Manager template
 10. Blocked scripts
 11. Consent records
+12. Pressidium Cookies Table block
 
 == Changelog ==
+
+= 1.8.0: May 5, 2025 =
+
+* Bump minimum required PHP version to 8.1
+* Integrate with AI — supports GPT and Gemini to generate translations and cookie descriptions
+* Introduce the Pressidium Cookies Table block for the WordPress Block Editor (also known as Gutenberg)
+* Introduce the `[pressidium_cookie_consent_cookies]` shortcode
+* Expose the `pressidium_cookie_consent_get_cookies()` global function to retrieve the cookies list
+* Integrate with WP Consent API
+* Push custom events to the data layer for Google Tag Manager (`pressidium-cookie-consent-accepted` and `pressidium-cookie-consent-changed`)
+* Fix JavaScript i18n
+* Fix a warning for an undefined array key when no table version exists during plugin updates
+* Switch description text fields to textareas under the “Translations” tab
+* Wrap the “Domain” column in the cookie settings modal
+* Add a notice to warn users for potential issues with a misconfigured cookie domain and/or path
+* Prevent duplicated admin notices
+* Update Composer and npm dependencies
 
 = 1.7.1: Dec 12, 2024 =
 

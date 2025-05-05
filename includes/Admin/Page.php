@@ -190,7 +190,7 @@ abstract class Page implements Actions {
     /**
      * Return the actions to register.
      *
-     * @return array
+     * @return array<string, array{0: string, 1?: int, 2?: int}>
      */
     public function get_actions(): array {
         return array(

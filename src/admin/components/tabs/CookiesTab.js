@@ -13,7 +13,9 @@ import {
 
 import CookiesTable from '../CookiesTable';
 
-function CookiesTab() {
+function CookiesTab(props) {
+  const { appendNotice, openAIConfigModal } = props;
+
   return (
     <Panel>
       <PanelBody
@@ -22,7 +24,11 @@ function CookiesTab() {
         initialOpen
       >
         <PanelRow>
-          <CookiesTable category="necessary" />
+          <CookiesTable
+            category="necessary"
+            appendNotice={appendNotice}
+            openAIConfigModal={openAIConfigModal}
+          />
         </PanelRow>
       </PanelBody>
 
@@ -32,7 +38,11 @@ function CookiesTab() {
         initialOpen
       >
         <PanelRow>
-          <CookiesTable category="analytics" />
+          <CookiesTable
+            category="analytics"
+            appendNotice={appendNotice}
+            openAIConfigModal={openAIConfigModal}
+          />
         </PanelRow>
       </PanelBody>
 
@@ -42,7 +52,11 @@ function CookiesTab() {
         initialOpen
       >
         <PanelRow>
-          <CookiesTable category="targeting" />
+          <CookiesTable
+            category="targeting"
+            appendNotice={appendNotice}
+            openAIConfigModal={openAIConfigModal}
+          />
         </PanelRow>
       </PanelBody>
 
@@ -52,7 +66,11 @@ function CookiesTab() {
         initialOpen
       >
         <PanelRow>
-          <CookiesTable category="preferences" />
+          <CookiesTable
+            category="preferences"
+            appendNotice={appendNotice}
+            openAIConfigModal={openAIConfigModal}
+          />
         </PanelRow>
       </PanelBody>
     </Panel>

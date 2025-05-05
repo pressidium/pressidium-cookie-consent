@@ -18,14 +18,17 @@ module.exports = {
     'react',
   ],
   globals: {
+    pressidiumCookieConsent: 'readonly',
     pressidiumCCAdminDetails: 'readonly',
     pressidiumCCClientDetails: 'readonly',
     pressidiumCCFeedbackDetails: 'readonly',
+    pressidiumCookiesBlockData: 'readonly',
     initCookieConsent: true,
   },
   rules: {
     'react/react-in-jsx-scope': 'off',
     'react/jsx-filename-extension': [1, { extensions: ['.js', '.jsx'] }],
+    'react/jsx-props-no-spreading': 'off',
     'import/no-extraneous-dependencies': 'off',
     'react/prop-types': 'off',
   },

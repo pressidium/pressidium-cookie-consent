@@ -1,0 +1,119 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 2,
+  "name": "pressidium/cookies",
+  "version": "1.0.0",
+  "title": "Pressidium Cookies Table",
+  "category": "widgets",
+  "icon": "block-default",
+  "description": "Display a dynamic table listing all cookies under the selected category, making it easy for users to understand what cookies are being used on the site.",
+  "attributes": {
+    "stripeColor": {
+      "type": "string"
+    },
+    "customStripeColor": {
+      "type": "string",
+      "default": "#ebebeb"
+    },
+    "cookieCategory": {
+      "type": "string",
+      "default": "necessary"
+    },
+    "headerAlignment": {
+      "type": "string",
+      "default": "center"
+    },
+    "wrapName": {
+      "type": "boolean",
+      "default": false
+    },
+    "wrapDomain": {
+      "type": "boolean",
+      "default": true
+    },
+    "columnsVisibility": {
+      "type": "object",
+      "default": {
+        "name": true,
+        "domain": true,
+        "expiration": true,
+        "path": true,
+        "description": true
+      }
+    },
+    "columnsAlignment": {
+      "type": "object",
+      "default": {
+        "name": "left",
+        "domain": "left",
+        "expiration": "left",
+        "path": "left",
+        "description": "left"
+      }
+    }
+  },
+  "supports": {
+    "anchor": true,
+    "align": true,
+    "color": {
+      "gradients": true,
+      "__experimentalDefaultControls": {
+        "background": true,
+        "text": true
+      }
+    },
+    "typography": {
+      "fontSize": true,
+      "lineHeight": true,
+      "__experimentalFontFamily": true,
+      "__experimentalFontStyle": true,
+      "__experimentalFontWeight": true,
+      "__experimentalLetterSpacing": true,
+      "__experimentalTextTransform": true,
+      "__experimentalTextDecoration": true,
+      "__experimentalDefaultControls": {
+        "fontSize": true
+      }
+    },
+    "shadow": true,
+    "spacing": {
+      "margin": true,
+      "padding": true,
+      "__experimentalDefaultControls": {
+        "margin": false,
+        "padding": false
+      }
+    },
+    "__experimentalBorder": {
+      "__experimentalSkipSerialization": true,
+      "color": true,
+      "style": true,
+      "width": true,
+      "__experimentalDefaultControls": {
+        "color": true,
+        "style": true,
+        "width": true
+      }
+    }
+  },
+  "selectors": {
+    "root": ".wp-block-pressidium-cookies > table",
+    "spacing": ".wp-block-pressidium-cookies"
+  },
+  "styles": [
+    {
+      "name": "regular",
+      "label": "Default",
+      "isDefault": true
+    },
+    {
+      "name": "stripes",
+      "label": "Stripes"
+    }
+  ],
+  "textdomain": "pressidium-cookie-consent",
+  "editorScript": "file:../../cookies-block.js",
+  "editorStyle": "file:../../cookies-block.css",
+  "style": "file:../../style-cookies-block.css",
+  "render": "file:../../../includes/Blocks/Cookies_Block/render.php"
+}

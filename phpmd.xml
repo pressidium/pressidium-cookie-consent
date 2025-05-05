@@ -99,8 +99,9 @@
              ... - `id`: is used all over the place, for post, page, user IDs etc.
              ... - `ip`: is used in some places for IP addresses
              ... - `e`: is used in some places for exceptions
+             ... - `ai`: is used in some places for Artificial Intelligence
             -->
-            <property name="exceptions" value="id,ip,e" />
+            <property name="exceptions" value="id,ip,e,ai" />
         </properties>
     </rule>
 

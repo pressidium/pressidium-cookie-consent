@@ -250,6 +250,24 @@ class Migrator {
     }
 
     /**
+     * Migrate settings coming from versions prior to 1.8.0.
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
+     *
+     * @return void
+     */
+    private function migrate_1_8_0(): void {
+        $default_ai = array(
+            'provider' => 'openai',
+            'model'    => 'gpt-3.5-turbo',
+        );
+
+        $ai = $this->settings['pressidium_options']['ai'] ?? $default_ai;
+
+        $this->settings['pressidium_options']['ai'] = $ai;
+    }
+
+    /**
      * Migrate settings if necessary.
      *
      * @return array Migrated settings.
@@ -288,6 +306,11 @@ class Migrator {
         if ( version_compare( $this->settings['version'], '1.7.0', '<' ) ) {
             // We are upgrading from a version prior to 1.7.0, so we need to migrate the settings
             $this->migrate_1_7_0();
+        }
+
+        if ( version_compare( $this->settings['version'], '1.8.0', '<' ) ) {
+            // We are upgrading from a version prior to 1.8.0, so we need to migrate the settings
+            $this->migrate_1_8_0();
         }
 
         return $this->settings;

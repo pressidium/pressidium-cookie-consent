@@ -1,40 +1,23 @@
 <?php
 /**
- * Utilities.
+ * String Utilities.
  *
  * @author Konstantinos Pappas <konpap@pressidium.com>
  * @copyright 2023 Pressidium
  */
 
-namespace Pressidium\WP\CookieConsent;
+namespace Pressidium\WP\CookieConsent\Utils;
 
 if ( ! defined( 'ABSPATH' ) ) {
     die( 'Forbidden' );
 }
 
 /**
- * Utils class.
+ * String_Utils class.
  *
  * @since 1.0.0
  */
-class Utils {
-
-    /**
-     * Return the domain of this WordPress website.
-     *
-     * @since 1.1.0
-     *
-     * @return string
-     */
-    public static function get_domain(): string {
-        $domain = parse_url( get_site_url(), PHP_URL_HOST );
-
-        if ( ! $domain ) {
-            return $_SERVER['HTTP_HOST'];
-        }
-
-        return $domain;
-    }
+class String_Utils {
 
     /**
      * Check if a string starts with a given substring.

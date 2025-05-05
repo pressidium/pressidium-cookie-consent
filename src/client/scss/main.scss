@@ -1,5 +1,14 @@
 @import '../lib/cookieconsent.css';
+@import './shortcode.scss';
 
 pressidium-floating-button {
   z-index: 9999;
+}
+
+#cc--main {
+  #s-bl table {
+    tbody tr td[data-column="Domain"] {
+      word-wrap: anywhere;
+    }
+  }
 }

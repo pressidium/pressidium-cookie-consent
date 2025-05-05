@@ -8,9 +8,8 @@
 
 namespace Pressidium\WP\CookieConsent\Feedback;
 
+use Pressidium\WP\CookieConsent\Utils\String_Utils;
 use WP_Error;
-
-use Pressidium\WP\CookieConsent\Utils;
 
 /**
  * Class API.
@@ -36,8 +35,8 @@ abstract class API {
     private function get_api_url( string $route ): string {
         return sprintf(
             '%s/%s',
-            Utils::untrailing_slash_it( $this->get_api_base_url() ),
-            Utils::unleading_slash_it( $route )
+            String_Utils::untrailing_slash_it( $this->get_api_base_url() ),
+            String_Utils::unleading_slash_it( $route )
         );
     }
 

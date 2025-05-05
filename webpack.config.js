@@ -9,6 +9,7 @@ module.exports = {
     'bundle.feedback': path.resolve(process.cwd(), 'src', 'feedback', 'index.js'),
     'block-scripts': path.resolve(process.cwd(), 'src', 'client', 'block-scripts.js'),
     'consent-mode': path.resolve(process.cwd(), 'src', 'client', 'consent-mode.js'),
+    'cookies-block': path.resolve(process.cwd(), 'src', 'blocks', 'cookies', 'index.js'),
   },
   output: {
     filename: '[name].js',
@@ -19,6 +20,7 @@ module.exports = {
     'react-dom': 'ReactDOM',
   },
   resolve: {
+    ...defaults.resolve,
     extensions: [...(defaults.resolve ? defaults.resolve.extensions || ['.js', 'jsx'] : [])],
   },
 };

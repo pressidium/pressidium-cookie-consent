@@ -504,6 +504,18 @@ function settingsReducer(state, action) {
         },
       };
 
+    case ActionTypes.UPDATE_ENTIRE_LANGUAGE:
+      return {
+        ...state,
+        languages: {
+          ...state.languages,
+          [action.payload.language]: {
+            ...state.languages[action.payload.language],
+            ...action.payload.translation,
+          },
+        },
+      };
+
     default:
       return state;
   }
