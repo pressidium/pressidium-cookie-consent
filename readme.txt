@@ -68,6 +68,10 @@ Automatically parse the user agent to detect bots, crawlers, and webdrivers. If 
 
 Integrate with Google Consent Mode (GCM) to adjust how Google tags behave based on the user’s consent preferences. Supports both Google tag (gtag.js) and Google Tag Manager (GTM) implementations.
 
+= ✨ AI integration =
+
+Integrate with AI to generate translations and cookie descriptions. Supports both GPT and Gemini.
+
 = 🧱 Block for the WordPress Block Editor =
 
 Add the **Pressidium Cookies Table** block for the Block Editor to display a dynamic table listing all cookies under the selected category, making it easy for users to understand what cookies are being used on the site.
