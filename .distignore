@@ -7,6 +7,8 @@
 .distignore
 .gitignore
 .eslintrc.js
+CODE_OF_CONDUCT.md
+CONTRIBUTING.md
 DOCKER_ENV
 docker_tag
 output.log
