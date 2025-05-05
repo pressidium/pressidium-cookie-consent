@@ -1,38 +1,45 @@
-# Copyright (C) 2024 Pressidium
+# Copyright (C) 2025 Pressidium
 # This file is distributed under the GPLv2.
 msgid ""
 msgstr ""
-"Project-Id-Version: Pressidium Cookie Consent 1.5.0\n"
+"Project-Id-Version: Pressidium Cookie Consent 1.8.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/pressidium-cookie-consent\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2024-07-30T02:54:55+00:00\n"
+"POT-Creation-Date: 2025-05-05T13:51:49+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"X-Generator: WP-CLI 2.9.0\n"
+"X-Generator: WP-CLI 2.11.0\n"
 "X-Domain: pressidium-cookie-consent\n"
 
 #. Plugin Name of the plugin
+#: pressidium-cookie-consent.php
+#: pressidium-cookie-consent.php:91
+#: pressidium-cookie-consent.php:107
 msgid "Pressidium Cookie Consent"
 msgstr ""
 
 #. Plugin URI of the plugin
+#: pressidium-cookie-consent.php
 msgid "https://github.com/pressidium/pressidium-cookie-consent/"
 msgstr ""
 
 #. Description of the plugin
+#: pressidium-cookie-consent.php
 msgid "Lightweight, user-friendly and customizable cookie consent banner to help you comply with the EU GDPR cookie law and CCPA regulations."
 msgstr ""
 
 #. Author of the plugin
-#: public/bundle.admin.js:76
+#: pressidium-cookie-consent.php
+#: public/bundle.admin.js:81
 #: src/admin/icons.js:5
 msgid "Pressidium"
 msgstr ""
 
 #. Author URI of the plugin
+#: pressidium-cookie-consent.php
 msgid "https://pressidium.com/"
 msgstr ""
 
@@ -43,7 +50,16 @@ msgstr ""
 #: includes/Admin/Settings/Settings_API.php:972
 #: includes/Admin/Settings/Settings_API.php:1062
 #: includes/Admin/Settings/Settings_API.php:1109
-#: includes/Feedback/Feedback.php:137
+#: includes/AI/AI_API.php:165
+#: includes/AI/AI_API.php:197
+#: includes/AI/AI_API.php:237
+#: includes/AI/AI_API.php:270
+#: includes/AI/AI_API.php:308
+#: includes/AI/AI_API.php:350
+#: includes/AI/AI_API.php:399
+#: includes/AI/AI_API.php:448
+#: includes/AI/AI_API.php:496
+#: includes/Feedback/Feedback.php:142
 msgid "Invalid nonce."
 msgstr ""
 
@@ -61,30 +77,90 @@ msgid "Adjust your cookie consent preferences."
 msgstr ""
 
 #. translators: 1: Developer name, 2: Link to the docs.
-#: includes/Admin/Settings/Settings_Page.php:207
+#: includes/Admin/Settings/Settings_Page.php:219
 msgid "Developed by %1$s | For more information, read the %2$s."
 msgstr ""
 
-#: includes/Admin/Settings/Settings_Page.php:217
+#: includes/Admin/Settings/Settings_Page.php:229
 msgid "documentation"
 msgstr ""
 
 #. translators: Plugin version.
-#: includes/Admin/Settings/Settings_Page.php:238
+#: includes/Admin/Settings/Settings_Page.php:250
 msgid "Version %s"
 msgstr ""
 
-#: includes/Feedback/Feedback.php:109
+#: includes/Blocks/Cookies_Block/render.php:37
+#: includes/Shortcodes/Cookies_Shortcode/Shortcode.php:58
+#: public/bundle.admin.js:67
+#: public/cookies-block.js:1
+#: src/admin/components/CookiesTable.js:121
+#: src/blocks/cookies/edit.jsx:91
+msgid "Name"
+msgstr ""
+
+#: includes/Blocks/Cookies_Block/render.php:38
+#: includes/Shortcodes/Cookies_Shortcode/Shortcode.php:59
+#: public/bundle.admin.js:67
+#: public/cookies-block.js:1
+#: src/admin/components/CookiesTable.js:124
+#: src/blocks/cookies/edit.jsx:92
+msgid "Domain"
+msgstr ""
+
+#: includes/Blocks/Cookies_Block/render.php:39
+#: includes/Shortcodes/Cookies_Shortcode/Shortcode.php:60
+#: public/bundle.admin.js:67
+#: public/cookies-block.js:1
+#: src/admin/components/CookiesTable.js:127
+#: src/blocks/cookies/edit.jsx:93
+msgid "Expiration"
+msgstr ""
+
+#: includes/Blocks/Cookies_Block/render.php:40
+#: includes/Shortcodes/Cookies_Shortcode/Shortcode.php:61
+#: public/bundle.admin.js:67
+#: public/cookies-block.js:1
+#: src/admin/components/CookiesTable.js:130
+#: src/blocks/cookies/edit.jsx:94
+msgid "Path"
+msgstr ""
+
+#: includes/Blocks/Cookies_Block/render.php:41
+#: includes/Shortcodes/Cookies_Shortcode/Shortcode.php:62
+#: public/bundle.admin.js:67
+#: public/cookies-block.js:1
+#: src/admin/components/CookiesTable.js:133
+#: src/blocks/cookies/edit.jsx:95
+msgid "Description"
+msgstr ""
+
+#: includes/Feedback/Feedback.php:114
 msgid "Help us improve!"
 msgstr ""
 
-#: includes/Feedback/Feedback.php:111
+#: includes/Feedback/Feedback.php:116
 msgid "We value your feedback. Please let us know why youâ€™re deactivating Pressidium Cookie Consent."
 msgstr ""
 
 #: includes/Feedback/Feedback_API.php:75
 #: includes/Feedback/Feedback_API.php:83
 msgid "Unknown error"
+msgstr ""
+
+#. translators: Cookie category name.
+#: includes/Shortcodes/Cookies_Shortcode/Shortcode.php:155
+msgid "No cookies listed under the \"%s\" category."
+msgstr ""
+
+#. translators: 1: Plugin name, 2: WordPress version
+#: pressidium-cookie-consent.php:90
+msgid "%1$s requires WordPress version %2$s or greater."
+msgstr ""
+
+#. translators: 1: Plugin name, 2: PHP version
+#: pressidium-cookie-consent.php:106
+msgid "%1$s requires PHP version %2$s or greater."
 msgstr ""
 
 #: public/bundle.admin.js:3
@@ -103,10 +179,10 @@ msgid "Those changes won't be exported. Are you sure you want to proceed?"
 msgstr ""
 
 #: public/bundle.admin.js:3
-#: public/bundle.admin.js:76
-#: public/bundle.admin.js:89
-#: public/bundle.admin.js:99
+#: public/bundle.admin.js:78
+#: public/bundle.admin.js:94
 #: public/bundle.admin.js:104
+#: public/bundle.admin.js:109
 #: src/admin/components/ClearLogsModal.js:40
 #: src/admin/components/ClearRecordsModal.js:40
 #: src/admin/components/ExportSettingsModal.js:35
@@ -127,8 +203,8 @@ msgid "Reset settings?"
 msgstr ""
 
 #: public/bundle.admin.js:3
-#: public/bundle.admin.js:99
 #: public/bundle.admin.js:104
+#: public/bundle.admin.js:109
 #: src/admin/components/ClearLogsModal.js:24
 #: src/admin/components/ClearRecordsModal.js:24
 #: src/admin/components/ResetSettingsModal.js:24
@@ -186,18 +262,73 @@ msgid "Color"
 msgstr ""
 
 #: public/bundle.admin.js:15
-#: src/admin/themes/index.js:11
-msgid "Light"
+#: src/admin/themes/index.js:23
+msgid "Light Blue"
 msgstr ""
 
 #: public/bundle.admin.js:15
-#: src/admin/themes/index.js:16
+#: src/admin/themes/index.js:28
+msgid "Light Fuchsia"
+msgstr ""
+
+#: public/bundle.admin.js:15
+#: src/admin/themes/index.js:33
+msgid "Light Green"
+msgstr ""
+
+#: public/bundle.admin.js:15
+#: src/admin/themes/index.js:38
+msgid "Light Orange"
+msgstr ""
+
+#: public/bundle.admin.js:15
+#: src/admin/themes/index.js:43
+msgid "Light Purple"
+msgstr ""
+
+#: public/bundle.admin.js:15
+#: src/admin/themes/index.js:48
+msgid "Light Red"
+msgstr ""
+
+#: public/bundle.admin.js:15
+#: src/admin/themes/index.js:53
+msgid "Light Teal"
+msgstr ""
+
+#: public/bundle.admin.js:15
+#: src/admin/themes/index.js:58
 msgid "Dark Blue"
 msgstr ""
 
 #: public/bundle.admin.js:15
-#: src/admin/themes/index.js:21
-msgid "Dark Turqoise"
+#: src/admin/themes/index.js:63
+msgid "Dark Green"
+msgstr ""
+
+#: public/bundle.admin.js:15
+#: src/admin/themes/index.js:68
+msgid "Dark Orange"
+msgstr ""
+
+#: public/bundle.admin.js:15
+#: src/admin/themes/index.js:73
+msgid "Dark Purple"
+msgstr ""
+
+#: public/bundle.admin.js:15
+#: src/admin/themes/index.js:78
+msgid "Dark Red"
+msgstr ""
+
+#: public/bundle.admin.js:15
+#: src/admin/themes/index.js:83
+msgid "Dark Turquoise"
+msgstr ""
+
+#: public/bundle.admin.js:15
+#: src/admin/themes/index.js:88
+msgid "Dark Yellow"
 msgstr ""
 
 #: public/bundle.admin.js:15
@@ -221,8 +352,8 @@ msgid "You will have to manually call the `.show()` method"
 msgstr ""
 
 #: public/bundle.admin.js:15
-#: public/bundle.admin.js:106
-#: src/admin/components/tabs/AboutTab.js:151
+#: public/bundle.admin.js:111
+#: src/admin/components/tabs/AboutTab.js:154
 #: src/admin/components/tabs/GeneralTab.js:112
 msgid "Force consent"
 msgstr ""
@@ -238,8 +369,8 @@ msgid "Users will be able to navigate without needing to consent first"
 msgstr ""
 
 #: public/bundle.admin.js:15
-#: public/bundle.admin.js:106
-#: src/admin/components/tabs/AboutTab.js:142
+#: public/bundle.admin.js:111
+#: src/admin/components/tabs/AboutTab.js:145
 #: src/admin/components/tabs/GeneralTab.js:123
 msgid "Auto-clear cookies"
 msgstr ""
@@ -270,8 +401,8 @@ msgid "Won't manage existing third-party script tags"
 msgstr ""
 
 #: public/bundle.admin.js:15
-#: public/bundle.admin.js:106
-#: src/admin/components/tabs/AboutTab.js:178
+#: public/bundle.admin.js:111
+#: src/admin/components/tabs/AboutTab.js:190
 #: src/admin/components/tabs/GeneralTab.js:145
 msgid "Hide from bots"
 msgstr ""
@@ -287,8 +418,8 @@ msgid "Will always run, even when a bot/crawler/webdriver is detected"
 msgstr ""
 
 #: public/bundle.admin.js:15
-#: public/bundle.admin.js:106
-#: src/admin/components/tabs/AboutTab.js:160
+#: public/bundle.admin.js:111
+#: src/admin/components/tabs/AboutTab.js:163
 #: src/admin/components/tabs/GeneralTab.js:156
 msgid "Re-consent"
 msgstr ""
@@ -529,481 +660,542 @@ msgid "Floating button hover icon"
 msgstr ""
 
 #. translators: %s: Total number of items.
-#: public/bundle.admin.js:53
+#: public/bundle.admin.js:54
 #: src/admin/components/Table/Pagination.js:57
 msgid "First page"
 msgstr ""
 
-#: public/bundle.admin.js:53
+#: public/bundle.admin.js:54
 #: src/admin/components/Table/Pagination.js:67
 msgid "Previous page"
 msgstr ""
 
 #. translators: %1$s: Current page number, %2$s: Total number of pages.
-#: public/bundle.admin.js:55
+#: public/bundle.admin.js:57
 #: src/admin/components/Table/Pagination.js:79
 msgctxt "pagination"
 msgid "%1$s of %2$s"
 msgstr ""
 
-#: public/bundle.admin.js:55
+#: public/bundle.admin.js:57
 #: src/admin/components/Table/Pagination.js:93
 msgid "Next page"
 msgstr ""
 
-#: public/bundle.admin.js:55
+#: public/bundle.admin.js:57
 #: src/admin/components/Table/Pagination.js:103
 msgid "Last page"
 msgstr ""
 
-#: public/bundle.admin.js:65
-#: src/admin/components/CookiesTable.js:89
-msgid "Name"
+#: public/bundle.admin.js:59
+#: src/admin/components/ToolbarWrapper.js:13
+msgid "Options"
 msgstr ""
 
-#: public/bundle.admin.js:65
-#: src/admin/components/CookiesTable.js:92
-msgid "Domain"
+#: public/bundle.admin.js:59
+#: src/admin/components/AIControlWrapper.js:19
+msgid "AI options"
 msgstr ""
 
-#: public/bundle.admin.js:65
-#: src/admin/components/CookiesTable.js:95
-msgid "Expiration"
+#: public/bundle.admin.js:59
+#: public/bundle.admin.js:67
+#: src/admin/components/AIControlWrapper.js:26
+#: src/admin/components/CookiesTable.js:174
+msgid "AI Generate"
 msgstr ""
 
-#: public/bundle.admin.js:65
-#: src/admin/components/CookiesTable.js:98
-msgid "Path"
+#: public/bundle.admin.js:59
+#: public/bundle.admin.js:81
+#: src/admin/components/AIControlWrapper.js:32
+#: src/admin/components/tabs/TranslationsTab.js:335
+msgid "AI Settings"
 msgstr ""
 
-#: public/bundle.admin.js:65
-#: src/admin/components/CookiesTable.js:101
-msgid "Description"
+#: public/bundle.admin.js:67
+#: src/admin/components/CookiesTable.js:96
+msgid "Could not generate cookie description. Double-check your AI settings â€” the integration may not be fully configured."
 msgstr ""
 
-#: public/bundle.admin.js:65
-#: public/bundle.admin.js:99
-#: src/admin/components/BlockedScriptsTable.js:88
+#: public/bundle.admin.js:67
 #: src/admin/components/CookiesTable.js:104
+msgid "The AI does not have enough information to generate a description for this cookie. Please provide a description manually."
+msgstr ""
+
+#: public/bundle.admin.js:67
+#: public/bundle.admin.js:104
+#: src/admin/components/BlockedScriptsTable.js:88
+#: src/admin/components/CookiesTable.js:136
 msgid "Is Regex?"
 msgstr ""
 
-#: public/bundle.admin.js:65
-#: public/bundle.admin.js:76
-#: public/bundle.admin.js:89
-#: public/bundle.admin.js:99
+#: public/bundle.admin.js:67
+#: public/bundle.admin.js:78
+#: public/bundle.admin.js:94
+#: public/bundle.admin.js:104
 #: src/admin/components/BlockedScriptsTable.js:91
-#: src/admin/components/CookiesTable.js:107
+#: src/admin/components/CookiesTable.js:139
 #: src/admin/components/GCMRegionsTable.js:50
 #: src/admin/components/TranslationsTable.js:39
 msgid "Actions"
 msgstr ""
 
-#: public/bundle.admin.js:65
-#: src/admin/components/CookiesTable.js:143
+#: public/bundle.admin.js:67
+#: src/admin/components/CookiesTable.js:188
 msgid "This is an example cookie."
 msgstr ""
 
-#: public/bundle.admin.js:65
-#: public/bundle.admin.js:76
-#: public/bundle.admin.js:89
-#: public/bundle.admin.js:99
+#: public/bundle.admin.js:67
+#: public/bundle.admin.js:78
+#: public/bundle.admin.js:94
+#: public/bundle.admin.js:104
 #: src/admin/components/BlockedScriptsTable.js:133
-#: src/admin/components/CookiesTable.js:157
+#: src/admin/components/CookiesTable.js:203
 #: src/admin/components/GCMRegionsTable.js:94
 #: src/admin/components/TranslationsTable.js:77
 msgid "Delete"
 msgstr ""
 
-#: public/bundle.admin.js:65
-#: src/admin/components/CookiesTable.js:166
+#: public/bundle.admin.js:67
+#: src/admin/components/CookiesTable.js:212
 msgid "No cookies in this category."
 msgstr ""
 
-#: public/bundle.admin.js:65
-#: src/admin/components/CookiesTable.js:177
+#: public/bundle.admin.js:67
+#: src/admin/components/CookiesTable.js:223
 msgid "New Cookie"
 msgstr ""
 
-#: public/bundle.admin.js:65
-#: public/bundle.admin.js:76
-#: src/admin/components/tabs/CookiesTab.js:20
-#: src/admin/components/tabs/TranslationsTab.js:314
+#: public/bundle.admin.js:67
+#: public/bundle.admin.js:81
+#: src/admin/components/tabs/CookiesTab.js:22
+#: src/admin/components/tabs/TranslationsTab.js:709
 msgid "Necessary cookies"
 msgstr ""
 
-#: public/bundle.admin.js:65
-#: public/bundle.admin.js:76
-#: src/admin/components/tabs/CookiesTab.js:30
-#: src/admin/components/tabs/TranslationsTab.js:333
+#: public/bundle.admin.js:67
+#: public/bundle.admin.js:81
+#: src/admin/components/tabs/CookiesTab.js:36
+#: src/admin/components/tabs/TranslationsTab.js:758
 msgid "Analytics cookies"
 msgstr ""
 
-#: public/bundle.admin.js:65
-#: public/bundle.admin.js:76
-#: src/admin/components/tabs/CookiesTab.js:40
-#: src/admin/components/tabs/TranslationsTab.js:352
+#: public/bundle.admin.js:67
+#: public/bundle.admin.js:81
+#: src/admin/components/tabs/CookiesTab.js:50
+#: src/admin/components/tabs/TranslationsTab.js:807
 msgid "Targeting cookies"
 msgstr ""
 
-#: public/bundle.admin.js:65
-#: public/bundle.admin.js:76
-#: src/admin/components/tabs/CookiesTab.js:50
-#: src/admin/components/tabs/TranslationsTab.js:371
+#: public/bundle.admin.js:67
+#: public/bundle.admin.js:81
+#: src/admin/components/tabs/CookiesTab.js:64
+#: src/admin/components/tabs/TranslationsTab.js:856
 msgid "Preferences cookies"
 msgstr ""
 
-#: public/bundle.admin.js:76
+#: public/bundle.admin.js:78
 #: src/admin/components/NewLanguageModal.js:29
 #: src/admin/components/TranslationsTable.js:36
 msgid "Language"
 msgstr ""
 
-#: public/bundle.admin.js:76
-#: public/bundle.admin.js:89
+#: public/bundle.admin.js:78
+#: public/bundle.admin.js:94
 #: src/admin/components/GCMRegionsTable.js:86
 #: src/admin/components/TranslationsTable.js:70
 msgid "Edit"
 msgstr ""
 
-#: public/bundle.admin.js:76
+#: public/bundle.admin.js:78
 #: src/admin/components/NewLanguageModal.js:24
-#: src/admin/components/tabs/TranslationsTab.js:173
+#: src/admin/components/tabs/TranslationsTab.js:296
 msgid "New Language"
 msgstr ""
 
-#: public/bundle.admin.js:76
-#: public/bundle.admin.js:89
+#: public/bundle.admin.js:78
+#: public/bundle.admin.js:94
 #: src/admin/components/NewLanguageModal.js:59
 #: src/admin/components/NewRegionModal.js:173
 msgid "Add"
 msgstr ""
 
-#: public/bundle.admin.js:76
-#: src/admin/components/tabs/TranslationsTab.js:147
+#: public/bundle.admin.js:78
+#: src/admin/components/tabs/TranslationsTab.js:70
+#: src/admin/components/tabs/TranslationsTab.js:136
+msgid "Translation failed. Double-check your AI settings â€” the integration may not be fully configured."
+msgstr ""
+
+#: public/bundle.admin.js:78
+#: src/admin/components/tabs/TranslationsTab.js:157
+msgid "Translation failed. AI provided an invalid translation. Please try again or choose a different model."
+msgstr ""
+
+#: public/bundle.admin.js:78
+#: src/admin/components/tabs/TranslationsTab.js:270
 msgid "Language auto-detection strategy"
 msgstr ""
 
-#: public/bundle.admin.js:76
-#: src/admin/components/tabs/TranslationsTab.js:149
+#: public/bundle.admin.js:78
+#: src/admin/components/tabs/TranslationsTab.js:272
 msgid "Read the user's browser language"
 msgstr ""
 
-#: public/bundle.admin.js:76
-#: src/admin/components/tabs/TranslationsTab.js:150
+#: public/bundle.admin.js:78
+#: src/admin/components/tabs/TranslationsTab.js:273
 msgid "Read value from <html lang=\"...\"> of current page"
 msgstr ""
 
-#: public/bundle.admin.js:76
-#: src/admin/components/tabs/TranslationsTab.js:153
+#: public/bundle.admin.js:78
+#: src/admin/components/tabs/TranslationsTab.js:276
 msgid "Browser"
 msgstr ""
 
-#: public/bundle.admin.js:76
-#: src/admin/components/tabs/TranslationsTab.js:154
+#: public/bundle.admin.js:78
+#: src/admin/components/tabs/TranslationsTab.js:277
 msgid "document"
 msgstr ""
 
-#: public/bundle.admin.js:76
-#: src/admin/components/tabs/TranslationsTab.js:187
+#. translators: %s: Language name.
+#: public/bundle.admin.js:81
+#: src/admin/components/tabs/TranslationsTab.js:320
+msgid "Translate all strings to %s using AI"
+msgstr ""
+
+#: public/bundle.admin.js:81
+#: src/admin/components/tabs/TranslationsTab.js:325
+msgid "AI Translation"
+msgstr ""
+
+#: public/bundle.admin.js:81
+#: src/admin/components/tabs/TranslationsTab.js:342
 msgid "Consent modal"
 msgstr ""
 
-#: public/bundle.admin.js:76
-#: src/admin/components/tabs/TranslationsTab.js:220
+#: public/bundle.admin.js:81
+#: src/admin/components/tabs/TranslationsTab.js:347
+#: src/admin/components/tabs/TranslationsTab.js:369
+#: src/admin/components/tabs/TranslationsTab.js:391
+#: src/admin/components/tabs/TranslationsTab.js:413
+#: src/admin/components/tabs/TranslationsTab.js:440
+#: src/admin/components/tabs/TranslationsTab.js:462
+#: src/admin/components/tabs/TranslationsTab.js:484
+#: src/admin/components/tabs/TranslationsTab.js:506
+#: src/admin/components/tabs/TranslationsTab.js:528
+#: src/admin/components/tabs/TranslationsTab.js:550
+#: src/admin/components/tabs/TranslationsTab.js:572
+#: src/admin/components/tabs/TranslationsTab.js:599
+#: src/admin/components/tabs/TranslationsTab.js:621
+#: src/admin/components/tabs/TranslationsTab.js:643
+#: src/admin/components/tabs/TranslationsTab.js:665
+#: src/admin/components/tabs/TranslationsTab.js:687
+#: src/admin/components/tabs/TranslationsTab.js:714
+#: src/admin/components/tabs/TranslationsTab.js:736
+#: src/admin/components/tabs/TranslationsTab.js:763
+#: src/admin/components/tabs/TranslationsTab.js:785
+#: src/admin/components/tabs/TranslationsTab.js:812
+#: src/admin/components/tabs/TranslationsTab.js:834
+#: src/admin/components/tabs/TranslationsTab.js:861
+#: src/admin/components/tabs/TranslationsTab.js:883
+#: src/admin/components/tabs/TranslationsTab.js:910
+#: src/admin/components/tabs/TranslationsTab.js:932
+msgid "AI Translate"
+msgstr ""
+
+#: public/bundle.admin.js:81
+#: src/admin/components/tabs/TranslationsTab.js:435
 msgid "Settings modal"
 msgstr ""
 
-#: public/bundle.admin.js:76
-#: src/admin/components/tabs/TranslationsTab.js:274
+#: public/bundle.admin.js:81
+#: src/admin/components/tabs/TranslationsTab.js:594
 msgid "Cookie table headers"
 msgstr ""
 
-#: public/bundle.admin.js:76
-#: src/admin/components/tabs/TranslationsTab.js:390
+#: public/bundle.admin.js:81
+#: src/admin/components/tabs/TranslationsTab.js:905
 msgid "More information block"
 msgstr ""
 
-#: public/bundle.admin.js:76
+#: public/bundle.admin.js:81
 #: src/admin/components/tabs/ModalsTab.js:67
 msgid "Consent Modal"
 msgstr ""
 
-#: public/bundle.admin.js:76
+#: public/bundle.admin.js:81
 #: src/admin/components/tabs/ModalsTab.js:73
 #: src/admin/components/tabs/ModalsTab.js:174
 msgid "Layout"
 msgstr ""
 
-#: public/bundle.admin.js:76
+#: public/bundle.admin.js:81
 #: src/admin/components/tabs/ModalsTab.js:76
 #: src/admin/components/tabs/ModalsTab.js:177
 msgid "Box"
 msgstr ""
 
-#: public/bundle.admin.js:76
+#: public/bundle.admin.js:81
 #: src/admin/components/tabs/ModalsTab.js:77
 msgid "Cloud"
 msgstr ""
 
-#: public/bundle.admin.js:76
+#: public/bundle.admin.js:81
 #: src/admin/components/tabs/ModalsTab.js:78
 #: src/admin/components/tabs/ModalsTab.js:178
 msgid "Bar"
 msgstr ""
 
-#: public/bundle.admin.js:76
+#: public/bundle.admin.js:81
 #: src/admin/components/tabs/ModalsTab.js:86
 msgid "Vertical position"
 msgstr ""
 
-#: public/bundle.admin.js:76
+#: public/bundle.admin.js:81
 #: src/admin/components/tabs/ModalsTab.js:89
 msgid "Top"
 msgstr ""
 
-#: public/bundle.admin.js:76
+#: public/bundle.admin.js:81
 #: src/admin/components/tabs/ModalsTab.js:90
 msgid "Middle"
 msgstr ""
 
-#: public/bundle.admin.js:76
+#: public/bundle.admin.js:81
 #: src/admin/components/tabs/ModalsTab.js:91
 msgid "Bottom"
 msgstr ""
 
-#: public/bundle.admin.js:76
+#: public/bundle.admin.js:81
 #: src/admin/components/tabs/ModalsTab.js:105
 msgid "Horizontal position"
 msgstr ""
 
-#: public/bundle.admin.js:76
+#: public/bundle.admin.js:81
 #: src/admin/components/tabs/FloatingButtonTab.js:68
 #: src/admin/components/tabs/ModalsTab.js:108
 #: src/admin/components/tabs/ModalsTab.js:195
 msgid "Left"
 msgstr ""
 
-#: public/bundle.admin.js:76
+#: public/bundle.admin.js:81
 #: src/admin/components/tabs/ModalsTab.js:109
 msgid "Center"
 msgstr ""
 
-#: public/bundle.admin.js:76
+#: public/bundle.admin.js:81
 #: src/admin/components/tabs/FloatingButtonTab.js:69
 #: src/admin/components/tabs/ModalsTab.js:110
 #: src/admin/components/tabs/ModalsTab.js:196
 msgid "Right"
 msgstr ""
 
-#: public/bundle.admin.js:76
+#: public/bundle.admin.js:81
 #: src/admin/components/tabs/FloatingButtonTab.js:94
 #: src/admin/components/tabs/ModalsTab.js:120
 #: src/admin/components/tabs/ModalsTab.js:206
 msgid "Transition"
 msgstr ""
 
-#: public/bundle.admin.js:76
+#: public/bundle.admin.js:81
 #: src/admin/components/tabs/ModalsTab.js:123
 #: src/admin/components/tabs/ModalsTab.js:209
 msgid "Slide"
 msgstr ""
 
-#: public/bundle.admin.js:76
+#: public/bundle.admin.js:81
 #: src/admin/components/tabs/ModalsTab.js:124
 #: src/admin/components/tabs/ModalsTab.js:210
 msgid "Zoom"
 msgstr ""
 
-#: public/bundle.admin.js:76
+#: public/bundle.admin.js:81
 #: src/admin/components/tabs/ModalsTab.js:132
 msgid "Primary button"
 msgstr ""
 
-#: public/bundle.admin.js:76
+#: public/bundle.admin.js:81
 #: src/admin/components/tabs/ModalsTab.js:135
 msgid "Accept selected"
 msgstr ""
 
-#: public/bundle.admin.js:76
+#: public/bundle.admin.js:81
 #: src/admin/components/tabs/ModalsTab.js:136
 msgid "Accept all"
 msgstr ""
 
-#: public/bundle.admin.js:76
+#: public/bundle.admin.js:81
 #: src/admin/components/tabs/ModalsTab.js:144
 msgid "Secondary button"
 msgstr ""
 
-#: public/bundle.admin.js:76
+#: public/bundle.admin.js:81
 #: src/admin/components/tabs/ModalsTab.js:147
 msgid "Settings"
 msgstr ""
 
-#: public/bundle.admin.js:76
+#: public/bundle.admin.js:81
 #: src/admin/components/tabs/ModalsTab.js:148
 msgid "Accept necessary"
 msgstr ""
 
-#: public/bundle.admin.js:76
+#: public/bundle.admin.js:81
 #: src/admin/components/tabs/ModalsTab.js:156
 msgid "Swap buttons"
 msgstr ""
 
-#: public/bundle.admin.js:76
+#: public/bundle.admin.js:81
 #: src/admin/components/tabs/ModalsTab.js:158
 msgid "Buttons are inverted"
 msgstr ""
 
-#: public/bundle.admin.js:76
+#: public/bundle.admin.js:81
 #: src/admin/components/tabs/ModalsTab.js:159
 msgid "Enable to invert buttons"
 msgstr ""
 
-#: public/bundle.admin.js:76
+#: public/bundle.admin.js:81
 #: src/admin/components/tabs/ModalsTab.js:168
 msgid "Settings Modal"
 msgstr ""
 
-#: public/bundle.admin.js:76
+#: public/bundle.admin.js:81
 #: src/admin/components/tabs/FloatingButtonTab.js:65
 #: src/admin/components/tabs/ModalsTab.js:192
 msgid "Position"
 msgstr ""
 
-#: public/bundle.admin.js:76
+#: public/bundle.admin.js:81
 #: src/admin/icons.js:20
 msgid "Generic"
 msgstr ""
 
-#: public/bundle.admin.js:76
+#: public/bundle.admin.js:81
 #: src/admin/components/tabs/FloatingButtonTab.js:42
 msgid "Enabled"
 msgstr ""
 
-#: public/bundle.admin.js:76
+#: public/bundle.admin.js:81
 #: src/admin/components/tabs/FloatingButtonTab.js:44
 msgid "Will show a floating button to open the settings modal"
 msgstr ""
 
-#: public/bundle.admin.js:76
+#: public/bundle.admin.js:81
 #: src/admin/components/tabs/FloatingButtonTab.js:45
 msgid "Won't show a floating button"
 msgstr ""
 
-#: public/bundle.admin.js:76
+#: public/bundle.admin.js:81
 #: src/admin/components/tabs/FloatingButtonTab.js:53
 msgid "Size"
 msgstr ""
 
-#: public/bundle.admin.js:76
+#: public/bundle.admin.js:81
 #: src/admin/components/tabs/FloatingButtonTab.js:56
 msgid "Small"
 msgstr ""
 
-#: public/bundle.admin.js:76
+#: public/bundle.admin.js:81
 #: src/admin/components/tabs/FloatingButtonTab.js:57
 msgid "Large"
 msgstr ""
 
-#: public/bundle.admin.js:76
+#: public/bundle.admin.js:81
 #: src/admin/components/tabs/FloatingButtonTab.js:79
 msgid "Icon"
 msgstr ""
 
-#: public/bundle.admin.js:76
+#: public/bundle.admin.js:81
 #: src/admin/components/tabs/FloatingButtonTab.js:97
 msgid "No transition (immediately appear)"
 msgstr ""
 
-#: public/bundle.admin.js:76
+#: public/bundle.admin.js:81
 #: src/admin/components/tabs/FloatingButtonTab.js:98
 msgid "Fade in"
 msgstr ""
 
-#: public/bundle.admin.js:76
+#: public/bundle.admin.js:81
 #: src/admin/components/tabs/FloatingButtonTab.js:99
 msgid "Fade in up"
 msgstr ""
 
-#: public/bundle.admin.js:76
+#: public/bundle.admin.js:81
 #: src/admin/components/tabs/FloatingButtonTab.js:100
 msgid "Fade in zoom"
 msgstr ""
 
-#: public/bundle.admin.js:76
+#: public/bundle.admin.js:81
 #: src/admin/components/tabs/FloatingButtonTab.js:101
 msgid "Zoom in"
 msgstr ""
 
-#: public/bundle.admin.js:76
+#: public/bundle.admin.js:81
 #: src/admin/components/tabs/FloatingButtonTab.js:102
 msgid "Slide in horizontally"
 msgstr ""
 
-#: public/bundle.admin.js:76
+#: public/bundle.admin.js:81
 #: src/admin/components/tabs/FloatingButtonTab.js:103
 msgid "Slide in vertically"
 msgstr ""
 
-#: public/bundle.admin.js:89
+#: public/bundle.admin.js:94
 #: src/admin/components/GCMRegionsTable.js:44
 #: src/admin/components/NewRegionModal.js:84
 msgid "Country"
 msgstr ""
 
-#: public/bundle.admin.js:89
-#: public/bundle.admin.js:91
+#: public/bundle.admin.js:94
+#: public/bundle.admin.js:96
 #: src/admin/components/GCMRegionsTable.js:47
 #: src/admin/components/tabs/ConsentModeTab.js:347
 msgid "Regions"
 msgstr ""
 
-#: public/bundle.admin.js:89
-#: public/bundle.admin.js:91
+#: public/bundle.admin.js:94
+#: public/bundle.admin.js:96
 #: src/admin/components/GCMRegionsTable.js:79
 #: src/admin/components/tabs/ConsentModeTab.js:358
 msgid "All regions"
 msgstr ""
 
-#: public/bundle.admin.js:89
-#: public/bundle.admin.js:91
+#: public/bundle.admin.js:94
+#: public/bundle.admin.js:96
 #: src/admin/components/NewRegionModal.js:79
 #: src/admin/components/tabs/ConsentModeTab.js:246
 msgid "New Region"
 msgstr ""
 
-#: public/bundle.admin.js:89
+#: public/bundle.admin.js:94
 #: src/admin/components/NewRegionModal.js:107
 msgid "Select all"
 msgstr ""
 
-#: public/bundle.admin.js:89
+#: public/bundle.admin.js:94
 #: src/admin/components/NewRegionModal.js:117
 msgid "Deselect all"
 msgstr ""
 
-#: public/bundle.admin.js:89
+#: public/bundle.admin.js:94
 #: src/admin/components/NewRegionModal.js:123
 msgid "Search regions"
 msgstr ""
 
-#: public/bundle.admin.js:89
+#: public/bundle.admin.js:94
 #: src/admin/components/TagManagerGuide.js:27
 msgid "Adding the Google Tag Manager template"
 msgstr ""
 
-#: public/bundle.admin.js:89
+#: public/bundle.admin.js:94
 #: src/admin/components/TagManagerGuide.js:37
 msgid "Community Template Gallery"
 msgstr ""
 
-#: public/bundle.admin.js:89
+#: public/bundle.admin.js:94
 #: src/admin/components/TagManagerGuide.js:43
 msgid "Adding a template via the Community Template Gallery screenshot"
 msgstr ""
 
-#: public/bundle.admin.js:89
+#: public/bundle.admin.js:94
 #: src/admin/components/TagManagerGuide.js:52
 #: src/admin/components/TagManagerGuide.js:180
 #: src/admin/components/TagManagerGuide.js:275
@@ -1011,7 +1203,7 @@ msgstr ""
 msgid "Navigate to <a>Google Tag Manager</a>"
 msgstr ""
 
-#: public/bundle.admin.js:89
+#: public/bundle.admin.js:94
 #: src/admin/components/TagManagerGuide.js:68
 #: src/admin/components/TagManagerGuide.js:196
 #: src/admin/components/TagManagerGuide.js:291
@@ -1019,594 +1211,600 @@ msgstr ""
 msgid "Select your workspace"
 msgstr ""
 
-#: public/bundle.admin.js:89
+#: public/bundle.admin.js:94
 #: src/admin/components/TagManagerGuide.js:73
 #: src/admin/components/TagManagerGuide.js:201
 msgid "Navigate to the <strong>Templates</strong> tab"
 msgstr ""
 
-#: public/bundle.admin.js:89
+#: public/bundle.admin.js:94
 #: src/admin/components/TagManagerGuide.js:83
 msgid "Click <strong>Search Gallery</strong>, under the Tag Templates section"
 msgstr ""
 
-#: public/bundle.admin.js:89
+#: public/bundle.admin.js:94
 #: src/admin/components/TagManagerGuide.js:93
 msgid "Search for <strong>Pressidium Cookie Consent</strong>"
 msgstr ""
 
-#: public/bundle.admin.js:89
+#: public/bundle.admin.js:94
 #: src/admin/components/TagManagerGuide.js:103
 msgid "Select it and click <strong>Add to workspace</strong>"
 msgstr ""
 
-#: public/bundle.admin.js:89
+#: public/bundle.admin.js:94
 #: src/admin/components/TagManagerGuide.js:114
 msgid "Manually importing the Google Tag Manager template"
 msgstr ""
 
-#: public/bundle.admin.js:89
+#: public/bundle.admin.js:94
 #: src/admin/components/TagManagerGuide.js:125
 msgid "GTM custom template"
 msgstr ""
 
-#: public/bundle.admin.js:89
+#: public/bundle.admin.js:94
 #: src/admin/components/TagManagerGuide.js:135
 msgid "Template GitHub repository"
 msgstr ""
 
-#: public/bundle.admin.js:89
+#: public/bundle.admin.js:94
 #: src/admin/components/TagManagerGuide.js:143
 msgid "Google Tag Manager importing a template screenshot"
 msgstr ""
 
-#: public/bundle.admin.js:89
+#: public/bundle.admin.js:94
 #: src/admin/components/TagManagerGuide.js:154
 msgid "Alternatively, to manually import the template, follow these steps:"
 msgstr ""
 
-#: public/bundle.admin.js:89
+#: public/bundle.admin.js:94
 #: src/admin/components/TagManagerGuide.js:162
 msgid "Download the GTM <a>custom template</a>"
 msgstr ""
 
-#: public/bundle.admin.js:89
+#: public/bundle.admin.js:94
 #: src/admin/components/TagManagerGuide.js:211
 msgid "Click <strong>New</strong>, under the Tag Templates section"
 msgstr ""
 
-#: public/bundle.admin.js:89
+#: public/bundle.admin.js:94
 #: src/admin/components/TagManagerGuide.js:219
 msgid "Select the kebab menu (three dots) located at the top-right corner of the Template Editor"
 msgstr ""
 
-#: public/bundle.admin.js:89
+#: public/bundle.admin.js:94
 #: src/admin/components/TagManagerGuide.js:224
 msgid "Click <strong>Import</strong>"
 msgstr ""
 
-#: public/bundle.admin.js:89
+#: public/bundle.admin.js:94
 #: src/admin/components/TagManagerGuide.js:234
 msgid "Select the previously downloaded <code>template.tpl</code> file"
 msgstr ""
 
-#: public/bundle.admin.js:89
+#: public/bundle.admin.js:94
 #: src/admin/components/TagManagerGuide.js:244
 #: src/admin/components/TagManagerGuide.js:372
 msgid "Click <strong>Save</strong>"
 msgstr ""
 
-#: public/bundle.admin.js:89
+#: public/bundle.admin.js:94
 #: src/admin/components/TagManagerGuide.js:252
 msgid "Close the Template Editor"
 msgstr ""
 
-#: public/bundle.admin.js:89
+#: public/bundle.admin.js:94
 #: src/admin/components/TagManagerGuide.js:260
 msgid "Creating a new tag"
 msgstr ""
 
-#: public/bundle.admin.js:89
+#: public/bundle.admin.js:94
 #: src/admin/components/TagManagerGuide.js:266
 msgid "Google Tag Manager creating a tag screenshot"
 msgstr ""
 
-#: public/bundle.admin.js:89
+#: public/bundle.admin.js:94
 #: src/admin/components/TagManagerGuide.js:296
 #: src/admin/components/TagManagerGuide.js:429
 msgid "Navigate to the <strong>Tags</strong> tab"
 msgstr ""
 
-#: public/bundle.admin.js:89
+#: public/bundle.admin.js:94
 #: src/admin/components/TagManagerGuide.js:306
 msgid "Click <strong>New</strong> to create a new tag"
 msgstr ""
 
-#: public/bundle.admin.js:89
+#: public/bundle.admin.js:94
 #: src/admin/components/TagManagerGuide.js:314
 msgid "Give the tag a name (e.g. Cookie Consent)"
 msgstr ""
 
-#: public/bundle.admin.js:89
+#: public/bundle.admin.js:94
 #: src/admin/components/TagManagerGuide.js:319
 msgid "Click <strong>Choose a tag type to begin setup</strong>, under Tag Configuration"
 msgstr ""
 
-#: public/bundle.admin.js:89
+#: public/bundle.admin.js:94
 #: src/admin/components/TagManagerGuide.js:329
 msgid "Select the <strong>Pressidium Cookie Consent</strong> template, under the Custom section"
 msgstr ""
 
-#: public/bundle.admin.js:89
+#: public/bundle.admin.js:94
 #: src/admin/components/TagManagerGuide.js:337
 msgid "Configure the tag as needed"
 msgstr ""
 
-#: public/bundle.admin.js:89
+#: public/bundle.admin.js:94
 #: src/admin/components/TagManagerGuide.js:342
 msgid "Click <strong>Choose a trigger to make this tag fire</strong>, under the Triggering section"
 msgstr ""
 
-#: public/bundle.admin.js:89
+#: public/bundle.admin.js:94
 #: src/admin/components/TagManagerGuide.js:352
 msgid "Select <strong>Consent Initialization - All Pages</strong>"
 msgstr ""
 
-#: public/bundle.admin.js:89
+#: public/bundle.admin.js:94
 #: src/admin/components/TagManagerGuide.js:362
 msgid "Click <strong>New</strong> to create a new trigger"
 msgstr ""
 
-#: public/bundle.admin.js:89
+#: public/bundle.admin.js:94
 #: src/admin/components/TagManagerGuide.js:382
 msgid "Click <strong>Submit</strong> to submit your changes"
 msgstr ""
 
-#: public/bundle.admin.js:89
+#: public/bundle.admin.js:94
 #: src/admin/components/TagManagerGuide.js:393
 msgid "Configuring the Pressidium Cookie Consent tag"
 msgstr ""
 
-#: public/bundle.admin.js:89
+#: public/bundle.admin.js:94
 #: src/admin/components/TagManagerGuide.js:399
 msgid "Google Tag Manager configuring a tag screenshot"
 msgstr ""
 
-#: public/bundle.admin.js:89
+#: public/bundle.admin.js:94
 #: src/admin/components/TagManagerGuide.js:437
 msgid "Select the previously created Cookie Consent tag"
 msgstr ""
 
-#: public/bundle.admin.js:89
+#: public/bundle.admin.js:94
 #: src/admin/components/TagManagerGuide.js:441
 msgid "Under the Tag Configuration section, you can configure the following settings:"
 msgstr ""
 
-#: public/bundle.admin.js:89
-#: public/bundle.admin.js:91
+#: public/bundle.admin.js:94
+#: public/bundle.admin.js:96
 #: src/admin/components/tabs/ConsentModeTab.js:265
 #: src/admin/components/TagManagerGuide.js:446
 msgid "Default consent states"
 msgstr ""
 
-#: public/bundle.admin.js:89
-#: public/bundle.admin.js:91
+#: public/bundle.admin.js:94
+#: public/bundle.admin.js:96
 #: src/admin/components/tabs/ConsentModeTab.js:183
 #: src/admin/components/TagManagerGuide.js:449
 msgid "Ads data redaction"
 msgstr ""
 
-#: public/bundle.admin.js:89
-#: public/bundle.admin.js:91
+#: public/bundle.admin.js:94
+#: public/bundle.admin.js:96
 #: src/admin/components/tabs/ConsentModeTab.js:205
 #: src/admin/components/TagManagerGuide.js:452
 msgid "URL passthrough"
 msgstr ""
 
-#: public/bundle.admin.js:89
+#: public/bundle.admin.js:94
 #: src/admin/components/TagManagerGuide.js:459
 msgid "Under Default consent states, click <strong>Add Row</strong> to add a new row for each region. For each row, you can set the regions as a comma-separated list of <a>ISO 3166-2</a> codes (leave blank to have your selection apply to all regions) and the default consent state for each consent type"
 msgstr ""
 
-#: public/bundle.admin.js:89
+#: public/bundle.admin.js:94
 #: src/admin/components/TagManagerGuide.js:478
 msgid "If two rows are set with values for a region and subregion, the one with a more specific region will take effect. For example, if you have <code>ad_storage</code> set to <code>true</code> for <code>US</code>, and <code>ad_storage</code> set to <code>false</code> for <code>US-CA</code>, a visitor from California will have the more specific <code>US-CA</code> setting take effect. For this example, that would mean a visitor from California would have <code>ad_storage</code> set to <code>false</code>."
 msgstr ""
 
-#: public/bundle.admin.js:89
+#: public/bundle.admin.js:94
 #: src/admin/components/TagManagerGuide.js:489
 msgid "Region"
 msgstr ""
 
-#: public/bundle.admin.js:89
-#: public/bundle.admin.js:91
+#: public/bundle.admin.js:94
+#: public/bundle.admin.js:96
 #: src/admin/components/tabs/ConsentModeTab.js:270
 #: src/admin/components/TagManagerGuide.js:492
 msgid "Ad storage"
 msgstr ""
 
-#: public/bundle.admin.js:89
+#: public/bundle.admin.js:94
 #: src/admin/components/TagManagerGuide.js:495
 msgid "Behavior"
 msgstr ""
 
-#: public/bundle.admin.js:89
+#: public/bundle.admin.js:94
 #: src/admin/components/TagManagerGuide.js:500
 msgid "US"
 msgstr ""
 
-#: public/bundle.admin.js:89
+#: public/bundle.admin.js:94
 #: src/admin/components/TagManagerGuide.js:503
 #: src/admin/components/TagManagerGuide.js:525
 msgid "true"
 msgstr ""
 
-#: public/bundle.admin.js:89
+#: public/bundle.admin.js:94
 #: src/admin/components/TagManagerGuide.js:506
 msgid "Applies to all US states except California"
 msgstr ""
 
-#: public/bundle.admin.js:89
+#: public/bundle.admin.js:94
 #: src/admin/components/TagManagerGuide.js:511
 msgid "US-CA"
 msgstr ""
 
-#: public/bundle.admin.js:89
+#: public/bundle.admin.js:94
 #: src/admin/components/TagManagerGuide.js:514
 msgid "false"
 msgstr ""
 
-#: public/bundle.admin.js:89
+#: public/bundle.admin.js:94
 #: src/admin/components/TagManagerGuide.js:517
 msgid "Applies to California"
 msgstr ""
 
-#: public/bundle.admin.js:89
+#: public/bundle.admin.js:94
 #: src/admin/components/TagManagerGuide.js:522
 msgid "Unspecified"
 msgstr ""
 
-#: public/bundle.admin.js:89
+#: public/bundle.admin.js:94
 #: src/admin/components/TagManagerGuide.js:528
 msgid "Applies to all other regions"
 msgstr ""
 
-#: public/bundle.admin.js:89
+#: public/bundle.admin.js:94
 #: src/admin/components/TagManagerGuide.js:537
 msgid "Once you are done configuring the tag, click <strong>Submit</strong> to submit your changes"
 msgstr ""
 
-#: public/bundle.admin.js:91
+#: public/bundle.admin.js:96
 #: src/admin/components/tabs/ConsentModeTab.js:128
 msgid "Google Tag Manager and/or Google tag may be blocked, impacting the advanced consent mode. Ensure Google tags load when a user opens the website for cookieless pings, or signals, to work properly."
 msgstr ""
 
-#: public/bundle.admin.js:91
+#: public/bundle.admin.js:96
 #: src/admin/components/tabs/ConsentModeTab.js:131
 msgid "Advanced consent mode"
 msgstr ""
 
-#: public/bundle.admin.js:91
+#: public/bundle.admin.js:96
 #: src/admin/components/tabs/ConsentModeTab.js:135
 msgid "Consent mode pings"
 msgstr ""
 
-#: public/bundle.admin.js:91
+#: public/bundle.admin.js:96
 #: src/admin/components/tabs/ConsentModeTab.js:146
 msgid "Google Consent Mode v2 (GCM)"
 msgstr ""
 
-#: public/bundle.admin.js:91
+#: public/bundle.admin.js:96
 #: src/admin/components/tabs/ConsentModeTab.js:148
 msgid "Will enable Google Consent Mode"
 msgstr ""
 
-#: public/bundle.admin.js:91
+#: public/bundle.admin.js:96
 #: src/admin/components/tabs/ConsentModeTab.js:149
 msgid "Won't enable Google Consent Mode"
 msgstr ""
 
-#: public/bundle.admin.js:91
+#: public/bundle.admin.js:96
 #: src/admin/components/tabs/ConsentModeTab.js:157
 msgid "Learn more about Google Consent Mode"
 msgstr ""
 
-#: public/bundle.admin.js:91
+#: public/bundle.admin.js:96
 #: src/admin/components/tabs/ConsentModeTab.js:165
 msgid "Implementation"
 msgstr ""
 
-#: public/bundle.admin.js:91
+#: public/bundle.admin.js:96
 #: src/admin/components/tabs/ConsentModeTab.js:167
 msgid "Requires the Google tag to be installed on every page of your website"
 msgstr ""
 
-#: public/bundle.admin.js:91
+#: public/bundle.admin.js:96
 #: src/admin/components/tabs/ConsentModeTab.js:168
 msgid "Requires the consent mode template to be added to Google Tag Manager"
 msgstr ""
 
-#: public/bundle.admin.js:91
+#: public/bundle.admin.js:96
 #: src/admin/components/tabs/ConsentModeTab.js:171
 msgid "Google tag (gtag.js)"
 msgstr ""
 
-#: public/bundle.admin.js:91
+#: public/bundle.admin.js:96
 #: src/admin/components/tabs/ConsentModeTab.js:172
 msgid "Google Tag Manager (GTM) template"
 msgstr ""
 
-#: public/bundle.admin.js:91
+#: public/bundle.admin.js:96
 #: src/admin/components/tabs/ConsentModeTab.js:185
 msgid "When the 'Ad storage' consent type is denied, ad click identifiers sent in network requests by Google Ads and Floodlight tags will be redacted. Network requests will also be sent through a cookieless domain"
 msgstr ""
 
-#: public/bundle.admin.js:91
+#: public/bundle.admin.js:96
 #: src/admin/components/tabs/ConsentModeTab.js:186
 msgid "No further ads data redaction"
 msgstr ""
 
-#: public/bundle.admin.js:91
+#: public/bundle.admin.js:96
 #: src/admin/components/tabs/ConsentModeTab.js:195
 msgid "Learn more about ads data reduction"
 msgstr ""
 
-#: public/bundle.admin.js:91
+#: public/bundle.admin.js:96
 #: src/admin/components/tabs/ConsentModeTab.js:207
 msgid "Will pass through ad click, client ID, and session ID information in URLs"
 msgstr ""
 
-#: public/bundle.admin.js:91
+#: public/bundle.admin.js:96
 #: src/admin/components/tabs/ConsentModeTab.js:208
 msgid "Won't pass through any additional information in URLs"
 msgstr ""
 
-#: public/bundle.admin.js:91
+#: public/bundle.admin.js:96
 #: src/admin/components/tabs/ConsentModeTab.js:217
 msgid "Learn more about URL passthrough"
 msgstr ""
 
-#: public/bundle.admin.js:91
+#: public/bundle.admin.js:96
 #: src/admin/components/tabs/ConsentModeTab.js:235
 msgid "No regions added yet. Default consent state will be 'denied' for all regions."
 msgstr ""
 
-#: public/bundle.admin.js:91
+#: public/bundle.admin.js:96
 #: src/admin/components/tabs/ConsentModeTab.js:272
 msgid "Enables storage, such as cookies, related to advertising"
 msgstr ""
 
-#: public/bundle.admin.js:91
+#: public/bundle.admin.js:96
 #: src/admin/components/tabs/ConsentModeTab.js:273
 msgid "Won't enable storage related to advertising"
 msgstr ""
 
-#: public/bundle.admin.js:91
+#: public/bundle.admin.js:96
 #: src/admin/components/tabs/ConsentModeTab.js:281
 msgid "Ad user data"
 msgstr ""
 
-#: public/bundle.admin.js:91
+#: public/bundle.admin.js:96
 #: src/admin/components/tabs/ConsentModeTab.js:283
 msgid "Sets consent for sending user data to Google for online advertising purposes"
 msgstr ""
 
-#: public/bundle.admin.js:91
+#: public/bundle.admin.js:96
 #: src/admin/components/tabs/ConsentModeTab.js:284
 msgid "Won't set consent for sending user data to Google for online advertising purposes"
 msgstr ""
 
-#: public/bundle.admin.js:91
+#: public/bundle.admin.js:96
 #: src/admin/components/tabs/ConsentModeTab.js:292
 msgid "Ad personalization"
 msgstr ""
 
-#: public/bundle.admin.js:91
+#: public/bundle.admin.js:96
 #: src/admin/components/tabs/ConsentModeTab.js:294
 msgid "Sets consent for personalized advertising"
 msgstr ""
 
-#: public/bundle.admin.js:91
+#: public/bundle.admin.js:96
 #: src/admin/components/tabs/ConsentModeTab.js:295
 msgid "Won't set consent for personalized advertising"
 msgstr ""
 
-#: public/bundle.admin.js:91
+#: public/bundle.admin.js:96
 #: src/admin/components/tabs/ConsentModeTab.js:303
 msgid "Analytics storage"
 msgstr ""
 
-#: public/bundle.admin.js:91
+#: public/bundle.admin.js:96
 #: src/admin/components/tabs/ConsentModeTab.js:305
 msgid "Enables storage, such as cookies, related to analytics (for example, visit duration)"
 msgstr ""
 
-#: public/bundle.admin.js:91
+#: public/bundle.admin.js:96
 #: src/admin/components/tabs/ConsentModeTab.js:306
 msgid "Won't enable storage related to analytics"
 msgstr ""
 
-#: public/bundle.admin.js:91
+#: public/bundle.admin.js:96
 #: src/admin/components/tabs/ConsentModeTab.js:314
 msgid "Functionality storage"
 msgstr ""
 
-#: public/bundle.admin.js:91
+#: public/bundle.admin.js:96
 #: src/admin/components/tabs/ConsentModeTab.js:316
 msgid "Enables storage that supports the functionality of the website such as language settings"
 msgstr ""
 
-#: public/bundle.admin.js:91
+#: public/bundle.admin.js:96
 #: src/admin/components/tabs/ConsentModeTab.js:317
 msgid "Won't enable storage related to functionality"
 msgstr ""
 
-#: public/bundle.admin.js:91
+#: public/bundle.admin.js:96
 #: src/admin/components/tabs/ConsentModeTab.js:325
 msgid "Personalization storage"
 msgstr ""
 
-#: public/bundle.admin.js:91
+#: public/bundle.admin.js:96
 #: src/admin/components/tabs/ConsentModeTab.js:327
 msgid "Enables storage related to personalization such as video recommendations"
 msgstr ""
 
-#: public/bundle.admin.js:91
+#: public/bundle.admin.js:96
 #: src/admin/components/tabs/ConsentModeTab.js:328
 msgid "Won't enable storage related to personalization"
 msgstr ""
 
-#: public/bundle.admin.js:91
+#: public/bundle.admin.js:96
 #: src/admin/components/tabs/ConsentModeTab.js:336
 msgid "Security storage"
 msgstr ""
 
-#: public/bundle.admin.js:91
+#: public/bundle.admin.js:96
 #: src/admin/components/tabs/ConsentModeTab.js:338
 msgid "Enables storage related to security such as authentication functionality, fraud prevention, and other user protection"
 msgstr ""
 
-#: public/bundle.admin.js:91
+#: public/bundle.admin.js:96
 #: src/admin/components/tabs/ConsentModeTab.js:339
 msgid "Won't enable storage related to security"
 msgstr ""
 
-#: public/bundle.admin.js:99
+#: public/bundle.admin.js:104
 #: src/admin/components/BlockedScriptsTable.js:82
 msgid "Script Source"
 msgstr ""
 
-#: public/bundle.admin.js:99
+#: public/bundle.admin.js:104
 #: src/admin/components/BlockedScriptsTable.js:85
 msgid "Cookie Category"
 msgstr ""
 
-#: public/bundle.admin.js:99
+#: public/bundle.admin.js:104
+#: public/cookies-block.js:1
 #: src/admin/components/BlockedScriptsTable.js:108
+#: src/blocks/cookies/edit.jsx:210
 msgid "Analytics"
 msgstr ""
 
-#: public/bundle.admin.js:99
+#: public/bundle.admin.js:104
+#: public/cookies-block.js:1
 #: src/admin/components/BlockedScriptsTable.js:112
+#: src/blocks/cookies/edit.jsx:211
 msgid "Targeting"
 msgstr ""
 
-#: public/bundle.admin.js:99
+#: public/bundle.admin.js:104
+#: public/cookies-block.js:1
 #: src/admin/components/BlockedScriptsTable.js:116
+#: src/blocks/cookies/edit.jsx:212
 msgid "Preferences"
 msgstr ""
 
-#: public/bundle.admin.js:99
+#: public/bundle.admin.js:104
 #: src/admin/components/BlockedScriptsTable.js:142
 msgid "No blocked scripts."
 msgstr ""
 
-#: public/bundle.admin.js:99
+#: public/bundle.admin.js:104
 #: src/admin/components/BlockedScriptsTable.js:153
 msgid "New Script"
 msgstr ""
 
-#: public/bundle.admin.js:99
+#: public/bundle.admin.js:104
 #: src/admin/components/tabs/BlockedScriptsTab.js:16
 msgid "Make sure that youâ€™ve enabled the â€œPage Scriptsâ€ option, located under the General tab."
 msgstr ""
 
-#: public/bundle.admin.js:99
+#: public/bundle.admin.js:104
 #: src/admin/components/tabs/BlockedScriptsTab.js:21
 msgid "Script blocking may not always be effective due to variations in script loading methods."
 msgstr ""
 
-#: public/bundle.admin.js:99
+#: public/bundle.admin.js:104
 #: src/admin/components/ClearRecordsModal.js:18
 msgid "Clear records?"
 msgstr ""
 
-#: public/bundle.admin.js:99
+#: public/bundle.admin.js:104
 #: src/admin/components/ClearRecordsModal.js:28
 msgid "You are about to permanently clear all consent records. Are you sure you want to proceed?"
 msgstr ""
 
-#: public/bundle.admin.js:99
+#: public/bundle.admin.js:104
 #: src/admin/components/ClearRecordsModal.js:52
 msgid "Delete records"
 msgstr ""
 
-#: public/bundle.admin.js:104
+#: public/bundle.admin.js:109
 #: src/admin/components/tabs/ConsentRecordsTab.js:114
 msgid "There are no consent records yet."
 msgstr ""
 
-#: public/bundle.admin.js:104
+#: public/bundle.admin.js:109
 #: src/admin/components/tabs/ConsentRecordsTab.js:127
 msgid "Here youâ€™ll find all the consent records that have been collected by the plugin."
 msgstr ""
 
-#: public/bundle.admin.js:104
+#: public/bundle.admin.js:109
 #: src/admin/components/tabs/ConsentRecordsTab.js:136
 msgid "Date"
 msgstr ""
 
-#: public/bundle.admin.js:104
+#: public/bundle.admin.js:109
 #: src/admin/components/tabs/ConsentRecordsTab.js:139
 msgid "ID"
 msgstr ""
 
-#: public/bundle.admin.js:104
+#: public/bundle.admin.js:109
 #: src/admin/components/tabs/ConsentRecordsTab.js:142
 msgid "URL"
 msgstr ""
 
-#: public/bundle.admin.js:104
+#: public/bundle.admin.js:109
 #: src/admin/components/tabs/ConsentRecordsTab.js:145
 msgid "Location"
 msgstr ""
 
-#: public/bundle.admin.js:104
+#: public/bundle.admin.js:109
 #: src/admin/components/tabs/ConsentRecordsTab.js:148
 msgid "IP address"
 msgstr ""
 
-#: public/bundle.admin.js:104
+#: public/bundle.admin.js:109
 #: src/admin/components/tabs/ConsentRecordsTab.js:151
 msgid "User Agent"
 msgstr ""
 
-#: public/bundle.admin.js:104
+#: public/bundle.admin.js:109
 #: src/admin/components/tabs/ConsentRecordsTab.js:154
 msgid "Necessary consent"
 msgstr ""
 
-#: public/bundle.admin.js:104
+#: public/bundle.admin.js:109
 #: src/admin/components/tabs/ConsentRecordsTab.js:157
 msgid "Analytics consent"
 msgstr ""
 
-#: public/bundle.admin.js:104
+#: public/bundle.admin.js:109
 #: src/admin/components/tabs/ConsentRecordsTab.js:160
 msgid "Targeting consent"
 msgstr ""
 
-#: public/bundle.admin.js:104
+#: public/bundle.admin.js:109
 #: src/admin/components/tabs/ConsentRecordsTab.js:163
 msgid "Preferences consent"
 msgstr ""
 
-#: public/bundle.admin.js:104
+#: public/bundle.admin.js:109
 #: src/admin/components/tabs/ConsentRecordsTab.js:166
 msgid "Recorded at"
 msgstr ""
 
-#: public/bundle.admin.js:104
+#: public/bundle.admin.js:109
 #: src/admin/components/tabs/ConsentRecordsTab.js:169
 msgid "Last update at"
 msgstr ""
 
-#: public/bundle.admin.js:104
+#: public/bundle.admin.js:109
 #: src/admin/components/tabs/ConsentRecordsTab.js:197
 msgid "Unknown"
 msgstr ""
 
-#: public/bundle.admin.js:104
+#: public/bundle.admin.js:109
 #: src/admin/components/tabs/ConsentRecordsTab.js:213
 #: src/admin/components/tabs/ConsentRecordsTab.js:220
 #: src/admin/components/tabs/ConsentRecordsTab.js:227
@@ -1614,7 +1812,7 @@ msgstr ""
 msgid "Accepted"
 msgstr ""
 
-#: public/bundle.admin.js:104
+#: public/bundle.admin.js:109
 #: src/admin/components/tabs/ConsentRecordsTab.js:214
 #: src/admin/components/tabs/ConsentRecordsTab.js:221
 #: src/admin/components/tabs/ConsentRecordsTab.js:228
@@ -1622,350 +1820,475 @@ msgstr ""
 msgid "Denied"
 msgstr ""
 
-#: public/bundle.admin.js:104
+#: public/bundle.admin.js:109
 #: src/admin/components/tabs/ConsentRecordsTab.js:265
 msgid "Export CSV"
 msgstr ""
 
-#: public/bundle.admin.js:104
+#: public/bundle.admin.js:109
 #: src/admin/components/tabs/ConsentRecordsTab.js:275
 msgid "Clear Records"
 msgstr ""
 
-#: public/bundle.admin.js:104
+#: public/bundle.admin.js:109
 #: src/admin/components/LogView.js:10
 msgid "There are no logs yet."
 msgstr ""
 
-#: public/bundle.admin.js:104
+#: public/bundle.admin.js:109
 #: src/admin/components/ClearLogsModal.js:18
 msgid "Clear logs?"
 msgstr ""
 
-#: public/bundle.admin.js:104
+#: public/bundle.admin.js:109
 #: src/admin/components/ClearLogsModal.js:28
 msgid "You are about to clear all logs. Are you sure you want to proceed?"
 msgstr ""
 
-#: public/bundle.admin.js:104
+#: public/bundle.admin.js:109
 #: src/admin/components/ClearLogsModal.js:52
 #: src/admin/components/tabs/LogsTab.js:160
 msgid "Clear logs"
 msgstr ""
 
-#: public/bundle.admin.js:104
+#: public/bundle.admin.js:109
 #: src/admin/components/tabs/LogsTab.js:127
 msgid "In this section, youâ€™ll find vital debugging logs. If you encounter any issues, open an issue and include these logs for reference in our investigation."
 msgstr ""
 
-#: public/bundle.admin.js:104
+#: public/bundle.admin.js:109
 #: src/admin/components/tabs/LogsTab.js:149
 msgid "Copy to clipboard"
 msgstr ""
 
-#: public/bundle.admin.js:106
-#: src/admin/components/tabs/AboutTab.js:70
+#: public/bundle.admin.js:111
+#: src/admin/components/tabs/AboutTab.js:73
 msgid "About Pressidium Cookie Consent"
 msgstr ""
 
-#: public/bundle.admin.js:106
-#: src/admin/components/tabs/AboutTab.js:82
+#: public/bundle.admin.js:111
+#: src/admin/components/tabs/AboutTab.js:85
 msgid "Pressidium Cookie Consent makes it easy to add a stylish, customizable cookie consent banner to your website and conditionally load third-party scripts (analytics, performance, targeting, etc.) based on the user-selected preferences to help you comply with EU GDPR cookie law, CCPA, and similar regulations."
 msgstr ""
 
-#: public/bundle.admin.js:106
-#: src/admin/components/tabs/AboutTab.js:88
+#: public/bundle.admin.js:111
+#: src/admin/components/tabs/AboutTab.js:91
 msgid "Fully customizable"
 msgstr ""
 
-#: public/bundle.admin.js:106
-#: src/admin/components/tabs/AboutTab.js:91
+#: public/bundle.admin.js:111
+#: src/admin/components/tabs/AboutTab.js:94
 msgid "Easily modify the cookie consent banner and settings modal text. Pick one of the built-in color presets to match your websiteâ€™s aesthetic, or adjust the color of individual components via our convenient color picker. Choose from a variety of layouts, positions, and transitions directly from the WordPress dashboard."
 msgstr ""
 
-#: public/bundle.admin.js:106
-#: src/admin/components/tabs/AboutTab.js:97
+#: public/bundle.admin.js:111
+#: src/admin/components/tabs/AboutTab.js:100
 msgid "Lightweight"
 msgstr ""
 
-#: public/bundle.admin.js:106
-#: src/admin/components/tabs/AboutTab.js:100
+#: public/bundle.admin.js:111
+#: src/admin/components/tabs/AboutTab.js:103
 msgid "The plugin is built on top of the Cookie Consent JS library by Orest Bida, a standalone vanilla JavaScript library with no third-party dependencies, that loads blazingly fast and wonâ€™t slow down your website."
 msgstr ""
 
-#: public/bundle.admin.js:106
-#: src/admin/components/tabs/AboutTab.js:106
+#: public/bundle.admin.js:111
+#: src/admin/components/tabs/AboutTab.js:109
 msgid "Accessible"
 msgstr ""
 
-#: public/bundle.admin.js:106
-#: src/admin/components/tabs/AboutTab.js:109
+#: public/bundle.admin.js:111
+#: src/admin/components/tabs/AboutTab.js:112
 msgid "An a11y friendly plugin â€” fully accessible and WAI-ARIA compliant."
 msgstr ""
 
-#: public/bundle.admin.js:106
-#: src/admin/components/tabs/AboutTab.js:115
+#: public/bundle.admin.js:111
+#: src/admin/components/tabs/AboutTab.js:118
 msgid "Translatable"
 msgstr ""
 
-#: public/bundle.admin.js:106
-#: src/admin/components/tabs/AboutTab.js:118
+#: public/bundle.admin.js:111
+#: src/admin/components/tabs/AboutTab.js:121
 msgid "Modify any text in the cookie consent banner and settings modal, and provide translations. Choose the language auto-detection strategy you prefer â€” either read the userâ€™s browser language or read the markup of the current page to identify its primary language."
 msgstr ""
 
-#: public/bundle.admin.js:106
-#: src/admin/components/tabs/AboutTab.js:124
+#: public/bundle.admin.js:111
+#: src/admin/components/tabs/AboutTab.js:127
 msgid "Responsive"
 msgstr ""
 
-#: public/bundle.admin.js:106
-#: src/admin/components/tabs/AboutTab.js:127
+#: public/bundle.admin.js:111
+#: src/admin/components/tabs/AboutTab.js:130
 msgid "Fully responsive and mobile-friendly cookie consent banner and settings modal."
 msgstr ""
 
-#: public/bundle.admin.js:106
-#: src/admin/components/tabs/AboutTab.js:133
+#: public/bundle.admin.js:111
+#: src/admin/components/tabs/AboutTab.js:136
 msgid "Block scripts"
 msgstr ""
 
-#: public/bundle.admin.js:106
-#: src/admin/components/tabs/AboutTab.js:136
+#: public/bundle.admin.js:111
+#: src/admin/components/tabs/AboutTab.js:139
 msgid "Control which scripts are loaded based on the userâ€™s preferences. List the URLs of the scripts youâ€™d like to block (both exact matches and regular expressions are supported) and prevent them from running until the user has given consent."
 msgstr ""
 
-#: public/bundle.admin.js:106
-#: src/admin/components/tabs/AboutTab.js:145
+#: public/bundle.admin.js:111
+#: src/admin/components/tabs/AboutTab.js:148
 msgid "Automatically delete cookies when a user opts-out of a specific category inside cookie settings."
 msgstr ""
 
-#: public/bundle.admin.js:106
-#: src/admin/components/tabs/AboutTab.js:154
+#: public/bundle.admin.js:111
+#: src/admin/components/tabs/AboutTab.js:157
 msgid "Block the user from interacting with the page until they consent to your cookie policy."
 msgstr ""
 
-#: public/bundle.admin.js:106
-#: src/admin/components/tabs/AboutTab.js:163
+#: public/bundle.admin.js:111
+#: src/admin/components/tabs/AboutTab.js:166
 msgid "Ask users to consent again when you update your cookie policy."
 msgstr ""
 
-#: public/bundle.admin.js:106
-#: src/admin/components/tabs/AboutTab.js:169
+#: public/bundle.admin.js:111
+#: src/admin/components/tabs/AboutTab.js:172
 msgid "Consent records"
 msgstr ""
 
-#: public/bundle.admin.js:106
-#: src/admin/components/tabs/AboutTab.js:172
+#: public/bundle.admin.js:111
+#: src/admin/components/tabs/AboutTab.js:175
 msgid "Record user consents to be able to provide proof of consent for auditing purposes."
 msgstr ""
 
-#: public/bundle.admin.js:106
+#: public/bundle.admin.js:111
 #: src/admin/components/tabs/AboutTab.js:181
+msgid "Floating settings button"
+msgstr ""
+
+#: public/bundle.admin.js:111
+#: src/admin/components/tabs/AboutTab.js:184
+msgid "Add a floating settings button to your website that allows users to change their cookie preferences at any time."
+msgstr ""
+
+#: public/bundle.admin.js:111
+#: src/admin/components/tabs/AboutTab.js:193
 msgid "Automatically parse the user agent to detect bots, crawlers, and webdrivers. If one is detected, you have the option to hide the cookie consent banner from them."
 msgstr ""
 
-#: public/bundle.admin.js:106
-#: src/admin/components/tabs/AboutTab.js:187
+#: public/bundle.admin.js:111
+#: src/admin/components/tabs/AboutTab.js:199
 msgid "Google Consent Mode (GCM) integration"
 msgstr ""
 
-#: public/bundle.admin.js:106
-#: src/admin/components/tabs/AboutTab.js:190
+#: public/bundle.admin.js:111
+#: src/admin/components/tabs/AboutTab.js:202
 msgid "Integrate with Google Consent Mode (GCM) to adjust how Google tags behave based on the userâ€™s consent preferences. Supports both Google tag (gtag.js) and Google Tag Manager (GTM) implementations."
 msgstr ""
 
-#: public/bundle.admin.js:106
-#: src/admin/components/tabs/AboutTab.js:196
+#: public/bundle.admin.js:111
+#: src/admin/components/tabs/AboutTab.js:208
+msgid "AI integration"
+msgstr ""
+
+#: public/bundle.admin.js:111
+#: src/admin/components/tabs/AboutTab.js:211
+msgid "Integrate with AI to generate translations and cookie descriptions. Supports both GPT and Gemini."
+msgstr ""
+
+#: public/bundle.admin.js:111
+#: src/admin/components/tabs/AboutTab.js:217
+msgid "Block for the WordPress Block Editor"
+msgstr ""
+
+#: public/bundle.admin.js:111
+#: src/admin/components/tabs/AboutTab.js:222
+msgid "Add the <b>Pressidium Cookies Table</b> block for the Block Editor to display a dynamic table listing all cookies under the selected category, making it easy for users to understand what cookies are being used on the site."
+msgstr ""
+
+#: public/bundle.admin.js:111
+#: src/admin/components/tabs/AboutTab.js:235
 msgid "Control it programmatically"
 msgstr ""
 
-#: public/bundle.admin.js:106
-#: src/admin/components/tabs/AboutTab.js:199
+#: public/bundle.admin.js:111
+#: src/admin/components/tabs/AboutTab.js:238
 msgid "Programmatically control the plugin. Conditionally show/hide the cookie consent banner and/or the settings modal, accept one (or more) cookie categories, erase cookies, load previously blocked scripts, etc."
 msgstr ""
 
-#: public/bundle.admin.js:106
-#: src/admin/components/tabs/AboutTab.js:206
+#: public/bundle.admin.js:111
+#: src/admin/components/tabs/AboutTab.js:245
 msgid "Credits"
 msgstr ""
 
-#: public/bundle.admin.js:106
-#: src/admin/components/tabs/AboutTab.js:227
+#: public/bundle.admin.js:111
+#: src/admin/components/tabs/AboutTab.js:266
+msgid "Developed and maintained by <a>PressidiumÂ®</a>"
+msgstr ""
+
+#: public/bundle.admin.js:111
+#: src/admin/components/tabs/AboutTab.js:284
 msgid "Built on top of the amazing <a1>Cookie Consent</a1> JS library by <a2>Orest Bida</a2> (licensed under MIT)"
 msgstr ""
 
-#: public/bundle.admin.js:106
-#: src/admin/components/tabs/AboutTab.js:254
+#: public/bundle.admin.js:111
+#: src/admin/components/tabs/AboutTab.js:311
 msgid "Flag SVGs by <a1>blade-flags</a1>, which uses <a2>twemoji</a2> (licensed under MIT)"
 msgstr ""
 
-#: public/bundle.admin.js:106
-#: src/admin/components/tabs/AboutTab.js:285
+#: public/bundle.admin.js:111
+#: src/admin/components/tabs/AboutTab.js:342
 msgid "Support"
 msgstr ""
 
-#: public/bundle.admin.js:106
-#: src/admin/components/tabs/AboutTab.js:297
+#: public/bundle.admin.js:111
+#: src/admin/components/tabs/AboutTab.js:354
 msgid "To ensure that your issue is addressed efficiently, please use one of the following support channels:"
 msgstr ""
 
-#: public/bundle.admin.js:106
-#: src/admin/components/tabs/AboutTab.js:309
+#: public/bundle.admin.js:111
+#: src/admin/components/tabs/AboutTab.js:366
 msgid "WordPress.org support forum: You can open a topic in the <a>Pressidium Cookie Consent support forum</a>."
 msgstr ""
 
-#: public/bundle.admin.js:106
-#: src/admin/components/tabs/AboutTab.js:327
+#: public/bundle.admin.js:111
+#: src/admin/components/tabs/AboutTab.js:384
 msgid "GitHub issue: You can <a>open an issue on the pluginâ€™s GitHub repository</a> to report a bug or request additional features."
 msgstr ""
 
-#: public/bundle.admin.js:106
-#: src/admin/components/tabs/AboutTab.js:345
+#: public/bundle.admin.js:111
+#: src/admin/components/tabs/AboutTab.js:402
 msgid "Using these channels helps us keep track of all issues and benefits other users who might have similar questions."
 msgstr ""
 
-#: public/bundle.admin.js:106
-#: src/admin/components/tabs/AboutTab.js:352
+#: public/bundle.admin.js:111
+#: src/admin/components/tabs/AboutTab.js:409
 msgid "About Pressidium"
 msgstr ""
 
-#: public/bundle.admin.js:106
-#: src/admin/components/tabs/AboutTab.js:366
+#: public/bundle.admin.js:111
+#: src/admin/components/tabs/AboutTab.js:423
 msgid "Since 2014, <a>Pressidium</a> has been providing the ultimate in high availability, enterprise-class hosting which is trusted by small businesses through to Fortune 500â€™s."
 msgstr ""
 
-#: public/bundle.admin.js:106
-#: src/admin/components/tabs/AboutTab.js:384
+#: public/bundle.admin.js:111
+#: src/admin/components/tabs/AboutTab.js:441
 msgid "<a>Pressidium N-Tier architecture</a> ensures reliability and security, setting new standards in WordPress hosting."
 msgstr ""
 
-#: public/bundle.admin.js:106
-#: src/admin/components/tabs/AboutTab.js:402
+#: public/bundle.admin.js:111
+#: src/admin/components/tabs/AboutTab.js:459
 msgid "The <a>innovative Dashboard</a>, couples with advanced features included in all plans without extra cost, consolidates and streamlines management for agencies, businesses, and individual site owners."
 msgstr ""
 
-#: public/bundle.admin.js:106
-#: src/admin/components/tabs/AboutTab.js:418
+#: public/bundle.admin.js:111
+#: src/admin/components/tabs/AboutTab.js:475
 msgid "With a dedicated support team of WordPress experts and DevOps engineers who work tirelessly 24x7x365, your site is in the best hands, allowing you to focus on your content and business goals."
 msgstr ""
 
-#: public/bundle.admin.js:106
-#: src/admin/components/tabs/AboutTab.js:429
+#: public/bundle.admin.js:111
+#: src/admin/components/tabs/AboutTab.js:486
 msgid "Pressidium. Enjoy 14-days of superior WordPress hosting for free! Learn more."
 msgstr ""
 
-#: public/bundle.admin.js:106
-#: src/admin/components/SettingsPanel.js:113
+#: public/bundle.admin.js:111
+#: src/admin/components/AIConfigModal.js:113
+msgid "Something went wrong while fetching AI models. Is your API key valid?"
+msgstr ""
+
+#: public/bundle.admin.js:111
+#: src/admin/components/AIConfigModal.js:163
+msgid "Could not update AI provider."
+msgstr ""
+
+#: public/bundle.admin.js:111
+#: src/admin/components/AIConfigModal.js:195
+msgid "Could not remove API key."
+msgstr ""
+
+#: public/bundle.admin.js:111
+#: src/admin/components/AIConfigModal.js:223
+msgid "Could not update API key."
+msgstr ""
+
+#: public/bundle.admin.js:111
+#: src/admin/components/AIConfigModal.js:248
+msgid "Could not update AI model."
+msgstr ""
+
+#: public/bundle.admin.js:111
+#: src/admin/components/AIConfigModal.js:271
+msgid "AI configuration"
+msgstr ""
+
+#: public/bundle.admin.js:111
+#: src/admin/components/AIConfigModal.js:277
+msgid "You can connect to an AI provider to use models for generating content. Choose a provider to get started."
+msgstr ""
+
+#: public/bundle.admin.js:111
+#: src/admin/components/AIConfigModal.js:285
+msgid "AI provider"
+msgstr ""
+
+#: public/bundle.admin.js:111
+#: src/admin/components/AIConfigModal.js:294
+msgid "Learn more about the AI features of this plugin"
+msgstr ""
+
+#: public/bundle.admin.js:111
+#: src/admin/components/AIConfigModal.js:307
+msgid "API key"
+msgstr ""
+
+#: public/bundle.admin.js:111
+#: src/admin/components/AIConfigModal.js:315
+msgid "Generate your API key"
+msgstr ""
+
+#: public/bundle.admin.js:111
+#: src/admin/components/AIConfigModal.js:328
+msgid "Add API key"
+msgstr ""
+
+#: public/bundle.admin.js:111
+#: src/admin/components/AIConfigModal.js:344
+msgid "Remove API key"
+msgstr ""
+
+#: public/bundle.admin.js:111
+#: src/admin/components/AIConfigModal.js:351
+msgid "Model"
+msgstr ""
+
+#: public/bundle.admin.js:111
+#: src/admin/components/AIConfigModal.js:360
+msgid "Explore available models and compare their capabilities"
+msgstr ""
+
+#: public/bundle.admin.js:111
+#: src/admin/components/AIConfigModal.js:378
+msgid "AI-generated translations and cookie descriptions may occasionally be inaccurate or misleading. Always review and verify the output."
+msgstr ""
+
+#: public/bundle.admin.js:111
+#: src/admin/components/SettingsPanel.js:140
 msgid "Settings saved successfully."
 msgstr ""
 
-#: public/bundle.admin.js:106
-#: src/admin/components/SettingsPanel.js:116
-#: src/admin/components/SettingsPanel.js:124
+#: public/bundle.admin.js:111
+#: src/admin/components/SettingsPanel.js:146
+#: src/admin/components/SettingsPanel.js:160
 msgid "Could not save settings."
 msgstr ""
 
-#: public/bundle.admin.js:106
-#: src/admin/components/SettingsPanel.js:121
-#: src/admin/components/SettingsPanel.js:155
-#: src/admin/components/SettingsPanel.js:198
+#: public/bundle.admin.js:111
+#: src/admin/components/SettingsPanel.js:154
+#: src/admin/components/SettingsPanel.js:200
+#: src/admin/components/SettingsPanel.js:255
 msgid "Could not pass security check."
 msgstr ""
 
-#: public/bundle.admin.js:106
-#: src/admin/components/SettingsPanel.js:190
+#: public/bundle.admin.js:111
+#: src/admin/components/SettingsPanel.js:241
 msgid "All consent records were cleared successfully."
 msgstr ""
 
-#: public/bundle.admin.js:106
-#: src/admin/components/SettingsPanel.js:193
-#: src/admin/components/SettingsPanel.js:201
+#: public/bundle.admin.js:111
+#: src/admin/components/SettingsPanel.js:247
+#: src/admin/components/SettingsPanel.js:261
 msgid "Could not clear records."
 msgstr ""
 
-#: public/bundle.admin.js:106
-#: src/admin/components/SettingsPanel.js:404
-#: src/admin/components/SettingsPanel.js:416
+#: public/bundle.admin.js:111
+#: src/admin/components/SettingsPanel.js:488
+#: src/admin/components/SettingsPanel.js:503
 msgid "Could not export consent records."
 msgstr ""
 
-#: public/bundle.admin.js:106
-#: src/admin/components/SettingsPanel.js:433
+#: public/bundle.admin.js:111
+#: src/admin/components/SettingsPanel.js:523
 msgid "You have unsaved changes. Are you sure you want to leave?"
 msgstr ""
 
-#: public/bundle.admin.js:106
-#: src/admin/components/SettingsPanel.js:526
+#: public/bundle.admin.js:111
+#: src/admin/components/SettingsPanel.js:571
+msgid "Empty categories are hidden, and no cookies are listed, which might lead to issues with Google Consent Mode."
+msgstr ""
+
+#: public/bundle.admin.js:111
+#: src/admin/components/SettingsPanel.js:581
+msgid "The cookie path is not set. This may cause cookies to be set incorrectly."
+msgstr ""
+
+#: public/bundle.admin.js:111
+#: src/admin/components/SettingsPanel.js:591
+msgid "The cookie domain is not set to the actual domain. This may cause cookies to be set incorrectly."
+msgstr ""
+
+#: public/bundle.admin.js:111
+#: src/admin/components/SettingsPanel.js:669
 msgid "General"
 msgstr ""
 
-#: public/bundle.admin.js:106
-#: src/admin/components/SettingsPanel.js:532
+#: public/bundle.admin.js:111
+#: src/admin/components/SettingsPanel.js:675
 msgid "Cookies"
 msgstr ""
 
-#: public/bundle.admin.js:106
-#: src/admin/components/SettingsPanel.js:538
+#: public/bundle.admin.js:111
+#: src/admin/components/SettingsPanel.js:681
 msgid "Translations"
 msgstr ""
 
-#: public/bundle.admin.js:106
-#: src/admin/components/SettingsPanel.js:544
+#: public/bundle.admin.js:111
+#: src/admin/components/SettingsPanel.js:687
 msgid "Modals"
 msgstr ""
 
-#: public/bundle.admin.js:106
-#: src/admin/components/SettingsPanel.js:550
+#: public/bundle.admin.js:111
+#: src/admin/components/SettingsPanel.js:693
 msgid "Floating Button"
 msgstr ""
 
-#: public/bundle.admin.js:106
-#: src/admin/components/SettingsPanel.js:556
+#: public/bundle.admin.js:111
+#: src/admin/components/SettingsPanel.js:699
 msgid "Consent Mode"
 msgstr ""
 
-#: public/bundle.admin.js:106
-#: src/admin/components/SettingsPanel.js:562
+#: public/bundle.admin.js:111
+#: src/admin/components/SettingsPanel.js:705
 msgid "Blocked Scripts"
 msgstr ""
 
-#: public/bundle.admin.js:106
-#: src/admin/components/SettingsPanel.js:568
+#: public/bundle.admin.js:111
+#: src/admin/components/SettingsPanel.js:711
 msgid "Consent Records"
 msgstr ""
 
-#: public/bundle.admin.js:106
-#: src/admin/components/SettingsPanel.js:574
+#: public/bundle.admin.js:111
+#: src/admin/components/SettingsPanel.js:717
 msgid "Logs"
 msgstr ""
 
-#: public/bundle.admin.js:106
-#: src/admin/components/SettingsPanel.js:580
+#: public/bundle.admin.js:111
+#: src/admin/components/SettingsPanel.js:723
 msgid "About"
 msgstr ""
 
-#: public/bundle.admin.js:106
-#: src/admin/components/SettingsPanel.js:358
+#: public/bundle.admin.js:111
+#: src/admin/components/SettingsPanel.js:435
 msgid "Could not export settings."
 msgstr ""
 
-#: public/bundle.admin.js:106
-#: src/admin/components/SettingsPanel.js:365
+#: public/bundle.admin.js:111
+#: src/admin/components/SettingsPanel.js:445
 msgid "No files selected"
 msgstr ""
 
-#: public/bundle.admin.js:106
-#: src/admin/components/SettingsPanel.js:382
-msgid "Could not import settings."
-msgstr ""
-
-#: public/bundle.admin.js:106
-#: src/admin/components/SettingsPanel.js:147
+#: public/bundle.admin.js:111
+#: src/admin/components/SettingsPanel.js:186
 msgid "Settings reset successfully."
 msgstr ""
 
-#: public/bundle.admin.js:106
-#: src/admin/components/SettingsPanel.js:150
-#: src/admin/components/SettingsPanel.js:158
+#: public/bundle.admin.js:111
+#: src/admin/components/SettingsPanel.js:192
+#: src/admin/components/SettingsPanel.js:206
 msgid "Could not reset settings."
 msgstr ""
 
@@ -2027,4 +2350,133 @@ msgstr ""
 #: public/bundle.feedback.js:1
 #: src/feedback/components/Feedback.js:125
 msgid "Skip & deactivate"
+msgstr ""
+
+#: public/cookies-block.js:1
+#: src/blocks/cookies/edit.jsx:35
+msgid "Align column left"
+msgstr ""
+
+#: public/cookies-block.js:1
+#: src/blocks/cookies/edit.jsx:40
+msgid "Align column center"
+msgstr ""
+
+#: public/cookies-block.js:1
+#: src/blocks/cookies/edit.jsx:45
+msgid "Align column right"
+msgstr ""
+
+#: public/cookies-block.js:1
+#: src/blocks/cookies/edit.jsx:171
+msgid "Change header alignment"
+msgstr ""
+
+#: public/cookies-block.js:1
+#: src/blocks/cookies/edit.jsx:175
+msgid "Align header left"
+msgstr ""
+
+#: public/cookies-block.js:1
+#: src/blocks/cookies/edit.jsx:181
+msgid "Align header center"
+msgstr ""
+
+#: public/cookies-block.js:1
+#: src/blocks/cookies/edit.jsx:187
+msgid "Align header right"
+msgstr ""
+
+#: public/cookies-block.js:1
+#: src/blocks/cookies/edit.jsx:195
+msgid "Change column alignment"
+msgstr ""
+
+#: public/cookies-block.js:1
+#: src/blocks/cookies/edit.jsx:203
+msgid "Cookie category"
+msgstr ""
+
+#: public/cookies-block.js:1
+#: src/blocks/cookies/edit.jsx:206
+msgid "Select which cookie category to display"
+msgstr ""
+
+#: public/cookies-block.js:1
+#: src/blocks/cookies/edit.jsx:209
+msgid "Necessary"
+msgstr ""
+
+#: public/cookies-block.js:1
+#: src/blocks/cookies/edit.jsx:219
+msgid "Columns visibility"
+msgstr ""
+
+#: public/cookies-block.js:1
+#: src/blocks/cookies/edit.jsx:222
+msgid "Show name column"
+msgstr ""
+
+#: public/cookies-block.js:1
+#: src/blocks/cookies/edit.jsx:229
+msgid "Show domain column"
+msgstr ""
+
+#: public/cookies-block.js:1
+#: src/blocks/cookies/edit.jsx:236
+msgid "Show expiration column"
+msgstr ""
+
+#: public/cookies-block.js:1
+#: src/blocks/cookies/edit.jsx:243
+msgid "Show path column"
+msgstr ""
+
+#: public/cookies-block.js:1
+#: src/blocks/cookies/edit.jsx:250
+msgid "Show description column"
+msgstr ""
+
+#: public/cookies-block.js:1
+#: src/blocks/cookies/edit.jsx:256
+msgid "Wrap columns"
+msgstr ""
+
+#: public/cookies-block.js:1
+#: src/blocks/cookies/edit.jsx:259
+msgid "Wrap name"
+msgstr ""
+
+#: public/cookies-block.js:1
+#: src/blocks/cookies/edit.jsx:268
+msgid "Wrap domain"
+msgstr ""
+
+#: public/cookies-block.js:1
+#: src/blocks/cookies/edit.jsx:281
+msgid "Stripe"
+msgstr ""
+
+#: public/blocks/cookies/block.json
+#: src/blocks/cookies/block.json
+msgctxt "block title"
+msgid "Pressidium Cookies Table"
+msgstr ""
+
+#: public/blocks/cookies/block.json
+#: src/blocks/cookies/block.json
+msgctxt "block description"
+msgid "Display a dynamic table listing all cookies under the selected category, making it easy for users to understand what cookies are being used on the site."
+msgstr ""
+
+#: public/blocks/cookies/block.json
+#: src/blocks/cookies/block.json
+msgctxt "block style label"
+msgid "Default"
+msgstr ""
+
+#: public/blocks/cookies/block.json
+#: src/blocks/cookies/block.json
+msgctxt "block style label"
+msgid "Stripes"
 msgstr ""
