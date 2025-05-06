@@ -787,9 +787,9 @@ class Settings_API implements Actions {
      */
     private function maybe_migrate( array $settings ): array {
         $migrator          = new Migrator( $settings );
-        $mirgated_settings = $migrator->maybe_migrate();
+        $migrated_settings = $migrator->maybe_migrate();
 
-        return $mirgated_settings;
+        return $migrated_settings;
     }
 
     /**
