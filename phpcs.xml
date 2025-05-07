@@ -84,7 +84,7 @@
         <exclude name="WordPress.PHP.YodaConditions" />
 
         <!--
-         ... Warn about mis-aligned array items, but don't automatically "fix" them, because arrays in function
+         ... Warn about misaligned array items, but don't automatically "fix" them, because arrays in function
          ... calls get extra lines added.
 		 ...
 		 ... @see https://github.com/WordPress-Coding-Standards/WordPress-Coding-Standards/issues/1305
