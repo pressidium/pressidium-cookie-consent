@@ -115,7 +115,7 @@ Integrate with Google Consent Mode (GCM) to adjust how Google tags behave based 
 
 ### ✨ AI integration
 
-![AI screenshit](https://github.com/user-attachments/assets/f5771f7c-883b-4bcd-a440-e25889d3c751)
+![AI screenshot](https://github.com/user-attachments/assets/f5771f7c-883b-4bcd-a440-e25889d3c751)
 
 Integrate with AI to generate translations and cookie descriptions. Supports both GPT and Gemini.
 
