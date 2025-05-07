@@ -68,25 +68,11 @@ class Plugin {
     }
 
     /**
-     * Load plugin text domain.
-     *
-     * @return void
-     */
-    public function load_textdomain(): void {
-        load_plugin_textdomain(
-            'pressidium-cookie-consent',
-            false, // this parameter is deprecated
-            dirname( plugin_basename( __FILE__ ) ) . '/languages'
-        );
-    }
-
-    /**
      * Add WordPress hooks.
      *
      * @return void
      */
     private function add_hooks(): void {
-        add_action( 'init', array( $this, 'load_textdomain' ) );
         add_action( 'init', array( $this, 'register_blocks' ) );
     }
 
