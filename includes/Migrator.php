@@ -8,6 +8,10 @@
 
 namespace Pressidium\WP\CookieConsent;
 
+use Pressidium\WP\CookieConsent\Logging\File_Logger;
+
+use WP_Filesystem_Direct;
+
 if ( ! defined( 'ABSPATH' ) ) {
     die( 'Forbidden' );
 }
@@ -268,6 +272,37 @@ class Migrator {
     }
 
     /**
+     * Migrate settings coming from versions prior to 1.9.0.
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
+     *
+     * @return void
+     */
+    private function migrate_1_9_0(): void {
+        $previous_logs_path = PLUGIN_DIR . 'logs/error.log';
+        $new_logs_path      = ( new File_Logger() )->get_logs_path();
+
+        if ( ! class_exists( 'WP_Filesystem_Direct' ) ) {
+            require_once ABSPATH . 'wp-admin/includes/class-wp-filesystem-base.php';
+            require_once ABSPATH . 'wp-admin/includes/class-wp-filesystem-direct.php';
+        }
+
+        $filesystem = new WP_Filesystem_Direct( null );
+
+        if ( $filesystem->exists( $previous_logs_path ) && ! $filesystem->exists( $new_logs_path ) ) {
+            // Move the logs to the new location
+            $filesystem->move( $previous_logs_path, $new_logs_path );
+        }
+
+        $previous_logs_dir = dirname( $previous_logs_path );
+
+        if ( $filesystem->exists( $previous_logs_dir ) ) {
+            // Delete the old logs directory
+            $filesystem->rmdir( $previous_logs_dir, true );
+        }
+    }
+
+    /**
      * Migrate settings if necessary.
      *
      * @return array Migrated settings.
@@ -311,6 +346,11 @@ class Migrator {
         if ( version_compare( $this->settings['version'], '1.8.0', '<' ) ) {
             // We are upgrading from a version prior to 1.8.0, so we need to migrate the settings
             $this->migrate_1_8_0();
+        }
+
+        if ( version_compare( $this->settings['version'], '1.9.0', '<' ) ) {
+            // We are upgrading from a version prior to 1.9.0, so we need to migrate the settings
+            $this->migrate_1_9_0();
         }
 
         return $this->settings;
