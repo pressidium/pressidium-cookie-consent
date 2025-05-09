@@ -186,11 +186,39 @@ class Cookie_Consent implements Actions, Filters {
         ?>
 
         <script type="text/javascript" data-pressidium-cc-no-block>
-          window.pressidiumCCBlockedScripts = <?php echo wp_json_encode( $this->settings['pressidium_options']['blocked_scripts'] ); ?>;
-          window.pressidiumCCCookieName = '<?php echo esc_js( $this->settings['cookie_name'] ); ?>';
+            window.pressidiumCCBlockedScripts = <?php echo wp_json_encode( $this->settings['pressidium_options']['blocked_scripts'] ); ?>;
+            window.pressidiumCCCookieName = '<?php echo esc_js( $this->settings['cookie_name'] ); ?>';
         </script>
 
         <script src="<?php echo esc_url( $block_scripts_url ); ?>" type="text/javascript" data-pressidium-cc-no-block></script>
+
+        <?php
+    }
+
+    /**
+     * Print inline script for Google Consent Mode.
+     *
+     * @return void
+     */
+    private function print_consent_mode_inline_script(): void {
+        if ( ! $this->settings['pressidium_options']['gcm']['enabled'] ) {
+            // GCM is not enabled, bail early
+            return;
+        }
+        ?>
+
+        <script type="text/javascript" data-pressidium-cc-no-block>
+            function onPressidiumCookieConsentUpdated(event) {
+                window.dataLayer = window.dataLayer || [];
+                window.dataLayer.push({
+                    event: 'pressidium-cookie-consent-' + event.type,
+                    consent: event.detail,
+                });
+            }
+
+            window.addEventListener('pressidium-cookie-consent-accepted', onPressidiumCookieConsentUpdated);
+            window.addEventListener('pressidium-cookie-consent-changed', onPressidiumCookieConsentUpdated);
+        </script>
 
         <?php
     }
@@ -231,6 +259,7 @@ class Cookie_Consent implements Actions, Filters {
      */
     public function print_inline_head(): void {
         $this->print_inline_script();
+        $this->print_consent_mode_inline_script();
         $this->print_inline_style();
     }
 
@@ -267,7 +296,7 @@ class Cookie_Consent implements Actions, Filters {
     /**
      * Return the actions to register.
      *
-     * @return array
+     * @return array<string, array{0: string, 1?: int, 2?: int}>
      */
     public function get_actions(): array {
         return array(
@@ -282,7 +311,7 @@ class Cookie_Consent implements Actions, Filters {
     /**
      * Return the filters to register.
      *
-     * @return array
+     * @return array<string, array{0: string, 1?: int, 2?: int}>
      */
     public function get_filters(): array {
         return array(

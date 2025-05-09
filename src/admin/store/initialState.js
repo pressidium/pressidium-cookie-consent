@@ -169,5 +169,9 @@ export default {
       url_passthrough: false,
       regions: [],
     },
+    ai: {
+      provider: 'openai',
+      model: 'gpt-3.5-turbo',
+    },
   },
 };

@@ -26,27 +26,30 @@
     },
     "require-dev": {
         "squizlabs/php_codesniffer": "^3.7",
-        "wp-coding-standards/wpcs": "^2.3",
+        "wp-coding-standards/wpcs": "^3.1",
         "phpcompatibility/phpcompatibility-wp": "^2.1",
-        "phpstan/phpstan": "^1.10",
+        "phpstan/phpstan": "^2.1",
         "vimeo/psalm": "^5.8",
-        "phpmd/phpmd": "^2.13",
-        "szepeviktor/phpstan-wordpress": "^1.1",
+        "phpmd/phpmd": "^2.15",
+        "szepeviktor/phpstan-wordpress": "^2.0",
         "php-stubs/wordpress-stubs": "^6.1",
-        "phpstan/extension-installer": "^1.2",
+        "phpstan/extension-installer": "^1.4",
         "coenjacobs/mozart": "^0.7.1",
         "league/container": "^3.4",
         "ext-json": "*",
-        "psr/log": "^1.1"
+        "psr/log": "^1.1",
+        "phpcsstandards/phpcsutils": "^1.0",
+        "symfony/http-client": "^6.4",
+        "nyholm/psr7": "^1.8",
+        "orhanerday/open-ai": "^5.3",
+        "guzzlehttp/guzzle": "^7.9",
+        "gemini-api-php/client": "^1.7"
     },
-    "post-install-cmd": "./vendor/squizlabs/php_codesniffer/bin/phpcs --config-set installed_paths vendor/wp-coding-standards/wpcs,vendor/phpcompatibility/php-compatibility,vendor/phpcompatibility/phpcompatibility-wp,vendor/phpcompatibility/phpcompatibility-paragonie",
-    "post-update-cmd": "./vendor/squizlabs/php_codesniffer/bin/phpcs --config-set installed_paths vendor/wp-coding-standards/wpcs,vendor/phpcompatibility/php-compatibility,vendor/phpcompatibility/phpcompatibility-wp,vendor/phpcompatibility/phpcompatibility-paragonie",
-    "lint": "./vendor/squizlabs/php_codesniffer/bin/phpcs",
-    "phpstan": "./vendor/bin/phpstan -c phpstan.neon",
     "config": {
         "allow-plugins": {
             "phpstan/extension-installer": true,
-            "dealerdirect/phpcodesniffer-composer-installer": true
+            "dealerdirect/phpcodesniffer-composer-installer": true,
+            "php-http/discovery": true
         }
     },
     "extra": {
@@ -57,12 +60,18 @@
             "classmap_prefix": "Pressidium_Cookie_Consent_",
             "packages": [
                 "league/container",
-                "psr/log"
+                "psr/log",
+                "nyholm/psr7",
+                "guzzlehttp/guzzle",
+                "orhanerday/open-ai",
+                "gemini-api-php/client"
             ],
             "delete_vendor_directories": false
         }
     },
     "scripts": {
+        "lint": "./vendor/squizlabs/php_codesniffer/bin/phpcs",
+        "phpstan": "./vendor/bin/phpstan -c phpstan.neon",
         "post-install-cmd": [
             "\"vendor/bin/mozart\" compose",
             "composer dump-autoload"

@@ -18,7 +18,10 @@ import styled from 'styled-components';
 import SettingsContext from '../store/context';
 import * as ActionTypes from '../store/actionTypes';
 
+import { useAI } from '../hooks/ai';
+
 import Table, { Header, Row, Column } from './Table';
+import AIControlWrapper from './AIControlWrapper';
 
 const StyledButton = styled(Button)`
   color: #3c434a;
@@ -31,9 +34,11 @@ const StyledButton = styled(Button)`
 `;
 
 function CookiesTable(props) {
-  const { category = 'necessary' } = props;
+  const { category = 'necessary', openAIConfigModal, appendNotice } = props;
 
   const { state, dispatch } = useContext(SettingsContext);
+
+  const { isGenerating, generateCookieDescription } = useAI();
 
   const cookies = useMemo(
     () => {
@@ -78,6 +83,33 @@ function CookiesTable(props) {
   }, [category]);
 
   const hasCookies = useMemo(() => Array.isArray(cookies) && cookies.length > 0, [cookies]);
+
+  const generate = useCallback((cookieName, callback) => {
+    (async () => {
+      const response = await generateCookieDescription(cookieName);
+
+      if (!response.success) {
+        // eslint-disable-next-line no-console
+        console.error(response.error);
+
+        appendNotice({
+          message: __('Could not generate cookie description. Double-check your AI settings — the integration may not be fully configured.', 'pressidium-cookie-consent'),
+          status: 'error',
+          id: 'ai-cookie-description-not-generated-error',
+        });
+      }
+
+      if (response.success && response.description === null) {
+        appendNotice({
+          message: __('The AI does not have enough information to generate a description for this cookie. Please provide a description manually.', 'pressidium-cookie-consent'),
+          status: 'error',
+          id: 'ai-cookie-not-identified-error',
+        });
+      }
+
+      callback(response.description);
+    })();
+  }, []);
 
   return (
     <Flex direction="column" gap={4}>
@@ -138,11 +170,25 @@ function CookiesTable(props) {
                   />
                 </Column>
                 <Column>
-                  <TextareaControl
-                    value={cookie.description}
-                    placeholder={__('This is an example cookie.', 'pressidium-cookie-consent')}
-                    onChange={(value) => onUpdateCookie(index, 'description', value)}
-                  />
+                  <AIControlWrapper
+                    label={__('AI Generate', 'pressidium-cookie-consent')}
+                    openSettings={openAIConfigModal}
+                    isGenerating={isGenerating}
+                    generate={() => {
+                      generate(
+                        cookie.name,
+                        (description) => {
+                          onUpdateCookie(index, 'description', description);
+                        },
+                      );
+                    }}
+                  >
+                    <TextareaControl
+                      value={cookie.description}
+                      placeholder={__('This is an example cookie.', 'pressidium-cookie-consent')}
+                      onChange={(value) => onUpdateCookie(index, 'description', value)}
+                    />
+                  </AIControlWrapper>
                 </Column>
                 <Column style={{ maxWidth: '70px' }}>
                   <ToggleControl

@@ -31,10 +31,12 @@ import AboutTab from './tabs/AboutTab';
 
 import SettingsContext from '../store/context';
 import * as ActionTypes from '../store/actionTypes';
+import AIConfigModal from './AIConfigModal';
 
 function SettingsPanel() {
   const [isFetching, setIsFetching] = useState(false);
   const [isExportingCsv, setIsExportingCsv] = useState(false);
+  const [isAIConfigModalOpen, setIsAIConfigModalOpen] = useState(false);
   const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
   const [notices, setNotices] = useState([]);
   const [selectedTab, setSelectedTab] = useState('general');
@@ -43,14 +45,23 @@ function SettingsPanel() {
   const { state, dispatch } = useContext(SettingsContext);
 
   const appendNotice = useCallback(({ message, status, id = null }) => {
-    setNotices((prevNotices) => [
-      ...prevNotices,
-      {
-        id: id || prevNotices.length,
-        message,
-        status,
-      },
-    ]);
+    setNotices((prevNotices) => {
+      const noticeExists = prevNotices.find((notice) => notice.id === id);
+
+      if (id !== null && noticeExists) {
+        // Notice already exists, do not append twice
+        return prevNotices;
+      }
+
+      return [
+        ...prevNotices,
+        {
+          id: id || prevNotices.length,
+          message,
+          status,
+        },
+      ];
+    });
   }, []);
 
   const dismissNotice = useCallback((id) => {
@@ -60,6 +71,9 @@ function SettingsPanel() {
   const onDismissNotice = useCallback((id) => {
     dismissNotice(id);
   }, []);
+
+  const openAIConfigModal = () => setIsAIConfigModalOpen(true);
+  const closeAIConfigModal = () => setIsAIConfigModalOpen(false);
 
   const fetchSettings = async () => {
     const { route } = pressidiumCCAdminDetails.api;
@@ -125,11 +139,13 @@ function SettingsPanel() {
         appendNotice({
           message: __('Settings saved successfully.', 'pressidium-cookie-consent'),
           status: 'success',
+          id: 'settings-saved-success',
         });
       } else {
         appendNotice({
           message: __('Could not save settings.', 'pressidium-cookie-consent'),
           status: 'error',
+          id: 'settings-not-saved-error',
         });
       }
     } catch (error) {
@@ -137,11 +153,13 @@ function SettingsPanel() {
         appendNotice({
           message: __('Could not pass security check.', 'pressidium-cookie-consent'),
           status: 'error',
+          id: 'failed-security-check-error',
         });
       } else {
         appendNotice({
           message: __('Could not save settings.', 'pressidium-cookie-consent'),
           status: 'error',
+          id: 'settings-not-saved-error',
         });
       }
     }
@@ -167,11 +185,13 @@ function SettingsPanel() {
         appendNotice({
           message: __('Settings reset successfully.', 'pressidium-cookie-consent'),
           status: 'success',
+          id: 'settings-reset-success',
         });
       } else {
         appendNotice({
           message: __('Could not reset settings.', 'pressidium-cookie-consent'),
           status: 'error',
+          id: 'settings-not-reset-error',
         });
       }
     } catch (error) {
@@ -179,11 +199,13 @@ function SettingsPanel() {
         appendNotice({
           message: __('Could not pass security check.', 'pressidium-cookie-consent'),
           status: 'error',
+          id: 'failed-security-check-error',
         });
       } else {
         appendNotice({
           message: __('Could not reset settings.', 'pressidium-cookie-consent'),
           status: 'error',
+          id: 'settings-not-reset-error',
         });
       }
     }
@@ -218,11 +240,13 @@ function SettingsPanel() {
         appendNotice({
           message: __('All consent records were cleared successfully.', 'pressidium-cookie-consent'),
           status: 'success',
+          id: 'consent-records-cleared-success',
         });
       } else {
         appendNotice({
           message: __('Could not clear records.', 'pressidium-cookie-consent'),
           status: 'error',
+          id: 'consent-records-not-cleared-error',
         });
       }
     } catch (error) {
@@ -230,11 +254,13 @@ function SettingsPanel() {
         appendNotice({
           message: __('Could not pass security check.', 'pressidium-cookie-consent'),
           status: 'error',
+          id: 'failed-security-check-error',
         });
       } else {
         appendNotice({
           message: __('Could not clear records.', 'pressidium-cookie-consent'),
           status: 'error',
+          id: 'consent-records-not-cleared-error',
         });
       }
     }
@@ -408,6 +434,7 @@ function SettingsPanel() {
       appendNotice({
         message: __('Could not export settings.', 'pressidium-cookie-consent'),
         status: 'error',
+        id: 'settings-not-exported-error',
       });
     }
   };
@@ -460,6 +487,7 @@ function SettingsPanel() {
       appendNotice({
         message: __('Could not export consent records.', 'pressidium-cookie-consent'),
         status: 'error',
+        id: 'consent-records-not-exported-error',
       });
       setIsExportingCsv(false);
       return;
@@ -474,6 +502,7 @@ function SettingsPanel() {
       appendNotice({
         message: __('Could not export consent records.', 'pressidium-cookie-consent'),
         status: 'error',
+        id: 'consent-records-not-exported-error',
       });
       setIsExportingCsv(false);
       return;
@@ -510,6 +539,20 @@ function SettingsPanel() {
     }
   }, [state]);
 
+  const handleConditionalNotice = (shouldShowNotice, id, message) => {
+    const noticeExists = notices.find(({ id: noticeId }) => noticeId === id);
+
+    if (shouldShowNotice && !noticeExists) {
+      appendNotice({
+        message,
+        status: 'warning',
+        id,
+      });
+    } else if (!shouldShowNotice && noticeExists) {
+      dismissNotice(id);
+    }
+  };
+
   useEffect(() => {
     const {
       cookie_table: cookieTable,
@@ -522,19 +565,32 @@ function SettingsPanel() {
 
     const shouldShowNotice = hideEmptyCategories && gcm.enabled && noCookiesListed;
 
-    const noticeId = 'empty-categories-no-cookies-gcm-warning';
-    const noticeExists = notices.find(({ id }) => id === noticeId);
-
-    if (shouldShowNotice && !noticeExists) {
-      appendNotice({
-        message: __('Empty categories are hidden, and no cookies are listed, which might lead to issues with Google Consent Mode.', 'pressidium-cookie-consent'),
-        status: 'warning',
-        id: noticeId,
-      });
-    } else if (!shouldShowNotice && noticeExists) {
-      dismissNotice(noticeId);
-    }
+    handleConditionalNotice(
+      shouldShowNotice,
+      'empty-categories-no-cookies-gcm-warning',
+      __('Empty categories are hidden, and no cookies are listed, which might lead to issues with Google Consent Mode.', 'pressidium-cookie-consent')
+    );
   }, [state.pressidium_options]);
+
+  useEffect(() => {
+    const isCookiePathValid = state.cookie_path && state.cookie_path.length > 0;
+
+    handleConditionalNotice(
+      !isCookiePathValid,
+      'cookie-path-warning',
+      __('The cookie path is not set. This may cause cookies to be set incorrectly.', 'pressidium-cookie-consent'),
+    );
+  }, [state.cookie_path]);
+
+  useEffect(() => {
+    const actualDomain = pressidiumCCAdminDetails.domain || window.location.hostname;
+
+    handleConditionalNotice(
+      actualDomain !== state.cookie_domain,
+      'cookie-domain-warning',
+      __('The cookie domain is not set to the actual domain. This may cause cookies to be set incorrectly.', 'pressidium-cookie-consent'),
+    );
+  }, [state.cookie_domain]);
 
   useEffect(() => {
     (async () => {
@@ -675,6 +731,14 @@ function SettingsPanel() {
               general: {
                 fonts,
               },
+              cookies: {
+                openAIConfigModal,
+                appendNotice,
+              },
+              translations: {
+                openAIConfigModal,
+                appendNotice,
+              },
               'consent-records': {
                 isExportingCsv,
                 exportConsentRecords,
@@ -703,6 +767,12 @@ function SettingsPanel() {
           resetSettings={resetSettings}
         />
       </Panel>
+      <AIConfigModal
+        isOpen={isAIConfigModalOpen}
+        onClose={closeAIConfigModal}
+        appendNotice={appendNotice}
+        dismissNotice={dismissNotice}
+      />
     </>
   );
 }

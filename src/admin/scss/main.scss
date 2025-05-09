@@ -103,3 +103,78 @@
   max-height: 220px;
   padding: 4px;
 }
+
+.pressidium-fine-print {
+  font-size: 11px;
+  text-align: center;
+  margin-top: 1.4em;
+}
+
+:root {
+  --gradient-shadow: linear-gradient(
+    45deg,
+    #78a9ed,
+    #f2b7a7,
+    #fc8387,
+    #aa8bd8,
+    #78a9ed,
+    #f2b7a7,
+    #fc8387,
+    #aa8bd8
+  );
+}
+
+.pressidium-toolbar .components-accessible-toolbar {
+  position: absolute;
+  top: 0;
+  left: -54px;
+  background-color: #fff;
+  z-index: 10;
+}
+
+.pressidium-toolbar .components-accessible-toolbar:has(+ .components-base-control .components-base-control__label) {
+  top: 23px;
+}
+
+.pressidium-ai-control .components-base-control__field {
+  position: relative;
+  z-index: 1;
+}
+
+.pressidium-ai-control.is-focused .components-base-control__field::after,
+.is-translating-all .pressidium-ai-control .components-base-control__field::after {
+  content: "";
+  position: absolute;
+  top: -1px;
+  left: -1px;
+  background: var(--gradient-shadow);
+  background-size: 400%;
+  width: calc(100% + 2px);
+  height: calc(100% + 2px);
+  z-index: -1;
+  animation: pressidium-ai-animation 20s linear infinite;
+}
+
+.pressidium-ai-control.is-focused .components-base-control__field:has(.components-base-control__label):after,
+.is-translating-all .pressidium-ai-control .components-base-control__field:has(.components-base-control__label):after {
+  height: calc(100% + 2px - 22px);
+  margin-top: 22px;
+}
+
+.pressidium-ai-control.is-focused .components-base-control__field::after,
+.is-translating-all .pressidium-ai-control .components-base-control__field::after {
+  filter: blur(10px);
+  opacity: 0.7;
+}
+
+@keyframes pressidium-ai-animation {
+  0% {
+    background-position: 0 0;
+  }
+  50% {
+    background-position: 300% 0;
+  }
+  100% {
+    background-position: 0 0;
+  }
+}

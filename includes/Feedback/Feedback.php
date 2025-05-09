@@ -92,6 +92,11 @@ class Feedback implements Actions {
                 ),
             )
         );
+
+        wp_set_script_translations(
+            'cookie-consent-feedback-admin-script',
+            'pressidium-cookie-consent'
+        );
     }
 
     /**
@@ -195,7 +200,7 @@ class Feedback implements Actions {
      *
      * @link https://developer.wordpress.org/reference/hooks/plugin_action_links/
      *
-     * @return array
+     * @return array<string, array{0: string, 1?: int, 2?: int}>
      */
     public function get_actions(): array {
         return array(

@@ -8,15 +8,15 @@
 
 namespace Pressidium\WP\CookieConsent\Admin\Settings;
 
+use Pressidium\WP\CookieConsent\Hooks\Actions;
+use Pressidium\WP\CookieConsent\Hooks\Filters;
+use Pressidium\WP\CookieConsent\Admin\Page;
+use Pressidium\WP\CookieConsent\Utils\String_Utils;
+use Pressidium\WP\CookieConsent\Utils\WP_Utils;
+
 use const Pressidium\WP\CookieConsent\PLUGIN_DIR;
 use const Pressidium\WP\CookieConsent\PLUGIN_URL;
 use const Pressidium\WP\CookieConsent\VERSION;
-
-use Pressidium\WP\CookieConsent\Hooks\Actions;
-use Pressidium\WP\CookieConsent\Hooks\Filters;
-
-use Pressidium\WP\CookieConsent\Admin\Page;
-use Pressidium\WP\CookieConsent\Utils;
 
 if ( ! defined( 'ABSPATH' ) ) {
     die( 'Forbidden' );
@@ -120,7 +120,7 @@ class Settings_Page extends Page implements Actions, Filters {
             return false;
         }
 
-        return Utils::ends_with( $screen->id, $this->get_menu_slug() );
+        return String_Utils::ends_with( $screen->id, $this->get_menu_slug() );
     }
 
     /**
@@ -165,7 +165,7 @@ class Settings_Page extends Page implements Actions, Filters {
             'cookie-consent-admin-script',
             'pressidiumCCAdminDetails',
             array(
-                'domain' => Utils::get_domain(),
+                'domain' => WP_Utils::get_domain(),
                 'assets' => array(
                     'gtm_template_url' => esc_url( PLUGIN_URL . 'assets/templates/template.tpl' ),
                     'screenshots'      => array(
@@ -177,13 +177,25 @@ class Settings_Page extends Page implements Actions, Filters {
                     'promo'            => esc_url( PLUGIN_URL . 'assets/images/promo.png' ),
                 ),
                 'api'    => array(
-                    'route'          => 'pressidium-cookie-consent/v1/settings',
-                    'logs_route'     => 'pressidium-cookie-consent/v1/logs',
-                    'consents_route' => 'pressidium-cookie-consent/v1/consents',
-                    'export_route'   => 'pressidium-cookie-consent/v1/export',
-                    'nonce'          => wp_create_nonce( 'pressidium_cookie_consent_rest' ),
+                    'route'                    => 'pressidium-cookie-consent/v1/settings',
+                    'logs_route'               => 'pressidium-cookie-consent/v1/logs',
+                    'consents_route'           => 'pressidium-cookie-consent/v1/consents',
+                    'export_route'             => 'pressidium-cookie-consent/v1/export',
+                    'credentials_route'        => 'pressidium-cookie-consent/v1/ai/credentials',
+                    'provider_route'           => 'pressidium-cookie-consent/v1/ai/provider',
+                    'models_route'             => 'pressidium-cookie-consent/v1/ai/models',
+                    'model_route'              => 'pressidium-cookie-consent/v1/ai/model',
+                    'translate_route'          => 'pressidium-cookie-consent/v1/ai/translate',
+                    'translate_all_route'      => 'pressidium-cookie-consent/v1/ai/translate-all',
+                    'cookie_description_route' => 'pressidium-cookie-consent/v1/ai/cookie-description',
+                    'nonce'                    => wp_create_nonce( 'pressidium_cookie_consent_rest' ),
                 ),
             )
+        );
+
+        wp_set_script_translations(
+            'cookie-consent-admin-script',
+            'pressidium-cookie-consent'
         );
     }
 
@@ -243,7 +255,7 @@ class Settings_Page extends Page implements Actions, Filters {
     /**
      * Return the actions to register.
      *
-     * @return array
+     * @return array<string, array{0: string, 1?: int, 2?: int}>
      */
     public function get_actions(): array {
         $actions = parent::get_actions();
@@ -256,7 +268,7 @@ class Settings_Page extends Page implements Actions, Filters {
     /**
      * Return the filters to register.
      *
-     * @return array
+     * @return array<string, array{0: string, 1?: int, 2?: int}>
      */
     public function get_filters(): array {
         return array(
