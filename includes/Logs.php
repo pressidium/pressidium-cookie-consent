@@ -11,6 +11,7 @@ namespace Pressidium\WP\CookieConsent;
 use const Pressidium\WP\CookieConsent\VERSION;
 
 use Pressidium\WP\CookieConsent\Logging\Logger;
+use Pressidium\WP\CookieConsent\Logging\File_Logger;
 
 use RuntimeException;
 
@@ -55,6 +56,7 @@ class Logs {
                 sprintf( 'PHP v%s', phpversion() ),
                 $wpdb->db_server_info(),
                 $wpdb->get_charset_collate(),
+                sprintf( 'Logs located @ %s', ( new File_Logger() )->get_logs_path() ),
                 sprintf( 'Installation @ %s', get_bloginfo( 'url' ) ),
             )
         ) . "\n";
