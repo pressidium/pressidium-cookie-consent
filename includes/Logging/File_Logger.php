@@ -29,11 +29,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 class File_Logger implements Logger {
 
     /**
-     * @var string Log file path.
-     */
-    const LOG_FILE = PLUGIN_DIR . 'logs/error.log';
-
-    /**
      * Log a message with a level of an emergency — system is unusable.
      *
      * @param string $message
@@ -130,6 +125,57 @@ class File_Logger implements Logger {
     }
 
     /**
+     * Return the path to the `logs/` directory.
+     *
+     * @return string
+     */
+    public function get_logs_path(): string {
+        $uploads_dir = wp_get_upload_dir()['basedir'];
+        $log_path    = trailingslashit( $uploads_dir ) . 'pressidium-cookie-consent/logs/error.log';
+
+        /**
+         * Filters the path to the log file.
+         *
+         * @since 1.9.0
+         *
+         * @param string $log_path Path to the log file.
+         *
+         * @return string
+         */
+        $log_path = apply_filters( 'pressidium_cookie_consent_logs_path', $log_path );
+
+        $log_dir       = dirname( $log_path );
+        $htaccess_path = trailingslashit( $log_dir ) . '.htaccess';
+
+        if ( ! file_exists( $log_dir ) ) {
+            // Attempt to create the logs directory if it doesn't exist
+            $did_create = wp_mkdir_p( $log_dir );
+
+            if ( ! $did_create ) {
+                throw new RuntimeException( 'Could not create logs directory: ' . $log_dir );
+            }
+        }
+
+        if ( ! wp_is_writable( $log_dir ) ) {
+            // Directory is not writable
+            throw new RuntimeException( 'Logs directory is not writable: ' . $log_dir );
+        }
+
+        if ( ! file_exists( $htaccess_path ) ) {
+            // Create a `.htaccess` file to prevent direct access
+            $htaccess_content = "Deny from all\n";
+            $did_write        = file_put_contents( $htaccess_path, $htaccess_content );
+
+            if ( ! $did_write ) {
+                throw new RuntimeException( 'Could not create .htaccess file: ' . $htaccess_path );
+            }
+        }
+
+        // No need to check if the file exists, it will be created when we log the first message
+        return $log_path;
+    }
+
+    /**
      * Log a message with an arbitrary level.
      *
      * @throws InvalidArgumentException If the log level is invalid.
@@ -143,7 +189,7 @@ class File_Logger implements Logger {
      * @return void
      */
     public function log( $level, $message, array $context = array() ): void {
-        $destination = self::LOG_FILE;
+        $destination = $this->get_logs_path();
 
         if ( ! isset( self::LEVELS[ $level ] ) ) {
             throw new InvalidArgumentException( 'Invalid log level: ' . $level );
@@ -182,7 +228,7 @@ class File_Logger implements Logger {
      * @return string
      */
     public function get_logs(): string {
-        $source = self::LOG_FILE;
+        $source = $this->get_logs_path();
 
         if ( ! file_exists( $source ) ) {
             // File does not exist, so there are no logs
@@ -206,7 +252,7 @@ class File_Logger implements Logger {
      * @return void
      */
     public function clear(): void {
-        $destination = self::LOG_FILE;
+        $destination = $this->get_logs_path();
         $did_clear   = file_put_contents( $destination, '' );
 
         if ( $did_clear === false ) {
