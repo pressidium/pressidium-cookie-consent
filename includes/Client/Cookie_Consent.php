@@ -15,6 +15,7 @@ use Pressidium\WP\CookieConsent\Hooks\Actions;
 use Pressidium\WP\CookieConsent\Hooks\Filters;
 
 use Pressidium\WP\CookieConsent\Settings;
+use Pressidium\WP\CookieConsent\Utils\WP_Utils;
 
 if ( ! defined( 'ABSPATH' ) ) {
     die( 'Forbidden' );
@@ -94,6 +95,11 @@ class Cookie_Consent implements Actions, Filters {
      * @return void
      */
     public function enqueue_scripts(): void {
+        if ( WP_Utils::is_ninja_forms_preview() ) {
+            // Ninja Forms preview, do not enqueue scripts
+            return;
+        }
+
         $assets_file = PLUGIN_DIR . 'public/bundle.client.asset.php';
 
         if ( ! file_exists( $assets_file ) ) {

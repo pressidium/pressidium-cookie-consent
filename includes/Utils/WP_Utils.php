@@ -36,4 +36,17 @@ class WP_Utils {
         return $domain;
     }
 
+    /**
+     * Whether the current request is a Ninja Forms preview.
+     *
+     * @since 1.9.0
+     *
+     * @link https://wordpress.org/plugins/ninja-forms/
+     *
+     * @return bool
+     */
+    public static function is_ninja_forms_preview(): bool {
+        return isset( $_GET['nf_preview_form'] ) && isset( $_GET['nf_iframe'] );
+    }
+
 }
