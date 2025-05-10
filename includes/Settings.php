@@ -213,6 +213,7 @@ class Settings {
                     'url_passthrough' => false,
                     'regions' => array(),
                 ),
+                'show_close_icon' => false,
             ),
         );
     }

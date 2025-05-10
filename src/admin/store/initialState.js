@@ -173,5 +173,6 @@ export default {
       provider: 'openai',
       model: 'gpt-3.5-turbo',
     },
+    show_close_icon: false,
   },
 };

@@ -143,6 +143,7 @@ class Cookie_Consent implements Actions, Filters {
                     'hide_empty_categories' => boolval( $this->settings['pressidium_options']['hide_empty_categories'] ?? false ),
                     'floating_button'       => $this->settings['pressidium_options']['floating_button'] ?? array(),
                     'gcm'                   => $this->settings['pressidium_options']['gcm'] ?? array(),
+                    'show_close_icon'       => boolval( $this->settings['pressidium_options']['show_close_icon'] ?? false),
                 ),
             )
         );

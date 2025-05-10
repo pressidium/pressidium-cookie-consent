@@ -421,4 +421,43 @@ import './scss/main.scss';
     .forEach((button) => {
       button.classList.add('has-background', 'has-text-color');
     });
+
+  if (details && details['additional_options'] && details['additional_options']['show_close_icon'] === true) {
+    var consent_modal_inner_inner = document.getElementById('c-inr');
+    if(!consent_modal_inner_inner) {return;}
+  
+    var consent_modal_header = document.createElement('div');
+    consent_modal_header.id = 'c-hdr';
+  
+    var consent_modal_title = document.getElementById('c-ttl');
+    if(consent_modal_title){
+      consent_modal_header.appendChild(consent_modal_title);
+    }
+  
+    var consent_modal_close_btn = document.createElement('button');
+    consent_modal_close_btn.setAttribute('type', 'button');
+    consent_modal_close_btn.id = 'c-c-bn';
+    consent_modal_close_btn.className = 'c-bn';
+    // Necessary?
+    // consent_modal_close_btn.appendChild(generateFocusSpan(2));
+  
+    // act as secondary btn for now ( i.e. accept necessary only); TODO: if/when issue 110 will be solved, make the close btn issue the reject action
+    consent_modal_close_btn.addEventListener('click', function(){
+      // First option: click() the secondary button
+      // Even if buttons are swapped then the button is #c-s-bn.
+      // Drawback: when #c-s-bn button is condifigured to open settings, our close icon should still close the dialog. So maybe it's not enough to blindly click() it.
+      // document.getElementById('c-s-bn').click()
+      // 
+      // Second option: do the very minimum the #c-s-bn hide() function does
+      document.getElementById('cm').setAttribute('aria-hidden', 'true');
+      document.documentElement.classList.remove("show--consent");
+    });
+
+    var consent_modal_close_btn_container = document.createElement('div');
+    consent_modal_close_btn_container.id = 'c-c-bnc';
+    consent_modal_close_btn_container.appendChild(consent_modal_close_btn);
+    consent_modal_header.appendChild(consent_modal_close_btn_container);
+  
+    consent_modal_inner_inner.insertBefore(consent_modal_header, consent_modal_inner_inner.firstChild);
+  }
 })(pressidiumCCClientDetails, window.gtag);
