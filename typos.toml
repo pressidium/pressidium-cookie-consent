@@ -1,0 +1,24 @@
+[files]
+extend-exclude = [
+    ".git/",
+    "src/admin/components/Countries/countries.js",
+    "src/admin/components/Countries/flags/",
+    "src/admin/components/Countries/icons.js",
+    "src/admin/components/Languages/flags/",
+    "src/admin/components/Languages/icons.js",
+    "src/admin/components/Languages/languages.js",
+]
+ignore-hidden = false
+
+[default]
+extend-ignore-re = [
+    "=> 'yor'",
+]
+
+[default.extend-identifiers]
+clen = "clen"
+optin = "optin"
+
+# Typos
+"Github" = "GitHub"
+"Wordpress" = "WordPress"

@@ -1,0 +1,22 @@
+name: check-spelling
+
+permissions:
+  contents: read
+
+on: [pull_request]
+
+env:
+  CLICOLOR: 1
+
+jobs:
+  spelling:
+    name: Spell check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Spell check repository
+        uses: crate-ci/typos@v1.32.0
+        with:
+          config: ./typos.toml
