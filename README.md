@@ -134,6 +134,18 @@ Programmatically control the plugin. Conditionally show/hide the cookie consent 
 - Built on top of the amazing [Cookie Consent](https://github.com/orestbida/cookieconsent) JS library by [Orest Bida](https://github.com/orestbida) (licensed under MIT)
 - Flag SVGs by [blade-flags](https://github.com/MohmmedAshraf/blade-flags/), which uses [twemoji](https://github.com/twitter/twemoji) (licensed under MIT)
 
+## Contributing
+
+Interested in contributing? Thank you! ❤️
+
+Open source projects like this one thrive on the contributions of developers like you. Your help is much appreciated! All types of contributions are welcome and valued. You’ll find everything you need in [`CONTRIBUTING.md`](./CONTRIBUTING.md).
+
+**A big thank you to everyone who has contributed to this project:**
+
+<a href="https://github.com/pressidium/pressidium-cookie-consent/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=pressidium/pressidium-cookie-consent" />
+</a>
+
 ## License
 
 GNU GPL v2 or later, check the [`LICENSE`](./LICENSE) file.
