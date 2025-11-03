@@ -378,6 +378,7 @@ class Settings_API implements Actions {
                         'floating_button',
                         'colors',
                         'gcm',
+                        'show_close_icon',
                     ),
                     'properties' => array(
                         'primary_btn_role' => array(
@@ -726,6 +727,9 @@ class Settings_API implements Actions {
                                     ),
                                 ),
                             ),
+                        ),
+                        'show_close_icon' => array(
+                            'type' => 'boolean',
                         ),
                     ),
                 ),

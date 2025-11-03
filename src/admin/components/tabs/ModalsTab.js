@@ -33,6 +33,16 @@ function ModalsTab() {
     });
   }, []);
 
+  const onPressidiumOptionChange = (key, value) => {
+    dispatch({
+      type: ActionTypes.UPDATE_PRESSIDIUM_OPTION,
+      payload: {
+        key,
+        value,
+      },
+    });
+  };
+
   const onSettingsModalSettingChange = useCallback((key, value) => {
     dispatch({
       type: ActionTypes.UPDATE_SETTINGS_MODAL_SETTING,
@@ -160,6 +170,18 @@ function ModalsTab() {
             checked={state.gui_options.consent_modal.swap_buttons}
             className="pressidium-toggle-control"
             onChange={(value) => onConsentModalSettingChange('swap_buttons', value)}
+          />
+        </PanelRow>
+
+        <PanelRow>
+          <ToggleControl
+            label={__('Show close icon', 'pressidium-cookie-consent')}
+            help={state.pressidium_options.show_close_icon
+              ? __('Will show close icon', 'pressidium-cookie-consent')
+              : __('Won\'t show close icon', 'pressidium-cookie-consent')}
+            checked={state.pressidium_options.show_close_icon}
+            className="pressidium-toggle-control"
+            onChange={(value) => onPressidiumOptionChange('show_close_icon', value)}
           />
         </PanelRow>
       </PanelBody>

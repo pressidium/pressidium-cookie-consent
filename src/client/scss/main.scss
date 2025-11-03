@@ -12,3 +12,86 @@ pressidium-floating-button {
     }
   }
 }
+
+/* copy of #s-c-bn */
+#c-c-bn{
+    float: right;
+    margin-left: .5rem;
+}
+
+/* copy of #s-c-bn:___ */
+#c-c-bn:active,
+#c-c-bn:hover{
+    background: var(--cc-btn-secondary-hover-bg);
+    color: var(--cc-btn-secondary-hover-text);
+}
+
+/* copy of #s-hdr */
+#c-hdr{
+    background: var(--cc-bg);
+}
+
+/* copy of #s-hdr */
+#c-hdr{
+    position: relative;
+    top: 0;
+    width: 100%;
+    display: table;
+    padding: 0 0;
+    height: 0;
+    vertical-align: middle;
+    z-index: 2;
+    border-bottom: 1px solid var(--cc-section-border);
+}
+
+/* copy of #s-c-bn */
+#c-c-bn{
+    padding: 0;
+    width: 1.7em;
+    height: 1.7em;
+    font-size: 1.45em;
+    margin: 0;
+    font-weight: initial;
+    position: relative;
+    overflow: hidden;
+}
+
+/* copy of #s-c-bnc */
+#c-c-bnc{
+    display: table-cell;
+    vertical-align: middle;
+}
+
+/* copy of #s-c-bn::___ */
+#c-c-bn::before,
+#c-c-bn::after{
+    content: '';
+    position: absolute;
+    left: .82em;
+    top: .58em;
+    height: .6em;
+    width: 1.5px;
+    background: var(--cc-btn-secondary-text);
+    transform: rotate(45deg);
+    border-radius: 1em;
+    margin: 0 auto;
+}
+
+/* copy of #s-c-bn::___ */
+#c-c-bn::after{
+    transform: rotate(-45deg);
+}
+
+/* copy of #s-hdr */
+.cc_div .bar #c-hdr{
+    padding-left: 1.4em;
+    padding-right: 1.4em;
+}
+
+@media screen and (max-width: 688px) {
+    /* copy of #c-hdr */
+    #c-hdr,
+    .cc_div .bar #c-hdr{
+        padding: 0 1.2em;
+    }
+}
