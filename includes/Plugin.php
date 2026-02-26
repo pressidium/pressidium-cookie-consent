@@ -115,6 +115,7 @@ class Plugin {
             $hooks_manager->register( $this->container->get( 'feedback' ) );
             $hooks_manager->register( $this->container->get( 'cookies_block' ) );
             $hooks_manager->register( $this->container->get( 'wp_consent_api' ) );
+            $hooks_manager->register( $this->container->get( 'cache_control' ) );
         } catch ( ContainerExceptionInterface | NotFoundExceptionInterface $exception ) {
             $this->logger->log_exception( $exception );
         }
