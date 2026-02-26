@@ -3,7 +3,7 @@
  * Cache control integration.
  *
  * @author Konstantinos Pappas <konpap@pressidium.com>
- * @copyright 2025 Pressidium
+ * @copyright 2026 Pressidium
  */
 
 namespace Pressidium\WP\CookieConsent\Integrations;
