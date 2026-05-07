@@ -1,4 +1,4 @@
-import './lib/cookieconsent';
+import * as CookieConsent from './lib/cookieconsent.esm';
 
 import './components';
 import './wp-consent-api';
@@ -6,11 +6,6 @@ import './wp-consent-api';
 import './scss/main.scss';
 
 ((details, gtag) => {
-  if (typeof initCookieConsent !== 'function') {
-    // Cookie Consent is not loaded, bail early
-    return;
-  }
-
   if (typeof details === 'undefined') {
     // Client details are not available, bail early
     return;
@@ -34,11 +29,33 @@ import './scss/main.scss';
   const { settings, additional_options: additionalOptions } = details;
 
   const {
-    record_consents: recordConsents,
-    hide_empty_categories: hideEmptyCategories,
-    floating_button: floatingButton,
+    recordConsents,
+    hideEmptyCategories,
+    floatingButton,
     gcm,
   } = additionalOptions;
+
+  const getCurrentLanguage = () => {
+    const { autoDetect, default: defaultLanguage, translations } = settings.language;
+
+    const detectionStrategies = {
+      browser: navigator.language,
+      document: document.documentElement.lang,
+    };
+
+    const autoDetectedLanguage = detectionStrategies[autoDetect] ?? navigator.language;
+    const availableTranslations = Object.keys(translations);
+
+    if (availableTranslations.includes(autoDetectedLanguage)) {
+      return autoDetectedLanguage;
+    }
+
+    if (availableTranslations.includes(defaultLanguage)) {
+      return defaultLanguage;
+    }
+
+    return availableTranslations[0];
+  };
 
   /**
    * Return the i18n strings.
@@ -53,8 +70,9 @@ import './scss/main.scss';
       return {};
     }
 
-    const currentLanguage = language || window.pressidiumCookieConsent.getConfig('current_lang');
-    return settings.languages[currentLanguage];
+    const currentLanguage = language || getCurrentLanguage();
+
+    return settings.language.translations[currentLanguage];
   };
 
   /**
@@ -125,7 +143,7 @@ import './scss/main.scss';
     const button = document.createElement('pressidium-floating-button');
 
     button.size = size;
-    button.label = i18nStrings.settings_modal.title;
+    button.label = i18nStrings.preferencesModal.title;
     button.position = position;
     button.status = 'hidden';
     button.transition = transition;
@@ -179,7 +197,7 @@ import './scss/main.scss';
       intersectionObserver.observe(consentModal);
     };
 
-    // Automatically hide it when a settings modal is created
+    // Automatically hide it when a preferences modal is created
     const mutationObserver = new MutationObserver(() => {
       if (document.querySelector('#cm')) {
         observeConsentModal();
@@ -208,14 +226,14 @@ import './scss/main.scss';
           'Content-Type': 'application/json;charset=UTF-8',
         }),
         body: JSON.stringify({
-          consent_date: cookie.consent_date,
-          uuid: cookie.consent_uuid,
+          consent_date: cookie.lastConsentTimestamp,
+          uuid: cookie.consentId,
           url: window.location.href,
           user_agent: window.navigator.userAgent,
-          necessary_consent: cookie.level.includes('necessary'),
-          analytics_consent: cookie.level.includes('analytics'),
-          targeting_consent: cookie.level.includes('targeting'),
-          preferences_consent: cookie.level.includes('preferences'),
+          necessary_consent: cookie.categories.includes('necessary'),
+          analytics_consent: cookie.categories.includes('analytics'),
+          targeting_consent: cookie.categories.includes('targeting'),
+          preferences_consent: cookie.categories.includes('preferences'),
         }),
       });
     } catch (error) {
@@ -321,11 +339,12 @@ import './scss/main.scss';
    * - At the first moment that consent is given
    * - After every page load, if consent ("accept" or "reject" action) has already been given
    *
-   * @param {object} cookie Current value of the cookie.
+   * @param {object} params
+   * @param {object} params.cookie Current value of the cookie.
    *
    * @return {Promise<void>}
    */
-  const onAccept = async (cookie) => {
+  const onConsent = async ({ cookie }) => {
     await updateConsentRecords(cookie);
 
     if ('categories' in cookie && gcm.enabled) {
@@ -350,13 +369,15 @@ import './scss/main.scss';
    *
    * - When the user changes their preferences (accepts/rejects a cookie category)
    *
-   * @param {object} cookie            Current value of the cookie.
-   * @param {array}  changedCategories Array of categories whose state
-   *                                   (accepted/rejected) just changed.
+   * @param {object}   params
+   * @param {object}   params.cookie             Current value of the cookie.
+   * @param {string[]} params.changedCategories  Array of categories whose state
+   *                                             (accepted/rejected) just changed.
+   * @param {object}   params.changedServices    Object of changed services.
    *
    * @return {Promise<void>}
    */
-  const onChange = async (cookie, changedCategories) => {
+  const onChange = async ({ cookie, changedCategories, changedServices }) => {
     await updateConsentRecords(cookie);
 
     if ('categories' in cookie && gcm.enabled) {
@@ -369,31 +390,95 @@ import './scss/main.scss';
     // Fire custom event for developers to extend the functionality
     const event = new CustomEvent(
       'pressidium-cookie-consent-changed',
-      { detail: { cookie, changedCategories } },
+      { detail: { cookie, changedCategories, changedServices } },
     );
     window.dispatchEvent(event);
   };
 
-  const isEmptyCategory = (block) => (
-    'toggle' in block && (!('cookie_table' in block) || block.cookie_table.length === 0)
+  /**
+   * One of the modals is visible.
+   *
+   * This function will be executed when either modal becomes visible.
+   *
+   * @param {string} modalName The name of the modal that is now visible
+   *                           (either `consentModal` or `preferencesModal`).
+   *
+   * @return {void}
+   */
+  const onModalShow = ({ modalName }) => {
+    // Fire custom event for developers to extend the functionality
+    const event = new CustomEvent(
+      'pressidium-cookie-consent-modal-shown',
+      { detail: { modalName } },
+    );
+    window.dispatchEvent(event);
+  };
+
+  /**
+   * One of the modals is hidden.
+   *
+   * This function will be executed when either modal is hidden.
+   *
+   * @param {string} modalName The name of the modal that is now visible
+   *                           (either `consentModal` or `preferencesModal`).
+   *
+   * @return {void}
+   */
+  const onModalHide = ({ modalName }) => {
+    // Fire custom event for developers to extend the functionality
+    const event = new CustomEvent(
+      'pressidium-cookie-consent-modal-hidden',
+      { detail: { modalName } },
+    );
+    window.dispatchEvent(event);
+  };
+
+  /**
+   * One of the modals is created and appended to the DOM.
+   *
+   * This function will be executed when either modal is created and appended to the DOM.
+   *
+   * @param {string} modalName The name of the modal that is now visible
+   *                           (either `consentModal` or `preferencesModal`).
+   *
+   * @return {void}
+   */
+  const onModalReady = ({ modalName }) => {
+    /*
+     * Make sure the buttons have the `.has-background` and `.has-text-color`
+     * classes, so their colors won't be overridden by the theme.
+     * This runs each time a modal is appended to the DOM, covering both
+     * the consent modal and the preferences modal (lazy-generated in v3).
+     */
+    document
+      .querySelectorAll('#cc-main button')
+      .forEach((button) => {
+        button.classList.add('has-background', 'has-text-color');
+      });
+
+    // Fire custom event for developers to extend the functionality
+    const event = new CustomEvent(
+      'pressidium-cookie-consent-modal-ready',
+      { detail: { modalName } },
+    );
+    window.dispatchEvent(event);
+  };
+
+  const isEmptyCategory = (section) => (
+    'linkedCategory' in section && (!('cookieTable' in section) || section.cookieTable.length === 0)
   );
 
   if (hideEmptyCategories) {
-    Object.entries(settings.languages)
+    Object.entries(settings.language.translations)
       .forEach(([language, languageSettings]) => {
-        settings.languages[language].settings_modal.blocks = languageSettings
-          .settings_modal
-          .blocks
-          .filter((block) => !isEmptyCategory(block));
+        settings.language.translations[language].preferencesModal.sections = languageSettings
+          .preferencesModal
+          .sections
+          .filter((section) => !isEmptyCategory(section));
       });
   }
 
-  window.pressidiumCookieConsent = initCookieConsent();
-  window.pressidiumCookieConsent.run({
-    ...settings,
-    onAccept,
-    onChange,
-  });
+  window.pressidiumCookieConsent = CookieConsent;
 
   initFloatingButton(floatingButton);
 
@@ -404,21 +489,24 @@ import './scss/main.scss';
     hide: hideFloatingButton,
   };
 
+  window.pressidiumCookieConsent.run({
+    ...settings,
+    onConsent,
+    onChange,
+    onModalShow,
+    onModalHide,
+    onModalReady,
+  });
+
+  // Expose the current language utility
+  window.pressidiumCookieConsent.getCurrentLanguage = getCurrentLanguage;
+
   /*
    * Since consent mode doesn't save consent choices,
    * we need to update the consent status accordingly
    * on every page load.
    */
-  const alreadyAcceptedCategories = window.pressidiumCookieConsent.get('categories');
+  const userPreferences = window.pressidiumCookieConsent.getUserPreferences() || {};
+  const alreadyAcceptedCategories = userPreferences.acceptedCategories || [];
   updateGTag(alreadyAcceptedCategories);
-
-  /*
-   * Make sure the buttons have the `.has-background` and `.has-text-color`
-   * classes, so their colors won't be overridden by the theme.
-   */
-  document
-    .querySelectorAll('#cc--main button')
-    .forEach((button) => {
-      button.classList.add('has-background', 'has-text-color');
-    });
 })(pressidiumCCClientDetails, window.gtag);

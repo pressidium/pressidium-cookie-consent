@@ -51,7 +51,7 @@
 
 ![Color picker screenshot](./.wordpress-org/screenshot-2.png)
 
-Easily modify the cookie consent banner and settings modal text. Pick one of the built-in color presets to match your website’s aesthetic, or adjust the color of individual components via our convenient color picker. Choose from a variety of layouts, positions, and transitions directly from the WordPress dashboard.
+Easily modify the cookie consent banner and preferences modal text. Pick one of the built-in color presets to match your website’s aesthetic, or adjust the color of individual components via our convenient color picker. Choose from a variety of layouts, positions, and transitions directly from the WordPress dashboard.
 
 ### 🪶 Lightweight
 
@@ -65,11 +65,11 @@ An a11y friendly plugin — fully accessible and WAI-ARIA compliant.
 
 ![Translations tab screenshot](./.wordpress-org/screenshot-4.png)
 
-Modify any text in the cookie consent banner and settings modal, and provide translations. Choose the language auto-detection strategy you prefer — either  read the user’s browser language or read the markup of the current page to identify its primary language.
+Modify any text in the cookie consent banner and preferences modal, and provide translations. Choose the language auto-detection strategy you prefer — either  read the user’s browser language or read the markup of the current page to identify its primary language.
 
 ### 📱 Responsive
 
-Fully responsive and mobile-friendly cookie consent banner and settings modal.
+Fully responsive and mobile-friendly cookie consent banner and preferences modal.
 
 ### 🙅 Block scripts
 
@@ -127,7 +127,7 @@ Add the **Pressidium Cookies Table** block for the Block Editor to display a dyn
 
 ### ⌨️ Control it programmatically
 
-Programmatically control the plugin. Conditionally show/hide the cookie consent banner and/or the settings modal, accept one (or more) cookie categories, erase cookies, load previously blocked scripts, etc.
+Programmatically control the plugin. Conditionally show/hide the cookie consent banner and/or the preferences modal, accept one (or more) cookie categories, erase cookies, load previously blocked scripts, etc.
 
 ## Credits
 

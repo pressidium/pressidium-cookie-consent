@@ -14,25 +14,34 @@ function settingsReducer(state, action) {
         [action.payload.key]: action.payload.value,
       };
 
+    case ActionTypes.UPDATE_COOKIE_SETTING:
+      return {
+        ...state,
+        cookie: {
+          ...state.cookie,
+          [action.payload.key]: action.payload.value,
+        },
+      };
+
     case ActionTypes.UPDATE_CONSENT_MODAL_SETTING:
       return {
         ...state,
-        gui_options: {
-          ...state.gui_options,
-          consent_modal: {
-            ...state.gui_options.consent_modal,
+        guiOptions: {
+          ...state.guiOptions,
+          consentModal: {
+            ...state.guiOptions.consentModal,
             [action.payload.key]: action.payload.value,
           },
         },
       };
 
-    case ActionTypes.UPDATE_SETTINGS_MODAL_SETTING:
+    case ActionTypes.UPDATE_PREFERENCES_MODAL_SETTING:
       return {
         ...state,
-        gui_options: {
-          ...state.gui_options,
-          settings_modal: {
-            ...state.gui_options.settings_modal,
+        guiOptions: {
+          ...state.guiOptions,
+          preferencesModal: {
+            ...state.guiOptions.preferencesModal,
             [action.payload.key]: action.payload.value,
           },
         },
@@ -41,82 +50,75 @@ function settingsReducer(state, action) {
     case ActionTypes.ADD_LANGUAGE:
       return {
         ...state,
-        languages: {
-          ...state.languages,
-          [action.payload.language]: {
-            consent_modal: {
-              title: '',
-              description: '',
-              primary_btn: {
-                text: '',
+        language: {
+          ...state.language,
+          translations: {
+            ...state.language.translations,
+            [action.payload.language]: {
+              consentModal: {
+                title: '',
+                description: '',
+                acceptAllBtn: '',
+                acceptNecessaryBtn: '',
+                showPreferencesBtn: '',
+                footer: '',
+                footerLinks: [
+                  { url: '', label: '' },
+                  { url: '', label: '' },
+                ],
               },
-              secondary_btn: {
-                text: '',
+              preferencesModal: {
+                title: '',
+                savePreferencesBtn: '',
+                acceptAllBtn: '',
+                acceptNecessaryBtn: '',
+                sections: [
+                  {
+                    title: '',
+                    description: '',
+                  },
+                  {
+                    title: '',
+                    description: '',
+                    linkedCategory: 'necessary',
+                  },
+                  {
+                    title: '',
+                    description: '',
+                    linkedCategory: 'analytics',
+                  },
+                  {
+                    title: '',
+                    description: '',
+                    linkedCategory: 'targeting',
+                  },
+                  {
+                    title: '',
+                    description: '',
+                    linkedCategory: 'preferences',
+                  },
+                  {
+                    title: '',
+                    description: '',
+                  },
+                ],
               },
             },
-            settings_modal: {
-              title: '',
-              save_settings_btn: '',
-              accept_all_btn: '',
-              reject_all_btn: '',
-              close_btn_label: '',
-              cookie_table_headers: [
-                { name: '' },
-                { domain: '' },
-                { expiration: '' },
-                { path: '' },
-                { description: '' },
-              ],
-              blocks: [
-                {
-                  title: '',
-                  description: '',
-                },
-                {
-                  title: '',
-                  description: '',
-                  toggle: {
-                    value: 'necessary',
-                    enabled: true,
-                    readonly: true,
-                  },
-                  cookie_table: [],
-                },
-                {
-                  title: '',
-                  description: '',
-                  toggle: {
-                    value: 'analytics',
-                    enabled: false,
-                    readonly: false,
-                  },
-                  cookie_table: [],
-                },
-                {
-                  title: '',
-                  description: '',
-                  toggle: {
-                    value: 'targeting',
-                    enabled: false,
-                    readonly: false,
-                  },
-                  cookie_table: [],
-                },
-                {
-                  title: '',
-                  description: '',
-                  toggle: {
-                    value: 'preferences',
-                    enabled: false,
-                    readonly: false,
-                  },
-                  cookie_table: [],
-                },
-                {
-                  title: '',
-                  description: '',
-                },
-              ],
+          },
+        },
+        pressidiumOptions: {
+          ...state.pressidiumOptions,
+          cookieTableHeaders: {
+            ...state.pressidiumOptions.cookieTableHeaders,
+            translations: {
+              ...state.pressidiumOptions.cookieTableHeaders.translations,
+              [action.payload.language]: {
+                name: '',
+                domain: '',
+                expiration: '',
+                path: '',
+                description: '',
+              },
             },
           },
         },
@@ -125,83 +127,90 @@ function settingsReducer(state, action) {
     case ActionTypes.DELETE_LANGUAGE:
       return {
         ...state,
-        languages: Object.keys(state.languages).reduce((acc, key) => {
-          if (key !== action.payload.language) {
-            acc[key] = state.languages[key];
-          }
-          return acc;
-        }, {}),
+        language: {
+          ...state.language,
+          translations: Object.keys(state.language.translations)
+            .reduce((acc, key) => {
+              if (key !== action.payload.language) {
+                acc[key] = state.language.translations[key];
+              }
+              return acc;
+            }, {}),
+        },
+        pressidiumOptions: {
+          ...state.pressidiumOptions,
+          cookieTableHeaders: {
+            ...state.pressidiumOptions.cookieTableHeaders,
+            translations: Object.keys(state.pressidiumOptions.cookieTableHeaders.translations)
+              .reduce((acc, key) => {
+                if (key !== action.payload.language) {
+                  acc[key] = state.pressidiumOptions.cookieTableHeaders.translations[key];
+                }
+                return acc;
+              }, {}),
+          },
+        },
       };
 
     case ActionTypes.UPDATE_CONSENT_MODAL_LANGUAGE_SETTING:
       return {
         ...state,
-        languages: {
-          ...state.languages,
-          [action.payload.language]: {
-            ...state.languages[action.payload.language],
-            consent_modal: {
-              ...state.languages[action.payload.language].consent_modal,
-              [action.payload.key]: action.payload.value,
+        language: {
+          ...state.language,
+          translations: {
+            ...state.language.translations,
+            [action.payload.language]: {
+              ...state.language.translations[action.payload.language],
+              consentModal: {
+                ...state.language.translations[action.payload.language].consentModal,
+                [action.payload.key]: action.payload.value,
+              },
             },
           },
         },
       };
 
-    case ActionTypes.UPDATE_SETTINGS_MODAL_LANGUAGE_SETTING:
+    case ActionTypes.UPDATE_PREFERENCES_MODAL_LANGUAGE_SETTING:
       return {
         ...state,
-        languages: {
-          ...state.languages,
-          [action.payload.language]: {
-            ...state.languages[action.payload.language],
-            settings_modal: {
-              ...state.languages[action.payload.language].settings_modal,
-              [action.payload.key]: action.payload.value,
+        language: {
+          ...state.language,
+          translations: {
+            ...state.language.translations,
+            [action.payload.language]: {
+              ...state.language.translations[action.payload.language],
+              preferencesModal: {
+                ...state.language.translations[action.payload.language].preferencesModal,
+                [action.payload.key]: action.payload.value,
+              },
             },
           },
         },
       };
 
-    case ActionTypes.UPDATE_COOKIE_TABLE_HEADERS_LANGUAGE_SETTING:
+    case ActionTypes.UPDATE_PREFERENCES_MODAL_BLOCK_LANGUAGE_SETTING:
       return {
         ...state,
-        languages: {
-          ...state.languages,
-          [action.payload.language]: {
-            ...state.languages[action.payload.language],
-            settings_modal: {
-              ...state.languages[action.payload.language].settings_modal,
-              cookie_table_headers: [
-                ...state.languages[action.payload.language].settings_modal.cookie_table_headers.slice(0, action.payload.index),
-                {
-                  ...state.languages[action.payload.language].settings_modal.cookie_table_headers[action.payload.index],
-                  [action.payload.key]: action.payload.value,
-                },
-                ...state.languages[action.payload.language].settings_modal.cookie_table_headers.slice(action.payload.index + 1),
-              ],
-            },
-          },
-        },
-      };
-
-    case ActionTypes.UPDATE_SETTINGS_MODAL_BLOCK_LANGUAGE_SETTING:
-      return {
-        ...state,
-        languages: {
-          ...state.languages,
-          [action.payload.language]: {
-            ...state.languages[action.payload.language],
-            settings_modal: {
-              ...state.languages[action.payload.language].settings_modal,
-              blocks: [
-                ...state.languages[action.payload.language].settings_modal.blocks.slice(0, action.payload.index),
-                {
-                  ...state.languages[action.payload.language].settings_modal.blocks[action.payload.index],
-                  [action.payload.key]: action.payload.value,
-                },
-                ...state.languages[action.payload.language].settings_modal.blocks.slice(action.payload.index + 1),
-              ],
+        language: {
+          ...state.language,
+          translations: {
+            ...state.language.translations,
+            [action.payload.language]: {
+              ...state.language.translations[action.payload.language],
+              preferencesModal: {
+                ...state.language.translations[action.payload.language].preferencesModal,
+                sections: [
+                  ...state.language.translations[action.payload.language]
+                    .preferencesModal.sections.slice(0, action.payload.index),
+                  {
+                    ...state.language.translations[action.payload.language]
+                      .preferencesModal.sections[action.payload.index],
+                    [action.payload.key]: action.payload.value,
+                  },
+                  ...state.language.translations[action.payload.language]
+                    .preferencesModal.sections.slice(action.payload.index + 1),
+                ],
+              },
             },
           },
         },
@@ -210,19 +219,19 @@ function settingsReducer(state, action) {
     case ActionTypes.ADD_COOKIE_TABLE_ROW:
       return {
         ...state,
-        pressidium_options: {
-          ...state.pressidium_options,
-          cookie_table: {
-            ...state.pressidium_options.cookie_table,
+        pressidiumOptions: {
+          ...state.pressidiumOptions,
+          cookieTable: {
+            ...state.pressidiumOptions.cookieTable,
             [action.payload.category]: [
-              ...state.pressidium_options.cookie_table[action.payload.category],
+              ...state.pressidiumOptions.cookieTable[action.payload.category],
               {
                 name: '',
                 domain: '',
                 expiration: '',
                 path: '',
                 description: '',
-                is_regex: false,
+                isRegex: false,
               },
             ],
           },
@@ -232,17 +241,20 @@ function settingsReducer(state, action) {
     case ActionTypes.UPDATE_COOKIE_TABLE_ROW:
       return {
         ...state,
-        pressidium_options: {
-          ...state.pressidium_options,
-          cookie_table: {
-            ...state.pressidium_options.cookie_table,
+        pressidiumOptions: {
+          ...state.pressidiumOptions,
+          cookieTable: {
+            ...state.pressidiumOptions.cookieTable,
             [action.payload.category]: [
-              ...state.pressidium_options.cookie_table[action.payload.category].slice(0, action.payload.index),
+              ...state.pressidiumOptions
+                .cookieTable[action.payload.category].slice(0, action.payload.index),
               {
-                ...state.pressidium_options.cookie_table[action.payload.category][action.payload.index],
+                ...state.pressidiumOptions
+                  .cookieTable[action.payload.category][action.payload.index],
                 [action.payload.key]: action.payload.value,
               },
-              ...state.pressidium_options.cookie_table[action.payload.category].slice(action.payload.index + 1),
+              ...state.pressidiumOptions
+                .cookieTable[action.payload.category].slice(action.payload.index + 1),
             ],
           },
         },
@@ -251,13 +263,15 @@ function settingsReducer(state, action) {
     case ActionTypes.DELETE_COOKIE_TABLE_ROW:
       return {
         ...state,
-        pressidium_options: {
-          ...state.pressidium_options,
-          cookie_table: {
-            ...state.pressidium_options.cookie_table,
+        pressidiumOptions: {
+          ...state.pressidiumOptions,
+          cookieTable: {
+            ...state.pressidiumOptions.cookieTable,
             [action.payload.category]: [
-              ...state.pressidium_options.cookie_table[action.payload.category].slice(0, action.payload.index),
-              ...state.pressidium_options.cookie_table[action.payload.category].slice(action.payload.index + 1),
+              ...state.pressidiumOptions
+                .cookieTable[action.payload.category].slice(0, action.payload.index),
+              ...state.pressidiumOptions
+                .cookieTable[action.payload.category].slice(action.payload.index + 1),
             ],
           },
         },
@@ -266,14 +280,14 @@ function settingsReducer(state, action) {
     case ActionTypes.ADD_BLOCKED_SCRIPT:
       return {
         ...state,
-        pressidium_options: {
-          ...state.pressidium_options,
-          blocked_scripts: [
-            ...state.pressidium_options.blocked_scripts,
+        pressidiumOptions: {
+          ...state.pressidiumOptions,
+          blockedScripts: [
+            ...state.pressidiumOptions.blockedScripts,
             {
               src: '',
               category: 'analytics',
-              is_regex: false,
+              isRegex: false,
             },
           ],
         },
@@ -282,15 +296,15 @@ function settingsReducer(state, action) {
     case ActionTypes.UPDATE_BLOCKED_SCRIPT:
       return {
         ...state,
-        pressidium_options: {
-          ...state.pressidium_options,
-          blocked_scripts: [
-            ...state.pressidium_options.blocked_scripts.slice(0, action.payload.index),
+        pressidiumOptions: {
+          ...state.pressidiumOptions,
+          blockedScripts: [
+            ...state.pressidiumOptions.blockedScripts.slice(0, action.payload.index),
             {
-              ...state.pressidium_options.blocked_scripts[action.payload.index],
+              ...state.pressidiumOptions.blockedScripts[action.payload.index],
               [action.payload.key]: action.payload.value,
             },
-            ...state.pressidium_options.blocked_scripts.slice(action.payload.index + 1),
+            ...state.pressidiumOptions.blockedScripts.slice(action.payload.index + 1),
           ],
         },
       };
@@ -298,76 +312,67 @@ function settingsReducer(state, action) {
     case ActionTypes.DELETE_BLOCKED_SCRIPT:
       return {
         ...state,
-        pressidium_options: {
-          ...state.pressidium_options,
-          blocked_scripts: [
-            ...state.pressidium_options.blocked_scripts.slice(0, action.payload.index),
-            ...state.pressidium_options.blocked_scripts.slice(action.payload.index + 1),
+        pressidiumOptions: {
+          ...state.pressidiumOptions,
+          blockedScripts: [
+            ...state.pressidiumOptions.blockedScripts.slice(0, action.payload.index),
+            ...state.pressidiumOptions.blockedScripts.slice(action.payload.index + 1),
           ],
+        },
+      };
+
+    case ActionTypes.UPDATE_LANGUAGE_AUTO_DETECT_SETTING:
+      return {
+        ...state,
+        language: {
+          ...state.language,
+          autoDetect: action.payload.strategy,
         },
       };
 
     case ActionTypes.UPDATE_PRIMARY_BUTTON_TEXT:
       return {
         ...state,
-        languages: {
-          ...state.languages,
-          [action.payload.language]: {
-            ...state.languages[action.payload.language],
-            consent_modal: {
-              ...state.languages[action.payload.language].consent_modal,
-              primary_btn: {
-                ...state.languages[action.payload.language].consent_modal.primary_btn,
-                text: action.payload.value,
+        language: {
+          ...state.language,
+          translations: {
+            ...state.language.translations,
+            [action.payload.language]: {
+              ...state.language.translations[action.payload.language],
+              consentModal: {
+                ...state.language.translations[action.payload.language].consentModal,
+                acceptAllBtn: action.payload.value,
               },
             },
           },
-        },
-      };
-
-    case ActionTypes.UPDATE_PRIMARY_BUTTON_ROLE:
-      return {
-        ...state,
-        pressidium_options: {
-          ...state.pressidium_options,
-          primary_btn_role: action.payload.value,
         },
       };
 
     case ActionTypes.UPDATE_SECONDARY_BUTTON_TEXT:
       return {
         ...state,
-        languages: {
-          ...state.languages,
-          [action.payload.language]: {
-            ...state.languages[action.payload.language],
-            consent_modal: {
-              ...state.languages[action.payload.language].consent_modal,
-              secondary_btn: {
-                ...state.languages[action.payload.language].consent_modal.secondary_btn,
-                text: action.payload.value,
+        language: {
+          ...state.language,
+          translations: {
+            ...state.language.translations,
+            [action.payload.language]: {
+              ...state.language.translations[action.payload.language],
+              consentModal: {
+                ...state.language.translations[action.payload.language].consentModal,
+                acceptNecessaryBtn: action.payload.value,
               },
             },
           },
         },
       };
 
-    case ActionTypes.UPDATE_SECONDARY_BUTTON_ROLE:
-      return {
-        ...state,
-        pressidium_options: {
-          ...state.pressidium_options,
-          secondary_btn_role: action.payload.value,
-        },
-      };
-
     case ActionTypes.UPDATE_COLOR_SETTINGS:
       return {
         ...state,
-        pressidium_options: {
-          ...state.pressidium_options,
+        pressidiumOptions: {
+          ...state.pressidiumOptions,
           colors: {
-            ...state.pressidium_options.colors,
+            ...state.pressidiumOptions.colors,
             ...action.payload,
           },
         },
@@ -376,10 +381,10 @@ function settingsReducer(state, action) {
     case ActionTypes.UPDATE_COLOR_SETTING:
       return {
         ...state,
-        pressidium_options: {
-          ...state.pressidium_options,
+        pressidiumOptions: {
+          ...state.pressidiumOptions,
           colors: {
-            ...state.pressidium_options.colors,
+            ...state.pressidiumOptions.colors,
             [action.payload.key]: action.payload.value,
           },
         },
@@ -388,10 +393,10 @@ function settingsReducer(state, action) {
     case ActionTypes.UPDATE_GCM_SETTINGS:
       return {
         ...state,
-        pressidium_options: {
-          ...state.pressidium_options,
+        pressidiumOptions: {
+          ...state.pressidiumOptions,
           gcm: {
-            ...state.pressidium_options.gcm,
+            ...state.pressidiumOptions.gcm,
             ...action.payload,
           },
         },
@@ -400,10 +405,10 @@ function settingsReducer(state, action) {
     case ActionTypes.UPDATE_GCM_SETTING:
       return {
         ...state,
-        pressidium_options: {
-          ...state.pressidium_options,
+        pressidiumOptions: {
+          ...state.pressidiumOptions,
           gcm: {
-            ...state.pressidium_options.gcm,
+            ...state.pressidiumOptions.gcm,
             [action.payload.key]: action.payload.value,
           },
         },
@@ -412,12 +417,12 @@ function settingsReducer(state, action) {
     case ActionTypes.ADD_GCM_REGION:
       return {
         ...state,
-        pressidium_options: {
-          ...state.pressidium_options,
+        pressidiumOptions: {
+          ...state.pressidiumOptions,
           gcm: {
-            ...state.pressidium_options.gcm,
+            ...state.pressidiumOptions.gcm,
             regions: [
-              ...state.pressidium_options.gcm.regions,
+              ...state.pressidiumOptions.gcm.regions,
               {
                 country: action.payload.country,
                 subdivisions: action.payload.subdivisions,
@@ -439,20 +444,21 @@ function settingsReducer(state, action) {
     case ActionTypes.UPDATE_GCM_REGION_SETTING:
       return {
         ...state,
-        pressidium_options: {
-          ...state.pressidium_options,
+        pressidiumOptions: {
+          ...state.pressidiumOptions,
           gcm: {
-            ...state.pressidium_options.gcm,
+            ...state.pressidiumOptions.gcm,
             regions: [
-              ...state.pressidium_options.gcm.regions.slice(0, action.payload.index),
+              ...state.pressidiumOptions.gcm.regions.slice(0, action.payload.index),
               {
-                ...state.pressidium_options.gcm.regions[action.payload.index],
+                ...state.pressidiumOptions.gcm.regions[action.payload.index],
                 default_consent_states: {
-                  ...state.pressidium_options.gcm.regions[action.payload.index].default_consent_states,
+                  ...state.pressidiumOptions.gcm
+                    .regions[action.payload.index].default_consent_states,
                   [action.payload.key]: action.payload.value,
                 },
               },
-              ...state.pressidium_options.gcm.regions.slice(action.payload.index + 1),
+              ...state.pressidiumOptions.gcm.regions.slice(action.payload.index + 1),
             ],
           },
         },
@@ -461,13 +467,13 @@ function settingsReducer(state, action) {
     case ActionTypes.DELETE_GCM_REGION: {
       return {
         ...state,
-        pressidium_options: {
-          ...state.pressidium_options,
+        pressidiumOptions: {
+          ...state.pressidiumOptions,
           gcm: {
-            ...state.pressidium_options.gcm,
+            ...state.pressidiumOptions.gcm,
             regions: [
-              ...state.pressidium_options.gcm.regions.slice(0, action.payload.index),
-              ...state.pressidium_options.gcm.regions.slice(action.payload.index + 1),
+              ...state.pressidiumOptions.gcm.regions.slice(0, action.payload.index),
+              ...state.pressidiumOptions.gcm.regions.slice(action.payload.index + 1),
             ],
           },
         },
@@ -477,10 +483,10 @@ function settingsReducer(state, action) {
     case ActionTypes.UPDATE_TAG_GATEWAY_SETTINGS:
       return {
         ...state,
-        pressidium_options: {
-          ...state.pressidium_options,
-          google_tag_gateway: {
-            ...state.pressidium_options.google_tag_gateway,
+        pressidiumOptions: {
+          ...state.pressidiumOptions,
+          googleTagGateway: {
+            ...state.pressidiumOptions.googleTagGateway,
             ...action.payload,
           },
         },
@@ -489,10 +495,10 @@ function settingsReducer(state, action) {
     case ActionTypes.UPDATE_TAG_GATEWAY_SETTING:
       return {
         ...state,
-        pressidium_options: {
-          ...state.pressidium_options,
-          google_tag_gateway: {
-            ...state.pressidium_options.google_tag_gateway,
+        pressidiumOptions: {
+          ...state.pressidiumOptions,
+          googleTagGateway: {
+            ...state.pressidiumOptions.googleTagGateway,
             [action.payload.key]: action.payload.value,
           },
         },
@@ -501,17 +507,36 @@ function settingsReducer(state, action) {
     case ActionTypes.UPDATE_PRESSIDIUM_OPTION:
       return {
         ...state,
-        pressidium_options: {
-          ...state.pressidium_options,
+        pressidiumOptions: {
+          ...state.pressidiumOptions,
           [action.payload.key]: action.payload.value,
+        },
+      };
+
+    case ActionTypes.UPDATE_COOKIE_TABLE_HEADERS_LANGUAGE_SETTING:
+      return {
+        ...state,
+        pressidiumOptions: {
+          ...state.pressidiumOptions,
+          cookieTableHeaders: {
+            ...state.pressidiumOptions.cookieTableHeaders,
+            translations: {
+              ...state.pressidiumOptions.cookieTableHeaders.translations,
+              [action.payload.language]: {
+                ...state.pressidiumOptions.cookieTableHeaders
+                  .translations[action.payload.language],
+                [action.payload.key]: action.payload.value,
+              },
+            },
+          },
         },
       };
 
     case ActionTypes.UPDATE_FONT_SETTING:
       return {
         ...state,
-        pressidium_options: {
-          ...state.pressidium_options,
+        pressidiumOptions: {
+          ...state.pressidiumOptions,
           font: action.payload,
         },
       };
@@ -519,10 +544,10 @@ function settingsReducer(state, action) {
     case ActionTypes.UPDATE_FLOATING_BUTTON_SETTING:
       return {
         ...state,
-        pressidium_options: {
-          ...state.pressidium_options,
-          floating_button: {
-            ...state.pressidium_options.floating_button,
+        pressidiumOptions: {
+          ...state.pressidiumOptions,
+          floatingButton: {
+            ...state.pressidiumOptions.floatingButton,
             [action.payload.key]: action.payload.value,
           },
         },
@@ -531,12 +556,21 @@ function settingsReducer(state, action) {
     case ActionTypes.UPDATE_ENTIRE_LANGUAGE:
       return {
         ...state,
-        languages: {
-          ...state.languages,
+        language: {
+          ...state.language,
           [action.payload.language]: {
-            ...state.languages[action.payload.language],
+            ...state.language[action.payload.language],
             ...action.payload.translation,
           },
+        },
+      };
+
+    case ActionTypes.UPDATE_CLOSE_ICON_SETTING:
+      return {
+        ...state,
+        pressidiumOptions: {
+          ...state.pressidiumOptions,
+          consentModalCloseIcon: action.payload.value,
         },
       };
 

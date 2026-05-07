@@ -109,251 +109,267 @@ class Settings_API implements Actions {
         return array(
             'type' => 'object',
             'required' => array(
-                'autorun',
-                'force_consent',
-                'autoclear_cookies',
-                'page_scripts',
-                'hide_from_bots',
+                'autoShow',
+                'disablePageInteraction',
+                'autoClearCookies',
+                'manageScriptTags',
+                'hideFromBots',
                 'reconsent',
-                'delay',
-                'cookie_expiration',
-                'cookie_path',
-                'cookie_domain',
-                'auto_language',
-                'languages',
-                'gui_options',
-                'pressidium_options',
+                'cookie',
+                'categories',
+                'language',
+                'guiOptions',
+                'pressidiumOptions',
             ),
             'properties' => array(
-                'autorun' => array(
+                'autoShow' => array(
                     'type' => 'boolean',
                 ),
-                'force_consent' => array(
+                'disablePageInteraction' => array(
                     'type' => 'boolean',
                 ),
-                'autoclear_cookies' => array(
+                'autoClearCookies' => array(
                     'type' => 'boolean',
                 ),
-                'page_scripts' => array(
+                'manageScriptTags' => array(
                     'type' => 'boolean',
                 ),
-                'hide_from_bots' => array(
+                'hideFromBots' => array(
                     'type' => 'boolean',
                 ),
                 'reconsent' => array(
                     'type' => 'boolean',
                 ),
-                'delay' => array(
-                    'type' => 'integer',
-                ),
-                'cookie_expiration' => array(
-                    'type' => 'integer',
-                ),
-                'cookie_path' => array(
-                    'type' => 'string',
-                ),
-                'cookie_domain' => array(
-                    'type' => 'string',
-                ),
-                'auto_language' => array(
-                    'type' => 'string',
-                ),
-                'languages' => array(
+                'cookie' => array(
                     'type' => 'object',
+                    'required' => array(
+                        'expiresAfterDays',
+                        'path',
+                        'domain',
+                        'name',
+                    ),
                     'properties' => array(
-                        '[a-zA-Z]' => array(
-                            'type' => 'object',
-                            'required' => array(
-                                'consent_modal',
-                                'settings_modal',
-                            ),
-                            'properties' => array(
-                                'consent_modal' => array(
-                                    'type' => 'object',
-                                    'required' => array(
-                                        'title',
-                                        'description',
-                                        'primary_btn',
-                                        'secondary_btn',
-                                    ),
-                                    'properties' => array(
-                                        'title' => array(
-                                            'type' => 'string',
-                                        ),
-                                        'description' => array(
-                                            'type' => 'string',
-                                        ),
-                                        'primary_btn' => array(
-                                            'type' => 'object',
-                                            'required' => array(
-                                                'text',
-                                                'role',
-                                            ),
-                                            'properties' => array(
-                                                'text' => array(
-                                                    'type' => 'string',
-                                                ),
-                                                'role' => array(
-                                                    'type' => 'string',
-                                                ),
-                                            ),
-                                        ),
-                                        'secondary_btn' => array(
-                                            'type' => 'object',
-                                            'required' => array(
-                                                'text',
-                                                'role',
-                                            ),
-                                            'properties' => array(
-                                                'text' => array(
-                                                    'type' => 'string',
-                                                ),
-                                                'role' => array(
-                                                    'type' => 'string',
-                                                ),
-                                            ),
-                                        ),
-                                    ),
-                                ),
-                                'settings_modal' => array(
-                                    'type' => 'object',
-                                    'required' => array(
-                                        'title',
-                                        'save_settings_btn',
-                                        'accept_all_btn',
-                                        'reject_all_btn',
-                                        'close_btn_label',
-                                        'cookie_table_headers',
-                                        'blocks',
-                                    ),
-                                    'properties' => array(
-                                        'title' => array(
-                                            'type' => 'string',
-                                        ),
-                                        'save_settings_btn' => array(
-                                            'type' => 'string',
-                                        ),
-                                        'accept_all_btn' => array(
-                                            'type' => 'string',
-                                        ),
-                                        'reject_all_btn' => array(
-                                            'type' => 'string',
-                                        ),
-                                        'close_btn_label' => array(
-                                            'type' => 'string',
-                                        ),
-                                        'cookie_table_headers' => array(
-                                            'type' => 'array',
-                                            'items' => array(
-                                                'type' => 'object',
-                                                'required' => array(
-                                                    'name',
-                                                    'domain',
-                                                    'expiration',
-                                                    'path',
-                                                    'description',
-                                                ),
-                                                'properties' => array(
-                                                    'name' => array(
-                                                        'type' => 'string',
-                                                    ),
-                                                    'domain' => array(
-                                                        'type' => 'string',
-                                                    ),
-                                                    'expiration' => array(
-                                                        'type' => 'string',
-                                                    ),
-                                                    'path' => array(
-                                                        'type' => 'string',
-                                                    ),
-                                                    'description' => array(
-                                                        'type' => 'string',
-                                                    ),
-                                                ),
-                                            ),
-                                        ),
-                                        'blocks' => array(
-                                            'type' => 'array',
-                                            'items' => array(
-                                                'type' => 'object',
-                                                'required' => array(
-                                                    'title',
-                                                    'description',
-                                                ),
-                                                'properties' => array(
-                                                    'title' => array(
-                                                        'type' => 'string',
-                                                    ),
-                                                    'description' => array(
-                                                        'type' => 'string',
-                                                    ),
-                                                    'toggle' => array(
-                                                        'type' => 'object',
-                                                        'required' => array(
-                                                            'value',
-                                                            'enabled',
-                                                            'readonly',
-                                                        ),
-                                                        'properties' => array(
-                                                            'value' => array(
-                                                                'type' => 'string',
-                                                            ),
-                                                            'enabled' => array(
-                                                                'type' => 'boolean',
-                                                            ),
-                                                            'readonly' => array(
-                                                                'type' => 'boolean',
-                                                            ),
-                                                        ),
-                                                    ),
-                                                    'cookie_table' => array(
-                                                        'type' => 'array',
-                                                    ),
-                                                ),
-                                            ),
-                                        ),
-                                    ),
-                                ),
-                            ),
+                        'expiresAfterDays' => array(
+                            'type' => 'integer',
+                        ),
+                        'path' => array(
+                            'type' => 'string',
+                        ),
+                        'domain' => array(
+                            'type' => 'string',
+                        ),
+                        'name' => array(
+                            'type' => 'string',
                         ),
                     ),
                 ),
-                'gui_options' => array(
+                'categories' => array(
                     'type' => 'object',
                     'required' => array(
-                        'consent_modal',
-                        'settings_modal',
+                        'necessary',
+                        'analytics',
+                        'targeting',
+                        'preferences',
                     ),
                     'properties' => array(
-                        'consent_modal' => array(
+                        'necessary' => array(
                             'type' => 'object',
                             'required' => array(
-                                'layout',
-                                'position',
-                                'transition',
-                                'swap_buttons',
+                                'enabled',
+                                'readOnly',
                             ),
                             'properties' => array(
-                                'layout' => array(
-                                    'type' => 'string',
+                                'enabled' => array(
+                                    'type' => 'boolean',
                                 ),
-                                'position' => array(
-                                    'type' => 'string',
-                                ),
-                                'transition' => array(
-                                    'type' => 'string',
-                                ),
-                                'swap_buttons' => array(
+                                'readOnly' => array(
                                     'type' => 'boolean',
                                 ),
                             ),
                         ),
-                        'settings_modal' => array(
+                        'analytics' => array(
+                            'type' => 'object',
+                            'required' => array(
+                                'enabled',
+                                'readOnly',
+                            ),
+                            'properties' => array(
+                                'enabled' => array(
+                                    'type' => 'boolean',
+                                ),
+                                'readOnly' => array(
+                                    'type' => 'boolean',
+                                ),
+                            ),
+                        ),
+                        'targeting' => array(
+                            'type' => 'object',
+                            'required' => array(
+                                'enabled',
+                                'readOnly',
+                            ),
+                            'properties' => array(
+                                'enabled' => array(
+                                    'type' => 'boolean',
+                                ),
+                                'readOnly' => array(
+                                    'type' => 'boolean',
+                                ),
+                            ),
+                        ),
+                        'preferences' => array(
+                            'type' => 'object',
+                            'required' => array(
+                                'enabled',
+                                'readOnly',
+                            ),
+                            'properties' => array(
+                                'enabled' => array(
+                                    'type' => 'boolean',
+                                ),
+                                'readOnly' => array(
+                                    'type' => 'boolean',
+                                ),
+                            ),
+                        ),
+                    ),
+                ),
+                'language' => array(
+                    'type' => 'object',
+                    'required' => array(
+                        'default',
+                        'autoDetect',
+                        'translations',
+                    ),
+                    'properties' => array(
+                        'default' => array(
+                            'type' => 'string',
+                        ),
+                        'autoDetect' => array(
+                            'type' => 'string',
+                        ),
+                        'translations' => array(
+                            'type' => 'object',
+                            'properties' => array(
+                                '[a-zA-Z]' => array(
+                                    'type' => 'object',
+                                    'required' => array(
+                                        'consentModal',
+                                        'preferencesModal',
+                                    ),
+                                    'properties' => array(
+                                        'consentModal' => array(
+                                            'type' => 'object',
+                                            'required' => array(
+                                                'title',
+                                                'description',
+                                                'acceptAllBtn',
+                                                'acceptNecessaryBtn',
+                                                'showPreferencesBtn',
+                                            ),
+                                            'properties' => array(
+                                                'title' => array(
+                                                    'type' => 'string',
+                                                ),
+                                                'description' => array(
+                                                    'type' => 'string',
+                                                ),
+                                                'acceptAllBtn' => array(
+                                                    'type' => 'string',
+                                                ),
+                                                'acceptNecessaryBtn' => array(
+                                                    'type' => 'string',
+                                                ),
+                                                'showPreferencesBtn' => array(
+                                                    'type' => 'string',
+                                                ),
+                                                'closeIconLabel' => array(
+                                                    'type' => array( 'string', 'null' ),
+                                                ),
+                                                'footer' => array(
+                                                    'type' => 'string',
+                                                ),
+                                                'footerLinks' => array(
+                                                    'type'  => 'array',
+                                                    'items' => array(
+                                                        'type'       => 'object',
+                                                        'properties' => array(
+                                                            'url'   => array( 'type' => 'string' ),
+                                                            'label' => array( 'type' => 'string' ),
+                                                        ),
+                                                    ),
+                                                ),
+                                            ),
+                                        ),
+                                        'preferencesModal' => array(
+                                            'type' => 'object',
+                                            'required' => array(
+                                                'title',
+                                                'savePreferencesBtn',
+                                                'acceptAllBtn',
+                                                'acceptNecessaryBtn',
+                                                'closeIconLabel',
+                                                'sections',
+                                            ),
+                                            'properties' => array(
+                                                'title' => array(
+                                                    'type' => 'string',
+                                                ),
+                                                'savePreferencesBtn' => array(
+                                                    'type' => 'string',
+                                                ),
+                                                'acceptAllBtn' => array(
+                                                    'type' => 'string',
+                                                ),
+                                                'acceptNecessaryBtn' => array(
+                                                    'type' => 'string',
+                                                ),
+                                                'closeIconLabel' => array(
+                                                    'type' => 'string',
+                                                ),
+                                                'sections' => array(
+                                                    'type' => 'array',
+                                                    'items' => array(
+                                                        'type' => 'object',
+                                                        'required' => array(
+                                                            'title',
+                                                            'description',
+                                                        ),
+                                                        'properties' => array(
+                                                            'title' => array(
+                                                                'type' => 'string',
+                                                            ),
+                                                            'description' => array(
+                                                                'type' => 'string',
+                                                            ),
+                                                            'linkedCategory' => array(
+                                                                'type' => 'string',
+                                                            ),
+                                                        ),
+                                                    ),
+                                                ),
+                                            ),
+                                        ),
+                                    ),
+                                ),
+                            ),
+                        ),
+                    ),
+                ),
+                'guiOptions' => array(
+                    'type' => 'object',
+                    'required' => array(
+                        'consentModal',
+                        'preferencesModal',
+                    ),
+                    'properties' => array(
+                        'consentModal' => array(
                             'type' => 'object',
                             'required' => array(
                                 'layout',
                                 'position',
-                                'transition',
+                                'equalWeightButtons',
+                                'flipButtons',
                             ),
                             'properties' => array(
                                 'layout' => array(
@@ -365,29 +381,52 @@ class Settings_API implements Actions {
                                 'transition' => array(
                                     'type' => 'string',
                                 ),
+                                'equalWeightButtons' => array(
+                                    'type' => 'boolean',
+                                ),
+                                'flipButtons' => array(
+                                    'type' => 'boolean',
+                                ),
+                            ),
+                        ),
+                        'preferencesModal' => array(
+                            'type' => 'object',
+                            'required' => array(
+                                'layout',
+                                'position',
+                                'equalWeightButtons',
+                                'flipButtons',
+                            ),
+                            'properties' => array(
+                                'layout' => array(
+                                    'type' => 'string',
+                                ),
+                                'position' => array(
+                                    'type' => 'string',
+                                ),
+                                'equalWeightButtons' => array(
+                                    'type' => 'boolean',
+                                ),
+                                'flipButtons' => array(
+                                    'type' => 'boolean',
+                                ),
                             ),
                         ),
                     ),
                 ),
-                'pressidium_options' => array(
+                'pressidiumOptions' => array(
                     'type' => 'object',
                     'required' => array(
-                        'primary_btn_role',
-                        'secondary_btn_role',
-                        'cookie_table',
+                        'cookieTable',
+                        'cookieTableHeaders',
+                        'blockedScripts',
                         'font',
-                        'floating_button',
+                        'floatingButton',
                         'colors',
                         'gcm',
                     ),
                     'properties' => array(
-                        'primary_btn_role' => array(
-                            'type' => 'string',
-                        ),
-                        'secondary_btn_role' => array(
-                            'type' => 'string',
-                        ),
-                        'cookie_table' => array(
+                        'cookieTable' => array(
                             'type' => 'object',
                             'required' => array(
                                 'necessary',
@@ -406,7 +445,7 @@ class Settings_API implements Actions {
                                             'expiration',
                                             'path',
                                             'description',
-                                            'is_regex',
+                                            'isRegex',
                                         ),
                                         'properties' => array(
                                             'name' => array(
@@ -424,7 +463,7 @@ class Settings_API implements Actions {
                                             'description' => array(
                                                 'type' => 'string',
                                             ),
-                                            'is_regex' => array(
+                                            'isRegex' => array(
                                                 'type' => 'boolean',
                                             ),
                                         ),
@@ -440,7 +479,7 @@ class Settings_API implements Actions {
                                             'expiration',
                                             'path',
                                             'description',
-                                            'is_regex',
+                                            'isRegex',
                                         ),
                                         'properties' => array(
                                             'name' => array(
@@ -458,7 +497,7 @@ class Settings_API implements Actions {
                                             'description' => array(
                                                 'type' => 'string',
                                             ),
-                                            'is_regex' => array(
+                                            'isRegex' => array(
                                                 'type' => 'boolean',
                                             ),
                                         ),
@@ -474,7 +513,7 @@ class Settings_API implements Actions {
                                             'expiration',
                                             'path',
                                             'description',
-                                            'is_regex',
+                                            'isRegex',
                                         ),
                                         'properties' => array(
                                             'name' => array(
@@ -492,7 +531,7 @@ class Settings_API implements Actions {
                                             'description' => array(
                                                 'type' => 'string',
                                             ),
-                                            'is_regex' => array(
+                                            'isRegex' => array(
                                                 'type' => 'boolean',
                                             ),
                                         ),
@@ -508,7 +547,7 @@ class Settings_API implements Actions {
                                             'expiration',
                                             'path',
                                             'description',
-                                            'is_regex',
+                                            'isRegex',
                                         ),
                                         'properties' => array(
                                             'name' => array(
@@ -526,10 +565,72 @@ class Settings_API implements Actions {
                                             'description' => array(
                                                 'type' => 'string',
                                             ),
-                                            'is_regex' => array(
+                                            'isRegex' => array(
                                                 'type' => 'boolean',
                                             ),
                                         ),
+                                    ),
+                                ),
+                            ),
+                        ),
+                        'cookieTableHeaders' => array(
+                            'type' => 'object',
+                            'required' => array(
+                                'translations',
+                            ),
+                            'properties' => array(
+                                'translations' => array(
+                                    'type' => 'object',
+                                    'properties' => array(
+                                        '[a-zA-Z]' => array(
+                                            'type' => 'object',
+                                            'required' => array(
+                                                'name',
+                                                'domain',
+                                                'expiration',
+                                                'path',
+                                                'description',
+                                            ),
+                                            'properties' => array(
+                                                'name' => array(
+                                                    'type' => 'string',
+                                                ),
+                                                'domain' => array(
+                                                    'type' => 'string',
+                                                ),
+                                                'expiration' => array(
+                                                    'type' => 'string',
+                                                ),
+                                                'path' => array(
+                                                    'type' => 'string',
+                                                ),
+                                                'description' => array(
+                                                    'type' => 'string',
+                                                ),
+                                            ),
+                                        ),
+                                    ),
+                                ),
+                            ),
+                        ),
+                        'blockedScripts' => array(
+                            'type' => 'array',
+                            'items' => array(
+                                'type' => 'object',
+                                'required' => array(
+                                    'src',
+                                    'category',
+                                    'isRegex',
+                                ),
+                                'properties' => array(
+                                    'src' => array(
+                                        'type' => 'string',
+                                    ),
+                                    'category' => array(
+                                        'type' => 'string',
+                                    ),
+                                    'isRegex' => array(
+                                        'type' => 'boolean',
                                     ),
                                 ),
                             ),
@@ -542,7 +643,7 @@ class Settings_API implements Actions {
                                 'family',
                             ),
                         ),
-                        'floating_button' => array(
+                        'floatingButton' => array(
                             'type' => 'object',
                             'required' => array(
                                 'enabled',
@@ -556,23 +657,23 @@ class Settings_API implements Actions {
                             'type' => 'object',
                             'required' => array(
                                 'bg',
-                                'text',
+                                'primary-color',
                                 'btn-primary-bg',
-                                'btn-primary-text',
+                                'btn-primary-color',
                                 'btn-primary-hover-bg',
-                                'btn-primary-hover-text',
+                                'btn-primary-hover-color',
                                 'btn-secondary-bg',
-                                'btn-secondary-text',
+                                'btn-secondary-color',
                                 'btn-secondary-hover-bg',
-                                'btn-secondary-hover-text',
-                                'toggle-bg-off',
-                                'toggle-bg-on',
-                                'toggle-bg-readonly',
+                                'btn-secondary-hover-color',
+                                'toggle-off-bg',
+                                'toggle-on-knob-bg',
+                                'toggle-readonly-bg',
                                 'toggle-knob-bg',
                                 'toggle-knob-icon-color',
                                 'cookie-category-block-bg',
-                                'cookie-category-block-bg-hover',
-                                'section-border',
+                                'cookie-category-block-hover-bg',
+                                'separator-border-color',
                                 'block-text',
                                 'cookie-table-border',
                                 'overlay-bg',
@@ -587,40 +688,40 @@ class Settings_API implements Actions {
                                 'bg' => array(
                                     'type' => 'string',
                                 ),
-                                'text' => array(
+                                'primary-color' => array(
                                     'type' => 'string',
                                 ),
                                 'btn-primary-bg' => array(
                                     'type' => 'string',
                                 ),
-                                'btn-primary-text' => array(
+                                'btn-primary-color' => array(
                                     'type' => 'string',
                                 ),
                                 'btn-primary-hover-bg' => array(
                                     'type' => 'string',
                                 ),
-                                'btn-primary-hover-text' => array(
+                                'btn-primary-hover-color' => array(
                                     'type' => 'string',
                                 ),
                                 'btn-secondary-bg' => array(
                                     'type' => 'string',
                                 ),
-                                'btn-secondary-text' => array(
+                                'btn-secondary-color' => array(
                                     'type' => 'string',
                                 ),
                                 'btn-secondary-hover-bg' => array(
                                     'type' => 'string',
                                 ),
-                                'btn-secondary-hover-text' => array(
+                                'btn-secondary-hover-color' => array(
                                     'type' => 'string',
                                 ),
-                                'toggle-bg-off' => array(
+                                'toggle-off-bg' => array(
                                     'type' => 'string',
                                 ),
-                                'toggle-bg-on' => array(
+                                'toggle-on-knob-bg' => array(
                                     'type' => 'string',
                                 ),
-                                'toggle-bg-readonly' => array(
+                                'toggle-readonly-bg' => array(
                                     'type' => 'string',
                                 ),
                                 'toggle-knob-bg' => array(
@@ -632,10 +733,10 @@ class Settings_API implements Actions {
                                 'cookie-category-block-bg' => array(
                                     'type' => 'string',
                                 ),
-                                'cookie-category-block-bg-hover' => array(
+                                'cookie-category-block-hover-bg' => array(
                                     'type' => 'string',
                                 ),
-                                'section-border' => array(
+                                'separator-border-color' => array(
                                     'type' => 'string',
                                 ),
                                 'block-text' => array(
@@ -667,10 +768,16 @@ class Settings_API implements Actions {
                                 ),
                             ),
                         ),
-                        'record_consents' => array(
+                        'consentModalCloseIcon' => array(
                             'type' => 'boolean',
                         ),
-                        'hide_empty_categories' => array(
+                        'showConsentModalFooter' => array(
+                            'type' => 'boolean',
+                        ),
+                        'recordConsents' => array(
+                            'type' => 'boolean',
+                        ),
+                        'hideEmptyCategories' => array(
                             'type' => 'boolean',
                         ),
                         'gcm' => array(
@@ -678,8 +785,8 @@ class Settings_API implements Actions {
                             'required' => array(
                                 'enabled',
                                 'implementation',
-                                'ads_data_redaction',
-                                'url_passthrough',
+                                'adsDataRedaction',
+                                'urlPassthrough',
                                 'regions',
                             ),
                             'properties' => array(
@@ -689,10 +796,10 @@ class Settings_API implements Actions {
                                 'implementation' => array(
                                     'type' => 'string',
                                 ),
-                                'ads_data_redaction' => array(
+                                'adsDataRedaction' => array(
                                     'type' => 'boolean',
                                 ),
-                                'url_passthrough' => array(
+                                'urlPassthrough' => array(
                                     'type' => 'boolean',
                                 ),
                                 'regions' => array(
@@ -728,17 +835,17 @@ class Settings_API implements Actions {
                                 ),
                             ),
                         ),
-                        'google_tag_gateway' => array(
+                        'googleTagGateway' => array(
                             'type' => 'object',
                             'required' => array(
-                                'proxy_enabled',
-                                'gtag_id',
+                                'proxyEnabled',
+                                'gtagId',
                             ),
                             'properties' => array(
-                                'proxy_enabled' => array(
+                                'proxyEnabled' => array(
                                     'type' => 'boolean',
                                 ),
-                                'gtag_id' => array(
+                                'gtagId' => array(
                                     'type' => 'string',
                                 ),
                             ),
@@ -762,8 +869,8 @@ class Settings_API implements Actions {
             return true;
         }
 
-        $prev_cookie_table = $prev_settings['pressidium_options']['cookie_table'];
-        $new_cookie_table = $new_settings['pressidium_options']['cookie_table'];
+        $prev_cookie_table = $prev_settings['pressidiumOptions']['cookieTable'];
+        $new_cookie_table = $new_settings['pressidiumOptions']['cookieTable'];
 
         $cookie_categories = array( 'necessary', 'analytics', 'targeting', 'preferences' );
 
@@ -804,8 +911,8 @@ class Settings_API implements Actions {
     private function maybe_flush_rewrite_rules( array $new_settings ): void {
         $prev_settings = Emoji::decode_array( $this->settings->get() );
 
-        $prev_tag_gateway_proxy_enabled = $prev_settings['pressidium_options']['google_tag_gateway']['proxy_enabled'] ?? false;
-        $new_tag_gateway_proxy_enabled  = $new_settings['pressidium_options']['google_tag_gateway']['proxy_enabled'] ?? false;
+        $prev_tag_gateway_proxy_enabled = $prev_settings['pressidiumOptions']['googleTagGateway']['proxyEnabled'] ?? false;
+        $new_tag_gateway_proxy_enabled  = $new_settings['pressidiumOptions']['googleTagGateway']['proxyEnabled'] ?? false;
 
         if ( $prev_tag_gateway_proxy_enabled !== $new_tag_gateway_proxy_enabled ) {
             flush_rewrite_rules();
@@ -1031,7 +1138,7 @@ class Settings_API implements Actions {
     public function update_consent( WP_REST_Request $request ) {
         $settings = $this->settings->get();
 
-        if ( ! $settings['pressidium_options']['record_consents'] ) {
+        if ( ! $settings['pressidiumOptions']['recordConsents'] ) {
             $this->logger->warning( 'Attempted to update a consent record while recording was disabled' );
 
             return new WP_Error(
