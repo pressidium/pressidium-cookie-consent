@@ -18,6 +18,7 @@
 * [Setup](#setup)
 * [Features](#features)
 * [Credits](#credits)
+* [Contributing](#contributing)
 * [License](#license)
 * [About Pressidium](#about-pressidium)
 
