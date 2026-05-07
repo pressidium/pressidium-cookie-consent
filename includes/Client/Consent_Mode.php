@@ -78,7 +78,7 @@ class Consent_Mode implements Actions {
             'pressidiumCCGCM',
             array(
                 // This needs to be nested so our boolean values are not converted to strings
-                'gcm' => $this->settings['pressidium_options']['gcm'] ?? array(),
+                'gcm' => $this->settings['pressidiumOptions']['gcm'] ?? array(),
             ),
         );
     }

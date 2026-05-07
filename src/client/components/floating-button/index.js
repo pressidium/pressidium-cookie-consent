@@ -293,8 +293,8 @@ class FloatingButton extends HTMLElement {
       .shadowRoot
       .querySelector('.button')
       .addEventListener('click', () => {
-        // Immediately show the settings modal when the button is clicked
-        window.pressidiumCookieConsent.showSettings(0);
+        // Immediately show the preferences modal when the button is clicked
+        window.pressidiumCookieConsent.showPreferences(0);
       });
 
     this._update();

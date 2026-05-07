@@ -44,7 +44,7 @@ function ConsentModeTab() {
   const dismissNotice = useCallback(() => setNoticeDismissed(true), []);
 
   const isGoogleScriptBlocked = useMemo(() => (
-    state.pressidium_options.blocked_scripts.some((script) => script.src.includes('googletagmanager.com'))
+    state.pressidiumOptions.blockedScripts.some((script) => script.src.includes('googletagmanager.com'))
   ), []);
 
   const selectedRegionData = useMemo(
@@ -53,7 +53,7 @@ function ConsentModeTab() {
         return {};
       }
 
-      const region = state.pressidium_options.gcm.regions[selectedRegionIndex];
+      const region = state.pressidiumOptions.gcm.regions[selectedRegionIndex];
 
       const { country, subdivisions, default_consent_states: defaultConsentStates } = region;
 
@@ -69,7 +69,7 @@ function ConsentModeTab() {
           })),
       };
     },
-    [selectedRegionIndex, state.pressidium_options.gcm.regions],
+    [selectedRegionIndex, state.pressidiumOptions.gcm.regions],
   );
 
   const openNewRegionModal = useCallback(() => setIsNewRegionModalOpen(true), []);
@@ -144,10 +144,10 @@ function ConsentModeTab() {
                 <FlexItem>
                   <ToggleControl
                     label={__('Google Consent Mode v2 (GCM)', 'pressidium-cookie-consent')}
-                    help={state.pressidium_options.gcm.enabled
+                    help={state.pressidiumOptions.gcm.enabled
                       ? __('Will enable Google Consent Mode', 'pressidium-cookie-consent')
                       : __('Won\'t enable Google Consent Mode', 'pressidium-cookie-consent')}
-                    checked={state.pressidium_options.gcm.enabled}
+                    checked={state.pressidiumOptions.gcm.enabled}
                     className="pressidium-toggle-control"
                     onChange={(value) => onCGMSettingChange('enabled', value)}
                   />
@@ -160,34 +160,34 @@ function ConsentModeTab() {
               </Flex>
             </FlexItem>
 
-            <FlexItem style={{ opacity: state.pressidium_options.gcm.enabled ? 1.0 : 0.4 }}>
+            <FlexItem style={{ opacity: state.pressidiumOptions.gcm.enabled ? 1.0 : 0.4 }}>
               <RadioControl
                 label={__('Implementation', 'pressidium-cookie-consent')}
-                help={state.pressidium_options.gcm.implementation === 'gtag'
+                help={state.pressidiumOptions.gcm.implementation === 'gtag'
                   ? __('Requires the Google tag to be installed on every page of your website', 'pressidium-cookie-consent')
                   : __('Requires the consent mode template to be added to Google Tag Manager', 'pressidium-cookie-consent')}
-                selected={state.pressidium_options.gcm.implementation}
+                selected={state.pressidiumOptions.gcm.implementation}
                 options={[
                   { label: __('Google tag (gtag.js)', 'pressidium-cookie-consent'), value: 'gtag' },
                   { label: __('Google Tag Manager (GTM) template', 'pressidium-cookie-consent'), value: 'gtm' },
                 ]}
                 onChange={(value) => onCGMSettingChange('implementation', value)}
-                disabled={!state.pressidium_options.gcm.enabled}
+                disabled={!state.pressidiumOptions.gcm.enabled}
               />
             </FlexItem>
 
-            <FlexItem style={{ opacity: state.pressidium_options.gcm.enabled && state.pressidium_options.gcm.implementation === 'gtag' ? 1.0 : 0.4 }}>
+            <FlexItem style={{ opacity: state.pressidiumOptions.gcm.enabled && state.pressidiumOptions.gcm.implementation === 'gtag' ? 1.0 : 0.4 }}>
               <Flex direction="column" gap={0}>
                 <FlexItem>
                   <ToggleControl
                     label={__('Ads data redaction', 'pressidium-cookie-consent')}
-                    help={state.pressidium_options.gcm.ads_data_redaction
+                    help={state.pressidiumOptions.gcm.ads_data_redaction
                       ? __('When the \'Ad storage\' consent type is denied, ad click identifiers sent in network requests by Google Ads and Floodlight tags will be redacted. Network requests will also be sent through a cookieless domain', 'pressidium-cookie-consent')
                       : __('No further ads data redaction', 'pressidium-cookie-consent')}
-                    checked={state.pressidium_options.gcm.ads_data_redaction}
+                    checked={state.pressidiumOptions.gcm.ads_data_redaction}
                     className="pressidium-toggle-control"
                     onChange={(value) => onCGMSettingChange('ads_data_redaction', value)}
-                    disabled={!state.pressidium_options.gcm.enabled || state.pressidium_options.gcm.implementation !== 'gtag'}
+                    disabled={!state.pressidiumOptions.gcm.enabled || state.pressidiumOptions.gcm.implementation !== 'gtag'}
                   />
                 </FlexItem>
                 <FlexItem style={{ marginBottom: '8px' }}>
@@ -198,18 +198,18 @@ function ConsentModeTab() {
               </Flex>
             </FlexItem>
 
-            <FlexItem style={{ opacity: state.pressidium_options.gcm.enabled && state.pressidium_options.gcm.implementation === 'gtag' ? 1.0 : 0.4 }}>
+            <FlexItem style={{ opacity: state.pressidiumOptions.gcm.enabled && state.pressidiumOptions.gcm.implementation === 'gtag' ? 1.0 : 0.4 }}>
               <Flex direction="column" gap={0}>
                 <FlexItem>
                   <ToggleControl
                     label={__('URL passthrough', 'pressidium-cookie-consent')}
-                    help={state.pressidium_options.gcm.url_passthrough
+                    help={state.pressidiumOptions.gcm.url_passthrough
                       ? __('Will pass through ad click, client ID, and session ID information in URLs', 'pressidium-cookie-consent')
                       : __('Won\'t pass through any additional information in URLs', 'pressidium-cookie-consent')}
-                    checked={state.pressidium_options.gcm.url_passthrough}
+                    checked={state.pressidiumOptions.gcm.url_passthrough}
                     className="pressidium-toggle-control"
                     onChange={(value) => onCGMSettingChange('url_passthrough', value)}
-                    disabled={!state.pressidium_options.gcm.enabled || state.pressidium_options.gcm.implementation !== 'gtag'}
+                    disabled={!state.pressidiumOptions.gcm.enabled || state.pressidiumOptions.gcm.implementation !== 'gtag'}
                   />
                 </FlexItem>
                 <FlexItem>
@@ -220,16 +220,16 @@ function ConsentModeTab() {
               </Flex>
             </FlexItem>
 
-            {state.pressidium_options.gcm.implementation === 'gtag' && (
-              <FlexItem style={{ opacity: state.pressidium_options.gcm.enabled ? 1.0 : 0.4 }}>
+            {state.pressidiumOptions.gcm.implementation === 'gtag' && (
+              <FlexItem style={{ opacity: state.pressidiumOptions.gcm.enabled ? 1.0 : 0.4 }}>
                 <Flex direction="column" gap={2}>
                   <FlexItem>
-                    {state.pressidium_options.gcm.regions.length > 0 ? (
+                    {state.pressidiumOptions.gcm.regions.length > 0 ? (
                       <GCMRegionsTable
-                        regions={state.pressidium_options.gcm.regions}
+                        regions={state.pressidiumOptions.gcm.regions}
                         onEdit={setSelectedRegionIndex}
                         onDelete={onDeleteRegion}
-                        disabled={!state.pressidium_options.gcm.enabled}
+                        disabled={!state.pressidiumOptions.gcm.enabled}
                       />
                     ) : (
                       <p>{__('No regions added yet. Default consent state will be \'denied\' for all regions.', 'pressidium-cookie-consent')}</p>
@@ -240,7 +240,7 @@ function ConsentModeTab() {
                       icon={PlusIcon}
                       onClick={openNewRegionModal}
                       style={{ paddingRight: '10px' }}
-                      disabled={!state.pressidium_options.gcm.enabled}
+                      disabled={!state.pressidiumOptions.gcm.enabled}
                       isPrimary
                     >
                       {__('New Region', 'pressidium-cookie-consent')}
@@ -257,7 +257,7 @@ function ConsentModeTab() {
           </Flex>
         </FlexItem>
 
-        {state.pressidium_options.gcm.implementation === 'gtag' && (
+        {state.pressidiumOptions.gcm.implementation === 'gtag' && (
           <FlexItem style={{ flex: '1 1 0px' }}>
             {selectedRegionIndex !== null && selectedRegionData && (
               <Panel>
@@ -364,7 +364,7 @@ function ConsentModeTab() {
           </FlexItem>
         )}
 
-        {state.pressidium_options.gcm.implementation === 'gtm' && (
+        {state.pressidiumOptions.gcm.implementation === 'gtm' && (
           <FlexItem style={{ flex: '1 1 0px' }}>
             <TagManagerGuide />
           </FlexItem>
