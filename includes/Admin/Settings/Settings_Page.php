@@ -16,6 +16,7 @@ use Pressidium\WP\CookieConsent\Utils\WP_Utils;
 
 use const Pressidium\WP\CookieConsent\PLUGIN_DIR;
 use const Pressidium\WP\CookieConsent\PLUGIN_URL;
+use const Pressidium\WP\CookieConsent\PLUGIN_FILE;
 use const Pressidium\WP\CookieConsent\VERSION;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -124,11 +125,11 @@ class Settings_Page extends Page implements Actions, Filters {
     }
 
     /**
-     * Enqueue script(s).
+     * Enqueue scripts for the settings page.
      *
      * @return void
      */
-    public function enqueue_scripts() {
+    private function enqueue_scripts() {
         if ( ! $this->is_settings_page() ) {
             // Not the settings page, bail early
             return;
@@ -200,6 +201,39 @@ class Settings_Page extends Page implements Actions, Filters {
     }
 
     /**
+     * Enqueue styles for the installed plugin pages.
+     *
+     * @param string $hook The current admin page.
+     *
+     * @return void
+     */
+    private function enqueue_styles( string $hook ): void {
+        if ( $hook !== 'plugins.php' ) {
+            // Not on the plugins page, bail early
+            return;
+        }
+
+        wp_enqueue_style(
+            'pressidium-cookie-consent-installed-plugins',
+            PLUGIN_URL . 'assets/css/admin-styles.css',
+            array(), // no dependencies
+            VERSION
+        );
+    }
+
+    /**
+     * Enqueue any scripts and styled needed for the admin pages.
+     *
+     * @param string $hook The current admin page.
+     *
+     * @return void
+     */
+    public function admin_enqueue_scripts_and_styles( string $hook ): void {
+        $this->enqueue_scripts();
+        $this->enqueue_styles( $hook );
+    }
+
+    /**
      * Add information about this plugin to the left side of the admin footer.
      *
      * @param string|null $content The existing content.
@@ -253,6 +287,45 @@ class Settings_Page extends Page implements Actions, Filters {
     }
 
     /**
+     * Filter the action links displayed for this plugin to add links to its settings page and documentation.
+     *
+     * @link https://developer.wordpress.org/reference/hooks/plugin_action_links/
+     *
+     * @param string[] $actions     An array of plugin action links.
+     * @param string   $plugin_file Path to the plugin file relative to the `plugins` directory.
+     *
+     * @return string[] Plugin action links including the settings and documentation links.
+     */
+    public function add_plugin_links( array $actions, string $plugin_file ): array {
+        if ( plugin_basename( PLUGIN_FILE ) !== $plugin_file ) {
+            return $actions;
+        }
+
+        $settings_page_url = add_query_arg(
+            array( 'page' => $this->get_menu_slug() ),
+            admin_url( 'admin.php' )
+        );
+
+        $documentation_url = 'https://github.com/pressidium/pressidium-cookie-consent/wiki';
+
+        $actions['settings'] = sprintf(
+            '<a href="%1$s" rel="noopener noreferrer" class="pressidium-action-link">%2$s</a>',
+            esc_url( $settings_page_url ),
+            esc_html__( 'Settings', 'pressidium-cookie-consent' ),
+        );
+
+        $actions['documentation'] = sprintf(
+            '<a href="%1$s" target="_blank" rel="noopener noreferrer" class="pressidium-action-link">%2$s<span class="screen-reader-text">%3$s</span><span aria-hidden="true" class="dashicons dashicons-external"></span></a>',
+            esc_url( $documentation_url ),
+            esc_html__( 'Docs', 'pressidium-cookie-consent' ),
+            /* translators: Accessibility text. */
+            esc_html__( '(opens in a new tab)', 'pressidium-cookie-consent' )
+        );
+
+        return $actions;
+    }
+
+    /**
      * Return the actions to register.
      *
      * @return array<string, array{0: string, 1?: int, 2?: int}>
@@ -260,7 +333,7 @@ class Settings_Page extends Page implements Actions, Filters {
     public function get_actions(): array {
         $actions = parent::get_actions();
 
-        $actions['admin_enqueue_scripts'] = array( 'enqueue_scripts' );
+        $actions['admin_enqueue_scripts'] = array( 'admin_enqueue_scripts_and_styles' );
 
         return $actions;
     }
@@ -272,8 +345,9 @@ class Settings_Page extends Page implements Actions, Filters {
      */
     public function get_filters(): array {
         return array(
-            'admin_footer_text' => array( 'admin_footer_info' ),
-            'update_footer'     => array( 'admin_footer_version', 11 ),
+            'admin_footer_text'   => array( 'admin_footer_info' ),
+            'update_footer'       => array( 'admin_footer_version', 11 ),
+            'plugin_action_links' => array( 'add_plugin_links', 10, 2 ),
         );
     }
 
