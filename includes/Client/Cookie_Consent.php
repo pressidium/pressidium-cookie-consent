@@ -92,7 +92,7 @@ class Cookie_Consent implements Actions, Filters {
 
                 $cc_settings['language']['translations'][ $language ]['consentModal']['footer'] = $footer_html;
             }
-            
+
             unset( $cc_settings['language']['translations'][ $language ]['consentModal']['footerLinks'] );
 
             foreach ( $category_sections_map as $category => $index ) {
@@ -279,12 +279,11 @@ class Cookie_Consent implements Actions, Filters {
                 $font_family = $this->settings['pressidiumOptions']['font']['family'] ?? 'inherit';
 
                 if ( $font_slug !== 'default' ) {
-                    echo "--cc-font-family: {$font_family};\n";
+                    echo '--cc-font-family: ' . esc_attr( $font_family ) . ";\n";
                 }
 
                 foreach ( $this->settings['pressidiumOptions']['colors'] as $key => $value ) {
-                    $value = esc_attr( $value );
-                    echo "--cc-{$key}: {$value};\n";
+                    echo '--cc-' . esc_attr( $key ) . ': ' . esc_attr( $value ) . ";\n";
                 }
                 ?>
             }
