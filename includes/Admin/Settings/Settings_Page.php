@@ -233,7 +233,7 @@ class Settings_Page extends Page implements Actions, Filters {
     }
 
     /**
-     * Add plugin version to the right side of the admin footer.
+     * Add the plugin version to the right side of the admin footer.
      *
      * @param string|null $content The existing content.
      *
