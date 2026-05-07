@@ -6,7 +6,7 @@ Tags: cookie, consent, gdpr, ccpa, cookies
 Requires at least: 6.0
 Tested up to: 6.9
 Requires PHP: 8.1
-Stable Tag: 1.9.1
+Stable Tag: 2.0.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -139,7 +139,7 @@ No, the plugin doesn’t automatically block third-party scripts. You will have 
 
 = Can I integrate this plugin with my WordPress theme/plugin to block any scripts it loads? =
 
-Yes. On wp-admin, go to Settings -> Cookie Consent, select the “General” tab and make sure the “Page Scripts” option is enabled. Then, set the `type` of your scripts tags to `"text/plain"` and set a `data-cookiecategory` attribute to `"analytics"`, `"targeting"` or `"preferences"`.
+Yes. On wp-admin, go to Settings -> Cookie Consent, select the “General” tab and make sure the “Manage script tags” option is enabled. Then, set the `type` of your scripts tags to `"text/plain"` and set a `data-cookiecategory` attribute to `"analytics"`, `"targeting"` or `"preferences"`.
 
 For example, `<script type="text/plain" data-cookiecategory="analytics" src="analytics.js" defer></script>`
 
