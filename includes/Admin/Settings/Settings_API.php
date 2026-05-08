@@ -18,6 +18,7 @@ use Pressidium\WP\CookieConsent\Logs;
 use Pressidium\WP\CookieConsent\Geo_Locator;
 use Pressidium\WP\CookieConsent\Database\Tables\Consents_Table;
 use Pressidium\WP\CookieConsent\Utils\Date_Utils;
+use Pressidium\WP\CookieConsent\Rate_Limiting\Rate_Limiter;
 
 use WP_REST_Request;
 use WP_REST_Response;
@@ -74,13 +75,19 @@ class Settings_API implements Actions {
     private Exporter $exporter;
 
     /**
+     * @var Rate_Limiter Instance of `Rate_Limiter`.
+     */
+    private Rate_Limiter $rate_limiter;
+
+    /**
      * Settings_API constructor.
      *
-     * @param Settings    $settings
-     * @param Logger      $logger
-     * @param Logs        $logs
-     * @param Geo_Locator $geo_locator
-     * @param Exporter    $exporter
+     * @param Settings     $settings
+     * @param Logger       $logger
+     * @param Logs         $logs
+     * @param Geo_Locator  $geo_locator
+     * @param Exporter     $exporter
+     * @param Rate_Limiter $rate_limiter
      */
     public function __construct(
         Settings $settings,
@@ -88,7 +95,8 @@ class Settings_API implements Actions {
         Logs $logs,
         Geo_Locator $geo_locator,
         Consents_Table $consents_table,
-        Exporter $exporter
+        Exporter $exporter,
+        Rate_Limiter $rate_limiter
     ) {
         $this->settings       = $settings;
         $this->logger         = $logger;
@@ -96,6 +104,7 @@ class Settings_API implements Actions {
         $this->geo_locator    = $geo_locator;
         $this->consents_table = $consents_table;
         $this->exporter       = $exporter;
+        $this->rate_limiter   = $rate_limiter;
     }
 
     /**
@@ -1136,6 +1145,19 @@ class Settings_API implements Actions {
      * @return WP_Error|WP_REST_Response
      */
     public function update_consent( WP_REST_Request $request ) {
+        $ip_address = apply_filters(
+            'pressidium_cookie_consent_rate_limit_ip_address',
+            $_SERVER['REMOTE_ADDR'] ?? ''
+        );
+
+        if ( $this->rate_limiter->is_throttled( $ip_address ) ) {
+            return new WP_Error(
+                'too_many_requests',
+                __( 'Too many requests. Please try again later.', 'pressidium-cookie-consent' ),
+                array( 'status' => 429 )
+            );
+        }
+
         $settings = $this->settings->get();
 
         if ( ! $settings['pressidiumOptions']['recordConsents'] ) {
