@@ -121,7 +121,7 @@ function TagGatewayTab() {
                   : __('Won\'t route traffic to Google tag gateway', 'pressidium-cookie-consent')}
                 checked={state.pressidiumOptions.googleTagGateway.proxyEnabled}
                 className="pressidium-toggle-control"
-                onChange={(value) => onTagGatewaySettingChange('proxy_enabled', value)}
+                onChange={(value) => onTagGatewaySettingChange('proxyEnabled', value)}
               />
             </FlexItem>
             <FlexItem>
@@ -146,7 +146,7 @@ function TagGatewayTab() {
                 className="pressidium-text-control"
                 placeholder="G-12345"
                 value={state.pressidiumOptions.googleTagGateway.gtagId}
-                onChange={(value) => onTagGatewaySettingChange('gtag_id', value)}
+                onChange={(value) => onTagGatewaySettingChange('gtagId', value)}
                 disabled={!state.pressidiumOptions.googleTagGateway.proxyEnabled}
               />
             </FlexItem>
