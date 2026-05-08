@@ -332,12 +332,34 @@ import './scss/main.scss';
   };
 
   /**
+   * User has accepted/rejected the cookie consent.
+   *
+   * This function will be executed only the very first time
+   * that the user expresses their choice of consent (accept/reject).
+   *
+   * @param {object} params
+   * @param {object} params.cookie Current value of the cookie.
+   *
+   * @return {Promise<void>}
+   */
+  const onFirstConsent = async ({ cookie }) => {
+    await updateConsentRecords(cookie);
+
+    // Fire custom event for developers to extend the functionality
+    const event = new CustomEvent(
+      'pressidium-cookie-consent-first-consent',
+      { detail: { cookie } },
+    );
+    window.dispatchEvent(event);
+  };
+
+  /**
    * User has accepted the cookie consent.
    *
    * This function will be executed:
    *
-   * - At the first moment that consent is given
-   * - After every page load, if consent ("accept" or "reject" action) has already been given
+   * - The very first time the user expresses their choice of consent
+   * - On every subsequent page load, if consent (accept/reject action) has already been given
    *
    * @param {object} params
    * @param {object} params.cookie Current value of the cookie.
@@ -345,8 +367,6 @@ import './scss/main.scss';
    * @return {Promise<void>}
    */
   const onConsent = async ({ cookie }) => {
-    await updateConsentRecords(cookie);
-
     if ('categories' in cookie && gcm.enabled) {
       updateGTag(cookie.categories);
       updateGTM(cookie.categories);
@@ -491,6 +511,7 @@ import './scss/main.scss';
 
   window.pressidiumCookieConsent.run({
     ...settings,
+    onFirstConsent,
     onConsent,
     onChange,
     onModalShow,
