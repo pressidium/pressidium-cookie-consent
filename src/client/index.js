@@ -522,6 +522,11 @@ import './scss/main.scss';
   // Expose the current language utility
   window.pressidiumCookieConsent.getCurrentLanguage = getCurrentLanguage;
 
+  // Backwards-compatible shim for third-party integrations (e.g. WP Consent API)
+  window.pressidiumCookieConsent.allowedCategory = (category) => (
+    CookieConsent.acceptedCategory(category)
+  );
+
   /*
    * Since consent mode doesn't save consent choices,
    * we need to update the consent status accordingly
