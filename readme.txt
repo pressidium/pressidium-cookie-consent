@@ -190,6 +190,22 @@ If you have spotted any bugs, or would like to request additional features from 
 
 == Changelog ==
 
+= 2.0.0: May 11, 2026 =
+
+* Migrate the vanilla-cookieconsent library to v3
+* Expose vanilla-cookieconsent v3 configuration options in the admin UI
+* Bump `pressidium/cookies` block API version to 3
+* Improve database performance by adding indexes to the `pressidium_cookie_consents` table
+* Add rate limiting for `POST /pressidium-cookie-consent/v1/consent` requests by IP address
+* Add a backwards-compatible shim for `window.pressidiumCookieConsent.allowedCategory()`
+* Add Settings and Docs action links to the Plugins page
+* Add settings for customizing consent modal footer links
+* Add a toggle for the consent modal close icon
+* Make the settings page footer sticky
+* Fix excessive requests being sent to `POST /pressidium-cookie-consent/v1/consent` on every page load
+* Fix disabled Google tag gateway proxy routes falling through to the normal WordPress request lifecycle
+* Fix improper escaping of inline style output
+
 = 1.9.1: Dec 9, 2025 =
 
 * Update “Tested up to” version to WordPress 6.9 to confirm compatibility
