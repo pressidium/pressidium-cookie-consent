@@ -4,6 +4,7 @@ import {
   useContext,
   useMemo,
   useCallback,
+  createInterpolateElement,
 } from '@wordpress/element';
 import {
   TabPanel,
@@ -29,6 +30,7 @@ import { useBeforeunload } from 'react-beforeunload';
 
 import {
   pressidium as PressidiumIcon,
+  performance as PerformanceIcon,
 } from './icons';
 
 import { usePrevious } from '../hooks';
@@ -36,6 +38,8 @@ import { delay, deepCopy } from '../utils';
 
 import Panel from './Panel';
 import Footer from './Footer';
+import Badge from './Badge';
+import Emoji from './Emoji';
 
 import GeneralTab from './tabs/GeneralTab';
 import CookiesTab from './tabs/CookiesTab';
@@ -54,6 +58,9 @@ import * as ActionTypes from '../store/actionTypes';
 import AIConfigModal from './AIConfigModal';
 
 function SettingsPanel() {
+  const { performanceBanner } = pressidiumCCAdminDetails.assets;
+  const { performance_plugin_search: performancePluginSearch = null } = pressidiumCCAdminDetails.urls;
+
   const [isFetching, setIsFetching] = useState(false);
   const [isExportingCsv, setIsExportingCsv] = useState(false);
   const [isAIConfigModalOpen, setIsAIConfigModalOpen] = useState(false);
@@ -69,6 +76,13 @@ function SettingsPanel() {
     review: 'https://wordpress.org/support/plugin/pressidium-cookie-consent/reviews/#new-post',
     github: 'https://github.com/pressidium/pressidium-cookie-consent/blob/master/CONTRIBUTING.md',
     pressidium: 'https://pressidium.com/free-trial/?utm_source=pccplugin&utm_medium=metabox&utm_campaign=wpplugins',
+    performancePlugin: 'https://pressidium.com/open-source/performance-plugin/?utm_source=pccplugin&utm_medium=metabox&utm_campaign=wpplugins',
+  };
+
+  urls.performancePluginSearch = performancePluginSearch ?? urls.performancePlugin;
+
+  const emojis = {
+    rocket: <>&#128640;</>,
   };
 
   const appendNotice = useCallback(({ message, status, id = null }) => {
@@ -877,6 +891,80 @@ function SettingsPanel() {
                       variant="secondary"
                     >
                       {__('Contribute on GitHub', 'pressidium-cookie-consent')}
+                    </Button>
+                  </PanelRow>
+                </PanelBody>
+              </WPPanel>
+            </FlexItem>
+            <FlexItem>
+              <WPPanel>
+                <PanelHeader>
+                  <Flex justify="flex-start">
+                    <FlexItem>
+                      <Badge
+                        value={__('New', 'pressidium-cookie-consent')}
+                        status="success"
+                        style={{
+                          padding: '0 0.7em',
+                          lineHeight: '2.1em',
+                          backgroundColor: '#0f9200',
+                          color: '#ffffff',
+                        }}
+                      />
+                    </FlexItem>
+                    <FlexItem>
+                      {__('Pressidium Performance', 'pressidium-cookie-consent')}
+                    </FlexItem>
+                    <FlexItem>
+                      <Emoji symbol={emojis.rocket} />
+                    </FlexItem>
+                  </Flex>
+                </PanelHeader>
+                <PanelBody>
+                  <PanelRow>
+                    <a
+                      href={urls.performancePlugin}
+                      target="_blank"
+                      rel="noreferrer noopener"
+                    >
+                      <img
+                        src={performanceBanner}
+                        alt={__('Learn more about the Pressidium Performance plugin', 'pressidium-cookie-consent')}
+                        style={{ width: '100%' }}
+                      />
+                    </a>
+                  </PanelRow>
+                  <PanelRow>
+                    <span>
+                      {
+                        createInterpolateElement(
+                          __('Boost your website in minutes with the <a>Pressidium Performance plugin</a>.', 'pressidium-cookie-consent'),
+                          {
+                            a: (
+                              // eslint-disable-next-line max-len
+                              // eslint-disable-next-line jsx-a11y/anchor-has-content,jsx-a11y/control-has-associated-label
+                              <a
+                                href={urls.performancePluginSearch}
+                                target="_blank"
+                                rel="noreferrer noopener"
+                              />
+                            ),
+                          },
+                        )
+                      }
+                    </span>
+                  </PanelRow>
+                  <PanelRow>
+                    {__('Optimize images, minify CSS & JavaScript, and increase page speed, without a complicated setup.', 'pressidium-cookie-consent')}
+                  </PanelRow>
+                  <PanelRow>
+                    <Button
+                      icon={PerformanceIcon}
+                      href={urls.performancePlugin}
+                      target="_blank"
+                      variant="secondary"
+                    >
+                      {__('Learn more', 'pressidium-cookie-consent')}
                     </Button>
                   </PanelRow>
                 </PanelBody>

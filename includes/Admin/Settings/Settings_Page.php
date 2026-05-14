@@ -168,14 +168,25 @@ class Settings_Page extends Page implements Actions, Filters {
             array(
                 'domain' => WP_Utils::get_domain(),
                 'assets' => array(
-                    'gtm_template_url' => esc_url( PLUGIN_URL . 'assets/templates/template.tpl' ),
-                    'screenshots'      => array(
+                    'gtm_template_url'  => esc_url( PLUGIN_URL . 'assets/templates/template.tpl' ),
+                    'screenshots'       => array(
                         'gallery' => esc_url( PLUGIN_URL . 'assets/images/gtm-gallery.png' ),
                         'import'  => esc_url( PLUGIN_URL . 'assets/images/gtm-import.png' ),
                         'tag'     => esc_url( PLUGIN_URL . 'assets/images/gtm-tag.png' ),
                         'config'  => esc_url( PLUGIN_URL . 'assets/images/gtm-config.png' ),
                     ),
-                    'promo'            => esc_url( PLUGIN_URL . 'assets/images/promo.png' ),
+                    'promo'             => esc_url( PLUGIN_URL . 'assets/images/promo.png' ),
+                    'performanceBanner' => esc_url( PLUGIN_URL . 'assets/images/performance-banner.png' ),
+                ),
+                'urls'   => array(
+                    'performance_plugin_search' => add_query_arg(
+                        array(
+                            's'    => urlencode( 'Pressidium Performance' ),
+                            'tab'  => 'search',
+                            'type' => 'term',
+                        ),
+                        admin_url( 'plugin-install.php' )
+                    ),
                 ),
                 'api'    => array(
                     'route'                    => 'pressidium-cookie-consent/v1/settings',
