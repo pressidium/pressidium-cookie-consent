@@ -181,7 +181,7 @@ class Settings_Page extends Page implements Actions, Filters {
                 'urls'   => array(
                     'performance_plugin_search' => add_query_arg(
                         array(
-                            's'    => urlencode( 'Pressidium Performance' ),
+                            's'    => rawurlencode( 'Pressidium Performance' ),
                             'tab'  => 'search',
                             'type' => 'term',
                         ),
