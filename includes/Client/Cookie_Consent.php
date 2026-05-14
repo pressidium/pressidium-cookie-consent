@@ -54,29 +54,64 @@ class Cookie_Consent implements Actions, Filters {
          */
         $cc_settings = array_merge( array(), $this->settings );
 
-        $category_blocks_map = array(
+        $category_sections_map = array(
             'necessary'   => 1,
             'analytics'   => 2,
             'targeting'   => 3,
             'preferences' => 4,
         );
 
-        $primary_btn_role   = $cc_settings['pressidium_options']['primary_btn_role'];
-        $secondary_btn_role = $cc_settings['pressidium_options']['secondary_btn_role'];
+        $consent_modal_close_icon = $cc_settings['pressidiumOptions']['consentModalCloseIcon'] ?? true;
 
-        foreach ( $cc_settings['languages'] as $language => $language_settings ) {
-            foreach ( $category_blocks_map as $category => $index ) {
-                $table = $cc_settings['pressidium_options']['cookie_table'][ $category ];
+        $show_footer = $cc_settings['pressidiumOptions']['showConsentModalFooter'] ?? true;
 
-                $cc_settings['languages'][ $language ]['settings_modal']['blocks'][ $index ]['cookie_table'] = $table;
+        foreach ( $cc_settings['language']['translations'] as $language => $language_settings ) {
+            $cc_settings['language']['translations'][ $language ]['consentModal']['closeIconLabel']     = $consent_modal_close_icon ? 'Close' : null;
+            $cc_settings['language']['translations'][ $language ]['preferencesModal']['closeIconLabel'] = 'Close';
 
-                if ( empty( $table ) ) {
-                    unset( $cc_settings['languages'][ $language ]['settings_modal']['blocks'][ $index ]['cookie_table'] );
+            if ( ! $show_footer ) {
+                $cc_settings['language']['translations'][ $language ]['consentModal']['footer'] = '';
+            } else {
+                $footer_links = $language_settings['consentModal']['footerLinks'] ?? array();
+                $footer_html  = '';
+
+                foreach ( $footer_links as $link ) {
+                    $url   = trim( $link['url'] ?? '' );
+                    $label = trim( $link['label'] ?? '' );
+
+                    if ( empty( $url ) || empty( $label ) ) {
+                        continue;
+                    }
+
+                    $footer_html .= sprintf(
+                        '<a href="%s">%s</a>',
+                        esc_url( $url ),
+                        esc_html( $label )
+                    );
                 }
+
+                $cc_settings['language']['translations'][ $language ]['consentModal']['footer'] = $footer_html;
             }
 
-            $cc_settings['languages'][ $language ]['consent_modal']['primary_btn']['role']   = $primary_btn_role;
-            $cc_settings['languages'][ $language ]['consent_modal']['secondary_btn']['role'] = $secondary_btn_role;
+            unset( $cc_settings['language']['translations'][ $language ]['consentModal']['footerLinks'] );
+
+            foreach ( $category_sections_map as $category => $index ) {
+                $body = $cc_settings['pressidiumOptions']['cookieTable'][ $category ];
+
+                if ( empty( $body ) ) {
+                    unset( $cc_settings['language']['translations'][ $language ]['preferencesModal']['sections'][ $index ]['cookieTable'] );
+                    continue;
+                }
+
+                $headers = $cc_settings['pressidiumOptions']['cookieTableHeaders']['translations'][ $language ]
+                    ?? $cc_settings['pressidiumOptions']['cookieTableHeaders']['translations']['en']
+                    ?? array();
+
+                $cc_settings['language']['translations'][ $language ]['preferencesModal']['sections'][ $index ]['cookieTable'] = array(
+                    'headers' => $headers,
+                    'body'    => $body,
+                );
+            }
         }
 
         if ( ! $cc_settings['reconsent'] ) {
@@ -84,7 +119,7 @@ class Cookie_Consent implements Actions, Filters {
         }
 
         unset( $cc_settings['reconsent'] );
-        unset( $cc_settings['pressidium_options'] );
+        unset( $cc_settings['pressidiumOptions'] );
 
         return $cc_settings;
     }
@@ -131,9 +166,9 @@ class Cookie_Consent implements Actions, Filters {
             'cookie-consent-client-script',
             'pressidiumCCClientDetails',
             array(
-                'settings'           => $this->get_settings(),
-                'api'                => array(
-                    'rest_url'       => rest_url(),
+                'settings'          => $this->get_settings(),
+                'api'               => array(
+                    'rest_url'        => rest_url(),
                     'route'          => 'pressidium-cookie-consent/v1/settings',
                     'consent_route'  => 'pressidium-cookie-consent/v1/consent',
                     'consents_route' => 'pressidium-cookie-consent/v1/consents',
@@ -145,10 +180,10 @@ class Cookie_Consent implements Actions, Filters {
                  * of our boolean values.
                  */
                 'additional_options' => array(
-                    'record_consents'       => boolval( $this->settings['pressidium_options']['record_consents'] ?? true ),
-                    'hide_empty_categories' => boolval( $this->settings['pressidium_options']['hide_empty_categories'] ?? false ),
-                    'floating_button'       => $this->settings['pressidium_options']['floating_button'] ?? array(),
-                    'gcm'                   => $this->settings['pressidium_options']['gcm'] ?? array(),
+                    'recordConsents'      => boolval( $this->settings['pressidiumOptions']['recordConsents'] ?? true ),
+                    'hideEmptyCategories' => boolval( $this->settings['pressidiumOptions']['hideEmptyCategories'] ?? false ),
+                    'floatingButton'      => $this->settings['pressidiumOptions']['floatingButton'] ?? array(),
+                    'gcm'                 => $this->settings['pressidiumOptions']['gcm'] ?? array(),
                 ),
             )
         );
@@ -176,8 +211,8 @@ class Cookie_Consent implements Actions, Filters {
      * @return void
      */
     private function print_inline_script(): void {
-        if ( ! $this->settings['page_scripts'] || empty( $this->settings['pressidium_options']['blocked_scripts'] ) ) {
-            // Either "Page scripts" are disabled, or there are no blocked scripts, bail early
+        if ( ! $this->settings['manageScriptTags'] || empty( $this->settings['pressidiumOptions']['blockedScripts'] ) ) {
+            // Either "Manage script tags" is disabled, or there are no blocked scripts, bail early
             return;
         }
 
@@ -192,8 +227,8 @@ class Cookie_Consent implements Actions, Filters {
         ?>
 
         <script type="text/javascript" data-pressidium-cc-no-block>
-            window.pressidiumCCBlockedScripts = <?php echo wp_json_encode( $this->settings['pressidium_options']['blocked_scripts'] ); ?>;
-            window.pressidiumCCCookieName = '<?php echo esc_js( $this->settings['cookie_name'] ); ?>';
+            window.pressidiumCCBlockedScripts = <?php echo wp_json_encode( $this->settings['pressidiumOptions']['blockedScripts'] ); ?>;
+            window.pressidiumCCCookieName = '<?php echo esc_js( $this->settings['cookie']['name'] ); ?>';
         </script>
 
         <script src="<?php echo esc_url( $block_scripts_url ); ?>" type="text/javascript" data-pressidium-cc-no-block></script>
@@ -207,7 +242,7 @@ class Cookie_Consent implements Actions, Filters {
      * @return void
      */
     private function print_consent_mode_inline_script(): void {
-        if ( ! $this->settings['pressidium_options']['gcm']['enabled'] ) {
+        if ( ! $this->settings['pressidiumOptions']['gcm']['enabled'] ) {
             // GCM is not enabled, bail early
             return;
         }
@@ -240,16 +275,15 @@ class Cookie_Consent implements Actions, Filters {
         <style id="pressidium-cc-styles">
             .pressidium-cc-theme {
                 <?php
-                $font_slug   = $this->settings['pressidium_options']['font']['slug'] ?? 'default';
-                $font_family = $this->settings['pressidium_options']['font']['family'] ?? 'inherit';
+                $font_slug   = $this->settings['pressidiumOptions']['font']['slug'] ?? 'default';
+                $font_family = $this->settings['pressidiumOptions']['font']['family'] ?? 'inherit';
 
                 if ( $font_slug !== 'default' ) {
-                    echo "--cc-font-family: {$font_family};\n";
+                    echo '--cc-font-family: ' . esc_attr( $font_family ) . ";\n";
                 }
 
-                foreach ( $this->settings['pressidium_options']['colors'] as $key => $value ) {
-                    $value = esc_attr( $value );
-                    echo "--cc-{$key}: {$value};\n";
+                foreach ( $this->settings['pressidiumOptions']['colors'] as $key => $value ) {
+                    echo '--cc-' . esc_attr( $key ) . ': ' . esc_attr( $value ) . ";\n";
                 }
                 ?>
             }

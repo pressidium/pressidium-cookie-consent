@@ -99,7 +99,7 @@ function TagGatewayTab() {
             </StyledNotice>
           </PanelRow>
         ) : null}
-        {!measurementPathNoticeDismissed && state.pressidium_options.google_tag_gateway.proxy_enabled ? (
+        {!measurementPathNoticeDismissed && state.pressidiumOptions.googleTagGateway.proxyEnabled ? (
           <PanelRow>
             <StyledNotice
               status="info"
@@ -116,12 +116,12 @@ function TagGatewayTab() {
             <FlexItem>
               <ToggleControl
                 label={__('Google tag gateway proxy', 'pressidium-cookie-consent')}
-                help={state.pressidium_options.google_tag_gateway.proxy_enabled
+                help={state.pressidiumOptions.googleTagGateway.proxyEnabled
                   ? __('Will route traffic to Google tag gateway', 'pressidium-cookie-consent')
                   : __('Won\'t route traffic to Google tag gateway', 'pressidium-cookie-consent')}
-                checked={state.pressidium_options.google_tag_gateway.proxy_enabled}
+                checked={state.pressidiumOptions.googleTagGateway.proxyEnabled}
                 className="pressidium-toggle-control"
-                onChange={(value) => onTagGatewaySettingChange('proxy_enabled', value)}
+                onChange={(value) => onTagGatewaySettingChange('proxyEnabled', value)}
               />
             </FlexItem>
             <FlexItem>
@@ -136,7 +136,7 @@ function TagGatewayTab() {
             direction="column"
             gap={0}
             style={{
-              opacity: state.pressidium_options.google_tag_gateway.proxy_enabled ? 1.0 : 0.4,
+              opacity: state.pressidiumOptions.googleTagGateway.proxyEnabled ? 1.0 : 0.4,
             }}
           >
             <FlexItem>
@@ -145,9 +145,9 @@ function TagGatewayTab() {
                 help={__('A Google tag ID is an identifier to load a given Google tag', 'pressidium-cookie-consent')}
                 className="pressidium-text-control"
                 placeholder="G-12345"
-                value={state.pressidium_options.google_tag_gateway.gtag_id}
-                onChange={(value) => onTagGatewaySettingChange('gtag_id', value)}
-                disabled={!state.pressidium_options.google_tag_gateway.proxy_enabled}
+                value={state.pressidiumOptions.googleTagGateway.gtagId}
+                onChange={(value) => onTagGatewaySettingChange('gtagId', value)}
+                disabled={!state.pressidiumOptions.googleTagGateway.proxyEnabled}
               />
             </FlexItem>
             <FlexItem>

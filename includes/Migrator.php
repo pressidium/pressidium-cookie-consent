@@ -332,6 +332,250 @@ class Migrator {
     }
 
     /**
+     * Migrate settings coming from versions prior to 2.0.0.
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
+     *
+     * @return void
+     */
+    private function migrate_2_0_0(): void {
+        // Rename top-level options
+        $this->settings['autoShow']               = $this->settings['autorun']           ?? true;
+        $this->settings['disablePageInteraction'] = $this->settings['force_consent']     ?? false;
+        $this->settings['autoClearCookies']       = $this->settings['autoclear_cookies'] ?? false;
+        $this->settings['manageScriptTags']       = $this->settings['page_scripts']      ?? false;
+        $this->settings['hideFromBots']           = $this->settings['hide_from_bots']    ?? true;
+
+        unset(
+            $this->settings['autorun'],
+            $this->settings['force_consent'],
+            $this->settings['autoclear_cookies'],
+            $this->settings['page_scripts'],
+            $this->settings['hide_from_bots'],
+            $this->settings['delay']
+        );
+
+        // Consolidate cookie fields into a `cookie` object
+        $this->settings['cookie'] = array(
+            'expiresAfterDays' => $this->settings['cookie_expiration'] ?? 182,
+            'path'             => $this->settings['cookie_path']       ?? '/',
+            'domain'           => $this->settings['cookie_domain']     ?? '',
+            'name'             => $this->settings['cookie_name']       ?? 'pressidium_cookie_consent',
+        );
+
+        unset(
+            $this->settings['cookie_expiration'],
+            $this->settings['cookie_path'],
+            $this->settings['cookie_domain'],
+            $this->settings['cookie_name']
+        );
+
+        // Build top-level `categories` object from per-language block toggles
+        $default_lang = array_key_first( $this->settings['languages'] ?? array() );
+        $blocks       = $this->settings['languages'][ $default_lang ]['settings_modal']['blocks'] ?? array();
+
+        $toggle_map = array();
+        foreach ( $blocks as $block ) {
+            if ( isset( $block['toggle']['value'] ) ) {
+                $toggle_map[ $block['toggle']['value'] ] = $block['toggle'];
+            }
+        }
+
+        $this->settings['categories'] = array(
+            'necessary'   => array(
+                'enabled'  => $toggle_map['necessary']['enabled']  ?? true,
+                'readOnly' => $toggle_map['necessary']['readonly'] ?? true,
+            ),
+            'analytics'   => array(
+                'enabled'  => $toggle_map['analytics']['enabled']  ?? false,
+                'readOnly' => $toggle_map['analytics']['readonly'] ?? false,
+            ),
+            'targeting'   => array(
+                'enabled'  => $toggle_map['targeting']['enabled']  ?? false,
+                'readOnly' => $toggle_map['targeting']['readonly'] ?? false,
+            ),
+            'preferences' => array(
+                'enabled'  => $toggle_map['preferences']['enabled']  ?? false,
+                'readOnly' => $toggle_map['preferences']['readonly'] ?? false,
+            ),
+        );
+
+        // Restructure `languages` into a `language` object
+        $old_languages        = $this->settings['languages'] ?? array();
+        $default_lang         = array_key_first( $old_languages );
+        $new_translations     = array();
+        $cookie_table_headers = array( 'translations' => array() );
+
+        foreach ( $old_languages as $lang => $lang_settings ) {
+            $consent_modal  = $lang_settings['consent_modal']  ?? array();
+            $settings_modal = $lang_settings['settings_modal'] ?? array();
+            $old_blocks     = $settings_modal['blocks']        ?? array();
+
+            $new_consent_modal = array(
+                'title'              => $consent_modal['title']                 ?? '',
+                'description'        => $consent_modal['description']           ?? '',
+                'acceptAllBtn'       => $consent_modal['primary_btn']['text']   ?? 'Accept all',
+                'acceptNecessaryBtn' => $consent_modal['secondary_btn']['text'] ?? 'Accept necessary',
+                'showPreferencesBtn' => 'Show preferences',
+                'closeIconLabel'     => 'Close',
+                'footer'             => '<a href="#link">Privacy Policy</a><a href="#link">Terms and conditions</a>',
+                'footerLinks'        => array(
+                    array( 'url' => '#link', 'label' => 'Privacy Policy' ),
+                    array( 'url' => '#link', 'label' => 'Terms and conditions' ),
+                ),
+            );
+
+            $new_sections = array();
+            foreach ( $old_blocks as $block ) {
+                $section = array(
+                    'title'       => $block['title']       ?? '',
+                    'description' => $block['description'] ?? '',
+                );
+                if ( isset( $block['toggle']['value'] ) ) {
+                    $section['linkedCategory'] = $block['toggle']['value'];
+                }
+                $new_sections[] = $section;
+            }
+
+            $new_preferences_modal = array(
+                'title'              => $settings_modal['title']             ?? 'Cookie preferences',
+                'savePreferencesBtn' => $settings_modal['save_settings_btn'] ?? 'Save preferences',
+                'acceptAllBtn'       => $settings_modal['accept_all_btn']    ?? 'Accept all',
+                'acceptNecessaryBtn' => $settings_modal['reject_all_btn']    ?? 'Accept necessary',
+                'closeIconLabel'     => $settings_modal['close_btn_label']   ?? 'Close',
+                'sections'          => $new_sections,
+            );
+
+            $new_translations[ $lang ] = array(
+                'consentModal'     => $new_consent_modal,
+                'preferencesModal' => $new_preferences_modal,
+            );
+
+            $raw_headers  = $settings_modal['cookie_table_headers'] ?? array();
+            $flat_headers = array();
+            foreach ( $raw_headers as $header_item ) {
+                foreach ( $header_item as $key => $value ) {
+                    $flat_headers[ $key ] = $value;
+                }
+            }
+            if ( ! empty( $flat_headers ) ) {
+                $cookie_table_headers['translations'][ $lang ] = $flat_headers;
+            }
+        }
+
+        $this->settings['language'] = array(
+            'default'      => $default_lang,
+            'autoDetect'   => $this->settings['auto_language'] ?? 'browser',
+            'translations' => $new_translations,
+        );
+
+        unset( $this->settings['languages'], $this->settings['auto_language'] );
+
+        // Rename `gui_options` → `guiOptions`
+        $old_gui     = $this->settings['gui_options'] ?? array();
+        $old_consent = $old_gui['consent_modal']      ?? array();
+        $old_pref    = $old_gui['settings_modal']     ?? array();
+
+        $this->settings['guiOptions'] = array(
+            'consentModal'     => array(
+                'layout'             => $old_consent['layout']       ?? 'box',
+                'position'           => $old_consent['position']     ?? 'bottom right',
+                'equalWeightButtons' => false,
+                'flipButtons'        => $old_consent['swap_buttons'] ?? false,
+            ),
+            'preferencesModal' => array(
+                'layout'             => $old_pref['layout']   ?? 'box',
+                'position'           => $old_pref['position'] ?? 'left',
+                'equalWeightButtons' => false,
+                'flipButtons'        => false,
+            ),
+        );
+
+        unset( $this->settings['gui_options'] );
+
+        // Rename `pressidium_options` → `pressidiumOptions`
+        $old_opts    = $this->settings['pressidium_options']  ?? array();
+        $old_colors  = $old_opts['colors']              ?? array();
+        $old_gcm     = $old_opts['gcm']                 ?? array();
+        $old_gateway = $old_opts['google_tag_gateway']  ?? array();
+
+        $new_colors = array(
+            'bg'                             => $old_colors['bg']                             ?? '#f9faff',
+            'primary-color'                  => $old_colors['text']                           ?? '#112954',
+            'btn-primary-bg'                 => $old_colors['btn-primary-bg']                 ?? '#3859d0',
+            'btn-primary-color'              => $old_colors['btn-primary-text']               ?? '#f9faff',
+            'btn-primary-hover-bg'           => $old_colors['btn-primary-hover-bg']           ?? '#1d2e38',
+            'btn-primary-hover-color'        => $old_colors['btn-primary-hover-text']         ?? '#f9faff',
+            'btn-secondary-bg'               => $old_colors['btn-secondary-bg']               ?? '#dfe7f9',
+            'btn-secondary-color'            => $old_colors['btn-secondary-text']             ?? '#112954',
+            'btn-secondary-hover-bg'         => $old_colors['btn-secondary-hover-bg']         ?? '#c6d1ea',
+            'btn-secondary-hover-color'      => $old_colors['btn-secondary-hover-text']       ?? '#112954',
+            'toggle-off-bg'                  => $old_colors['toggle-bg-off']                  ?? '#8fa8d6',
+            'toggle-on-knob-bg'              => $old_colors['toggle-bg-on']                   ?? '#3859d0',
+            'toggle-readonly-bg'             => $old_colors['toggle-bg-readonly']             ?? '#cbd8f1',
+            'toggle-knob-bg'                 => $old_colors['toggle-knob-bg']                 ?? '#fff',
+            'toggle-knob-icon-color'         => $old_colors['toggle-knob-icon-color']         ?? '#ecf2fa',
+            'cookie-category-block-bg'       => $old_colors['cookie-category-block-bg']       ?? '#ebeff9',
+            'cookie-category-block-hover-bg' => $old_colors['cookie-category-block-bg-hover'] ?? '#dbe5f9',
+            'separator-border-color'         => $old_colors['section-border']                 ?? '#f1f3f5',
+            'block-text'                     => $old_colors['block-text']                     ?? '#112954',
+            'cookie-table-border'            => $old_colors['cookie-table-border']            ?? '#e1e7f3',
+            'overlay-bg'                     => $old_colors['overlay-bg']                     ?? 'rgba(230, 235, 255, .85)',
+            'webkit-scrollbar-bg'            => $old_colors['webkit-scrollbar-bg']            ?? '#ebeff9',
+            'webkit-scrollbar-bg-hover'      => $old_colors['webkit-scrollbar-bg-hover']      ?? '#3859d0',
+            'btn-floating-bg'                => $old_colors['btn-floating-bg']                ?? '#3859d0',
+            'btn-floating-icon'              => $old_colors['btn-floating-icon']              ?? '#f9faff',
+            'btn-floating-hover-bg'          => $old_colors['btn-floating-hover-bg']          ?? '#1d2e38',
+            'btn-floating-hover-icon'        => $old_colors['btn-floating-hover-icon']        ?? '#f9faff',
+        );
+
+        $this->settings['pressidiumOptions'] = array(
+            'cookieTable'            => $old_opts['cookie_table'] ?? array(
+                'necessary'   => array(),
+                'analytics'   => array(),
+                'targeting'   => array(),
+                'preferences' => array(),
+            ),
+            'cookieTableHeaders'     => $cookie_table_headers,
+            'consentModalCloseIcon'  => true,
+            'showConsentModalFooter' => true,
+            'blockedScripts'         => $old_opts['blocked_scripts']      ?? array(),
+            'font'                   => $old_opts['font']                 ?? array(
+                'name'   => 'Default',
+                'slug'   => 'default',
+                'family' => 'inherit',
+            ),
+            'floatingButton'         => $old_opts['floating_button']      ?? array(
+                'enabled'    => false,
+                'size'       => 'sm',
+                'position'   => 'left',
+                'icon'       => 'pressidium',
+                'transition' => 'fade-in-up',
+            ),
+            'colors'                 => $new_colors,
+            'recordConsents'         => $old_opts['record_consents']       ?? true,
+            'hideEmptyCategories'    => $old_opts['hide_empty_categories'] ?? false,
+            'gcm'                    => array(
+                'enabled'          => $old_gcm['enabled']            ?? false,
+                'implementation'   => $old_gcm['implementation']     ?? 'gtag',
+                'adsDataRedaction' => $old_gcm['ads_data_redaction'] ?? false,
+                'urlPassthrough'   => $old_gcm['url_passthrough']    ?? false,
+                'regions'          => $old_gcm['regions']            ?? array(),
+            ),
+            'googleTagGateway'       => array(
+                'proxyEnabled' => $old_gateway['proxy_enabled'] ?? false,
+                'gtagId'       => $old_gateway['gtag_id']       ?? '',
+            ),
+            'ai'                     => $old_opts['ai'] ?? array(
+                'provider' => 'openai',
+                'model'    => 'gpt-3.5-turbo',
+            ),
+        );
+
+        unset( $this->settings['pressidium_options'] );
+    }
+
+    /**
      * Migrate settings if necessary.
      *
      * @return array Migrated settings.
@@ -380,6 +624,11 @@ class Migrator {
         if ( version_compare( $this->settings['version'], '1.9.0', '<' ) ) {
             // We are upgrading from a version prior to 1.9.0, so we need to migrate the settings
             $this->migrate_1_9_0();
+        }
+
+        if ( version_compare( $this->settings['version'], '2.0.0', '<' ) ) {
+            // We are upgrading from a version prior to 2.0.0, so we need to migrate the settings
+            $this->migrate_2_0_0();
         }
 
         return $this->settings;

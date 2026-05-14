@@ -4,6 +4,7 @@ import {
   useContext,
   useMemo,
   useCallback,
+  createInterpolateElement,
 } from '@wordpress/element';
 import {
   TabPanel,
@@ -29,13 +30,16 @@ import { useBeforeunload } from 'react-beforeunload';
 
 import {
   pressidium as PressidiumIcon,
+  performance as PerformanceIcon,
 } from './icons';
 
 import { usePrevious } from '../hooks';
-import { removeElement, delay, deepCopy } from '../utils';
+import { delay, deepCopy } from '../utils';
 
 import Panel from './Panel';
 import Footer from './Footer';
+import Badge from './Badge';
+import Emoji from './Emoji';
 
 import GeneralTab from './tabs/GeneralTab';
 import CookiesTab from './tabs/CookiesTab';
@@ -54,6 +58,9 @@ import * as ActionTypes from '../store/actionTypes';
 import AIConfigModal from './AIConfigModal';
 
 function SettingsPanel() {
+  const { performanceBanner } = pressidiumCCAdminDetails.assets;
+  const { performance_plugin_search: performancePluginSearch = null } = pressidiumCCAdminDetails.urls;
+
   const [isFetching, setIsFetching] = useState(false);
   const [isExportingCsv, setIsExportingCsv] = useState(false);
   const [isAIConfigModalOpen, setIsAIConfigModalOpen] = useState(false);
@@ -69,6 +76,13 @@ function SettingsPanel() {
     review: 'https://wordpress.org/support/plugin/pressidium-cookie-consent/reviews/#new-post',
     github: 'https://github.com/pressidium/pressidium-cookie-consent/blob/master/CONTRIBUTING.md',
     pressidium: 'https://pressidium.com/free-trial/?utm_source=pccplugin&utm_medium=metabox&utm_campaign=wpplugins',
+    performancePlugin: 'https://pressidium.com/open-source/performance-plugin/?utm_source=pccplugin&utm_medium=metabox&utm_campaign=wpplugins',
+  };
+
+  urls.performancePluginSearch = performancePluginSearch ?? urls.performancePlugin;
+
+  const emojis = {
+    rocket: <>&#128640;</>,
   };
 
   const appendNotice = useCallback(({ message, status, id = null }) => {
@@ -127,14 +141,14 @@ function SettingsPanel() {
   const validateState = () => {
     let cleanState = { ...state };
 
-    const blockedScripts = state?.pressidium_options?.blocked_scripts;
+    const blockedScripts = state?.pressidiumOptions?.blockedScripts;
 
     if (Array.isArray(blockedScripts) && blockedScripts.length > 0) {
       cleanState = {
         ...state,
-        pressidium_options: {
-          ...state.pressidium_options,
-          blocked_scripts: blockedScripts.filter(({ src }) => src && src.trim().length > 0),
+        pressidiumOptions: {
+          ...state.pressidiumOptions,
+          blockedScripts: blockedScripts.filter(({ src }) => src && src.trim().length > 0),
         },
       };
     }
@@ -296,45 +310,51 @@ function SettingsPanel() {
   const ccSettings = useMemo(() => {
     const settings = { ...state };
 
-    const necessaryTable = settings.pressidium_options.cookie_table.necessary;
-    const analyticsTable = settings.pressidium_options.cookie_table.analytics;
-    const targetingTable = settings.pressidium_options.cookie_table.targeting;
-    const preferencesTable = settings.pressidium_options.cookie_table.preferences;
+    const necessaryTable = settings.pressidiumOptions.cookieTable.necessary;
+    const analyticsTable = settings.pressidiumOptions.cookieTable.analytics;
+    const targetingTable = settings.pressidiumOptions.cookieTable.targeting;
+    const preferencesTable = settings.pressidiumOptions.cookieTable.preferences;
 
-    const primaryBtnRole = settings.pressidium_options.primary_btn_role;
-    const secondaryBtnRole = settings.pressidium_options.secondary_btn_role;
+    const showCloseIcon = settings.pressidiumOptions.consentModalCloseIcon ?? true;
+    const showFooter = settings.pressidiumOptions.showConsentModalFooter ?? true;
 
-    Object.keys(settings.languages).forEach((language) => {
-      settings.languages[language].settings_modal.blocks[1].cookie_table = necessaryTable;
-      settings.languages[language].settings_modal.blocks[2].cookie_table = analyticsTable;
-      settings.languages[language].settings_modal.blocks[3].cookie_table = targetingTable;
-      settings.languages[language].settings_modal.blocks[4].cookie_table = preferencesTable;
+    Object.keys(settings.language.translations).forEach((language) => {
+      settings.language
+        .translations[language].preferencesModal.sections[1].cookieTable = necessaryTable;
+      settings.language
+        .translations[language].preferencesModal.sections[2].cookieTable = analyticsTable;
+      settings.language
+        .translations[language].preferencesModal.sections[3].cookieTable = targetingTable;
+      settings.language
+        .translations[language].preferencesModal.sections[4].cookieTable = preferencesTable;
 
-      settings.languages[language].consent_modal.primary_btn.role = primaryBtnRole;
-      settings.languages[language].consent_modal.secondary_btn.role = secondaryBtnRole;
+      settings.language.translations[language].consentModal.closeIconLabel = showCloseIcon ? 'Close' : null;
+
+      const footerLinks = settings.language.translations[language].consentModal.footerLinks ?? [];
+      settings.language.translations[language].consentModal.footer = showFooter
+        ? footerLinks
+          .filter(({ url, label }) => url.trim().length > 0 && label.trim().length > 0)
+          .map(({ url, label }) => `<a href="${url}">${label}</a>`)
+          .join('')
+        : '';
     });
 
     return settings;
   }, [state]);
 
-  const eraseConsentCookies = () => {
-    const cookieName = window.pressidiumCookieConsent.getConfig('cookie_name');
-    window.pressidiumCookieConsent.eraseCookies(cookieName);
-  };
-
-  const resetPreview = (customSettings = {}) => {
+  const resetPreview = async (customSettings = {}) => {
     // Re-create the style element
     const styleElement = document.querySelector('#pressidium-cc-styles');
 
     if (styleElement) {
       let css = '';
 
-      if (ccSettings.pressidium_options.font.slug !== 'default') {
-        css += `--cc-font-family: ${ccSettings.pressidium_options.font.family};\n`;
+      if (ccSettings.pressidiumOptions.font.slug !== 'default') {
+        css += `--cc-font-family: ${ccSettings.pressidiumOptions.font.family};\n`;
       }
 
-      Object.keys(ccSettings.pressidium_options.colors).forEach((key) => {
-        const value = ccSettings.pressidium_options.colors[key];
+      Object.keys(ccSettings.pressidiumOptions.colors).forEach((key) => {
+        const value = ccSettings.pressidiumOptions.colors[key];
         css += `--cc-${key}: ${value};\n`;
       });
 
@@ -345,52 +365,53 @@ function SettingsPanel() {
       `;
     }
 
-    // Remove existing consent element(s)
-    removeElement(document.querySelector('#cc--main'));
-
     // Re-initialize cookie consent
     const config = deepCopy({
       ...ccSettings,
       ...customSettings,
-      onAccept: () => window.pressidiumFloatingButton.show(),
+      onConsent: () => window.pressidiumFloatingButton.show(),
       onChange: () => window.pressidiumFloatingButton.show(),
     });
 
-    if (ccSettings.pressidium_options.hide_empty_categories) {
-      Object.keys(ccSettings.languages).forEach((language) => {
-        config.languages[language].settings_modal.blocks = ccSettings
-          .languages[language]
-          .settings_modal
-          .blocks
-          .filter((block) => !('cookie_table' in block) || block.cookie_table.length > 0);
+    if (ccSettings.pressidiumOptions.hideEmptyCategories) {
+      Object.keys(ccSettings.language.translations).forEach((language) => {
+        config.language.translations[language].preferencesModal.sections = ccSettings
+          .language.translations[language]
+          .preferencesModal
+          .sections
+          .filter((section) => !('cookieTable' in section) || section.cookieTable.length > 0);
       });
     }
 
-    window.pressidiumCookieConsent = window.initCookieConsent();
-    window.pressidiumCookieConsent.run(config);
+    const {
+      pressidiumOptions,
+      shouldDeleteCookie = false,
+      ...cookieConsentConfig
+    } = config;
+
+    window.pressidiumCookieConsent.reset(shouldDeleteCookie);
+    await window.pressidiumCookieConsent.run(cookieConsentConfig);
 
     // Re-initialize floating button
-    window.pressidiumFloatingButton.init(ccSettings.pressidium_options.floating_button);
+    window.pressidiumFloatingButton.init(ccSettings.pressidiumOptions.floatingButton);
   };
 
-  const previewConsentModal = () => {
-    eraseConsentCookies();
-    resetPreview();
+  const previewConsentModal = async () => {
+    await resetPreview({ shouldDeleteCookie: true });
 
     // Force show consent modal
     window.pressidiumCookieConsent.show();
   };
 
-  const previewSettingsModal = () => {
-    eraseConsentCookies();
-    resetPreview({ autorun: false });
+  const previewSettingsModal = async () => {
+    await resetPreview({ autoShow: false, shouldDeleteCookie: true });
 
-    // Show settings modal
-    window.pressidiumCookieConsent.showSettings();
+    // Show preferences modal
+    window.pressidiumCookieConsent.showPreferences();
   };
 
   const previewFloatingButton = async () => {
-    resetPreview();
+    await resetPreview({ shouldDeleteCookie: false });
 
     window.pressidiumFloatingButton.hide();
 
@@ -582,10 +603,10 @@ function SettingsPanel() {
 
   useEffect(() => {
     const {
-      cookie_table: cookieTable,
-      hide_empty_categories: hideEmptyCategories,
+      cookieTable,
+      hideEmptyCategories,
       gcm,
-    } = state.pressidium_options;
+    } = state.pressidiumOptions;
 
     const noCookiesListed = ['necessary', 'analytics', 'targeting', 'preferences']
       .every((category) => cookieTable[category].length === 0);
@@ -597,27 +618,27 @@ function SettingsPanel() {
       'empty-categories-no-cookies-gcm-warning',
       __('Empty categories are hidden, and no cookies are listed, which might lead to issues with Google Consent Mode.', 'pressidium-cookie-consent')
     );
-  }, [state.pressidium_options]);
+  }, [state.pressidiumOptions]);
 
   useEffect(() => {
-    const isCookiePathValid = state.cookie_path && state.cookie_path.length > 0;
+    const isCookiePathValid = state.cookie.path && state.cookie.path.length > 0;
 
     handleConditionalNotice(
       !isCookiePathValid,
       'cookie-path-warning',
       __('The cookie path is not set. This may cause cookies to be set incorrectly.', 'pressidium-cookie-consent'),
     );
-  }, [state.cookie_path]);
+  }, [state.cookie.path]);
 
   useEffect(() => {
     const actualDomain = pressidiumCCAdminDetails.domain || window.location.hostname;
 
     handleConditionalNotice(
-      actualDomain !== state.cookie_domain,
+      actualDomain !== state.cookie.domain,
       'cookie-domain-warning',
       __('The cookie domain is not set to the actual domain. This may cause cookies to be set incorrectly.', 'pressidium-cookie-consent'),
     );
-  }, [state.cookie_domain]);
+  }, [state.cookie.domain]);
 
   useEffect(() => {
     (async () => {
@@ -870,6 +891,80 @@ function SettingsPanel() {
                       variant="secondary"
                     >
                       {__('Contribute on GitHub', 'pressidium-cookie-consent')}
+                    </Button>
+                  </PanelRow>
+                </PanelBody>
+              </WPPanel>
+            </FlexItem>
+            <FlexItem>
+              <WPPanel>
+                <PanelHeader>
+                  <Flex justify="flex-start">
+                    <FlexItem>
+                      <Badge
+                        value={__('New', 'pressidium-cookie-consent')}
+                        status="success"
+                        style={{
+                          padding: '0 0.7em',
+                          lineHeight: '2.1em',
+                          backgroundColor: '#0f9200',
+                          color: '#ffffff',
+                        }}
+                      />
+                    </FlexItem>
+                    <FlexItem>
+                      {__('Pressidium Performance', 'pressidium-cookie-consent')}
+                    </FlexItem>
+                    <FlexItem>
+                      <Emoji symbol={emojis.rocket} />
+                    </FlexItem>
+                  </Flex>
+                </PanelHeader>
+                <PanelBody>
+                  <PanelRow>
+                    <a
+                      href={urls.performancePlugin}
+                      target="_blank"
+                      rel="noreferrer noopener"
+                    >
+                      <img
+                        src={performanceBanner}
+                        alt={__('Learn more about the Pressidium Performance plugin', 'pressidium-cookie-consent')}
+                        style={{ width: '100%' }}
+                      />
+                    </a>
+                  </PanelRow>
+                  <PanelRow>
+                    <span>
+                      {
+                        createInterpolateElement(
+                          __('Boost your website in minutes with the <a>Pressidium Performance plugin</a>.', 'pressidium-cookie-consent'),
+                          {
+                            a: (
+                              // eslint-disable-next-line max-len
+                              // eslint-disable-next-line jsx-a11y/anchor-has-content,jsx-a11y/control-has-associated-label
+                              <a
+                                href={urls.performancePluginSearch}
+                                target="_blank"
+                                rel="noreferrer noopener"
+                              />
+                            ),
+                          },
+                        )
+                      }
+                    </span>
+                  </PanelRow>
+                  <PanelRow>
+                    {__('Optimize images, minify CSS & JavaScript, and increase page speed, without a complicated setup.', 'pressidium-cookie-consent')}
+                  </PanelRow>
+                  <PanelRow>
+                    <Button
+                      icon={PerformanceIcon}
+                      href={urls.performancePlugin}
+                      target="_blank"
+                      variant="secondary"
+                    >
+                      {__('Learn more', 'pressidium-cookie-consent')}
                     </Button>
                   </PanelRow>
                 </PanelBody>
