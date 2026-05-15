@@ -59,7 +59,7 @@ import * as ActionTypes from '../store/actionTypes';
 import AIConfigModal from './AIConfigModal';
 
 function SettingsPanel() {
-  const { performanceBanner } = pressidiumCCAdminDetails.assets;
+  const { performance_banner: performanceBanner } = pressidiumCCAdminDetails.assets;
   const { performance_plugin_search: performancePluginSearch = null } = pressidiumCCAdminDetails.urls;
 
   const [isFetching, setIsFetching] = useState(false);
@@ -757,6 +757,12 @@ function SettingsPanel() {
                   title: __('Tag Gateway', 'pressidium-cookie-consent'),
                   className: 'tab-tag-gateway',
                   Component: TagGatewayTab,
+                },
+                {
+                  name: 'geo-rules',
+                  title: __('Geo Rules', 'pressidium-cookie-consent'),
+                  className: 'tab-geo-rules',
+                  Component: GeoRulesTab,
                 },
                 {
                   name: 'blocked-scripts',
