@@ -190,7 +190,7 @@ If you have spotted any bugs, or would like to request additional features from 
 
 == Changelog ==
 
-= 2.0.0: May 11, 2026 =
+= 2.0.0: May 15, 2026 =
 
 * Migrate the vanilla-cookieconsent library to v3
 * Expose vanilla-cookieconsent v3 configuration options in the admin UI
@@ -198,6 +198,7 @@ If you have spotted any bugs, or would like to request additional features from 
 * Improve database performance by adding indexes to the `pressidium_cookie_consents` table
 * Add rate limiting for `POST /pressidium-cookie-consent/v1/consent` requests by IP address
 * Add a backwards-compatible shim for `window.pressidiumCookieConsent.allowedCategory()`
+* Add a “Geo Rules” tab to define opt-in and opt-out regions
 * Add Settings and Docs action links to the Plugins page
 * Add settings for customizing consent modal footer links
 * Add a toggle for the consent modal close icon

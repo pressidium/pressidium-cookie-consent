@@ -573,6 +573,15 @@ class Migrator {
         );
 
         unset( $this->settings['pressidium_options'] );
+
+        // Introduce geo rules
+        $default_geo_rules = array(
+            'defaultMode'   => 'opt-in',
+            'optInRegions'  => array(),
+            'optOutRegions' => array(),
+        );
+
+        $this->settings['pressidiumOptions']['geoRules'] = $this->settings['pressidiumOptions']['geoRules'] ?? $default_geo_rules;
     }
 
     /**

@@ -299,6 +299,15 @@ export default {
     },
 
     /*
+     * Geo-based consent mode rules.
+     */
+    geoRules: {
+      defaultMode: 'opt-in',
+      optInRegions: [],
+      optOutRegions: [],
+    },
+
+    /*
      * One-click PHP proxy to route traffic to Google tag gateway.
      */
     googleTagGateway: {

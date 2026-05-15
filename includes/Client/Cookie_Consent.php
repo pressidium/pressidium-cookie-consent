@@ -14,6 +14,7 @@ use const Pressidium\WP\CookieConsent\PLUGIN_URL;
 use Pressidium\WP\CookieConsent\Hooks\Actions;
 use Pressidium\WP\CookieConsent\Hooks\Filters;
 
+use Pressidium\WP\CookieConsent\Geo_Locator;
 use Pressidium\WP\CookieConsent\Settings;
 use Pressidium\WP\CookieConsent\Utils\WP_Utils;
 
@@ -34,12 +35,19 @@ class Cookie_Consent implements Actions, Filters {
     private array $settings;
 
     /**
+     * @var Geo_Locator
+     */
+    private Geo_Locator $geo_locator;
+
+    /**
      * Cookie_Consent constructor.
      *
-     * @param Settings $settings_object An instance of the `Settings` class.
+     * @param Settings    $settings_object An instance of the `Settings` class.
+     * @param Geo_Locator $geo_locator     An instance of the `Geo_Locator` class.
      */
-    public function __construct( Settings $settings_object ) {
-        $this->settings = $settings_object->get();
+    public function __construct( Settings $settings_object, Geo_Locator $geo_locator ) {
+        $this->settings    = $settings_object->get();
+        $this->geo_locator = $geo_locator;
     }
 
     /**
@@ -114,6 +122,29 @@ class Cookie_Consent implements Actions, Filters {
             }
         }
 
+        // Geo-targeting to set consent mode to either opt-in or opt-out based on user region
+        $geo_rules       = $this->settings['pressidiumOptions']['geoRules'] ?? array();
+        $default_mode    = $geo_rules['defaultMode'] ?? 'opt-in';
+        $opt_in_regions  = array_map( 'strtolower', $geo_rules['optInRegions']  ?? array() );
+        $opt_out_regions = array_map( 'strtolower', $geo_rules['optOutRegions'] ?? array() );
+
+        $ip_address = apply_filters(
+            'pressidium_cookie_consent_geo_ip_address',
+            $_SERVER['REMOTE_ADDR'] ?? ''
+        );
+
+        $country_code  = $this->geo_locator->maybe_get_country_code( $ip_address );
+        $country_lower = strtolower( $country_code ?? '' );
+
+        if ( $country_code !== null && in_array( $country_lower, $opt_out_regions, true ) ) {
+            $cc_settings['mode'] = 'opt-out';
+        } elseif ( $country_code !== null && in_array( $country_lower, $opt_in_regions, true ) ) {
+            $cc_settings['mode'] = 'opt-in';
+        } else {
+            $cc_settings['mode'] = $default_mode;
+        }
+
+        // Remove settings that are not used directly from the cookie consent JS library
         if ( ! $cc_settings['reconsent'] ) {
             unset( $cc_settings['revision'] );
         }

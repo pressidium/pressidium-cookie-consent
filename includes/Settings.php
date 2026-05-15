@@ -231,6 +231,11 @@ class Settings {
                     'proxyEnabled' => false,
                     'gtagId' => '',
                 ),
+                'geoRules' => array(
+                    'defaultMode'   => 'opt-in',
+                    'optInRegions'  => array(),
+                    'optOutRegions' => array(),
+                ),
             ),
         );
     }

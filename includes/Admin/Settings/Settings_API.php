@@ -859,6 +859,27 @@ class Settings_API implements Actions {
                                 ),
                             ),
                         ),
+                        'geoRules' => array(
+                            'type' => 'object',
+                            'required' => array(
+                                'defaultMode',
+                                'optInRegions',
+                                'optOutRegions',
+                            ),
+                            'properties' => array(
+                                'defaultMode' => array(
+                                    'type' => 'string',
+                                ),
+                                'optInRegions' => array(
+                                    'type'  => 'array',
+                                    'items' => array( 'type' => 'string' ),
+                                ),
+                                'optOutRegions' => array(
+                                    'type'  => 'array',
+                                    'items' => array( 'type' => 'string' ),
+                                ),
+                            ),
+                        ),
                     ),
                 ),
             ),
@@ -1179,7 +1200,10 @@ class Settings_API implements Actions {
         $targeting_consent   = $request->get_param( 'targeting_consent' );
         $preferences_consent = $request->get_param( 'preferences_consent' );
 
-        $ip_address = $_SERVER['REMOTE_ADDR'];
+        $ip_address = apply_filters(
+            'pressidium_cookie_consent_geo_ip_address',
+            $_SERVER['REMOTE_ADDR'] ?? ''
+        );
 
         $cookie_consent = new Consent_Record();
         $cookie_consent->set_id( $uuid )

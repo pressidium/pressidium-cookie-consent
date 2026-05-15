@@ -48,6 +48,7 @@ import ModalsTab from './tabs/ModalsTab';
 import FloatingButtonTab from './tabs/FloatingButtonTab';
 import ConsentModeTab from './tabs/ConsentModeTab';
 import TagGatewayTab from './tabs/TagGatewayTab';
+import GeoRulesTab from './tabs/GeoRulesTab';
 import BlockedScriptsTab from './tabs/BlockedScriptsTab';
 import ConsentRecordsTab from './tabs/ConsentRecordsTab';
 import LogsTab from './tabs/LogsTab';

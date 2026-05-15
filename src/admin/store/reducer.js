@@ -504,6 +504,46 @@ function settingsReducer(state, action) {
         },
       };
 
+    case ActionTypes.UPDATE_GEO_RULES_SETTING:
+      return {
+        ...state,
+        pressidiumOptions: {
+          ...state.pressidiumOptions,
+          geoRules: {
+            ...state.pressidiumOptions.geoRules,
+            [action.payload.key]: action.payload.value,
+          },
+        },
+      };
+
+    case ActionTypes.ADD_GEO_RULES_REGION:
+      return {
+        ...state,
+        pressidiumOptions: {
+          ...state.pressidiumOptions,
+          geoRules: {
+            ...state.pressidiumOptions.geoRules,
+            [action.payload.listKey]: [
+              ...state.pressidiumOptions.geoRules[action.payload.listKey],
+              action.payload.country,
+            ],
+          },
+        },
+      };
+
+    case ActionTypes.DELETE_GEO_RULES_REGION:
+      return {
+        ...state,
+        pressidiumOptions: {
+          ...state.pressidiumOptions,
+          geoRules: {
+            ...state.pressidiumOptions.geoRules,
+            [action.payload.listKey]: state.pressidiumOptions.geoRules[action.payload.listKey]
+              .filter((_, i) => i !== action.payload.index),
+          },
+        },
+      };
+
     case ActionTypes.UPDATE_PRESSIDIUM_OPTION:
       return {
         ...state,
