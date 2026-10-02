@@ -56,8 +56,13 @@ final class Data_Encryption {
             return LOGGED_IN_KEY;
         }
 
-        // If this is reached, you're either not on a live site or have a serious security issue.
-        return 'not-a-secret-key';
+        /*
+         * No secure key is available. Return an empty string rather than a hardcoded
+         * one: `encrypt()` and `decrypt()` refuse to run without a key, so the plugin
+         * fails closed instead of protecting data with a value that is published in
+         * this file.
+         */
+        return '';
     }
 
     /**
@@ -75,8 +80,19 @@ final class Data_Encryption {
             return LOGGED_IN_SALT;
         }
 
-        // If this is reached, you're either not on a live site or have a serious security issue.
-        return 'not-a-secret-salt';
+        // No secure salt available. Fail closed, see `get_default_key()`.
+        return '';
+    }
+
+    /**
+     * Whether a secure key and salt are both available.
+     *
+     * @since 2.0.0
+     *
+     * @return bool
+     */
+    private function has_secure_keys(): bool {
+        return $this->key !== '' && $this->salt !== '';
     }
 
     /**
@@ -84,7 +100,8 @@ final class Data_Encryption {
      *
      * If a user-based key is set, that key is used. Otherwise, the default key is used.
      *
-     * @throws Encryption_Exception If encryption fails.
+     * @throws Encryption_Exception If encryption fails, if OpenSSL is unavailable,
+     *                              or if no secure key is available.
      *
      * @param string $value Value to encrypt.
      *
@@ -92,7 +109,15 @@ final class Data_Encryption {
      */
     public function encrypt( string $value ): string {
         if ( ! extension_loaded( 'openssl' ) ) {
-            return $value;
+            throw new Encryption_Exception(
+                'OpenSSL is not available, refusing to store the value unencrypted'
+            );
+        }
+
+        if ( ! $this->has_secure_keys() ) {
+            throw new Encryption_Exception(
+                'No secure encryption key is available, refusing to store the value'
+            );
         }
 
         $method = 'aes-256-ctr';
@@ -113,7 +138,8 @@ final class Data_Encryption {
      *
      * If a user-based key is set, that key is used. Otherwise, the default key is used.
      *
-     * @throws Decryption_Exception If decryption fails.
+     * @throws Decryption_Exception If decryption fails, if OpenSSL is unavailable,
+     *                              or if no secure key is available.
      *
      * @param string $raw_value Value to decrypt.
      *
@@ -121,7 +147,11 @@ final class Data_Encryption {
      */
     public function decrypt( string $raw_value ): string {
         if ( ! extension_loaded( 'openssl' ) ) {
-            return $raw_value;
+            throw new Decryption_Exception( 'OpenSSL is not available, cannot decrypt the value' );
+        }
+
+        if ( ! $this->has_secure_keys() ) {
+            throw new Decryption_Exception( 'No secure encryption key is available, cannot decrypt the value' );
         }
 
         // phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_decode
