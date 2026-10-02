@@ -73,8 +73,8 @@ class Migrator {
     private function migrate_1_3_0(): void {
         $colors = $this->settings['pressidium_options']['colors'] ?? array();
 
-        $primary_hover   = $colors['btn-primary-hover-text'] ?? $colors['btn-primary-text'];
-        $secondary_hover = $colors['btn-secondary-hover-text'] ?? $colors['btn-secondary-text'];
+        $primary_hover   = $colors['btn-primary-hover-text'] ?? $colors['btn-primary-text'] ?? '#f9faff';
+        $secondary_hover = $colors['btn-secondary-hover-text'] ?? $colors['btn-secondary-text'] ?? '#112954';
 
         $this->settings['pressidium_options']['colors']['btn-primary-hover-text']   = $primary_hover;
         $this->settings['pressidium_options']['colors']['btn-secondary-hover-text'] = $secondary_hover;
@@ -175,10 +175,10 @@ class Migrator {
         // Floating button colors
         $colors = $this->settings['pressidium_options']['colors'] ?? array();
 
-        $btn_bg         = $colors['btn-floating-bg'] ?? $colors['btn-primary-bg'];
-        $btn_icon       = $colors['btn-floating-icon'] ?? $colors['btn-primary-text'];
-        $btn_hover_bg   = $colors['btn-floating-hover-bg'] ?? $colors['btn-primary-hover-bg'];
-        $btn_hover_icon = $colors['btn-floating-hover-icon'] ?? $colors['btn-primary-hover-text'];
+        $btn_bg         = $colors['btn-floating-bg'] ?? $colors['btn-primary-bg'] ?? '#3859d0';
+        $btn_icon       = $colors['btn-floating-icon'] ?? $colors['btn-primary-text'] ?? '#f9faff';
+        $btn_hover_bg   = $colors['btn-floating-hover-bg'] ?? $colors['btn-primary-hover-bg'] ?? '#1d2e38';
+        $btn_hover_icon = $colors['btn-floating-hover-icon'] ?? $colors['btn-primary-hover-text'] ?? '#f9faff';
 
         $this->settings['pressidium_options']['colors']['btn-floating-bg']         = $btn_bg;
         $this->settings['pressidium_options']['colors']['btn-floating-icon']       = $btn_icon;

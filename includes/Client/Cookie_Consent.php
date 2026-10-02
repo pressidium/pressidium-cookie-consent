@@ -211,7 +211,7 @@ class Cookie_Consent implements Actions, Filters {
      * @return void
      */
     private function print_inline_script(): void {
-        if ( ! $this->settings['manageScriptTags'] || empty( $this->settings['pressidiumOptions']['blockedScripts'] ) ) {
+        if ( empty( $this->settings['manageScriptTags'] ) || empty( $this->settings['pressidiumOptions']['blockedScripts'] ) ) {
             // Either "Manage script tags" is disabled, or there are no blocked scripts, bail early
             return;
         }
@@ -242,8 +242,8 @@ class Cookie_Consent implements Actions, Filters {
      * @return void
      */
     private function print_consent_mode_inline_script(): void {
-        if ( ! $this->settings['pressidiumOptions']['gcm']['enabled'] ) {
-            // GCM is not enabled, bail early
+        if ( empty( $this->settings['pressidiumOptions']['gcm']['enabled'] ) ) {
+            // GCM is not enabled (or not migrated yet), bail early
             return;
         }
         ?>
@@ -282,7 +282,9 @@ class Cookie_Consent implements Actions, Filters {
                     echo '--cc-font-family: ' . esc_attr( $font_family ) . ";\n";
                 }
 
-                foreach ( $this->settings['pressidiumOptions']['colors'] as $key => $value ) {
+                $colors = $this->settings['pressidiumOptions']['colors'] ?? array();
+
+                foreach ( $colors as $key => $value ) {
                     echo '--cc-' . esc_attr( $key ) . ': ' . esc_attr( $value ) . ";\n";
                 }
                 ?>

@@ -234,7 +234,18 @@ class Plugin {
          * Run the upgrader on every request to check if the plugin was upgraded
          * and if so, migrate the settings to the latest version and resave them.
          */
-        $upgrader->maybe_upgrade();
+        try {
+            $upgrader->maybe_upgrade();
+        } catch ( \Throwable $throwable ) {
+            /*
+             * A failure anywhere in the migration chain must not escalate into a fatal
+             * error in wp-admin, which is the worst possible place to lose access to
+             * the site. Fall back to the error log and carry on with the settings that
+             * are already loaded.
+             */
+            // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
+            error_log( 'Pressidium Cookie Consent: upgrade routine failed: ' . $throwable->getMessage() );
+        }
     }
 
 }
