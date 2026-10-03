@@ -56,13 +56,49 @@ class CSV_Exporter implements Exporter {
             return null;
         }
 
-        $csv_output = '"' . implode( '","', array_keys( $rows[0] ) ) . '"';
+        $csv_output = '"' . implode( '","', array_map( array( $this, 'escape_cell' ), array_keys( $rows[0] ) ) ) . '"';
 
         foreach ( $rows as $row ) {
-            $csv_output .= "\r\n" . '"' . implode( '","', $row ) . '"';
+            $csv_output .= "\r\n" . '"' . implode( '","', array_map( array( $this, 'escape_cell' ), $row ) ) . '"';
         }
 
         return $csv_output;
+    }
+
+    /**
+     * Escape a single value for inclusion in the CSV output.
+     *
+     * Two separate problems are handled here.
+     *
+     * Formula injection: spreadsheet applications evaluate a cell whose first
+     * character is `=`, `+`, `-` or `@` (and, in some versions, a leading tab or
+     * carriage return). Consent records hold visitor-supplied values such as the
+     * URL and the user agent, so without this an attacker can have a formula run
+     * on the machine of the administrator opening the export. Prefixing with a
+     * single quote marks the cell as literal text. Numeric values are left alone
+     * so that a negative number is not turned into text.
+     *
+     * Quoting: fields are wrapped in double quotes, so a double quote inside a
+     * value has to be written twice, per RFC 4180. Otherwise a value containing
+     * `"` ends its field early, which both corrupts the row and lets a crafted
+     * user agent inject extra columns into the export.
+     *
+     * @since 2.0.0
+     *
+     * @param mixed $value Value to escape.
+     *
+     * @return string
+     */
+    private function escape_cell( $value ): string {
+        $value = (string) $value;
+
+        if ( $value !== ''
+            && ! is_numeric( $value )
+            && strpos( "=+-@\t\r", $value[0] ) !== false ) {
+            $value = "'" . $value;
+        }
+
+        return str_replace( '"', '""', $value );
     }
 
     /**
