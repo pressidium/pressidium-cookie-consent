@@ -28,6 +28,26 @@ if ( ! defined( 'ABSPATH' ) ) {
 class CSV_Exporter implements Exporter {
 
     /**
+     * @var string[] Characters that make a spreadsheet treat a cell as a formula.
+     *
+     * Per OWASP, plus the full-width variants. Listed as byte sequences because
+     * the full-width ones are three bytes each in UTF-8.
+     */
+    const FORMULA_PREFIXES = array(
+        '=',
+        '+',
+        '-',
+        '@',
+        "\t",             // 0x09 tab
+        "\r",             // 0x0D carriage return
+        "\n",             // 0x0A line feed
+        "\xEF\xBC\x9D", // U+FF1D fullwidth equals sign
+        "\xEF\xBC\x8B", // U+FF0B fullwidth plus sign
+        "\xEF\xBC\x8D", // U+FF0D fullwidth hyphen-minus
+        "\xEF\xBC\xA0", // U+FF20 fullwidth commercial at
+    );
+
+    /**
      * @var Logger An instance of `Logger`.
      */
     private Logger $logger;
@@ -70,13 +90,16 @@ class CSV_Exporter implements Exporter {
      *
      * Two separate problems are handled here.
      *
-     * Formula injection: spreadsheet applications evaluate a cell whose first
-     * character is `=`, `+`, `-` or `@` (and, in some versions, a leading tab or
-     * carriage return). Consent records hold visitor-supplied values such as the
-     * URL and the user agent, so without this an attacker can have a formula run
-     * on the machine of the administrator opening the export. Prefixing with a
-     * single quote marks the cell as literal text. Numeric values are left alone
-     * so that a negative number is not turned into text.
+     * Formula injection: spreadsheet applications evaluate a cell that starts with
+     * a formula-initiating character. Consent records hold visitor-supplied values
+     * such as the URL and the user agent, so without this an attacker can have a
+     * formula run on the machine of the administrator opening the export.
+     * Prefixing with a single quote marks the cell as literal text.
+     *
+     * The list follows OWASP and includes the full-width variants, which some
+     * spreadsheet applications normalise to their ASCII counterparts. Those are
+     * multi-byte in UTF-8, which is why this compares a leading byte sequence
+     * rather than indexing a single byte.
      *
      * Quoting: fields are wrapped in double quotes, so a double quote inside a
      * value has to be written twice, per RFC 4180. Otherwise a value containing
@@ -92,10 +115,26 @@ class CSV_Exporter implements Exporter {
     private function escape_cell( $value ): string {
         $value = (string) $value;
 
-        if ( $value !== ''
-            && ! is_numeric( $value )
-            && strpos( "=+-@\t\r", $value[0] ) !== false ) {
-            $value = "'" . $value;
+        if ( $value !== '' ) {
+            foreach ( self::FORMULA_PREFIXES as $prefix ) {
+                if ( strncmp( $value, $prefix, strlen( $prefix ) ) !== 0 ) {
+                    continue;
+                }
+
+                /*
+                 * A sign in front of an actual number is not a formula, so `-5`
+                 * stays a number rather than becoming text. This deliberately does
+                 * not use `is_numeric()` on its own: PHP accepts leading whitespace
+                 * in numeric strings, so `is_numeric( "\tfoo" )`-style values would
+                 * otherwise skip escaping and carry a leading tab straight through.
+                 */
+                if ( ( $prefix === '-' || $prefix === '+' ) && is_numeric( $value ) ) {
+                    break;
+                }
+
+                $value = "'" . $value;
+                break;
+            }
         }
 
         return str_replace( '"', '""', $value );
