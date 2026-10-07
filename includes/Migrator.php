@@ -9,6 +9,8 @@
 namespace Pressidium\WP\CookieConsent;
 
 use Pressidium\WP\CookieConsent\Logging\File_Logger;
+use Pressidium\WP\CookieConsent\Options\Data_Encryption;
+use Pressidium\WP\CookieConsent\Options\Decryption_Exception;
 
 use WP_Filesystem_Direct;
 
@@ -573,6 +575,132 @@ class Migrator {
         );
 
         unset( $this->settings['pressidium_options'] );
+
+        $this->remove_insecurely_stored_credentials();
+    }
+
+    /**
+     * Remove an AI API key that earlier versions stored without real protection.
+     *
+     * Until this release `Data_Encryption` failed open twice: with no secure key
+     * defined it encrypted using the literal `not-a-secret-key`, and with OpenSSL
+     * missing it wrote the value out in plain text. Refusing to read those values,
+     * which is what the rest of this change does, leaves them sitting in the
+     * database for good. A credential that was readable there has to be treated as
+     * exposed, so it is removed and the administrator re-enters a fresh one.
+     *
+     * Only values that are demonstrably unprotected are touched. The checks run in
+     * order, and the first match wins:
+     *
+     * 1. not a base64 envelope at all - stored as plain text, so it is deleted;
+     * 2. readable with the current key - properly encrypted, left alone;
+     * 3. readable with the historical fallback key - was "encrypted" with a key
+     *    published in this plugin's source, so it is deleted;
+     * 4. an envelope that neither key opens - encrypted with a key the site no
+     *    longer has. That is unreadable rather than exposed, so it is left alone;
+     *    deleting it would destroy data without improving anything.
+     *
+     * The shape check has to come first, because `decrypt()` returns a value that is
+     * not valid base64 unchanged rather than raising. Asking it first would make a
+     * plain-text key look like a successful decryption, so the one case this is most
+     * meant to clean up would be the one case it skipped. Doing it this way also
+     * means plain text is still removed on a site with no OpenSSL at all, which is
+     * exactly where it was written in the first place.
+     *
+     * A plain-text key that happens to be valid base64 cannot be told apart from
+     * ciphertext this site is unable to read, so it lands in the fourth case and is
+     * kept. That is the deliberate trade: never delete something that might be real
+     * data in order to catch an unlikely one.
+     *
+     * @since 2.0.0
+     *
+     * @return void
+     */
+    private function remove_insecurely_stored_credentials(): void {
+        $option    = 'pressidium_cookie_consent_ai_api_key';
+        $raw_value = get_option( $option );
+
+        if ( ! is_string( $raw_value ) || $raw_value === '' ) {
+            return;
+        }
+
+        $reason = '';
+
+        // phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_decode
+        if ( base64_decode( $raw_value, true ) === false ) {
+            $reason = 'it was stored as plain text';
+        } else {
+            try {
+                ( new Data_Encryption() )->decrypt( $raw_value );
+
+                // Readable with the current key, so it is properly encrypted.
+                return;
+            } catch ( Decryption_Exception $exception ) {
+                if ( $this->decrypt_with_legacy_key( $raw_value ) !== null ) {
+                    $reason = 'it was encrypted with the hardcoded fallback key';
+                }
+            }
+        }
+
+        if ( $reason === '' ) {
+            /*
+             * An envelope that neither key opens. The site has rotated or lost its
+             * keys, so the value is unreadable rather than exposed. Leave it.
+             */
+            return;
+        }
+
+        delete_option( $option );
+
+        ( new File_Logger() )->warning(
+            sprintf(
+                'Removed the stored AI API key because %s. Treat the key as exposed, '
+                . 'revoke it at the provider and enter a new one.',
+                $reason
+            )
+        );
+    }
+
+    /**
+     * Try to decrypt a value with the key this plugin used to fall back to.
+     *
+     * Reproduces the historical format rather than calling `Data_Encryption`, which
+     * now only knows the current key. Used to tell "encrypted with a published key"
+     * apart from "encrypted with a key this site no longer has", because the first
+     * has to be removed and the second must not be.
+     *
+     * @since 2.0.0
+     *
+     * @param string $raw_value Stored value.
+     *
+     * @return ?string The decrypted value, or `null` if this is not such a value.
+     */
+    private function decrypt_with_legacy_key( string $raw_value ): ?string {
+        if ( ! extension_loaded( 'openssl' ) ) {
+            return null;
+        }
+
+        $key  = 'not-a-secret-key';
+        $salt = 'not-a-secret-salt';
+
+        // phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_decode
+        $decoded_value = base64_decode( $raw_value, true );
+
+        if ( $decoded_value === false ) {
+            return null;
+        }
+
+        $method = 'aes-256-ctr';
+        $ivlen  = openssl_cipher_iv_length( $method );
+        $iv     = substr( $decoded_value, 0, $ivlen );
+
+        $value = openssl_decrypt( substr( $decoded_value, $ivlen ), $method, $key, 0, $iv );
+
+        if ( $value === false || substr( $value, - strlen( $salt ) ) !== $salt ) {
+            return null;
+        }
+
+        return substr( $value, 0, - strlen( $salt ) );
     }
 
     /**
