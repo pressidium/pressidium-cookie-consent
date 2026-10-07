@@ -10,6 +10,7 @@ All types of contributions are welcome and valued.  The following is a set of gu
 ## Table of Contents
 
 * [Code of Conduct](#-code-of-conduct)
+* [AI Policy](#-ai-policy)
 * [I Have a Question!](#-i-have-a-question)
 * [How Can I Contribute?](#-how-can-i-contribute)
   * [Reporting Bugs](#-reporting-bugs)
@@ -22,6 +23,10 @@ All types of contributions are welcome and valued.  The following is a set of gu
 ## 📖 Code of Conduct
 
 This project and everyone participating in it is governed by the project’s [Code of Conduct](./CODE_OF_CONDUCT.md). We expect it to be honored by everyone who contributes to this project.
+
+## 🤖AI Policy
+
+By contributing to this project, you are expected to follow and respect the project’s [AI Policy](./AI-POLICY.md).
 
 ## 🙋 I Have a Question!
 
