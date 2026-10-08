@@ -42,72 +42,9 @@ class CSV_Exporter implements Exporter {
     }
 
     /**
-     * Return the content for the CSV file.
-     *
-     * @param Table $table The table to export.
-     *
-     * @return ?string The CSV file content, or `null` if the table has no data.
-     */
-    private function get_csv_content( Table $table ): ?string {
-        $rows = $table->get_all_rows();
-
-        if ( empty( $rows ) ) {
-            $this->logger->warning( 'Attempted to export a table with no data.' );
-            return null;
-        }
-
-        $csv_output = '"' . implode( '","', array_map( array( $this, 'escape_cell' ), array_keys( $rows[0] ) ) ) . '"';
-
-        foreach ( $rows as $row ) {
-            $csv_output .= "\r\n" . '"' . implode( '","', array_map( array( $this, 'escape_cell' ), $row ) ) . '"';
-        }
-
-        return $csv_output;
-    }
-
-    /**
-     * Escape a single value for inclusion in the CSV output.
-     *
-     * Two separate problems are handled here.
-     *
-     * Formula injection: spreadsheet applications evaluate a cell that starts with
-     * a formula-initiating character. Consent records hold visitor-supplied values
-     * such as the URL and the user agent, so without this an attacker can have a
-     * formula run on the machine of the administrator opening the export.
-     * Prefixing with a single quote marks the cell as literal text.
-     *
-     * Quoting: fields are wrapped in double quotes, so a double quote inside a
-     * value has to be written twice, per RFC 4180. Otherwise a value containing
-     * `"` ends its field early, which both corrupts the row and lets a crafted
-     * user agent inject extra columns into the export.
-     *
-     * @since 2.0.0
-     *
-     * @param mixed $value Value to escape.
-     *
-     * @return string
-     */
-    private function escape_cell( $value ): string {
-        $value = (string) $value;
-
-        if (
-            $value !== ''
-            && $this->starts_with_formula_trigger( $value )
-            && ! $this->is_signed_number( $value )
-        ) {
-            $value = "'" . $value;
-        }
-
-        return str_replace( '"', '""', $value );
-    }
-
-    /**
      * Whether the given value starts with a character that could start a formula.
      *
-     * The list follows OWASP. The full-width variants, which some spreadsheet
-     * applications normalise to their ASCII counterparts, are multi-byte in UTF-8,
-     * so they are compared as a leading byte sequence rather than by indexing
-     * a single byte.
+     * @link https://community.owasp.org/attacks/CSV_Injection
      *
      * @since 2.0.0
      *
@@ -127,6 +64,7 @@ class CSV_Exporter implements Exporter {
             "\u{FF20}", // ＠ fullwidth at
         );
 
+        // Check double-byte full-width characters by comparing the leading byte sequence
         foreach ( $fullwidth_triggers as $trigger ) {
             if ( strncmp( $value, $trigger, strlen( $trigger ) ) === 0 ) {
                 return true;
@@ -157,6 +95,70 @@ class CSV_Exporter implements Exporter {
         }
 
         return is_numeric( $value );
+    }
+
+    /**
+     * Escape a single value for inclusion in the CSV output.
+     *
+     * Formula injection: Spreadsheet applications evaluate a cell that starts with
+     * a formula-initiating character. Consent records hold visitor-supplied values
+     * such as the URL and the user agent, so without this an attacker can have a
+     * formula run on the machine of the administrator opening the export.
+     * Prefixing with a single quote (`'`) marks the cell as literal text.
+     *
+     * Quoting: Fields are wrapped in double quotes (`"`), so a double quote inside
+     * a value has to be written twice, per RFC 4180. Otherwise, a value containing
+     * `"` ends its field early, which both corrupts the row and lets a crafted
+     * user agent inject extra columns into the export.
+     *
+     * @link https://community.owasp.org/attacks/CSV_Injection
+     * @link https://www.rfc-editor.org/info/rfc4180/
+     *
+     * @since 2.0.0
+     *
+     * @param mixed $value Value to escape.
+     *
+     * @return string
+     */
+    private function escape_cell( $value ): string {
+        $value = (string) $value;
+
+        if (
+            $value !== ''
+            && $this->starts_with_formula_trigger( $value )
+            && ! $this->is_signed_number( $value )
+        ) {
+            // Prepend the cell field with a single quote
+            $value = "'" . $value;
+        }
+
+        // Escape every double quote using an additional double quote
+        return str_replace( '"', '""', $value );
+    }
+
+    /**
+     * Return the content for the CSV file.
+     *
+     * @param Table $table The table to export.
+     *
+     * @return ?string The CSV file content, or `null` if the table has no data.
+     */
+    private function get_csv_content( Table $table ): ?string {
+        $rows = $table->get_all_rows();
+
+        if ( empty( $rows ) ) {
+            $this->logger->warning( 'Attempted to export a table with no data.' );
+            return null;
+        }
+
+        // Wrap each cell field in double quotes
+        $csv_output = '"' . implode( '","', array_map( array( $this, 'escape_cell' ), array_keys( $rows[0] ) ) ) . '"';
+
+        foreach ( $rows as $row ) {
+            $csv_output .= "\r\n" . '"' . implode( '","', array_map( array( $this, 'escape_cell' ), $row ) ) . '"';
+        }
+
+        return $csv_output;
     }
 
     /**
