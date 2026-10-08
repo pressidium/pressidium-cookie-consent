@@ -181,12 +181,12 @@ function ConsentModeTab() {
                 <FlexItem>
                   <ToggleControl
                     label={__('Ads data redaction', 'pressidium-cookie-consent')}
-                    help={state.pressidiumOptions.gcm.ads_data_redaction
+                    help={state.pressidiumOptions.gcm.adsDataRedaction
                       ? __('When the \'Ad storage\' consent type is denied, ad click identifiers sent in network requests by Google Ads and Floodlight tags will be redacted. Network requests will also be sent through a cookieless domain', 'pressidium-cookie-consent')
                       : __('No further ads data redaction', 'pressidium-cookie-consent')}
-                    checked={state.pressidiumOptions.gcm.ads_data_redaction}
+                    checked={state.pressidiumOptions.gcm.adsDataRedaction}
                     className="pressidium-toggle-control"
-                    onChange={(value) => onCGMSettingChange('ads_data_redaction', value)}
+                    onChange={(value) => onCGMSettingChange('adsDataRedaction', value)}
                     disabled={!state.pressidiumOptions.gcm.enabled || state.pressidiumOptions.gcm.implementation !== 'gtag'}
                   />
                 </FlexItem>
@@ -203,12 +203,12 @@ function ConsentModeTab() {
                 <FlexItem>
                   <ToggleControl
                     label={__('URL passthrough', 'pressidium-cookie-consent')}
-                    help={state.pressidiumOptions.gcm.url_passthrough
+                    help={state.pressidiumOptions.gcm.urlPassthrough
                       ? __('Will pass through ad click, client ID, and session ID information in URLs', 'pressidium-cookie-consent')
                       : __('Won\'t pass through any additional information in URLs', 'pressidium-cookie-consent')}
-                    checked={state.pressidiumOptions.gcm.url_passthrough}
+                    checked={state.pressidiumOptions.gcm.urlPassthrough}
                     className="pressidium-toggle-control"
-                    onChange={(value) => onCGMSettingChange('url_passthrough', value)}
+                    onChange={(value) => onCGMSettingChange('urlPassthrough', value)}
                     disabled={!state.pressidiumOptions.gcm.enabled || state.pressidiumOptions.gcm.implementation !== 'gtag'}
                   />
                 </FlexItem>
