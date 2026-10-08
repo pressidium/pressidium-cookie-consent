@@ -70,11 +70,11 @@ const gtagImplementation = (gcm) => {
     wait_for_update: 500,
   });
 
-  if (gcm.url_passthrough) {
+  if (gcm.urlPassthrough) {
     gtag('set', 'url_passthrough', true);
   }
 
-  if (gcm.ads_data_redaction) {
+  if (gcm.adsDataRedaction) {
     gtag('set', 'ads_data_redaction', true);
   }
 };
