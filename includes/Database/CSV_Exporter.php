@@ -56,13 +56,107 @@ class CSV_Exporter implements Exporter {
             return null;
         }
 
-        $csv_output = '"' . implode( '","', array_keys( $rows[0] ) ) . '"';
+        $csv_output = '"' . implode( '","', array_map( array( $this, 'escape_cell' ), array_keys( $rows[0] ) ) ) . '"';
 
         foreach ( $rows as $row ) {
-            $csv_output .= "\r\n" . '"' . implode( '","', $row ) . '"';
+            $csv_output .= "\r\n" . '"' . implode( '","', array_map( array( $this, 'escape_cell' ), $row ) ) . '"';
         }
 
         return $csv_output;
+    }
+
+    /**
+     * Escape a single value for inclusion in the CSV output.
+     *
+     * Two separate problems are handled here.
+     *
+     * Formula injection: spreadsheet applications evaluate a cell that starts with
+     * a formula-initiating character. Consent records hold visitor-supplied values
+     * such as the URL and the user agent, so without this an attacker can have a
+     * formula run on the machine of the administrator opening the export.
+     * Prefixing with a single quote marks the cell as literal text.
+     *
+     * Quoting: fields are wrapped in double quotes, so a double quote inside a
+     * value has to be written twice, per RFC 4180. Otherwise a value containing
+     * `"` ends its field early, which both corrupts the row and lets a crafted
+     * user agent inject extra columns into the export.
+     *
+     * @since 2.0.0
+     *
+     * @param mixed $value Value to escape.
+     *
+     * @return string
+     */
+    private function escape_cell( $value ): string {
+        $value = (string) $value;
+
+        if (
+            $value !== ''
+            && $this->starts_with_formula_trigger( $value )
+            && ! $this->is_signed_number( $value )
+        ) {
+            $value = "'" . $value;
+        }
+
+        return str_replace( '"', '""', $value );
+    }
+
+    /**
+     * Whether the given value starts with a character that could start a formula.
+     *
+     * The list follows OWASP. The full-width variants, which some spreadsheet
+     * applications normalise to their ASCII counterparts, are multi-byte in UTF-8,
+     * so they are compared as a leading byte sequence rather than by indexing
+     * a single byte.
+     *
+     * @since 2.0.0
+     *
+     * @param string $value Non-empty value to check.
+     *
+     * @return bool
+     */
+    private function starts_with_formula_trigger( string $value ): bool {
+        if ( strpos( "=+-@\t\r\n", $value[0] ) !== false ) {
+            return true;
+        }
+
+        $fullwidth_triggers = array(
+            "\u{FF1D}", // ＝ fullwidth equals
+            "\u{FF0B}", // ＋ fullwidth plus
+            "\u{FF0D}", // － fullwidth minus
+            "\u{FF20}", // ＠ fullwidth at
+        );
+
+        foreach ( $fullwidth_triggers as $trigger ) {
+            if ( strncmp( $value, $trigger, strlen( $trigger ) ) === 0 ) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Whether the given value is a number carrying an explicit sign.
+     *
+     * Such a value is not a formula, so `-5` stays a number instead of becoming
+     * text. The leading character is checked before `is_numeric()` on purpose:
+     * PHP accepts leading whitespace in numeric strings, so `is_numeric( "\t5" )`
+     * is `true` and a tab-prefixed value would otherwise skip escaping and carry
+     * the tab straight through.
+     *
+     * @since 2.0.0
+     *
+     * @param string $value Non-empty value to check.
+     *
+     * @return bool
+     */
+    private function is_signed_number( string $value ): bool {
+        if ( $value[0] !== '-' && $value[0] !== '+' ) {
+            return false;
+        }
+
+        return is_numeric( $value );
     }
 
     /**
