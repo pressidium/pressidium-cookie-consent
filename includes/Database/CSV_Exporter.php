@@ -28,26 +28,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 class CSV_Exporter implements Exporter {
 
     /**
-     * @var string[] Characters that make a spreadsheet treat a cell as a formula.
-     *
-     * Per OWASP, plus the full-width variants. Listed as byte sequences because
-     * the full-width ones are three bytes each in UTF-8.
-     */
-    const FORMULA_PREFIXES = array(
-        '=',
-        '+',
-        '-',
-        '@',
-        "\t",             // 0x09 tab
-        "\r",             // 0x0D carriage return
-        "\n",             // 0x0A line feed
-        "\xEF\xBC\x9D", // U+FF1D fullwidth equals sign
-        "\xEF\xBC\x8B", // U+FF0B fullwidth plus sign
-        "\xEF\xBC\x8D", // U+FF0D fullwidth hyphen-minus
-        "\xEF\xBC\xA0", // U+FF20 fullwidth commercial at
-    );
-
-    /**
      * @var Logger An instance of `Logger`.
      */
     private Logger $logger;
@@ -96,11 +76,6 @@ class CSV_Exporter implements Exporter {
      * formula run on the machine of the administrator opening the export.
      * Prefixing with a single quote marks the cell as literal text.
      *
-     * The list follows OWASP and includes the full-width variants, which some
-     * spreadsheet applications normalise to their ASCII counterparts. Those are
-     * multi-byte in UTF-8, which is why this compares a leading byte sequence
-     * rather than indexing a single byte.
-     *
      * Quoting: fields are wrapped in double quotes, so a double quote inside a
      * value has to be written twice, per RFC 4180. Otherwise a value containing
      * `"` ends its field early, which both corrupts the row and lets a crafted
@@ -115,29 +90,73 @@ class CSV_Exporter implements Exporter {
     private function escape_cell( $value ): string {
         $value = (string) $value;
 
-        if ( $value !== '' ) {
-            foreach ( self::FORMULA_PREFIXES as $prefix ) {
-                if ( strncmp( $value, $prefix, strlen( $prefix ) ) !== 0 ) {
-                    continue;
-                }
-
-                /*
-                 * A sign in front of an actual number is not a formula, so `-5`
-                 * stays a number rather than becoming text. This deliberately does
-                 * not use `is_numeric()` on its own: PHP accepts leading whitespace
-                 * in numeric strings, so `is_numeric( "\tfoo" )`-style values would
-                 * otherwise skip escaping and carry a leading tab straight through.
-                 */
-                if ( ( $prefix === '-' || $prefix === '+' ) && is_numeric( $value ) ) {
-                    break;
-                }
-
-                $value = "'" . $value;
-                break;
-            }
+        if (
+            $value !== ''
+            && $this->starts_with_formula_trigger( $value )
+            && ! $this->is_signed_number( $value )
+        ) {
+            $value = "'" . $value;
         }
 
         return str_replace( '"', '""', $value );
+    }
+
+    /**
+     * Whether the given value starts with a character that could start a formula.
+     *
+     * The list follows OWASP. The full-width variants, which some spreadsheet
+     * applications normalise to their ASCII counterparts, are multi-byte in UTF-8,
+     * so they are compared as a leading byte sequence rather than by indexing
+     * a single byte.
+     *
+     * @since 2.0.0
+     *
+     * @param string $value Non-empty value to check.
+     *
+     * @return bool
+     */
+    private function starts_with_formula_trigger( string $value ): bool {
+        if ( strpos( "=+-@\t\r\n", $value[0] ) !== false ) {
+            return true;
+        }
+
+        $fullwidth_triggers = array(
+            "\u{FF1D}", // ＝ fullwidth equals
+            "\u{FF0B}", // ＋ fullwidth plus
+            "\u{FF0D}", // － fullwidth minus
+            "\u{FF20}", // ＠ fullwidth at
+        );
+
+        foreach ( $fullwidth_triggers as $trigger ) {
+            if ( strncmp( $value, $trigger, strlen( $trigger ) ) === 0 ) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Whether the given value is a number carrying an explicit sign.
+     *
+     * Such a value is not a formula, so `-5` stays a number instead of becoming
+     * text. The leading character is checked before `is_numeric()` on purpose:
+     * PHP accepts leading whitespace in numeric strings, so `is_numeric( "\t5" )`
+     * is `true` and a tab-prefixed value would otherwise skip escaping and carry
+     * the tab straight through.
+     *
+     * @since 2.0.0
+     *
+     * @param string $value Non-empty value to check.
+     *
+     * @return bool
+     */
+    private function is_signed_number( string $value ): bool {
+        if ( $value[0] !== '-' && $value[0] !== '+' ) {
+            return false;
+        }
+
+        return is_numeric( $value );
     }
 
     /**
