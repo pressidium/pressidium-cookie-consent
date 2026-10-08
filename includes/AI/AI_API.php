@@ -121,7 +121,7 @@ final class AI_API implements Actions {
     private function get_ai_setting( string $key ) {
         $settings = Emoji::decode_array( $this->settings->get() );
 
-        $ai_settings = $settings['pressidium_options']['ai'] ?? array();
+        $ai_settings = $settings['pressidiumOptions']['ai'] ?? array();
 
         return $ai_settings[ $key ] ?? null;
     }
@@ -137,10 +137,10 @@ final class AI_API implements Actions {
     private function update_ai_setting( string $key, $value ): bool {
         $settings = Emoji::decode_array( $this->settings->get() );
 
-        $ai_settings         = $settings['pressidium_options']['ai'] ?? array();
+        $ai_settings         = $settings['pressidiumOptions']['ai'] ?? array();
         $ai_settings[ $key ] = $value;
 
-        $settings['pressidium_options']['ai'] = $ai_settings;
+        $settings['pressidiumOptions']['ai'] = $ai_settings;
 
         return $this->settings->set( $settings );
     }

@@ -36,6 +36,7 @@
         "phpstan/extension-installer": "^1.4",
         "coenjacobs/mozart": "^0.7.1",
         "league/container": "^3.4",
+        "psr/simple-cache": "^1.0",
         "ext-json": "*",
         "psr/log": "^1.1",
         "phpcsstandards/phpcsutils": "^1.0",
@@ -61,6 +62,7 @@
             "packages": [
                 "league/container",
                 "psr/log",
+                "psr/simple-cache",
                 "nyholm/psr7",
                 "guzzlehttp/guzzle",
                 "orhanerday/open-ai",

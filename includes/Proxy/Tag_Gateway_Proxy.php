@@ -51,7 +51,7 @@ final class Tag_Gateway_Proxy extends Proxy {
      * @return string
      */
     private function get_tag_gateway_host(): string {
-        $gtag_id          = $this->settings['pressidium_options']['google_tag_gateway']['gtag_id'] ?? '';
+        $gtag_id          = $this->settings['pressidiumOptions']['googleTagGateway']['gtagId'] ?? '';
         $tag_gateway_host = sprintf( '%s.fps.goog', $gtag_id );
 
         return apply_filters( 'pressidium_cookie_consent_tag_gateway_host', $tag_gateway_host );
@@ -91,7 +91,7 @@ final class Tag_Gateway_Proxy extends Proxy {
      * @return bool
      */
     protected function should_proxy(): bool {
-        return $this->settings['pressidium_options']['google_tag_gateway']['proxy_enabled'] ?? false;
+        return $this->settings['pressidiumOptions']['googleTagGateway']['proxyEnabled'] ?? false;
     }
 
     /**

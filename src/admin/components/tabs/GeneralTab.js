@@ -43,6 +43,16 @@ function GeneralTab({ fonts }) {
     });
   };
 
+  const onCookieSettingChange = (key, value) => {
+    dispatch({
+      type: ActionTypes.UPDATE_COOKIE_SETTING,
+      payload: {
+        key,
+        value,
+      },
+    });
+  };
+
   const setColors = useCallback((colors) => {
     dispatch({
       type: ActionTypes.UPDATE_COLOR_SETTINGS,
@@ -98,57 +108,57 @@ function GeneralTab({ fonts }) {
         >
           <PanelRow>
             <ToggleControl
-              label={__('Autorun', 'pressidium-cookie-consent')}
-              help={state.autorun
+              label={__('Auto show', 'pressidium-cookie-consent')}
+              help={state.autoShow
                 ? __('Will show the cookie consent as soon as possible', 'pressidium-cookie-consent')
                 : __('You will have to manually call the `.show()` method', 'pressidium-cookie-consent')}
-              checked={state.autorun}
+              checked={state.autoShow}
               className="pressidium-toggle-control"
-              onChange={(value) => onGeneralSettingChange('autorun', value)}
+              onChange={(value) => onGeneralSettingChange('autoShow', value)}
             />
           </PanelRow>
           <PanelRow>
             <ToggleControl
-              label={__('Force consent', 'pressidium-cookie-consent')}
-              help={state.force_consent
-                ? __('Page navigation will be blocked until user action', 'pressidium-cookie-consent')
-                : __('Users will be able to navigate without needing to consent first', 'pressidium-cookie-consent')}
-              checked={state.force_consent}
+              label={__('Disable page interaction', 'pressidium-cookie-consent')}
+              help={state.disablePageInteraction
+                ? __('Page interaction will be blocked until user action', 'pressidium-cookie-consent')
+                : __('Users will be able to interact without needing to consent first', 'pressidium-cookie-consent')}
+              checked={state.disablePageInteraction}
               className="pressidium-toggle-control"
-              onChange={(value) => onGeneralSettingChange('force_consent', value)}
+              onChange={(value) => onGeneralSettingChange('disablePageInteraction', value)}
             />
           </PanelRow>
           <PanelRow>
             <ToggleControl
               label={__('Auto-clear cookies', 'pressidium-cookie-consent')}
-              help={state.autoclear_cookies
+              help={state.autoClearCookies
                 ? __('Cookies will be deleted automatically when user opts-out of a specific category inside cookie settings', 'pressidium-cookie-consent')
                 : __('Cookies will have to be deleted manually', 'pressidium-cookie-consent')}
-              checked={state.autoclear_cookies}
+              checked={state.autoClearCookies}
               className="pressidium-toggle-control"
-              onChange={(value) => onGeneralSettingChange('autoclear_cookies', value)}
+              onChange={(value) => onGeneralSettingChange('autoClearCookies', value)}
             />
           </PanelRow>
           <PanelRow>
             <ToggleControl
-              label={__('Page scripts', 'pressidium-cookie-consent')}
-              help={state.page_scripts
+              label={__('Manage script tags', 'pressidium-cookie-consent')}
+              help={state.manageScriptTags
                 ? __('Will manage existing third-party script tags', 'pressidium-cookie-consent')
                 : __('Won\'t manage existing third-party script tags', 'pressidium-cookie-consent')}
-              checked={state.page_scripts}
+              checked={state.manageScriptTags}
               className="pressidium-toggle-control"
-              onChange={(value) => onGeneralSettingChange('page_scripts', value)}
+              onChange={(value) => onGeneralSettingChange('manageScriptTags', value)}
             />
           </PanelRow>
           <PanelRow>
             <ToggleControl
               label={__('Hide from bots', 'pressidium-cookie-consent')}
-              help={state.hide_from_bots
+              help={state.hideFromBots
                 ? __('Won\'t run when a bot/crawler/webdriver is detected', 'pressidium-cookie-consent')
                 : __('Will always run, even when a bot/crawler/webdriver is detected', 'pressidium-cookie-consent')}
-              checked={state.hide_from_bots}
+              checked={state.hideFromBots}
               className="pressidium-toggle-control"
-              onChange={(value) => onGeneralSettingChange('hide_from_bots', value)}
+              onChange={(value) => onGeneralSettingChange('hideFromBots', value)}
             />
           </PanelRow>
           <PanelRow>
@@ -165,32 +175,23 @@ function GeneralTab({ fonts }) {
           <PanelRow>
             <ToggleControl
               label={__('Record consents', 'pressidium-cookie-consent')}
-              help={state.pressidium_options.record_consents
+              help={state.pressidiumOptions.recordConsents
                 ? __('Will record user consents to be able to provide proof of consent for auditing purposes', 'pressidium-cookie-consent')
                 : __('Won\'t record any user consents', 'pressidium-cookie-consent')}
-              checked={state.pressidium_options.record_consents}
+              checked={state.pressidiumOptions.recordConsents}
               className="pressidium-toggle-control"
-              onChange={(value) => onPressidiumOptionChange('record_consents', value)}
+              onChange={(value) => onPressidiumOptionChange('recordConsents', value)}
             />
           </PanelRow>
           <PanelRow>
             <ToggleControl
               label={__('Hide empty categories', 'pressidium-cookie-consent')}
-              help={state.pressidium_options.hide_empty_categories
+              help={state.pressidiumOptions.hideEmptyCategories
                 ? __('Will hide a cookie category if it has no cookies', 'pressidium-cookie-consent')
                 : __('Won\'t hide any cookie categories', 'pressidium-cookie-consent')}
-              checked={state.pressidium_options.hide_empty_categories}
+              checked={state.pressidiumOptions.hideEmptyCategories}
               className="pressidium-toggle-control"
-              onChange={(value) => onPressidiumOptionChange('hide_empty_categories', value)}
-            />
-          </PanelRow>
-          <PanelRow>
-            <TextControl
-              label={__('Delay', 'pressidium-cookie-consent')}
-              help={__('Number of milliseconds before showing the consent modal', 'pressidium-cookie-consent')}
-              className="pressidium-text-control"
-              value={state.delay}
-              onChange={(value) => onGeneralSettingChange('delay', value)}
+              onChange={(value) => onPressidiumOptionChange('hideEmptyCategories', value)}
             />
           </PanelRow>
           <PanelRow>
@@ -198,8 +199,8 @@ function GeneralTab({ fonts }) {
               label={__('Cookie expiration', 'pressidium-cookie-consent')}
               help={__('Number of days before the cookie expires', 'pressidium-cookie-consent')}
               className="pressidium-text-control"
-              value={state.cookie_expiration}
-              onChange={(value) => onGeneralSettingChange('cookie_expiration', value)}
+              value={state.cookie.expiresAfterDays}
+              onChange={(value) => onCookieSettingChange('expiresAfterDays', value)}
             />
           </PanelRow>
           <PanelRow>
@@ -207,8 +208,8 @@ function GeneralTab({ fonts }) {
               label={__('Cookie path', 'pressidium-cookie-consent')}
               help={__('Path where the cookie will be set', 'pressidium-cookie-consent')}
               className="pressidium-text-control"
-              value={state.cookie_path}
-              onChange={(value) => onGeneralSettingChange('cookie_path', value)}
+              value={state.cookie.path}
+              onChange={(value) => onCookieSettingChange('path', value)}
             />
           </PanelRow>
           <PanelRow>
@@ -216,8 +217,8 @@ function GeneralTab({ fonts }) {
               label={__('Cookie domain', 'pressidium-cookie-consent')}
               help={__('Specify your domain or a subdomain', 'pressidium-cookie-consent')}
               className="pressidium-text-control"
-              value={state.cookie_domain}
-              onChange={(value) => onGeneralSettingChange('cookie_domain', value)}
+              value={state.cookie.domain}
+              onChange={(value) => onCookieSettingChange('domain', value)}
             />
           </PanelRow>
         </PanelBody>
@@ -231,7 +232,7 @@ function GeneralTab({ fonts }) {
             <PanelRow>
               <SelectControl
                 label={__('Font', 'pressidium-cookie-consent')}
-                value={state.pressidium_options.font.slug}
+                value={state.pressidiumOptions.font.slug}
                 options={fonts.map(({ name, slug }) => ({ label: name, value: slug }))}
                 onChange={onFontChange}
                 className="pressidium-select-control"
@@ -254,91 +255,91 @@ function GeneralTab({ fonts }) {
                 {
                   key: 'bg',
                   label: __('Background', 'pressidium-cookie-consent'),
-                  color: state.pressidium_options.colors.bg,
+                  color: state.pressidiumOptions.colors.bg,
                 },
                 {
-                  key: 'text',
-                  label: __('Text', 'pressidium-cookie-consent'),
-                  color: state.pressidium_options.colors.text,
+                  key: 'primary-color',
+                  label: __('Primary color', 'pressidium-cookie-consent'),
+                  color: state.pressidiumOptions.colors['primary-color'],
                 },
                 {
                   key: 'btn-primary-bg',
-                  label: __('Primary background', 'pressidium-cookie-consent'),
-                  color: state.pressidium_options.colors['btn-primary-bg'],
+                  label: __('Button primary background', 'pressidium-cookie-consent'),
+                  color: state.pressidiumOptions.colors['btn-primary-bg'],
                 },
                 {
-                  key: 'btn-primary-text',
-                  label: __('Primary text', 'pressidium-cookie-consent'),
-                  color: state.pressidium_options.colors['btn-primary-text'],
+                  key: 'btn-primary-color',
+                  label: __('Button primary color', 'pressidium-cookie-consent'),
+                  color: state.pressidiumOptions.colors['btn-primary-color'],
                 },
                 {
                   key: 'btn-primary-hover-bg',
                   label: __(
-                    'Primary hover background',
+                    'Button primary hover background',
                     'pressidium-cookie-consent',
                   ),
-                  color: state.pressidium_options.colors['btn-primary-hover-bg'],
+                  color: state.pressidiumOptions.colors['btn-primary-hover-bg'],
                 },
                 {
-                  key: 'btn-primary-hover-text',
+                  key: 'btn-primary-hover-color',
                   label: __(
-                    'Primary hover text',
+                    'Button primary hover color',
                     'pressidium-cookie-consent',
                   ),
-                  color: state.pressidium_options.colors['btn-primary-hover-text'],
+                  color: state.pressidiumOptions.colors['btn-primary-hover-color'],
                 },
                 {
                   key: 'btn-secondary-bg',
                   label: __(
-                    'Secondary background',
+                    'Button secondary background',
                     'pressidium-cookie-consent',
                   ),
-                  color: state.pressidium_options.colors['btn-secondary-bg'],
+                  color: state.pressidiumOptions.colors['btn-secondary-bg'],
                 },
                 {
-                  key: 'btn-secondary-text',
-                  label: __('Secondary text', 'pressidium-cookie-consent'),
-                  color: state.pressidium_options.colors['btn-secondary-text'],
+                  key: 'btn-secondary-color',
+                  label: __('Button secondary color', 'pressidium-cookie-consent'),
+                  color: state.pressidiumOptions.colors['btn-secondary-color'],
                 },
                 {
                   key: 'btn-secondary-hover-bg',
                   label: __(
-                    'Secondary hover background',
+                    'Button secondary hover background',
                     'pressidium-cookie-consent',
                   ),
-                  color: state.pressidium_options.colors['btn-secondary-hover-bg'],
+                  color: state.pressidiumOptions.colors['btn-secondary-hover-bg'],
                 },
                 {
-                  key: 'btn-secondary-hover-text',
+                  key: 'btn-secondary-hover-color',
                   label: __(
-                    'Secondary hover text',
+                    'Button secondary hover color',
                     'pressidium-cookie-consent',
                   ),
-                  color: state.pressidium_options.colors['btn-secondary-hover-text'],
+                  color: state.pressidiumOptions.colors['btn-secondary-hover-color'],
                 },
                 {
-                  key: 'toggle-bg-off',
+                  key: 'toggle-off-bg',
                   label: __(
                     'Toggle background (off)',
                     'pressidium-cookie-consent',
                   ),
-                  color: state.pressidium_options.colors['toggle-bg-off'],
+                  color: state.pressidiumOptions.colors['toggle-off-bg'],
                 },
                 {
-                  key: 'toggle-bg-on',
+                  key: 'toggle-on-knob-bg',
                   label: __(
                     'Toggle background (on)',
                     'pressidium-cookie-consent',
                   ),
-                  color: state.pressidium_options.colors['toggle-bg-on'],
+                  color: state.pressidiumOptions.colors['toggle-on-knob-bg'],
                 },
                 {
-                  key: 'toggle-bg-readonly',
+                  key: 'toggle-readonly-bg',
                   label: __(
                     'Toggle background (readonly)',
                     'pressidium-cookie-consent',
                   ),
-                  color: state.pressidium_options.colors['toggle-bg-readonly'],
+                  color: state.pressidiumOptions.colors['toggle-readonly-bg'],
                 },
                 {
                   key: 'toggle-knob-bg',
@@ -346,7 +347,7 @@ function GeneralTab({ fonts }) {
                     'Toggle knob background',
                     'pressidium-cookie-consent',
                   ),
-                  color: state.pressidium_options.colors['toggle-knob-bg'],
+                  color: state.pressidiumOptions.colors['toggle-knob-bg'],
                 },
                 {
                   key: 'toggle-knob-icon-color',
@@ -354,7 +355,7 @@ function GeneralTab({ fonts }) {
                     'Toggle knob icon color',
                     'pressidium-cookie-consent',
                   ),
-                  color: state.pressidium_options.colors['toggle-knob-icon-color'],
+                  color: state.pressidiumOptions.colors['toggle-knob-icon-color'],
                 },
                 {
                   key: 'cookie-category-block-bg',
@@ -362,35 +363,35 @@ function GeneralTab({ fonts }) {
                     'Cookie category block background',
                     'pressidium-cookie-consent',
                   ),
-                  color: state.pressidium_options.colors['cookie-category-block-bg'],
+                  color: state.pressidiumOptions.colors['cookie-category-block-bg'],
                 },
                 {
-                  key: 'cookie-category-block-bg-hover',
+                  key: 'cookie-category-block-hover-bg',
                   label: __(
                     'Cookie category block background (hover)',
                     'pressidium-cookie-consent',
                   ),
-                  color: state.pressidium_options.colors['cookie-category-block-bg-hover'],
+                  color: state.pressidiumOptions.colors['cookie-category-block-hover-bg'],
                 },
                 {
-                  key: 'section-border',
-                  label: __('Section border', 'pressidium-cookie-consent'),
-                  color: state.pressidium_options.colors['section-border'],
+                  key: 'separator-border-color',
+                  label: __('Separator border color', 'pressidium-cookie-consent'),
+                  color: state.pressidiumOptions.colors['separator-border-color'],
                 },
                 {
                   key: 'block-text',
                   label: __('Block text', 'pressidium-cookie-consent'),
-                  color: state.pressidium_options.colors['block-text'],
+                  color: state.pressidiumOptions.colors['block-text'],
                 },
                 {
                   key: 'cookie-table-border',
                   label: __('Cookie table border', 'pressidium-cookie-consent'),
-                  color: state.pressidium_options.colors['cookie-table-border'],
+                  color: state.pressidiumOptions.colors['cookie-table-border'],
                 },
                 {
                   key: 'overlay-bg',
                   label: __('Overlay background', 'pressidium-cookie-consent'),
-                  color: state.pressidium_options.colors['overlay-bg'],
+                  color: state.pressidiumOptions.colors['overlay-bg'],
                 },
                 {
                   key: 'webkit-scrollbar-bg',
@@ -398,7 +399,7 @@ function GeneralTab({ fonts }) {
                     'Scrollbar background',
                     'pressidium-cookie-consent',
                   ),
-                  color: state.pressidium_options.colors['webkit-scrollbar-bg'],
+                  color: state.pressidiumOptions.colors['webkit-scrollbar-bg'],
                 },
                 {
                   key: 'webkit-scrollbar-bg-hover',
@@ -406,27 +407,27 @@ function GeneralTab({ fonts }) {
                     'Scrollbar background (hover)',
                     'pressidium-cookie-consent',
                   ),
-                  color: state.pressidium_options.colors['webkit-scrollbar-bg-hover'],
+                  color: state.pressidiumOptions.colors['webkit-scrollbar-bg-hover'],
                 },
                 {
                   key: 'btn-floating-bg',
                   label: __('Floating button background', 'pressidium-cookie-consent'),
-                  color: state.pressidium_options.colors['btn-floating-bg'],
+                  color: state.pressidiumOptions.colors['btn-floating-bg'],
                 },
                 {
                   key: 'btn-floating-icon',
                   label: __('Floating button icon', 'pressidium-cookie-consent'),
-                  color: state.pressidium_options.colors['btn-floating-icon'],
+                  color: state.pressidiumOptions.colors['btn-floating-icon'],
                 },
                 {
                   key: 'btn-floating-hover-bg',
                   label: __('Floating button hover background', 'pressidium-cookie-consent'),
-                  color: state.pressidium_options.colors['btn-floating-hover-bg'],
+                  color: state.pressidiumOptions.colors['btn-floating-hover-bg'],
                 },
                 {
                   key: 'btn-floating-hover-icon',
                   label: __('Floating button hover icon', 'pressidium-cookie-consent'),
-                  color: state.pressidium_options.colors['btn-floating-hover-icon'],
+                  color: state.pressidiumOptions.colors['btn-floating-hover-icon'],
                 },
               ]}
               onChange={onColorChange}

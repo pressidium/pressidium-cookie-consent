@@ -33,6 +33,9 @@ use Pressidium\WP\CookieConsent\Options\Encrypted_Options;
 use Pressidium\WP\CookieConsent\Database\Tables\Consents_Table;
 use Pressidium\WP\CookieConsent\Database\Database_Manager;
 
+use Pressidium\WP\CookieConsent\Storage\Transient;
+use Pressidium\WP\CookieConsent\Rate_Limiting\Rate_Limiter;
+
 if ( ! defined( 'ABSPATH' ) ) {
     die( 'Forbidden' );
 }
@@ -208,6 +211,12 @@ class Plugin {
 
         $upgrader = new Upgrader( $this->logger, $settings );
         $this->container->add( 'upgrader', $upgrader );
+
+        $transient = new Transient();
+        $this->container->add( 'transient', $transient );
+
+        $rate_limiter = new Rate_Limiter( $transient );
+        $this->container->add( 'rate_limiter', $rate_limiter );
 
         $this->add_service_providers();
         $this->register_tables( $database_manager );

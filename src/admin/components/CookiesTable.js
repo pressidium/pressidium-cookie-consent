@@ -42,11 +42,11 @@ function CookiesTable(props) {
 
   const cookies = useMemo(
     () => {
-      if (!state.pressidium_options.cookie_table) {
+      if (!state.pressidiumOptions.cookieTable) {
         return [];
       }
 
-      return state.pressidium_options.cookie_table[category];
+      return state.pressidiumOptions.cookieTable[category];
     },
     [state, category],
   );

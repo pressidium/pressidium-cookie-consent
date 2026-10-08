@@ -30,9 +30,9 @@ function pressidium_cookie_consent_get_cookies(): array {
         'preferences' => array(),
     );
 
-    if ( ! is_array( $settings ) || empty( $settings['pressidium_options']['cookie_table'] ) ) {
+    if ( ! is_array( $settings ) || empty( $settings['pressidiumOptions']['cookieTable'] ) ) {
         return $default_value;
     }
 
-    return $settings['pressidium_options']['cookie_table'];
+    return $settings['pressidiumOptions']['cookieTable'];
 }
