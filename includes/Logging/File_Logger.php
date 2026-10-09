@@ -141,100 +141,6 @@ class File_Logger implements Logger {
     }
 
     /**
-     * Return the path to the `logs/` directory.
-     *
-     * @return string
-     */
-    public function get_logs_path(): string {
-        $uploads_dir = wp_get_upload_dir()['basedir'];
-        $log_path    = trailingslashit( $uploads_dir ) . 'pressidium-cookie-consent/logs/' . $this->get_log_filename();
-
-        /**
-         * Filters the path to the log file.
-         *
-         * @since 1.9.0
-         *
-         * @param string $log_path Path to the log file.
-         *
-         * @return string
-         */
-        $log_path = apply_filters( 'pressidium_cookie_consent_logs_path', $log_path );
-
-        $log_dir      = dirname( $log_path );
-        $is_fresh_dir = false;
-
-        if ( ! file_exists( $log_dir ) ) {
-            // Attempt to create the logs directory if it doesn't exist
-            $did_create = wp_mkdir_p( $log_dir );
-
-            if ( ! $did_create ) {
-                throw new RuntimeException( 'Could not create logs directory: ' . $log_dir );
-            }
-
-            $is_fresh_dir = true;
-        }
-
-        if ( ! wp_is_writable( $log_dir ) ) {
-            // Directory is not writable
-            throw new RuntimeException( 'Logs directory is not writable: ' . $log_dir );
-        }
-
-        $this->maybe_set_up_logs_directory( $log_dir, $log_path, $is_fresh_dir );
-
-        // No need to check if the file exists, it will be created when we log the first message
-        return $log_path;
-    }
-
-    /**
-     * Run the one-time setup of the logs directory.
-     *
-     * Writing the guard files and retiring a legacy log file are setup tasks rather
-     * than logging tasks, so they do not belong on the path taken by every entry. An
-     * option records that they have run, which leaves the common case at a single
-     * option read instead of several filesystem calls per entry.
-     *
-     * The marker holds a revision and the directory it applies to rather than a
-     * boolean, so a later release that adds another guard file can re-run the setup by
-     * bumping the constant, and a site that repoints
-     * `pressidium_cookie_consent_logs_path` at a directory that already exists has it
-     * set up as well.
-     *
-     * The marker is written only once the work has actually succeeded. Both steps
-     * report whether they did, so a failure (a read-only filesystem, a directory we
-     * may create but not write into) is retried on the next entry instead of being
-     * recorded as done.
-     *
-     * A directory created in this very request is set up regardless of the marker:
-     * it carries no guard files whatever the option says, which is also the case when
-     * the directory is removed from under an install that had been set up already.
-     *
-     * @since 2.0.0
-     *
-     * @param string $log_dir      Path to the logs directory.
-     * @param string $log_path     Path to the current log file.
-     * @param bool   $is_fresh_dir Whether the directory was created in this request.
-     *
-     * @return void
-     */
-    private function maybe_set_up_logs_directory( string $log_dir, string $log_path, bool $is_fresh_dir ): void {
-        $marker = self::LOGS_SETUP_REVISION . ':' . md5( $log_dir );
-
-        if ( ! $is_fresh_dir && get_option( self::LOGS_SETUP_OPTION ) === $marker ) {
-            return;
-        }
-
-        $did_protect = $this->protect_logs_directory( $log_dir );
-        $did_retire  = $this->maybe_move_legacy_log( $log_dir, $log_path );
-
-        if ( ! $did_protect || ! $did_retire ) {
-            // Leave the marker alone, so the next entry tries again
-            return;
-        }
-
-        update_option( self::LOGS_SETUP_OPTION, $marker, false );
-    }
-
-    /**
      * Return the log file name, which carries an unguessable suffix.
      *
      * Blocking the directory is not enough on its own, because `.htaccess` is only
@@ -378,6 +284,100 @@ class File_Logger implements Logger {
         }
 
         return rename( $legacy_path, $log_path );
+    }
+
+    /**
+     * Run the one-time setup of the logs directory.
+     *
+     * Writing the guard files and retiring a legacy log file are setup tasks rather
+     * than logging tasks, so they do not belong on the path taken by every entry. An
+     * option records that they have run, which leaves the common case at a single
+     * option read instead of several filesystem calls per entry.
+     *
+     * The marker holds a revision and the directory it applies to rather than a
+     * boolean, so a later release that adds another guard file can re-run the setup by
+     * bumping the constant, and a site that repoints
+     * `pressidium_cookie_consent_logs_path` at a directory that already exists has it
+     * set up as well.
+     *
+     * The marker is written only once the work has actually succeeded. Both steps
+     * report whether they did, so a failure (a read-only filesystem, a directory we
+     * may create but not write into) is retried on the next entry instead of being
+     * recorded as done.
+     *
+     * A directory created in this very request is set up regardless of the marker:
+     * it carries no guard files whatever the option says, which is also the case when
+     * the directory is removed from under an install that had been set up already.
+     *
+     * @since 2.0.0
+     *
+     * @param string $log_dir      Path to the logs directory.
+     * @param string $log_path     Path to the current log file.
+     * @param bool   $is_fresh_dir Whether the directory was created in this request.
+     *
+     * @return void
+     */
+    private function maybe_set_up_logs_directory( string $log_dir, string $log_path, bool $is_fresh_dir ): void {
+        $marker = self::LOGS_SETUP_REVISION . ':' . md5( $log_dir );
+
+        if ( ! $is_fresh_dir && get_option( self::LOGS_SETUP_OPTION ) === $marker ) {
+            return;
+        }
+
+        $did_protect = $this->protect_logs_directory( $log_dir );
+        $did_retire  = $this->maybe_move_legacy_log( $log_dir, $log_path );
+
+        if ( ! $did_protect || ! $did_retire ) {
+            // Leave the marker alone, so the next entry tries again
+            return;
+        }
+
+        update_option( self::LOGS_SETUP_OPTION, $marker, false );
+    }
+
+    /**
+     * Return the path to the `logs/` directory.
+     *
+     * @return string
+     */
+    public function get_logs_path(): string {
+        $uploads_dir = wp_get_upload_dir()['basedir'];
+        $log_path    = trailingslashit( $uploads_dir ) . 'pressidium-cookie-consent/logs/' . $this->get_log_filename();
+
+        /**
+         * Filters the path to the log file.
+         *
+         * @since 1.9.0
+         *
+         * @param string $log_path Path to the log file.
+         *
+         * @return string
+         */
+        $log_path = apply_filters( 'pressidium_cookie_consent_logs_path', $log_path );
+
+        $log_dir      = dirname( $log_path );
+        $is_fresh_dir = false;
+
+        if ( ! file_exists( $log_dir ) ) {
+            // Attempt to create the logs directory if it doesn't exist
+            $did_create = wp_mkdir_p( $log_dir );
+
+            if ( ! $did_create ) {
+                throw new RuntimeException( 'Could not create logs directory: ' . $log_dir );
+            }
+
+            $is_fresh_dir = true;
+        }
+
+        if ( ! wp_is_writable( $log_dir ) ) {
+            // Directory is not writable
+            throw new RuntimeException( 'Logs directory is not writable: ' . $log_dir );
+        }
+
+        $this->maybe_set_up_logs_directory( $log_dir, $log_path, $is_fresh_dir );
+
+        // No need to check if the file exists, it will be created when we log the first message
+        return $log_path;
     }
 
     /**
