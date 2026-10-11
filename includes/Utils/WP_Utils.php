@@ -30,7 +30,12 @@ class WP_Utils {
         $domain = parse_url( get_site_url(), PHP_URL_HOST );
 
         if ( ! $domain ) {
-            return $_SERVER['HTTP_HOST'];
+            /*
+             * Fall back to the request host. There is no `HTTP_HOST` under WP-CLI or
+             * cron, and the declared return type is `string`, so coalesce rather than
+             * raise a `TypeError`.
+             */
+            return $_SERVER['HTTP_HOST'] ?? '';
         }
 
         return $domain;
