@@ -16,6 +16,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 delete_option( 'pressidium_cookie_consent_settings' );
 delete_option( 'pressidium_cookie_consent_table_versions' );
 delete_option( 'pressidium_cookie_consent_ai_api_key' );
+delete_option( 'pressidium_cookie_consent_log_suffix' );
+delete_option( 'pressidium_cookie_consent_logs_setup' );
 
 // Delete the custom cookie consents table
 global $wpdb;
