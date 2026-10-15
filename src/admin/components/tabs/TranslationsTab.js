@@ -52,7 +52,11 @@ function TranslationsTab(props) {
   const openNewLanguageModal = useCallback(() => setIsNewLanguageModalOpen(true), []);
   const closeNewLanguageModal = useCallback(() => setIsNewLanguageModalOpen(false), []);
 
-  const languages = useMemo(() => Object.keys(state.languages), [state.languages]);
+  const languages = useMemo(
+    () => Object.keys(state.language.translations),
+    [state.language.translations],
+  );
+
   const primaryLanguageCode = useMemo(
     () => (languages.length > 0 ? languages[0] : null),
     [languages],
@@ -81,43 +85,40 @@ function TranslationsTab(props) {
     (async () => {
       setIsTranslatingAll(true);
 
-      const originalStrings = state.languages[primaryLanguageCode];
+      const originalStrings = state.language.translations[primaryLanguageCode];
       const objectToTranslate = {
-        consent_modal: {
-          title: originalStrings.consent_modal.title,
-          description: originalStrings.consent_modal.description,
-          primary_btn: {
-            text: originalStrings.consent_modal.primary_btn.text,
-          },
-          secondary_btn: {
-            text: originalStrings.consent_modal.secondary_btn.text,
-          },
+        consentModal: {
+          title: originalStrings.consentModal.title,
+          description: originalStrings.consentModal.description,
+          acceptAllBtn: originalStrings.consentModal.acceptAllBtn,
+          acceptNecessaryBtn: originalStrings.consentModal.acceptNecessaryBtn,
+          showPreferencesBtn: originalStrings.consentModal.showPreferencesBtn,
         },
-        settings_modal: {
-          ...originalStrings.settings_modal,
-          blocks: [
+        preferencesModal: {
+          ...originalStrings.preferencesModal,
+          sections: [
             {
-              ...originalStrings.settings_modal.blocks[0],
+              ...originalStrings.preferencesModal.sections[0],
             },
             {
-              title: originalStrings.settings_modal.blocks[1].title,
-              description: originalStrings.settings_modal.blocks[1].description,
+              title: originalStrings.preferencesModal.sections[1].title,
+              description: originalStrings.preferencesModal.sections[1].description,
             },
             {
-              title: originalStrings.settings_modal.blocks[2].title,
-              description: originalStrings.settings_modal.blocks[2].description,
+              title: originalStrings.preferencesModal.sections[2].title,
+              description: originalStrings.preferencesModal.sections[2].description,
             },
             {
-              title: originalStrings.settings_modal.blocks[3].title,
-              description: originalStrings.settings_modal.blocks[3].description,
+              title: originalStrings.preferencesModal.sections[3].title,
+              description: originalStrings.preferencesModal.sections[3].description,
             },
             {
-              title: originalStrings.settings_modal.blocks[4].title,
-              description: originalStrings.settings_modal.blocks[4].description,
+              title: originalStrings.preferencesModal.sections[4].title,
+              description: originalStrings.preferencesModal.sections[4].description,
             },
             {
-              title: originalStrings.settings_modal.blocks[5].title,
-              description: originalStrings.settings_modal.blocks[5].description,
+              title: originalStrings.preferencesModal.sections[5].title,
+              description: originalStrings.preferencesModal.sections[5].description,
             },
           ],
         },
@@ -198,10 +199,9 @@ function TranslationsTab(props) {
 
   const onAutoDetectionStrategyChange = useCallback((strategy) => {
     dispatch({
-      type: ActionTypes.UPDATE_GENERAL_SETTING,
+      type: ActionTypes.UPDATE_LANGUAGE_AUTO_DETECT_SETTING,
       payload: {
-        key: 'auto_language',
-        value: strategy,
+        strategy,
       },
     });
   }, []);
@@ -217,29 +217,20 @@ function TranslationsTab(props) {
     });
   }, [selectedLanguage]);
 
-  const onPrimaryButtonTextChange = useCallback((value) => {
-    dispatch({
-      type: ActionTypes.UPDATE_PRIMARY_BUTTON_TEXT,
-      payload: {
-        language: selectedLanguage,
-        value,
-      },
-    });
-  }, [selectedLanguage]);
+  const onFooterLinkFieldChange = useCallback((index, field, value) => {
+    const currentLinks = state.language.translations[selectedLanguage]?.consentModal?.footerLinks
+      ?? [{ url: '', label: '' }, { url: '', label: '' }];
 
-  const onSecondaryButtonTextChange = useCallback((value) => {
-    dispatch({
-      type: ActionTypes.UPDATE_SECONDARY_BUTTON_TEXT,
-      payload: {
-        language: selectedLanguage,
-        value,
-      },
-    });
-  }, [selectedLanguage]);
+    const updated = currentLinks.map((link, i) => (
+      i === index ? { ...link, [field]: value } : link
+    ));
+
+    onConsentModalLanguageSettingChange('footerLinks', updated);
+  }, [selectedLanguage, state.language.translations, onConsentModalLanguageSettingChange]);
 
   const onSettingsModalLanguageSettingChange = useCallback((key, value) => {
     dispatch({
-      type: ActionTypes.UPDATE_SETTINGS_MODAL_LANGUAGE_SETTING,
+      type: ActionTypes.UPDATE_PREFERENCES_MODAL_LANGUAGE_SETTING,
       payload: {
         language: selectedLanguage,
         key,
@@ -248,29 +239,28 @@ function TranslationsTab(props) {
     });
   }, [selectedLanguage]);
 
-  const onCookieTableHeadersChange = useCallback((index, key, value) => {
+  const onSectionLanguageSettingChange = useCallback((index, key, value) => {
+    dispatch({
+      type: ActionTypes.UPDATE_PREFERENCES_MODAL_BLOCK_LANGUAGE_SETTING,
+      payload: {
+        language: selectedLanguage,
+        index,
+        key,
+        value,
+      },
+    });
+  }, [selectedLanguage]);
+
+  const onCookieTableHeadersChange = useCallback((key, value) => {
     dispatch({
       type: ActionTypes.UPDATE_COOKIE_TABLE_HEADERS_LANGUAGE_SETTING,
       payload: {
         language: selectedLanguage,
-        index,
         key,
         value,
       },
     });
-  }, [selectedLanguage]);
-
-  const onBlockLanguageSettingChange = useCallback((index, key, value) => {
-    dispatch({
-      type: ActionTypes.UPDATE_SETTINGS_MODAL_BLOCK_LANGUAGE_SETTING,
-      payload: {
-        language: selectedLanguage,
-        index,
-        key,
-        value,
-      },
-    });
-  }, [selectedLanguage]);
+  });
 
   return (
     <Wrapper>
@@ -280,10 +270,10 @@ function TranslationsTab(props) {
             <FlexItem>
               <RadioControl
                 label={__('Language auto-detection strategy', 'pressidium-cookie-consent')}
-                help={state.auto_language === 'browser'
+                help={state.language.autoDetect === 'browser'
                   ? __('Read the user\'s browser language', 'pressidium-cookie-consent')
                   : __('Read value from <html lang="..."> of current page', 'pressidium-cookie-consent')}
-                selected={state.auto_language}
+                selected={state.language.autoDetect}
                 options={[
                   { label: __('Browser', 'pressidium-cookie-consent'), value: 'browser' },
                   { label: __('document', 'pressidium-cookie-consent'), value: 'document' },
@@ -361,7 +351,7 @@ function TranslationsTab(props) {
                     isGenerating={isGenerating}
                     generate={() => {
                       translate(
-                        state.languages[primaryLanguageCode].consent_modal.title,
+                        state.language.translations[primaryLanguageCode].consentModal.title,
                         selectedLanguage,
                         (translation) => {
                           onConsentModalLanguageSettingChange('title', translation);
@@ -370,8 +360,8 @@ function TranslationsTab(props) {
                     }}
                   >
                     <TextControl
-                      label="Title"
-                      value={state.languages[selectedLanguage].consent_modal.title}
+                      label={__('Title', 'pressidium-cookie-consent')}
+                      value={state.language.translations[selectedLanguage].consentModal.title}
                       onChange={(value) => onConsentModalLanguageSettingChange('title', value)}
                     />
                   </AIControlWrapper>
@@ -383,7 +373,7 @@ function TranslationsTab(props) {
                     isGenerating={isGenerating}
                     generate={() => {
                       translate(
-                        state.languages[primaryLanguageCode].consent_modal.description,
+                        state.language.translations[primaryLanguageCode].consentModal.description,
                         selectedLanguage,
                         (translation) => {
                           onConsentModalLanguageSettingChange('description', translation);
@@ -392,8 +382,8 @@ function TranslationsTab(props) {
                     }}
                   >
                     <TextareaControl
-                      label="Description"
-                      value={state.languages[selectedLanguage].consent_modal.description}
+                      label={__('Description', 'pressidium-cookie-consent')}
+                      value={state.language.translations[selectedLanguage].consentModal.description}
                       onChange={(value) => onConsentModalLanguageSettingChange('description', value)}
                     />
                   </AIControlWrapper>
@@ -405,18 +395,18 @@ function TranslationsTab(props) {
                     isGenerating={isGenerating}
                     generate={() => {
                       translate(
-                        state.languages[primaryLanguageCode].consent_modal.primary_btn.text,
+                        state.language.translations[primaryLanguageCode].consentModal.acceptAllBtn,
                         selectedLanguage,
                         (translation) => {
-                          onPrimaryButtonTextChange(translation);
+                          onConsentModalLanguageSettingChange('acceptAllBtn', translation);
                         },
                       );
                     }}
                   >
                     <TextControl
-                      label="Primary button"
-                      value={state.languages[selectedLanguage].consent_modal.primary_btn.text}
-                      onChange={(value) => onPrimaryButtonTextChange(value)}
+                      label={__('Accept all button', 'pressidium-cookie-consent')}
+                      value={state.language.translations[selectedLanguage].consentModal.acceptAllBtn}
+                      onChange={(value) => onConsentModalLanguageSettingChange('acceptAllBtn', value)}
                     />
                   </AIControlWrapper>
                 </PanelRow>
@@ -427,24 +417,104 @@ function TranslationsTab(props) {
                     isGenerating={isGenerating}
                     generate={() => {
                       translate(
-                        state.languages[primaryLanguageCode].consent_modal.secondary_btn.text,
+                        state.language.translations[primaryLanguageCode].consentModal.acceptNecessaryBtn,
                         selectedLanguage,
                         (translation) => {
-                          onSecondaryButtonTextChange(translation);
+                          onSettingsModalLanguageSettingChange('acceptNecessaryBtn', translation);
                         },
                       );
                     }}
                   >
                     <TextControl
-                      label="Secondary button"
-                      value={state.languages[selectedLanguage].consent_modal.secondary_btn.text}
-                      onChange={(value) => onSecondaryButtonTextChange(value)}
+                      label={__('Accept necessary button', 'pressidium-cookie-consent')}
+                      value={state.language.translations[selectedLanguage].consentModal.acceptNecessaryBtn}
+                      onChange={(value) => onSettingsModalLanguageSettingChange('acceptNecessaryBtn', value)}
+                    />
+                  </AIControlWrapper>
+                </PanelRow>
+                <PanelRow>
+                  <AIControlWrapper
+                    label={__('AI Translate', 'pressidium-cookie-consent')}
+                    openSettings={openAIConfigModal}
+                    isGenerating={isGenerating}
+                    generate={() => {
+                      translate(
+                        state.language.translations[primaryLanguageCode].consentModal.showPreferencesBtn,
+                        selectedLanguage,
+                        (translation) => {
+                          onSettingsModalLanguageSettingChange('showPreferencesBtn', translation);
+                        },
+                      );
+                    }}
+                  >
+                    <TextControl
+                      label={__('Show preferences button', 'pressidium-cookie-consent')}
+                      value={state.language.translations[selectedLanguage].consentModal.showPreferencesBtn}
+                      onChange={(value) => onSettingsModalLanguageSettingChange('showPreferencesBtn', value)}
+                    />
+                  </AIControlWrapper>
+                </PanelRow>
+                <PanelRow>
+                  <TextControl
+                    label={__('Footer link 1 URL', 'pressidium-cookie-consent')}
+                    value={state.language.translations[selectedLanguage].consentModal.footerLinks?.[0]?.url ?? ''}
+                    onChange={(value) => onFooterLinkFieldChange(0, 'url', value)}
+                  />
+                </PanelRow>
+                <PanelRow>
+                  <AIControlWrapper
+                    label={__('AI Translate', 'pressidium-cookie-consent')}
+                    openSettings={openAIConfigModal}
+                    isGenerating={isGenerating}
+                    generate={() => {
+                      translate(
+                        state.language.translations[primaryLanguageCode].consentModal.footerLinks?.[0]?.label ?? '',
+                        selectedLanguage,
+                        (translation) => {
+                          onFooterLinkFieldChange(0, 'label', translation);
+                        },
+                      );
+                    }}
+                  >
+                    <TextControl
+                      label={__('Footer link 1 label', 'pressidium-cookie-consent')}
+                      value={state.language.translations[selectedLanguage].consentModal.footerLinks?.[0]?.label ?? ''}
+                      onChange={(value) => onFooterLinkFieldChange(0, 'label', value)}
+                    />
+                  </AIControlWrapper>
+                </PanelRow>
+                <PanelRow>
+                  <TextControl
+                    label={__('Footer link 2 URL', 'pressidium-cookie-consent')}
+                    value={state.language.translations[selectedLanguage].consentModal.footerLinks?.[1]?.url ?? ''}
+                    onChange={(value) => onFooterLinkFieldChange(1, 'url', value)}
+                  />
+                </PanelRow>
+                <PanelRow>
+                  <AIControlWrapper
+                    label={__('AI Translate', 'pressidium-cookie-consent')}
+                    openSettings={openAIConfigModal}
+                    isGenerating={isGenerating}
+                    generate={() => {
+                      translate(
+                        state.language.translations[primaryLanguageCode].consentModal.footerLinks?.[1]?.label ?? '',
+                        selectedLanguage,
+                        (translation) => {
+                          onFooterLinkFieldChange(1, 'label', translation);
+                        },
+                      );
+                    }}
+                  >
+                    <TextControl
+                      label={__('Footer link 2 label', 'pressidium-cookie-consent')}
+                      value={state.language.translations[selectedLanguage].consentModal.footerLinks?.[1]?.label ?? ''}
+                      onChange={(value) => onFooterLinkFieldChange(1, 'label', value)}
                     />
                   </AIControlWrapper>
                 </PanelRow>
               </PanelBody>
               <PanelBody
-                title={`(${formattedSelectedLanguageCode}) ${__('Settings modal', 'pressidium-cookie-consent')}`}
+                title={`(${formattedSelectedLanguageCode}) ${__('Preferences modal', 'pressidium-cookie-consent')}`}
                 initialOpen
               >
                 <PanelRow>
@@ -454,7 +524,7 @@ function TranslationsTab(props) {
                     isGenerating={isGenerating}
                     generate={() => {
                       translate(
-                        state.languages[primaryLanguageCode].settings_modal.title,
+                        state.language.translations[primaryLanguageCode].preferencesModal.title,
                         selectedLanguage,
                         (translation) => {
                           onSettingsModalLanguageSettingChange('title', translation);
@@ -463,8 +533,8 @@ function TranslationsTab(props) {
                     }}
                   >
                     <TextControl
-                      label="Title"
-                      value={state.languages[selectedLanguage].settings_modal.title}
+                      label={__('Title', 'pressidium-cookie-consent')}
+                      value={state.language.translations[selectedLanguage].preferencesModal.title}
                       onChange={(value) => onSettingsModalLanguageSettingChange('title', value)}
                     />
                   </AIControlWrapper>
@@ -476,18 +546,18 @@ function TranslationsTab(props) {
                     isGenerating={isGenerating}
                     generate={() => {
                       translate(
-                        state.languages[primaryLanguageCode].settings_modal.blocks[0].title,
+                        state.language.translations[primaryLanguageCode].preferencesModal.sections[0].title,
                         selectedLanguage,
                         (translation) => {
-                          onBlockLanguageSettingChange(0, 'title', translation);
+                          onSectionLanguageSettingChange(0, 'title', translation);
                         },
                       );
                     }}
                   >
                     <TextControl
-                      label="Cookie usage heading"
-                      value={state.languages[selectedLanguage].settings_modal.blocks[0].title}
-                      onChange={(value) => onBlockLanguageSettingChange(0, 'title', value)}
+                      label={__('Cookie usage heading', 'pressidium-cookie-consent')}
+                      value={state.language.translations[selectedLanguage].preferencesModal.sections[0].title}
+                      onChange={(value) => onSectionLanguageSettingChange(0, 'title', value)}
                     />
                   </AIControlWrapper>
                 </PanelRow>
@@ -498,18 +568,18 @@ function TranslationsTab(props) {
                     isGenerating={isGenerating}
                     generate={() => {
                       translate(
-                        state.languages[primaryLanguageCode].settings_modal.blocks[0].description,
+                        state.language.translations[primaryLanguageCode].preferencesModal.sections[0].description,
                         selectedLanguage,
                         (translation) => {
-                          onBlockLanguageSettingChange(0, 'description', translation);
+                          onSectionLanguageSettingChange(0, 'description', translation);
                         },
                       );
                     }}
                   >
                     <TextareaControl
-                      label="Description"
-                      value={state.languages[selectedLanguage].settings_modal.blocks[0].description}
-                      onChange={(value) => onBlockLanguageSettingChange(0, 'description', value)}
+                      label={__('Description', 'pressidium-cookie-consent')}
+                      value={state.language.translations[selectedLanguage].preferencesModal.sections[0].description}
+                      onChange={(value) => onSectionLanguageSettingChange(0, 'description', value)}
                     />
                   </AIControlWrapper>
                 </PanelRow>
@@ -520,18 +590,18 @@ function TranslationsTab(props) {
                     isGenerating={isGenerating}
                     generate={() => {
                       translate(
-                        state.languages[primaryLanguageCode].settings_modal.save_settings_btn,
+                        state.language.translations[primaryLanguageCode].preferencesModal.savePreferencesBtn,
                         selectedLanguage,
                         (translation) => {
-                          onSettingsModalLanguageSettingChange('save_settings_btn', translation);
+                          onSettingsModalLanguageSettingChange('savePreferencesBtn', translation);
                         },
                       );
                     }}
                   >
                     <TextControl
-                      label="Save settings button"
-                      value={state.languages[selectedLanguage].settings_modal.save_settings_btn}
-                      onChange={(value) => onSettingsModalLanguageSettingChange('save_settings_btn', value)}
+                      label={__('Save preferences button', 'pressidium-cookie-consent')}
+                      value={state.language.translations[selectedLanguage].preferencesModal.savePreferencesBtn}
+                      onChange={(value) => onSettingsModalLanguageSettingChange('savePreferencesBtn', value)}
                     />
                   </AIControlWrapper>
                 </PanelRow>
@@ -542,18 +612,18 @@ function TranslationsTab(props) {
                     isGenerating={isGenerating}
                     generate={() => {
                       translate(
-                        state.languages[primaryLanguageCode].settings_modal.accept_all_btn,
+                        state.language.translations[primaryLanguageCode].preferencesModal.acceptAllBtn,
                         selectedLanguage,
                         (translation) => {
-                          onSettingsModalLanguageSettingChange('accept_all_btn', translation);
+                          onSettingsModalLanguageSettingChange('acceptAllBtn', translation);
                         },
                       );
                     }}
                   >
                     <TextControl
-                      label="Accept all button"
-                      value={state.languages[selectedLanguage].settings_modal.accept_all_btn}
-                      onChange={(value) => onSettingsModalLanguageSettingChange('accept_all_btn', value)}
+                      label={__('Accept all button', 'pressidium-cookie-consent')}
+                      value={state.language.translations[selectedLanguage].preferencesModal.acceptAllBtn}
+                      onChange={(value) => onSettingsModalLanguageSettingChange('acceptAllBtn', value)}
                     />
                   </AIControlWrapper>
                 </PanelRow>
@@ -564,40 +634,18 @@ function TranslationsTab(props) {
                     isGenerating={isGenerating}
                     generate={() => {
                       translate(
-                        state.languages[primaryLanguageCode].settings_modal.reject_all_btn,
+                        state.language.translations[primaryLanguageCode].preferencesModal.acceptNecessaryBtn,
                         selectedLanguage,
                         (translation) => {
-                          onSettingsModalLanguageSettingChange('reject_all_btn', translation);
+                          onSettingsModalLanguageSettingChange('acceptNecessaryBtn', translation);
                         },
                       );
                     }}
                   >
                     <TextControl
-                      label="Reject all button"
-                      value={state.languages[selectedLanguage].settings_modal.reject_all_btn}
-                      onChange={(value) => onSettingsModalLanguageSettingChange('reject_all_btn', value)}
-                    />
-                  </AIControlWrapper>
-                </PanelRow>
-                <PanelRow>
-                  <AIControlWrapper
-                    label={__('AI Translate', 'pressidium-cookie-consent')}
-                    openSettings={openAIConfigModal}
-                    isGenerating={isGenerating}
-                    generate={() => {
-                      translate(
-                        state.languages[primaryLanguageCode].settings_modal.close_btn_label,
-                        selectedLanguage,
-                        (translation) => {
-                          onSettingsModalLanguageSettingChange('close_btn_label', translation);
-                        },
-                      );
-                    }}
-                  >
-                    <TextControl
-                      label="Close button"
-                      value={state.languages[selectedLanguage].settings_modal.close_btn_label}
-                      onChange={(value) => onSettingsModalLanguageSettingChange('close_btn_label', value)}
+                      label={__('Accept necessary button', 'pressidium-cookie-consent')}
+                      value={state.language.translations[selectedLanguage].preferencesModal.acceptNecessaryBtn}
+                      onChange={(value) => onSettingsModalLanguageSettingChange('acceptNecessaryBtn', value)}
                     />
                   </AIControlWrapper>
                 </PanelRow>
@@ -613,18 +661,18 @@ function TranslationsTab(props) {
                     isGenerating={isGenerating}
                     generate={() => {
                       translate(
-                        state.languages[primaryLanguageCode].settings_modal.cookie_table_headers[0].name,
+                        state.pressidiumOptions.cookieTableHeaders.translations[selectedLanguage].name,
                         selectedLanguage,
                         (translation) => {
-                          onCookieTableHeadersChange(0, 'name', translation);
+                          onCookieTableHeadersChange('name', translation);
                         },
                       );
                     }}
                   >
                     <TextControl
                       label="Cookie name header"
-                      value={state.languages[selectedLanguage].settings_modal.cookie_table_headers[0].name}
-                      onChange={(value) => onCookieTableHeadersChange(0, 'name', value)}
+                      value={state.pressidiumOptions.cookieTableHeaders.translations[selectedLanguage].name}
+                      onChange={(value) => onCookieTableHeadersChange('name', value)}
                     />
                   </AIControlWrapper>
                 </PanelRow>
@@ -635,18 +683,18 @@ function TranslationsTab(props) {
                     isGenerating={isGenerating}
                     generate={() => {
                       translate(
-                        state.languages[primaryLanguageCode].settings_modal.cookie_table_headers[1].domain,
+                        state.pressidiumOptions.cookieTableHeaders.translations[selectedLanguage].domain,
                         selectedLanguage,
                         (translation) => {
-                          onCookieTableHeadersChange(1, 'domain', translation);
+                          onCookieTableHeadersChange('domain', translation);
                         },
                       );
                     }}
                   >
                     <TextControl
                       label="Cookie domain header"
-                      value={state.languages[selectedLanguage].settings_modal.cookie_table_headers[1].domain}
-                      onChange={(value) => onCookieTableHeadersChange(1, 'domain', value)}
+                      value={state.pressidiumOptions.cookieTableHeaders.translations[selectedLanguage].domain}
+                      onChange={(value) => onCookieTableHeadersChange('domain', value)}
                     />
                   </AIControlWrapper>
                 </PanelRow>
@@ -657,18 +705,18 @@ function TranslationsTab(props) {
                     isGenerating={isGenerating}
                     generate={() => {
                       translate(
-                        state.languages[primaryLanguageCode].settings_modal.cookie_table_headers[2].expiration,
+                        state.pressidiumOptions.cookieTableHeaders.translations[selectedLanguage].expiration,
                         selectedLanguage,
                         (translation) => {
-                          onCookieTableHeadersChange(2, 'expiration', translation);
+                          onCookieTableHeadersChange('expiration', translation);
                         },
                       );
                     }}
                   >
                     <TextControl
                       label="Cookie expiration header"
-                      value={state.languages[selectedLanguage].settings_modal.cookie_table_headers[2].expiration}
-                      onChange={(value) => onCookieTableHeadersChange(2, 'expiration', value)}
+                      value={state.pressidiumOptions.cookieTableHeaders.translations[selectedLanguage].expiration}
+                      onChange={(value) => onCookieTableHeadersChange('expiration', value)}
                     />
                   </AIControlWrapper>
                 </PanelRow>
@@ -679,18 +727,18 @@ function TranslationsTab(props) {
                     isGenerating={isGenerating}
                     generate={() => {
                       translate(
-                        state.languages[primaryLanguageCode].settings_modal.cookie_table_headers[3].path,
+                        state.pressidiumOptions.cookieTableHeaders.translations[selectedLanguage].path,
                         selectedLanguage,
                         (translation) => {
-                          onCookieTableHeadersChange(3, 'path', translation);
+                          onCookieTableHeadersChange('path', translation);
                         },
                       );
                     }}
                   >
                     <TextControl
                       label="Cookie path header"
-                      value={state.languages[selectedLanguage].settings_modal.cookie_table_headers[3].path}
-                      onChange={(value) => onCookieTableHeadersChange(3, 'path', value)}
+                      value={state.pressidiumOptions.cookieTableHeaders.translations[selectedLanguage].path}
+                      onChange={(value) => onCookieTableHeadersChange('path', value)}
                     />
                   </AIControlWrapper>
                 </PanelRow>
@@ -701,18 +749,18 @@ function TranslationsTab(props) {
                     isGenerating={isGenerating}
                     generate={() => {
                       translate(
-                        state.languages[primaryLanguageCode].settings_modal.cookie_table_headers[4].description,
+                        state.pressidiumOptions.cookieTableHeaders.translations[selectedLanguage].description,
                         selectedLanguage,
                         (translation) => {
-                          onCookieTableHeadersChange(4, 'description', translation);
+                          onCookieTableHeadersChange('description', translation);
                         },
                       );
                     }}
                   >
                     <TextControl
                       label="Cookie description header"
-                      value={state.languages[selectedLanguage].settings_modal.cookie_table_headers[4].description}
-                      onChange={(value) => onCookieTableHeadersChange(4, 'description', value)}
+                      value={state.pressidiumOptions.cookieTableHeaders.translations[selectedLanguage].description}
+                      onChange={(value) => onCookieTableHeadersChange('description', value)}
                     />
                   </AIControlWrapper>
                 </PanelRow>
@@ -728,18 +776,18 @@ function TranslationsTab(props) {
                     isGenerating={isGenerating}
                     generate={() => {
                       translate(
-                        state.languages[primaryLanguageCode].settings_modal.blocks[1].title,
+                        state.language.translations[primaryLanguageCode].preferencesModal.sections[1].title,
                         selectedLanguage,
                         (translation) => {
-                          onBlockLanguageSettingChange(1, 'title', translation);
+                          onSectionLanguageSettingChange(1, 'title', translation);
                         },
                       );
                     }}
                   >
                     <TextControl
-                      label="Title"
-                      value={state.languages[selectedLanguage].settings_modal.blocks[1].title}
-                      onChange={(value) => onBlockLanguageSettingChange(1, 'title', value)}
+                      label={__('Title', 'pressidium-cookie-consent')}
+                      value={state.language.translations[selectedLanguage].preferencesModal.sections[1].title}
+                      onChange={(value) => onSectionLanguageSettingChange(1, 'title', value)}
                     />
                   </AIControlWrapper>
                 </PanelRow>
@@ -750,18 +798,18 @@ function TranslationsTab(props) {
                     isGenerating={isGenerating}
                     generate={() => {
                       translate(
-                        state.languages[primaryLanguageCode].settings_modal.blocks[1].description,
+                        state.language.translations[primaryLanguageCode].preferencesModal.sections[1].description,
                         selectedLanguage,
                         (translation) => {
-                          onBlockLanguageSettingChange(1, 'description', translation);
+                          onSectionLanguageSettingChange(1, 'description', translation);
                         },
                       );
                     }}
                   >
                     <TextareaControl
-                      label="Description"
-                      value={state.languages[selectedLanguage].settings_modal.blocks[1].description}
-                      onChange={(value) => onBlockLanguageSettingChange(1, 'description', value)}
+                      label={__('Description', 'pressidium-cookie-consent')}
+                      value={state.language.translations[selectedLanguage].preferencesModal.sections[1].description}
+                      onChange={(value) => onSectionLanguageSettingChange(1, 'description', value)}
                     />
                   </AIControlWrapper>
                 </PanelRow>
@@ -777,18 +825,18 @@ function TranslationsTab(props) {
                     isGenerating={isGenerating}
                     generate={() => {
                       translate(
-                        state.languages[primaryLanguageCode].settings_modal.blocks[2].title,
+                        state.language.translations[primaryLanguageCode].preferencesModal.sections[2].title,
                         selectedLanguage,
                         (translation) => {
-                          onBlockLanguageSettingChange(2, 'title', translation);
+                          onSectionLanguageSettingChange(2, 'title', translation);
                         },
                       );
                     }}
                   >
                     <TextControl
-                      label="Title"
-                      value={state.languages[selectedLanguage].settings_modal.blocks[2].title}
-                      onChange={(value) => onBlockLanguageSettingChange(2, 'title', value)}
+                      label={__('Title', 'pressidium-cookie-consent')}
+                      value={state.language.translations[selectedLanguage].preferencesModal.sections[2].title}
+                      onChange={(value) => onSectionLanguageSettingChange(2, 'title', value)}
                     />
                   </AIControlWrapper>
                 </PanelRow>
@@ -799,18 +847,18 @@ function TranslationsTab(props) {
                     isGenerating={isGenerating}
                     generate={() => {
                       translate(
-                        state.languages[primaryLanguageCode].settings_modal.blocks[2].description,
+                        state.language.translations[primaryLanguageCode].preferencesModal.sections[2].description,
                         selectedLanguage,
                         (translation) => {
-                          onBlockLanguageSettingChange(2, 'description', translation);
+                          onSectionLanguageSettingChange(2, 'description', translation);
                         },
                       );
                     }}
                   >
                     <TextareaControl
-                      label="Description"
-                      value={state.languages[selectedLanguage].settings_modal.blocks[2].description}
-                      onChange={(value) => onBlockLanguageSettingChange(2, 'description', value)}
+                      label={__('Description', 'pressidium-cookie-consent')}
+                      value={state.language.translations[selectedLanguage].preferencesModal.sections[2].description}
+                      onChange={(value) => onSectionLanguageSettingChange(2, 'description', value)}
                     />
                   </AIControlWrapper>
                 </PanelRow>
@@ -826,18 +874,18 @@ function TranslationsTab(props) {
                     isGenerating={isGenerating}
                     generate={() => {
                       translate(
-                        state.languages[primaryLanguageCode].settings_modal.blocks[3].title,
+                        state.language.translations[primaryLanguageCode].preferencesModal.sections[3].title,
                         selectedLanguage,
                         (translation) => {
-                          onBlockLanguageSettingChange(3, 'title', translation);
+                          onSectionLanguageSettingChange(3, 'title', translation);
                         },
                       );
                     }}
                   >
                     <TextControl
-                      label="Title"
-                      value={state.languages[selectedLanguage].settings_modal.blocks[3].title}
-                      onChange={(value) => onBlockLanguageSettingChange(3, 'title', value)}
+                      label={__('Title', 'pressidium-cookie-consent')}
+                      value={state.language.translations[selectedLanguage].preferencesModal.sections[3].title}
+                      onChange={(value) => onSectionLanguageSettingChange(3, 'title', value)}
                     />
                   </AIControlWrapper>
                 </PanelRow>
@@ -848,18 +896,18 @@ function TranslationsTab(props) {
                     isGenerating={isGenerating}
                     generate={() => {
                       translate(
-                        state.languages[primaryLanguageCode].settings_modal.blocks[3].description,
+                        state.language.translations[primaryLanguageCode].preferencesModal.sections[3].description,
                         selectedLanguage,
                         (translation) => {
-                          onBlockLanguageSettingChange(3, 'description', translation);
+                          onSectionLanguageSettingChange(3, 'description', translation);
                         },
                       );
                     }}
                   >
                     <TextareaControl
-                      label="Description"
-                      value={state.languages[selectedLanguage].settings_modal.blocks[3].description}
-                      onChange={(value) => onBlockLanguageSettingChange(3, 'description', value)}
+                      label={__('Description', 'pressidium-cookie-consent')}
+                      value={state.language.translations[selectedLanguage].preferencesModal.sections[3].description}
+                      onChange={(value) => onSectionLanguageSettingChange(3, 'description', value)}
                     />
                   </AIControlWrapper>
                 </PanelRow>
@@ -875,18 +923,18 @@ function TranslationsTab(props) {
                     isGenerating={isGenerating}
                     generate={() => {
                       translate(
-                        state.languages[primaryLanguageCode].settings_modal.blocks[4].title,
+                        state.language.translations[primaryLanguageCode].preferencesModal.sections[4].title,
                         selectedLanguage,
                         (translation) => {
-                          onBlockLanguageSettingChange(4, 'title', translation);
+                          onSectionLanguageSettingChange(4, 'title', translation);
                         },
                       );
                     }}
                   >
                     <TextControl
-                      label="Title"
-                      value={state.languages[selectedLanguage].settings_modal.blocks[4].title}
-                      onChange={(value) => onBlockLanguageSettingChange(4, 'title', value)}
+                      label={__('Title', 'pressidium-cookie-consent')}
+                      value={state.language.translations[selectedLanguage].preferencesModal.sections[4].title}
+                      onChange={(value) => onSectionLanguageSettingChange(4, 'title', value)}
                     />
                   </AIControlWrapper>
                 </PanelRow>
@@ -897,18 +945,18 @@ function TranslationsTab(props) {
                     isGenerating={isGenerating}
                     generate={() => {
                       translate(
-                        state.languages[primaryLanguageCode].settings_modal.blocks[4].description,
+                        state.language.translations[primaryLanguageCode].preferencesModal.sections[4].description,
                         selectedLanguage,
                         (translation) => {
-                          onBlockLanguageSettingChange(4, 'description', translation);
+                          onSectionLanguageSettingChange(4, 'description', translation);
                         },
                       );
                     }}
                   >
                     <TextareaControl
-                      label="Description"
-                      value={state.languages[selectedLanguage].settings_modal.blocks[4].description}
-                      onChange={(value) => onBlockLanguageSettingChange(4, 'description', value)}
+                      label={__('Description', 'pressidium-cookie-consent')}
+                      value={state.language.translations[selectedLanguage].preferencesModal.sections[4].description}
+                      onChange={(value) => onSectionLanguageSettingChange(4, 'description', value)}
                     />
                   </AIControlWrapper>
                 </PanelRow>
@@ -924,18 +972,18 @@ function TranslationsTab(props) {
                     isGenerating={isGenerating}
                     generate={() => {
                       translate(
-                        state.languages[primaryLanguageCode].settings_modal.blocks[5].title,
+                        state.language.translations[primaryLanguageCode].preferencesModal.sections[5].title,
                         selectedLanguage,
                         (translation) => {
-                          onBlockLanguageSettingChange(5, 'title', translation);
+                          onSectionLanguageSettingChange(5, 'title', translation);
                         },
                       );
                     }}
                   >
                     <TextControl
-                      label="Title"
-                      value={state.languages[selectedLanguage].settings_modal.blocks[5].title}
-                      onChange={(value) => onBlockLanguageSettingChange(5, 'title', value)}
+                      label={__('Title', 'pressidium-cookie-consent')}
+                      value={state.language.translations[selectedLanguage].preferencesModal.sections[5].title}
+                      onChange={(value) => onSectionLanguageSettingChange(5, 'title', value)}
                     />
                   </AIControlWrapper>
                 </PanelRow>
@@ -946,18 +994,18 @@ function TranslationsTab(props) {
                     isGenerating={isGenerating}
                     generate={() => {
                       translate(
-                        state.languages[primaryLanguageCode].settings_modal.blocks[5].description,
+                        state.language.translations[primaryLanguageCode].preferencesModal.sections[5].description,
                         selectedLanguage,
                         (translation) => {
-                          onBlockLanguageSettingChange(5, 'description', translation);
+                          onSectionLanguageSettingChange(5, 'description', translation);
                         },
                       );
                     }}
                   >
                     <TextareaControl
-                      label="Description"
-                      value={state.languages[selectedLanguage].settings_modal.blocks[5].description}
-                      onChange={(value) => onBlockLanguageSettingChange(5, 'description', value)}
+                      label={__('Description', 'pressidium-cookie-consent')}
+                      value={state.language.translations[selectedLanguage].preferencesModal.sections[5].description}
+                      onChange={(value) => onSectionLanguageSettingChange(5, 'description', value)}
                     />
                   </AIControlWrapper>
                 </PanelRow>

@@ -201,14 +201,16 @@ abstract class Proxy implements Actions, Filters {
      * @return void
      */
     public function maybe_proxy(): void {
-        if ( ! $this->should_proxy() ) {
-            // Should not proxy this request, bail early
-            return;
-        }
-
         if ( ! get_query_var( $this->get_flag_var() ) ) {
             // Not our request, bail early
             return;
+        }
+
+        if ( ! $this->should_proxy() ) {
+            // Our route, but the proxy is disabled. Return a proper error instead of
+            // falling through to WordPress, which would serve HTML and break any
+            // `<script>` tag pointing at this path.
+            $this->fail_with_status( 503, 'Service Unavailable' );
         }
 
         // Get the path to proxy

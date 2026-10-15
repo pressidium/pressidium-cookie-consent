@@ -56,7 +56,8 @@ final class Service_Provider extends AbstractServiceProvider {
              ->addArgument( $this->getContainer()->get( 'logs' ) )
              ->addArgument( $this->getContainer()->get( 'geo_locator' ) )
              ->addArgument( $this->getContainer()->get( 'consents_table' ) )
-             ->addArgument( $this->getContainer()->get( 'db_table_exporter' ) );
+             ->addArgument( $this->getContainer()->get( 'db_table_exporter' ) )
+             ->addArgument( $this->getContainer()->get( 'rate_limiter' ) );
     }
 
 }
