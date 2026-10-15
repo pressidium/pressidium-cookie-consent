@@ -406,17 +406,35 @@ class Migrator {
         $new_translations     = array();
         $cookie_table_headers = array( 'translations' => array() );
 
+        $old_pressidium_opts = $this->settings['pressidium_options'] ?? array();
+        $primary_btn_role    = $old_pressidium_opts['primary_btn_role']   ?? 'accept_all';
+        $secondary_btn_role  = $old_pressidium_opts['secondary_btn_role'] ?? 'accept_necessary';
+
         foreach ( $old_languages as $lang => $lang_settings ) {
             $consent_modal  = $lang_settings['consent_modal']  ?? array();
             $settings_modal = $lang_settings['settings_modal'] ?? array();
             $old_blocks     = $settings_modal['blocks']        ?? array();
 
+            // `accept_selected` has no v3 equivalent on the consent modal, so fall back to a truthful label
+            $accept_all_btn = $primary_btn_role === 'accept_selected'
+                ? 'Accept all'
+                : ( $consent_modal['primary_btn']['text'] ?? 'Accept all' );
+
+            if ( $secondary_btn_role === 'settings' ) {
+                // The old secondary button opened the preferences modal
+                $show_preferences_btn = $consent_modal['secondary_btn']['text'] ?? 'Show preferences';
+                $accept_necessary_btn = 'Accept necessary';
+            } else {
+                $show_preferences_btn = 'Show preferences';
+                $accept_necessary_btn = $consent_modal['secondary_btn']['text'] ?? 'Accept necessary';
+            }
+
             $new_consent_modal = array(
-                'title'              => $consent_modal['title']                 ?? '',
-                'description'        => $consent_modal['description']           ?? '',
-                'acceptAllBtn'       => $consent_modal['primary_btn']['text']   ?? 'Accept all',
-                'acceptNecessaryBtn' => $consent_modal['secondary_btn']['text'] ?? 'Accept necessary',
-                'showPreferencesBtn' => 'Show preferences',
+                'title'              => $consent_modal['title']       ?? '',
+                'description'        => $consent_modal['description'] ?? '',
+                'acceptAllBtn'       => $accept_all_btn,
+                'acceptNecessaryBtn' => $accept_necessary_btn,
+                'showPreferencesBtn' => $show_preferences_btn,
                 'closeIconLabel'     => 'Close',
                 'footer'             => '<a href="#link">Privacy Policy</a><a href="#link">Terms and conditions</a>',
                 'footerLinks'        => array(
