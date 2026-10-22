@@ -192,6 +192,7 @@ If you have spotted any bugs, or would like to request additional features from 
 
 = 1.9.2: Oct 22, 2026 =
 
+* Update “Tested up to” version to WordPress 7.1 to confirm compatibility
 * Remove deprecated GPT models
 * Introduce new GPT models
 
