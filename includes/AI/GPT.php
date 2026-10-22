@@ -112,6 +112,11 @@ final class GPT extends AI {
             'gpt-4o',
             'gpt-5-pro',
             'o3',
+            'gpt-5.6-sol',
+            'gpt-5.6-terra',
+            'gpt-5.6-luna',
+            'gpt-6-luna',
+            'gpt-6-sol',
         );
     }
 
