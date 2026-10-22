@@ -48,7 +48,7 @@ final class GPT extends AI {
      * @return string
      */
     public function get_default_model(): string {
-        return 'gpt-4o';
+        return 'gpt-6-luna';
     }
 
     /**
