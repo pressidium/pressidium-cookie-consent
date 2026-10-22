@@ -349,7 +349,8 @@ class Migrator {
             'o4-mini'       => 'gpt-5.6-terra',
         );
 
-        $provider = $this->settings['pressidium_options']['ai']['provider'] ?? null;
+        // A missing provider defaults to OpenAI
+        $provider = $this->settings['pressidium_options']['ai']['provider'] ?? 'openai';
         $model    = $this->settings['pressidium_options']['ai']['model'] ?? null;
 
         if ( $provider !== 'openai' || ! is_string( $model ) || ! array_key_exists( $model, $deprecated_models ) ) {
