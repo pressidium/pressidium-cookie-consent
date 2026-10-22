@@ -410,6 +410,12 @@ class Migrator {
         $primary_btn_role    = $old_pressidium_opts['primary_btn_role']   ?? 'accept_all';
         $secondary_btn_role  = $old_pressidium_opts['secondary_btn_role'] ?? 'accept_necessary';
 
+        // cookieconsent v3 renamed the `data-cc` trigger that opens the preferences modal
+        $trigger_map = array(
+            'data-cc="c-settings"' => 'data-cc="show-preferencesModal"',
+            "data-cc='c-settings'" => "data-cc='show-preferencesModal'",
+        );
+
         foreach ( $old_languages as $lang => $lang_settings ) {
             $consent_modal  = $lang_settings['consent_modal']  ?? array();
             $settings_modal = $lang_settings['settings_modal'] ?? array();
@@ -430,8 +436,8 @@ class Migrator {
             }
 
             $new_consent_modal = array(
-                'title'              => $consent_modal['title']       ?? '',
-                'description'        => $consent_modal['description'] ?? '',
+                'title'              => strtr( $consent_modal['title'] ?? '', $trigger_map ),
+                'description'        => strtr( $consent_modal['description'] ?? '', $trigger_map ),
                 'acceptAllBtn'       => $accept_all_btn,
                 'acceptNecessaryBtn' => $accept_necessary_btn,
                 'showPreferencesBtn' => $show_preferences_btn,
@@ -446,8 +452,8 @@ class Migrator {
             $new_sections = array();
             foreach ( $old_blocks as $block ) {
                 $section = array(
-                    'title'       => $block['title']       ?? '',
-                    'description' => $block['description'] ?? '',
+                    'title'       => strtr( $block['title'] ?? '', $trigger_map ),
+                    'description' => strtr( $block['description'] ?? '', $trigger_map ),
                 );
                 if ( isset( $block['toggle']['value'] ) ) {
                     $section['linkedCategory'] = $block['toggle']['value'];
@@ -456,7 +462,7 @@ class Migrator {
             }
 
             $new_preferences_modal = array(
-                'title'              => $settings_modal['title']             ?? 'Cookie preferences',
+                'title'              => strtr( $settings_modal['title'] ?? 'Cookie preferences', $trigger_map ),
                 'savePreferencesBtn' => $settings_modal['save_settings_btn'] ?? 'Save preferences',
                 'acceptAllBtn'       => $settings_modal['accept_all_btn']    ?? 'Accept all',
                 'acceptNecessaryBtn' => $settings_modal['reject_all_btn']    ?? 'Accept necessary',

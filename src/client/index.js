@@ -527,6 +527,18 @@ import './scss/main.scss';
     CookieConsent.acceptedCategory(category)
   );
 
+  // Backwards-compatible shim for v2 `data-cc="c-settings"` triggers (e.g. in post content)
+  document.addEventListener('click', (event) => {
+    const trigger = event.target.closest('[data-cc="c-settings"]');
+
+    if (!trigger) {
+      return;
+    }
+
+    event.preventDefault();
+    window.pressidiumCookieConsent.showPreferences();
+  });
+
   /*
    * Since consent mode doesn't save consent choices,
    * we need to update the consent status accordingly
