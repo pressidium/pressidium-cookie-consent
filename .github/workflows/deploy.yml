@@ -21,7 +21,7 @@ jobs:
         run: composer install
 
       - name: Remove development dependencies and optimize autoloader
-        run: composer update --no-dev --no-scripts --optimize-autoloader
+        run: composer install --no-dev --no-scripts --optimize-autoloader
 
       - name: Install Node.js LTS
         uses: actions/setup-node@v3

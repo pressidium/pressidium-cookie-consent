@@ -332,6 +332,36 @@ class Migrator {
     }
 
     /**
+     * Migrate settings coming from versions prior to 1.9.2.
+     *
+     * @return void
+     */
+    private function migrate_1_9_2(): void {
+        // Replace deprecated OpenAI models with their suggested replacements
+        $deprecated_models = array(
+            'gpt-3.5-turbo' => 'gpt-5.6-terra',
+            'gpt-4'         => 'gpt-5.6-sol',
+            'gpt-4-turbo'   => 'gpt-5.6-sol',
+            'gpt-4.1-nano'  => 'gpt-5.6-luna',
+            'o1'            => 'gpt-5.6-sol',
+            'o1-pro'        => 'gpt-5.6-sol',
+            'o3-mini'       => 'gpt-5.6-sol',
+            'o4-mini'       => 'gpt-5.6-terra',
+        );
+
+        // A missing provider defaults to OpenAI
+        $provider = $this->settings['pressidium_options']['ai']['provider'] ?? 'openai';
+        $model    = $this->settings['pressidium_options']['ai']['model'] ?? null;
+
+        if ( $provider !== 'openai' || ! is_string( $model ) || ! array_key_exists( $model, $deprecated_models ) ) {
+            // No migration needed for the AI model, bail early
+            return;
+        }
+
+        $this->settings['pressidium_options']['ai']['model'] = $deprecated_models[ $model ];
+    }
+
+    /**
      * Migrate settings if necessary.
      *
      * @return array Migrated settings.
@@ -380,6 +410,11 @@ class Migrator {
         if ( version_compare( $this->settings['version'], '1.9.0', '<' ) ) {
             // We are upgrading from a version prior to 1.9.0, so we need to migrate the settings
             $this->migrate_1_9_0();
+        }
+
+        if ( version_compare( $this->settings['version'], '1.9.2', '<' ) ) {
+            // We are upgrading from a version prior to 1.9.2, so we need to migrate the settings
+            $this->migrate_1_9_2();
         }
 
         return $this->settings;
