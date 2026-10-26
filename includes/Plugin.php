@@ -209,11 +209,11 @@ class Plugin {
         $settings = new Settings( $options );
         $this->container->add( 'settings', $settings );
 
-        $upgrader = new Upgrader( $this->logger, $settings );
-        $this->container->add( 'upgrader', $upgrader );
-
         $transient = new Transient();
         $this->container->add( 'transient', $transient );
+
+        $upgrader = new Upgrader( $this->logger, $settings, $transient );
+        $this->container->add( 'upgrader', $upgrader );
 
         $rate_limiter = new Rate_Limiter( $transient );
         $this->container->add( 'rate_limiter', $rate_limiter );
