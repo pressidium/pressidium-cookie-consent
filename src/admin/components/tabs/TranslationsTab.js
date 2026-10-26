@@ -71,7 +71,7 @@ function TranslationsTab(props) {
         console.error(response.error);
 
         appendNotice({
-          message: __('Translation failed. Double-check your AI settings — the integration may not be fully configured.', 'pressidium-cookie-consent'),
+          message: response.error || __('Translation failed. Double-check your AI settings — the integration may not be fully configured.', 'pressidium-cookie-consent'),
           status: 'error',
           id: 'ai-text-not-translated-error',
         });
@@ -134,7 +134,7 @@ function TranslationsTab(props) {
         console.error(response.error);
 
         appendNotice({
-          message: __('Translation failed. Double-check your AI settings — the integration may not be fully configured.', 'pressidium-cookie-consent'),
+          message: response.error || __('Translation failed. Double-check your AI settings — the integration may not be fully configured.', 'pressidium-cookie-consent'),
           status: 'error',
           id: 'ai-text-not-translated-error',
         });

@@ -93,7 +93,7 @@ function CookiesTable(props) {
         console.error(response.error);
 
         appendNotice({
-          message: __('Could not generate cookie description. Double-check your AI settings — the integration may not be fully configured.', 'pressidium-cookie-consent'),
+          message: response.error || __('Could not generate cookie description. Double-check your AI settings — the integration may not be fully configured.', 'pressidium-cookie-consent'),
           status: 'error',
           id: 'ai-cookie-description-not-generated-error',
         });
