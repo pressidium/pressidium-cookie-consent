@@ -20,6 +20,27 @@ if ( ! defined( 'ABSPATH' ) ) {
 class Geo_Locator {
 
     /**
+     * Return the IP address of the current request used for geolocation.
+     *
+     * @return string
+     */
+    public function get_ip_address(): string {
+        /**
+         * Filters the IP address used for geolocation.
+         *
+         * @since 2.0.0
+         *
+         * @param string $ip_address The IP address.
+         *
+         * @return string
+         */
+        return (string) apply_filters(
+            'pressidium_cookie_consent_geo_ip_address',
+            $_SERVER['REMOTE_ADDR'] ?? ''
+        );
+    }
+
+    /**
      * Return the geographic location (if it can be found) based on the given IP address.
      *
      * Based on the `WC_Geolocation::get_country_code_from_headers()` method of WooCommerce.

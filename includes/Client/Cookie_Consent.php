@@ -128,11 +128,7 @@ class Cookie_Consent implements Actions, Filters {
         $opt_in_regions  = array_map( 'strtolower', $geo_rules['optInRegions']  ?? array() );
         $opt_out_regions = array_map( 'strtolower', $geo_rules['optOutRegions'] ?? array() );
 
-        $ip_address = apply_filters(
-            'pressidium_cookie_consent_geo_ip_address',
-            $_SERVER['REMOTE_ADDR'] ?? ''
-        );
-
+        $ip_address    = $this->geo_locator->get_ip_address();
         $country_code  = $this->geo_locator->maybe_get_country_code( $ip_address );
         $country_lower = strtolower( $country_code ?? '' );
 
