@@ -11,6 +11,7 @@ namespace Pressidium\WP\CookieConsent\Admin\Settings;
 use Pressidium\WP\CookieConsent\Hooks\Actions;
 use Pressidium\WP\CookieConsent\Hooks\Filters;
 use Pressidium\WP\CookieConsent\Admin\Page;
+use Pressidium\WP\CookieConsent\Geo_Locator;
 use Pressidium\WP\CookieConsent\Utils\String_Utils;
 use Pressidium\WP\CookieConsent\Utils\WP_Utils;
 
@@ -29,6 +30,20 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @since 1.0.0
  */
 class Settings_Page extends Page implements Actions, Filters {
+
+    /**
+     * @var Geo_Locator Instance of `Geo_Locator`.
+     */
+    private Geo_Locator $geo_locator;
+
+    /**
+     * Settings_Page constructor.
+     *
+     * @param Geo_Locator $geo_locator
+     */
+    public function __construct( Geo_Locator $geo_locator ) {
+        $this->geo_locator = $geo_locator;
+    }
 
     /**
      * Return the menu slug.
@@ -167,6 +182,11 @@ class Settings_Page extends Page implements Actions, Filters {
             'pressidiumCCAdminDetails',
             array(
                 'domain' => WP_Utils::get_domain(),
+                'geo'    => array(
+                    'detected_country' => $this->geo_locator->maybe_get_country_code(
+                        $this->geo_locator->get_ip_address()
+                    ),
+                ),
                 'assets' => array(
                     'gtm_template_url'   => esc_url( PLUGIN_URL . 'assets/templates/template.tpl' ),
                     'screenshots'        => array(
