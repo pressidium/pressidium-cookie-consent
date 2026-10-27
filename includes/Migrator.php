@@ -614,11 +614,11 @@ class Migrator {
                 'proxyEnabled' => $old_gateway['proxy_enabled'] ?? false,
                 'gtagId'       => $old_gateway['gtag_id']       ?? '',
             ),
-            'ai'                     => $old_opts['ai'] ?? array(
-                'provider' => 'openai',
-                'model'    => 'gpt-3.5-turbo',
-            ),
         );
+
+        if ( isset( $old_opts['ai'] ) ) {
+            $this->settings['pressidiumOptions']['ai'] = $old_opts['ai'];
+        }
 
         unset( $this->settings['pressidium_options'] );
 
