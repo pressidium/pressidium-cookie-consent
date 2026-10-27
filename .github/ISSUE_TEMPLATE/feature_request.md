@@ -19,6 +19,7 @@ A clear and concise description of any alternative solutions or features you've 
 **Checklist**
 * [ ] I have searched the [GitHub issues](https://github.com/pressidium/pressidium-cookie-consent/issues) to ensure this is not a duplicate
 * [ ] I have confirmed that this feature is not already available in the latest version of the plugin
+* [ ] I have read the [AI Policy](https://github.com/pressidium/pressidium-cookie-consent/blob/master/AI-POLICY.md) and, if I used AI to prepare this issue, I have reviewed its content and disclosed how AI was used
 
 **Additional context**
 Add any other context or screenshots about the feature request here.

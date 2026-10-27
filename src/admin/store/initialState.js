@@ -210,7 +210,7 @@ export default {
 
     /*
      * Shows a footer containing one or two links in the consent modal footer.
-     * Often used to display the Privacy Policy and Terms of Service links. 
+     * Often used to display the Privacy Policy and Terms of Service links.
      */
     showConsentModalFooter: true,
 
@@ -335,7 +335,7 @@ export default {
       /*
        * AI model.
        */
-      model: 'gpt-3.5-turbo',
+      model: 'gpt-6-luna',
     },
   },
 };

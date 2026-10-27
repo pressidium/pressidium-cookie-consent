@@ -4,7 +4,7 @@ Plugin URI: https://pressidium.com/open-source/cookie-consent-plugin/
 Contributors: pressidium, overengineer
 Tags: cookie, consent, gdpr, ccpa, cookies
 Requires at least: 6.0
-Tested up to: 6.9
+Tested up to: 7.1
 Requires PHP: 8.1
 Stable Tag: 2.0.0
 License: GPLv2 or later
@@ -190,7 +190,7 @@ If you have spotted any bugs, or would like to request additional features from 
 
 == Changelog ==
 
-= 2.0.0: May 15, 2026 =
+= 2.0.0: Oct 27, 2026 =
 
 * Migrate the vanilla-cookieconsent library to v3
 * Expose vanilla-cookieconsent v3 configuration options in the admin UI
@@ -206,6 +206,12 @@ If you have spotted any bugs, or would like to request additional features from 
 * Fix excessive requests being sent to `POST /pressidium-cookie-consent/v1/consent` on every page load
 * Fix disabled Google tag gateway proxy routes falling through to the normal WordPress request lifecycle
 * Fix improper escaping of inline style output
+
+= 1.9.2: Oct 22, 2026 =
+
+* Update “Tested up to” version to WordPress 7.1 to confirm compatibility
+* Remove deprecated GPT models
+* Introduce new GPT models
 
 = 1.9.1: Dec 9, 2025 =
 

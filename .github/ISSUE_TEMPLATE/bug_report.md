@@ -41,6 +41,7 @@ If applicable, include any warnings/errors in your browser’s console. You can 
 * [ ] I have tested the issue using the latest version of the plugin
 * [ ] I have included any relevant error messages, logs, or screenshots
 * [ ] I have reviewed the [wiki](https://github.com/pressidium/pressidium-cookie-consent/wiki) to ensure this issue is not related to a misconfiguration
+* [ ] I have read the [AI Policy](https://github.com/pressidium/pressidium-cookie-consent/blob/master/AI-POLICY.md) and, if I used AI to prepare this issue, I have reviewed its content and disclosed how AI was used
 
 **Additional context**
 Add any other context about the problem here.
