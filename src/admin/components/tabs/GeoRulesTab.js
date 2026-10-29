@@ -92,7 +92,7 @@ function GeoRulesTab() {
               </StyledNotice>
             ) : (
               <StyledNotice status="warning" politeness="polite" isDismissible={false}>
-                {__('No country could be detected for your current request. Region rules require a server module or a proxy that sets the visitor’s country. Otherwise, the default consent mode applies to all visitors.', 'pressidium-cookie-consent')}
+                {__('No country could be detected for your current request. Region rules can only be applied when a country code is available for the visitor. When no country can be determined, the default consent mode is used.', 'pressidium-cookie-consent')}
               </StyledNotice>
             )}
           </PanelRow>
