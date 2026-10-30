@@ -110,6 +110,11 @@ class Database_Manager {
         $table_versions = $this->options->get( self::TABLE_VERSIONS_OPTIONS_KEY );
         $did_upgrade    = false;
 
+        if ( ! is_array( $table_versions ) ) {
+            // The option does not exist yet, so `get()` returned `false`. Start fresh.
+            $table_versions = array();
+        }
+
         foreach ( $this->tables as $table ) {
             try {
                 $new_version     = $table->get_version();
