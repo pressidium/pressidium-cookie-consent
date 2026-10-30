@@ -29,6 +29,16 @@ if ( ! defined( 'ABSPATH' ) ) {
 class File_Logger implements Logger {
 
     /**
+     * @var string Name of the option recording that the logs directory has been set up.
+     */
+    const LOGS_SETUP_OPTION = 'pressidium_cookie_consent_logs_setup';
+
+    /**
+     * @var int Revision of the one-time logs directory setup.
+     */
+    const LOGS_SETUP_REVISION = 1;
+
+    /**
      * Log a message with a level of an emergency — system is unusable.
      *
      * @param string $message
@@ -125,6 +135,113 @@ class File_Logger implements Logger {
     }
 
     /**
+     * Drop the usual guard files into the logs directory.
+     *
+     * The `.htaccess` carried only `Deny from all`, which is Apache 2.2 syntax and a no-op
+     * on 2.4 without `mod_access_compat`. Both directives are written now, next to an
+     * empty `index.php` so a directory listing cannot enumerate the files, and a
+     * `web.config` for IIS.
+     *
+     * None of these is sufficient on its own and none of them applies to nginx, so a
+     * missing guard file is a reason to carry on rather than to take the site down. This
+     * reports whether every guard is in place instead of throwing, and the caller uses
+     * that to decide whether the setup may be marked as done.
+     *
+     * @since 2.0.0
+     *
+     * @param string $log_dir Path to the logs directory.
+     *
+     * @return bool Whether every guard file is in place.
+     */
+    private function protect_logs_directory( string $log_dir ): bool {
+        $htaccess = "<IfModule mod_authz_core.c>\n    Require all denied\n</IfModule>\n"
+            . "<IfModule !mod_authz_core.c>\n    Order allow,deny\n    Deny from all\n</IfModule>\n";
+
+        $web_config = '<?xml version="1.0" encoding="UTF-8"?>' . "\n"
+            . "<configuration>\n"
+            . "    <system.webServer>\n"
+            . "        <authorization>\n"
+            . '            <deny users="*" />' . "\n"
+            . "        </authorization>\n"
+            . "    </system.webServer>\n"
+            . "</configuration>\n";
+
+        $guards = array(
+            '.htaccess'  => $htaccess,
+            'index.php'  => "<?php\n// Silence is golden.\n",
+            'web.config' => $web_config,
+        );
+
+        $all_in_place = true;
+
+        foreach ( $guards as $filename => $contents ) {
+            $path = trailingslashit( $log_dir ) . $filename;
+
+            if ( file_exists( $path ) ) {
+                if ( $filename !== '.htaccess' ) {
+                    continue;
+                }
+
+                // Upgrade an existing `.htaccess` that only carries the 2.2 directive.
+                $current = file_get_contents( $path );
+
+                if ( is_string( $current ) && strpos( $current, 'Require all denied' ) !== false ) {
+                    continue;
+                }
+            }
+
+            if ( file_put_contents( $path, $contents ) === false ) {
+                $all_in_place = false;
+            }
+        }
+
+        return $all_in_place;
+    }
+
+    /**
+     * Run the one-time setup of the logs directory.
+     *
+     * Writing the guard files is a setup task rather than a logging task, so it does not
+     * belong on the path taken by every entry. Reaching the log already meant a
+     * `file_exists()` on the `.htaccess` every time; doing that for three files and
+     * re-reading one of them would have made it worse. An option records that the work has
+     * run, which leaves the common case at a single option read and no filesystem calls.
+     *
+     * The marker holds a revision and the directory it applies to rather than a boolean,
+     * so a later release that adds another guard file can re-run the setup by bumping the
+     * constant, and a site that repoints `pressidium_cookie_consent_logs_path` at a
+     * directory that already exists has that one set up as well.
+     *
+     * The marker is written only once the work has actually succeeded, so a failure on a
+     * read-only filesystem is retried on the next entry rather than recorded as done.
+     *
+     * A directory created in this very request is set up regardless of the marker: it
+     * carries no guard files whatever the option says, which is also the case when the
+     * directory is removed from under an install that had been set up already.
+     *
+     * @since 2.0.0
+     *
+     * @param string $log_dir      Path to the logs directory.
+     * @param bool   $is_fresh_dir Whether the directory was created in this request.
+     *
+     * @return void
+     */
+    private function maybe_set_up_logs_directory( string $log_dir, bool $is_fresh_dir ): void {
+        $marker = self::LOGS_SETUP_REVISION . ':' . md5( $log_dir );
+
+        if ( ! $is_fresh_dir && get_option( self::LOGS_SETUP_OPTION ) === $marker ) {
+            return;
+        }
+
+        if ( ! $this->protect_logs_directory( $log_dir ) ) {
+            // Leave the marker alone, so the next entry tries again
+            return;
+        }
+
+        update_option( self::LOGS_SETUP_OPTION, $marker, false );
+    }
+
+    /**
      * Return the path to the `logs/` directory.
      *
      * @return string
@@ -144,8 +261,8 @@ class File_Logger implements Logger {
          */
         $log_path = apply_filters( 'pressidium_cookie_consent_logs_path', $log_path );
 
-        $log_dir       = dirname( $log_path );
-        $htaccess_path = trailingslashit( $log_dir ) . '.htaccess';
+        $log_dir      = dirname( $log_path );
+        $is_fresh_dir = false;
 
         if ( ! file_exists( $log_dir ) ) {
             // Attempt to create the logs directory if it doesn't exist
@@ -154,6 +271,8 @@ class File_Logger implements Logger {
             if ( ! $did_create ) {
                 throw new RuntimeException( 'Could not create logs directory: ' . $log_dir );
             }
+
+            $is_fresh_dir = true;
         }
 
         if ( ! wp_is_writable( $log_dir ) ) {
@@ -161,15 +280,7 @@ class File_Logger implements Logger {
             throw new RuntimeException( 'Logs directory is not writable: ' . $log_dir );
         }
 
-        if ( ! file_exists( $htaccess_path ) ) {
-            // Create a `.htaccess` file to prevent direct access
-            $htaccess_content = "Deny from all\n";
-            $did_write        = file_put_contents( $htaccess_path, $htaccess_content );
-
-            if ( ! $did_write ) {
-                throw new RuntimeException( 'Could not create .htaccess file: ' . $htaccess_path );
-            }
-        }
+        $this->maybe_set_up_logs_directory( $log_dir, $is_fresh_dir );
 
         // No need to check if the file exists, it will be created when we log the first message
         return $log_path;
