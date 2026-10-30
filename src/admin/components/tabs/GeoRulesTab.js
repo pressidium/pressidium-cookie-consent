@@ -6,10 +6,13 @@ import {
   Flex,
   FlexItem,
   Button,
+  Notice,
   RadioControl,
 } from '@wordpress/components';
-import { __ } from '@wordpress/i18n';
+import { __, sprintf } from '@wordpress/i18n';
 import { plus as PlusIcon } from '@wordpress/icons';
+
+import styled from 'styled-components';
 
 import SettingsContext from '../../store/context';
 import * as ActionTypes from '../../store/actionTypes';
@@ -17,7 +20,14 @@ import * as ActionTypes from '../../store/actionTypes';
 import GeoRulesRegionsTable from '../GeoRulesRegionsTable';
 import NewGeoRuleRegionModal from '../NewGeoRuleRegionModal';
 
+const StyledNotice = styled(Notice)`
+    width: 100%;
+    margin: 0 !important;
+`;
+
 function GeoRulesTab() {
+  const { detected_country: detectedCountry = null } = pressidiumCCAdminDetails.geo ?? {};
+
   const { state, dispatch } = useContext(SettingsContext);
 
   const [isOptInModalOpen, setIsOptInModalOpen] = useState(false);
@@ -71,6 +81,21 @@ function GeoRulesTab() {
           title={__('Default consent mode', 'pressidium-cookie-consent')}
           initialOpen
         >
+          <PanelRow>
+            {detectedCountry ? (
+              <StyledNotice status="info" politeness="polite" isDismissible={false}>
+                {sprintf(
+                  // translators: %s: Two-letter country code (e.g. "GR").
+                  __('Country detected for your current request: %s. Region rules are matched against each visitor’s detected country.', 'pressidium-cookie-consent'),
+                  detectedCountry,
+                )}
+              </StyledNotice>
+            ) : (
+              <StyledNotice status="warning" politeness="polite" isDismissible={false}>
+                {__('No country could be detected for your current request. Region rules can only be applied when a country code is available for the visitor. When no country can be determined, the default consent mode is used.', 'pressidium-cookie-consent')}
+              </StyledNotice>
+            )}
+          </PanelRow>
           <PanelRow>
             <Flex>
               <FlexItem>

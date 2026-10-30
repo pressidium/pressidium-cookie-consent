@@ -203,6 +203,7 @@ If you have spotted any bugs, or would like to request additional features from 
 * Add settings for customizing consent modal footer links
 * Add a toggle for the consent modal close icon
 * Make the settings page footer sticky
+* Expose the `pressidium_cookie_consent_geo_server_keys`, `pressidium_cookie_consent_geo_country_code` and `pressidium_cookie_consent_geo_ip_address` filters
 * Fix excessive requests being sent to `POST /pressidium-cookie-consent/v1/consent` on every page load
 * Fix disabled Google tag gateway proxy routes falling through to the normal WordPress request lifecycle
 * Fix improper escaping of inline style output
