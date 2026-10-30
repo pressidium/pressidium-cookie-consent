@@ -10,6 +10,7 @@ namespace Pressidium\WP\CookieConsent;
 
 use const Pressidium\WP\CookieConsent\VERSION;
 
+use Pressidium\WP\CookieConsent\Dependencies\Psr\SimpleCache\CacheInterface;
 use Pressidium\WP\CookieConsent\Logging\Logger;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -24,6 +25,16 @@ if ( ! defined( 'ABSPATH' ) ) {
 class Upgrader {
 
     /**
+     * @var string Key of the transient holding the version a failed upgrade was targeting.
+     */
+    const FAILED_UPGRADE_KEY = 'pressidium_cookie_consent_failed_upgrade';
+
+    /**
+     * @var int Number of seconds to wait before retrying a failed upgrade.
+     */
+    const RETRY_INTERVAL = 15 * MINUTE_IN_SECONDS;
+
+    /**
      * @var Logger Logger object.
      */
     private Logger $logger;
@@ -34,14 +45,21 @@ class Upgrader {
     private Settings $settings;
 
     /**
+     * @var CacheInterface Cache instance.
+     */
+    private CacheInterface $cache;
+
+    /**
      * Upgrader constructor.
      *
-     * @param Logger   $logger   Logger object.
-     * @param Settings $settings Settings object.
+     * @param Logger         $logger   Logger object.
+     * @param Settings       $settings Settings object.
+     * @param CacheInterface $cache    Cache instance.
      */
-    public function __construct( Logger $logger, Settings $settings ) {
+    public function __construct( Logger $logger, Settings $settings, CacheInterface $cache ) {
         $this->logger   = $logger;
         $this->settings = $settings;
+        $this->cache    = $cache;
     }
 
     /**
@@ -88,6 +106,11 @@ class Upgrader {
             return;
         }
 
+        if ( $this->cache->get( self::FAILED_UPGRADE_KEY ) === VERSION ) {
+            // Upgrade to this version failed recently, wait before retrying
+            return;
+        }
+
         $settings = Emoji::decode_array( $this->settings->get() );
 
         if ( ! $this->did_just_upgrade( $settings ) ) {
@@ -103,11 +126,14 @@ class Upgrader {
         $set_successfully = $this->settings->set( $settings );
 
         if ( ! $set_successfully ) {
+            $this->cache->set( self::FAILED_UPGRADE_KEY, VERSION, self::RETRY_INTERVAL );
+
             $this->logger->error(
                 sprintf(
-                    'Could not save settings after upgrade from version %s to %s.',
+                    'Could not save settings after upgrade from version %s to %s. Will retry in %d minutes.',
                     $old_version,
-                    VERSION
+                    VERSION,
+                    self::RETRY_INTERVAL / MINUTE_IN_SECONDS
                 )
             );
             return;

@@ -11,11 +11,13 @@ namespace Pressidium\WP\CookieConsent\Admin\Settings;
 use Pressidium\WP\CookieConsent\Hooks\Actions;
 use Pressidium\WP\CookieConsent\Hooks\Filters;
 use Pressidium\WP\CookieConsent\Admin\Page;
+use Pressidium\WP\CookieConsent\Geo_Locator;
 use Pressidium\WP\CookieConsent\Utils\String_Utils;
 use Pressidium\WP\CookieConsent\Utils\WP_Utils;
 
 use const Pressidium\WP\CookieConsent\PLUGIN_DIR;
 use const Pressidium\WP\CookieConsent\PLUGIN_URL;
+use const Pressidium\WP\CookieConsent\PLUGIN_FILE;
 use const Pressidium\WP\CookieConsent\VERSION;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -28,6 +30,20 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @since 1.0.0
  */
 class Settings_Page extends Page implements Actions, Filters {
+
+    /**
+     * @var Geo_Locator Instance of `Geo_Locator`.
+     */
+    private Geo_Locator $geo_locator;
+
+    /**
+     * Settings_Page constructor.
+     *
+     * @param Geo_Locator $geo_locator
+     */
+    public function __construct( Geo_Locator $geo_locator ) {
+        $this->geo_locator = $geo_locator;
+    }
 
     /**
      * Return the menu slug.
@@ -124,11 +140,11 @@ class Settings_Page extends Page implements Actions, Filters {
     }
 
     /**
-     * Enqueue script(s).
+     * Enqueue scripts for the settings page.
      *
      * @return void
      */
-    public function enqueue_scripts() {
+    private function enqueue_scripts() {
         if ( ! $this->is_settings_page() ) {
             // Not the settings page, bail early
             return;
@@ -166,15 +182,31 @@ class Settings_Page extends Page implements Actions, Filters {
             'pressidiumCCAdminDetails',
             array(
                 'domain' => WP_Utils::get_domain(),
+                'geo'    => array(
+                    'detected_country' => $this->geo_locator->maybe_get_country_code(
+                        $this->geo_locator->get_ip_address()
+                    ),
+                ),
                 'assets' => array(
-                    'gtm_template_url' => esc_url( PLUGIN_URL . 'assets/templates/template.tpl' ),
-                    'screenshots'      => array(
+                    'gtm_template_url'   => esc_url( PLUGIN_URL . 'assets/templates/template.tpl' ),
+                    'screenshots'        => array(
                         'gallery' => esc_url( PLUGIN_URL . 'assets/images/gtm-gallery.png' ),
                         'import'  => esc_url( PLUGIN_URL . 'assets/images/gtm-import.png' ),
                         'tag'     => esc_url( PLUGIN_URL . 'assets/images/gtm-tag.png' ),
                         'config'  => esc_url( PLUGIN_URL . 'assets/images/gtm-config.png' ),
                     ),
-                    'promo'            => esc_url( PLUGIN_URL . 'assets/images/promo.png' ),
+                    'promo'              => esc_url( PLUGIN_URL . 'assets/images/promo.png' ),
+                    'performance_banner' => esc_url( PLUGIN_URL . 'assets/images/performance-banner.png' ),
+                ),
+                'urls'   => array(
+                    'performance_plugin_search' => add_query_arg(
+                        array(
+                            's'    => rawurlencode( 'Pressidium Performance' ),
+                            'tab'  => 'search',
+                            'type' => 'term',
+                        ),
+                        admin_url( 'plugin-install.php' )
+                    ),
                 ),
                 'api'    => array(
                     'route'                    => 'pressidium-cookie-consent/v1/settings',
@@ -197,6 +229,39 @@ class Settings_Page extends Page implements Actions, Filters {
             'cookie-consent-admin-script',
             'pressidium-cookie-consent'
         );
+    }
+
+    /**
+     * Enqueue styles for the installed plugin pages.
+     *
+     * @param string $hook The current admin page.
+     *
+     * @return void
+     */
+    private function enqueue_styles( string $hook ): void {
+        if ( $hook !== 'plugins.php' ) {
+            // Not on the plugins page, bail early
+            return;
+        }
+
+        wp_enqueue_style(
+            'pressidium-cookie-consent-installed-plugins',
+            PLUGIN_URL . 'assets/css/admin-styles.css',
+            array(), // no dependencies
+            VERSION
+        );
+    }
+
+    /**
+     * Enqueue any scripts and styled needed for the admin pages.
+     *
+     * @param string $hook The current admin page.
+     *
+     * @return void
+     */
+    public function admin_enqueue_scripts_and_styles( string $hook ): void {
+        $this->enqueue_scripts();
+        $this->enqueue_styles( $hook );
     }
 
     /**
@@ -233,7 +298,7 @@ class Settings_Page extends Page implements Actions, Filters {
     }
 
     /**
-     * Add plugin version to the right side of the admin footer.
+     * Add the plugin version to the right side of the admin footer.
      *
      * @param string|null $content The existing content.
      *
@@ -253,6 +318,45 @@ class Settings_Page extends Page implements Actions, Filters {
     }
 
     /**
+     * Filter the action links displayed for this plugin to add links to its settings page and documentation.
+     *
+     * @link https://developer.wordpress.org/reference/hooks/plugin_action_links/
+     *
+     * @param string[] $actions     An array of plugin action links.
+     * @param string   $plugin_file Path to the plugin file relative to the `plugins` directory.
+     *
+     * @return string[] Plugin action links including the settings and documentation links.
+     */
+    public function add_plugin_links( array $actions, string $plugin_file ): array {
+        if ( plugin_basename( PLUGIN_FILE ) !== $plugin_file ) {
+            return $actions;
+        }
+
+        $settings_page_url = add_query_arg(
+            array( 'page' => $this->get_menu_slug() ),
+            admin_url( 'admin.php' )
+        );
+
+        $documentation_url = 'https://github.com/pressidium/pressidium-cookie-consent/wiki';
+
+        $actions['settings'] = sprintf(
+            '<a href="%1$s" rel="noopener noreferrer" class="pressidium-action-link">%2$s</a>',
+            esc_url( $settings_page_url ),
+            esc_html__( 'Settings', 'pressidium-cookie-consent' ),
+        );
+
+        $actions['documentation'] = sprintf(
+            '<a href="%1$s" target="_blank" rel="noopener noreferrer" class="pressidium-action-link">%2$s<span class="screen-reader-text">%3$s</span><span aria-hidden="true" class="dashicons dashicons-external"></span></a>',
+            esc_url( $documentation_url ),
+            esc_html__( 'Docs', 'pressidium-cookie-consent' ),
+            /* translators: Accessibility text. */
+            esc_html__( '(opens in a new tab)', 'pressidium-cookie-consent' )
+        );
+
+        return $actions;
+    }
+
+    /**
      * Return the actions to register.
      *
      * @return array<string, array{0: string, 1?: int, 2?: int}>
@@ -260,7 +364,7 @@ class Settings_Page extends Page implements Actions, Filters {
     public function get_actions(): array {
         $actions = parent::get_actions();
 
-        $actions['admin_enqueue_scripts'] = array( 'enqueue_scripts' );
+        $actions['admin_enqueue_scripts'] = array( 'admin_enqueue_scripts_and_styles' );
 
         return $actions;
     }
@@ -272,8 +376,9 @@ class Settings_Page extends Page implements Actions, Filters {
      */
     public function get_filters(): array {
         return array(
-            'admin_footer_text' => array( 'admin_footer_info' ),
-            'update_footer'     => array( 'admin_footer_version', 11 ),
+            'admin_footer_text'   => array( 'admin_footer_info' ),
+            'update_footer'       => array( 'admin_footer_version', 11 ),
+            'plugin_action_links' => array( 'add_plugin_links', 10, 2 ),
         );
     }
 

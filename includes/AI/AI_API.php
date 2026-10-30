@@ -80,35 +80,6 @@ final class AI_API implements Actions {
         $this->logger            = $logger;
         $this->encrypted_options = $encrypted_options;
         $this->settings          = $settings;
-
-        $this->ai = $this->init_ai();
-    }
-
-    /**
-     * Initialize the AI instance.
-     *
-     * @return ?AI
-     */
-    private function init_ai(): ?AI {
-        try {
-            $ai_provider = $this->get_ai_setting( 'provider' ) ?? 'openai';
-            $api_key     = $this->encrypted_options->get( self::API_KEY_OPTION_KEY );
-
-            $provider_to_type_map = array(
-                'openai' => 'gpt',
-                'gemini' => 'gemini',
-            );
-
-            $ai_type = $provider_to_type_map[ $ai_provider ] ?? $ai_provider;
-
-            return AI_Factory::create( $ai_type )->init( $api_key );
-        } catch ( InvalidArgumentException $exception ) {
-            $this->logger->error( 'Could not instantiate AI instance' );
-            return null;
-        } catch ( Decryption_Exception $exception ) {
-            $this->logger->error( 'Could not decrypt API key' );
-            return null;
-        }
     }
 
     /**
@@ -121,7 +92,7 @@ final class AI_API implements Actions {
     private function get_ai_setting( string $key ) {
         $settings = Emoji::decode_array( $this->settings->get() );
 
-        $ai_settings = $settings['pressidium_options']['ai'] ?? array();
+        $ai_settings = $settings['pressidiumOptions']['ai'] ?? array();
 
         return $ai_settings[ $key ] ?? null;
     }
@@ -137,12 +108,85 @@ final class AI_API implements Actions {
     private function update_ai_setting( string $key, $value ): bool {
         $settings = Emoji::decode_array( $this->settings->get() );
 
-        $ai_settings         = $settings['pressidium_options']['ai'] ?? array();
+        $ai_settings         = $settings['pressidiumOptions']['ai'] ?? array();
         $ai_settings[ $key ] = $value;
 
-        $settings['pressidium_options']['ai'] = $ai_settings;
+        $settings['pressidiumOptions']['ai'] = $ai_settings;
 
         return $this->settings->set( $settings );
+    }
+
+    /**
+     * Initialize the AI instance.
+     *
+     * @return AI|WP_Error AI instance, or a `WP_Error` describing why it could not be initialized.
+     */
+    private function init_ai() {
+        try {
+            $ai_provider = $this->get_ai_setting( 'provider' ) ?? 'openai';
+            $api_key     = $this->encrypted_options->get( self::API_KEY_OPTION_KEY );
+
+            $provider_to_type_map = array(
+                'openai' => 'gpt',
+                'gemini' => 'gemini',
+            );
+
+            $ai_type = $provider_to_type_map[ $ai_provider ] ?? $ai_provider;
+
+            return AI_Factory::create( $ai_type )->init( $api_key );
+        } catch ( InvalidArgumentException $exception ) {
+            $this->logger->error( 'Could not instantiate AI instance' );
+
+            return new WP_Error(
+                'ai_provider_invalid',
+                // phpcs:ignore Generic.Files.LineLength
+                __( 'The selected AI provider is not supported. Please select a different provider.', 'pressidium-cookie-consent' )
+            );
+        } catch ( Decryption_Exception $exception ) {
+            $this->logger->error( 'Could not decrypt API key' );
+
+            return new WP_Error(
+                'ai_api_key_undecryptable',
+                // phpcs:ignore Generic.Files.LineLength
+                __( 'The stored API key can no longer be decrypted, most likely because the security keys or salts of your site have changed. Please enter the API key again.', 'pressidium-cookie-consent' )
+            );
+        }
+    }
+
+    /**
+     * Return the AI instance, initializing it on first use.
+     *
+     * @return AI|WP_Error AI instance, or a `WP_Error` describing why it could not be initialized.
+     */
+    private function get_ai() {
+        if ( ! is_null( $this->ai ) ) {
+            return $this->ai;
+        }
+
+        $ai = $this->init_ai();
+
+        if ( $ai instanceof AI ) {
+            $this->ai = $ai;
+        }
+
+        return $ai;
+    }
+
+    /**
+     * Return a failed response for the given error.
+     *
+     * @param WP_Error $error Error describing why the request failed.
+     *
+     * @return WP_REST_Response
+     */
+    private function error_response( WP_Error $error ): WP_REST_Response {
+        return rest_ensure_response(
+            array(
+                'success' => false,
+                'code'    => $error->get_error_code(),
+                'error'   => $error->get_error_message(),
+            )
+        );
     }
 
     /**
@@ -312,12 +356,14 @@ final class AI_API implements Actions {
 
         $response = array( 'success' => false );
 
-        if ( is_null( $this->ai ) ) {
-            return rest_ensure_response( $response );
+        $ai = $this->get_ai();
+
+        if ( is_wp_error( $ai ) ) {
+            return $this->error_response( $ai );
         }
 
         try {
-            $models = $this->ai->get_models();
+            $models = $ai->get_models();
         } catch ( RuntimeException | Exception $exception ) {
             $this->logger->log_exception( $exception );
             return rest_ensure_response( $response );
@@ -359,7 +405,13 @@ final class AI_API implements Actions {
 
             if ( empty( $model ) ) {
                 // If no model is set, use the default model
-                $model = $this->ai->get_default_model();
+                $ai = $this->get_ai();
+
+                if ( is_wp_error( $ai ) ) {
+                    return $this->error_response( $ai );
+                }
+
+                $model = $ai->get_default_model();
             }
         } catch ( RuntimeException | Exception $exception ) {
             $this->logger->log_exception( $exception );
@@ -403,13 +455,15 @@ final class AI_API implements Actions {
 
         $response = array( 'success' => false );
 
-        if ( is_null( $this->ai ) ) {
-            return rest_ensure_response( $response );
+        $ai = $this->get_ai();
+
+        if ( is_wp_error( $ai ) ) {
+            return $this->error_response( $ai );
         }
 
         try {
             // Prompt the AI to translate the text
-            $translation = $this->ai
+            $translation = $ai
                 // phpcs:ignore Generic.Files.LineLength
                 ->set_system_prompt( AI::TRANSLATE_SYSTEM_PROMPT )
                 ->select_model( $this->get_ai_setting( 'model' ) )
@@ -452,13 +506,15 @@ final class AI_API implements Actions {
 
         $response = array( 'success' => false );
 
-        if ( is_null( $this->ai ) ) {
-            return rest_ensure_response( $response );
+        $ai = $this->get_ai();
+
+        if ( is_wp_error( $ai ) ) {
+            return $this->error_response( $ai );
         }
 
         try {
             // Prompt the AI to translate the text
-            $translation = $this->ai
+            $translation = $ai
                 // phpcs:ignore Generic.Files.LineLength
                 ->set_system_prompt( AI::TRANSLATE_ALL_SYSTEM_PROMPT )
                 ->select_model( $this->get_ai_setting( 'model' ) )
@@ -500,13 +556,15 @@ final class AI_API implements Actions {
 
         $response = array( 'success' => false );
 
-        if ( is_null( $this->ai ) ) {
-            return rest_ensure_response( $response );
+        $ai = $this->get_ai();
+
+        if ( is_wp_error( $ai ) ) {
+            return $this->error_response( $ai );
         }
 
         try {
             // Prompt the AI to generate a cookie description
-            $description = $this->ai
+            $description = $ai
                 // phpcs:ignore Generic.Files.LineLength
                 ->set_system_prompt( AI::COOKIE_DESCRIPTION_SYSTEM_PROMPT )
                 ->select_model( $this->get_ai_setting( 'model' ) )

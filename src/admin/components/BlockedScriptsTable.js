@@ -34,11 +34,11 @@ function BlockedScriptsTable() {
   const { state, dispatch } = useContext(SettingsContext);
 
   const blockedScripts = useMemo(() => {
-    if (!state.pressidium_options.blocked_scripts) {
+    if (!state.pressidiumOptions.blockedScripts) {
       return [];
     }
 
-    return state.pressidium_options.blocked_scripts;
+    return state.pressidiumOptions.blockedScripts;
   }, [state]);
 
   const onAddScript = useCallback(() => {

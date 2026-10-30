@@ -33,11 +33,30 @@ export const useAI = () => {
     const response = await apiFetch(options);
 
     if (!('success' in response) || !response.success) {
-      throw new Error(response.error || 'Request failed');
+      const error = new Error(response.error || '');
+      error.code = response.code || null;
+
+      throw error;
     }
 
     return response;
   };
+
+  /**
+   * Return a failed result for the given error.
+   *
+   * Errors may be thrown by `apiRequest()` or be rejections of `apiFetch()`
+   * (e.g. a `WP_Error` response), both of which have `message` and `code` properties.
+   *
+   * @param {Error|object} error Error thrown while sending the request.
+   *
+   * @return {{success: false, error: ?string, code: ?string}}
+   */
+  const failure = (error) => ({
+    success: false,
+    error: (error && error.message) || null,
+    code: (error && error.code) || null,
+  });
 
   /**
    * Send a GET request to the API.
@@ -96,7 +115,7 @@ export const useAI = () => {
    *
    * @param {string} provider AI provider to use.
    *
-   * @return {Promise<{success: true}|{success: false, error}>}
+   * @return {Promise<{success: true}|{success: false, error: ?string, code: ?string}>}
    */
   const updateProvider = async (provider) => {
     const { provider_route: route, nonce } = pressidiumCCAdminDetails.api;
@@ -106,7 +125,7 @@ export const useAI = () => {
 
       return { success: true };
     } catch (error) {
-      return { success: false, error };
+      return failure(error);
     }
   };
 
@@ -115,7 +134,7 @@ export const useAI = () => {
    *
    * @param {string} apiKey API key to use.
    *
-   * @return {Promise<{success: true}|{success: false, error}>}
+   * @return {Promise<{success: true}|{success: false, error: ?string, code: ?string}>}
    */
   const updateApiKey = async (apiKey) => {
     const { credentials_route: route, nonce } = pressidiumCCAdminDetails.api;
@@ -125,7 +144,7 @@ export const useAI = () => {
 
       return { success: true };
     } catch (error) {
-      return { success: false, error };
+      return failure(error);
     }
   };
 
@@ -137,14 +156,14 @@ export const useAI = () => {
 
       return { success: true };
     } catch (error) {
-      return { success: false, error };
+      return failure(error);
     }
   };
 
   /**
    * Return the currently selected AI provider.
    *
-   * @return {Promise<{success: true, provider: string}|{success: false, error}>}
+   * @return {Promise<{success: true, provider}|{success: false, error: ?string, code: ?string}>}
    */
   const fetchSelectedProvider = async () => {
     const { provider_route: route, nonce } = pressidiumCCAdminDetails.api;
@@ -154,14 +173,14 @@ export const useAI = () => {
 
       return { success: true, provider: response.provider };
     } catch (error) {
-      return { success: false, error };
+      return failure(error);
     }
   };
 
   /**
    * Return all AI models available for the currently selected provider.
    *
-   * @return {Promise<{success: true, models}|{success: false, error}>}
+   * @return {Promise<{success: true, models}|{success: false, error: ?string, code: ?string}>}
    */
   const fetchAvailableModels = async () => {
     const { models_route: route, nonce } = pressidiumCCAdminDetails.api;
@@ -171,14 +190,14 @@ export const useAI = () => {
 
       return { success: true, models: response.models };
     } catch (error) {
-      return { success: false, error };
+      return failure(error);
     }
   };
 
   /**
    * Return the currently selected AI model.
    *
-   * @return {Promise<{success: true, model}|{success: false, error}>}
+   * @return {Promise<{success: true, model}|{success: false, error: ?string, code: ?string}>}
    */
   const fetchSelectedModel = async () => {
     const { model_route: route, nonce } = pressidiumCCAdminDetails.api;
@@ -188,7 +207,7 @@ export const useAI = () => {
 
       return { success: true, model: response.model };
     } catch (error) {
-      return { success: false, error };
+      return failure(error);
     }
   };
 
@@ -198,7 +217,7 @@ export const useAI = () => {
    * @param {string} text Text to translate.
    * @param {string} lang Language to translate to.
    *
-   * @return {Promise<{success: true, translation}|{success: false, error}>}
+   * @return {Promise<{success: true, translation}|{success: false, error: ?string, code: ?string}>}
    */
   const generateTranslation = async (text, lang) => {
     if (ctx.isGenerating) {
@@ -222,7 +241,7 @@ export const useAI = () => {
     } catch (error) {
       ctx.stopGenerating();
 
-      return { success: false, error };
+      return failure(error);
     }
   };
 
@@ -232,7 +251,7 @@ export const useAI = () => {
    * @param {object} object Object to translate its values.
    * @param {string} lang   Language to translate to.
    *
-   * @return {Promise<{success: true, translation}|{success: false, error}>}
+   * @return {Promise<{success: true, translation}|{success: false, error: ?string, code: ?string}>}
    */
   const generateTranslationForObject = async (object, lang) => {
     if (ctx.isGenerating) {
@@ -260,7 +279,7 @@ export const useAI = () => {
     } catch (error) {
       ctx.stopGenerating();
 
-      return { success: false, error };
+      return failure(error);
     }
   };
 
@@ -269,7 +288,7 @@ export const useAI = () => {
    *
    * @param {string} cookieName Name of the cookie to describe.
    *
-   * @return {Promise<{success: true, translation}|{success: false, error}>}
+   * @return {Promise<{success: true, translation}|{success: false, error: ?string, code: ?string}>}
    */
   const generateCookieDescription = async (cookieName) => {
     if (ctx.isGenerating) {
@@ -293,7 +312,7 @@ export const useAI = () => {
     } catch (error) {
       ctx.stopGenerating();
 
-      return { success: false, error };
+      return failure(error);
     }
   };
 

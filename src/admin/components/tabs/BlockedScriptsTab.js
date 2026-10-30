@@ -13,7 +13,7 @@ function BlockedScriptsTab() {
       <PanelBody initialOpen>
         <PanelRow>
           <p>
-            {__('Make sure that you’ve enabled the “Page Scripts” option, located under the General tab.', 'pressidium-cookie-consent')}
+            {__('Make sure that you’ve enabled the “Manage script tags” option, located under the General tab.', 'pressidium-cookie-consent')}
           </p>
         </PanelRow>
         <PanelRow>
