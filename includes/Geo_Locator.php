@@ -116,9 +116,13 @@ class Geo_Locator {
                 continue;
             }
 
-            // Short-circuit when we find a country code
-            $country_code = strtoupper( sanitize_text_field( wp_unslash( $_SERVER[ $server_key ] ) ) );
-            break;
+            $country_code = sanitize_text_field( wp_unslash( $_SERVER[ $server_key ] ) );
+            $country_code = $this->normalize_country_code( $country_code );
+
+            if ( $country_code !== null ) {
+                // Short-circuit when we find a valid country code
+                break;
+            }
         }
 
         /**
