@@ -15,6 +15,7 @@ use Pressidium\WP\CookieConsent\Dependencies\Psr\Log\InvalidArgumentException;
 
 use RuntimeException;
 use Exception;
+use Throwable;
 
 // Prevent direct access
 if ( ! defined( 'ABSPATH' ) ) {
@@ -178,9 +179,10 @@ class File_Logger implements Logger {
     /**
      * Log a message with an arbitrary level.
      *
-     * @throws InvalidArgumentException If the log level is invalid.
-     * @throws InvalidArgumentException If the message is empty.
-     * @throws RuntimeException         If the log file could not be written to.
+     * Logging is a side channel and must never be able to break the request, so
+     * nothing is allowed to escape this method. If the entry cannot be written (an
+     * unwritable uploads directory, a read-only filesystem, a full disk), the
+     * message goes to PHP's error log and execution carries on.
      *
      * @param mixed  $level   Log level.
      * @param string $message Log message.
@@ -189,20 +191,31 @@ class File_Logger implements Logger {
      * @return void
      */
     public function log( $level, $message, array $context = array() ): void {
-        $destination = $this->get_logs_path();
-
         if ( ! isset( self::LEVELS[ $level ] ) ) {
-            throw new InvalidArgumentException( 'Invalid log level: ' . $level );
+            // Degrade to `error` rather than throwing on an unknown level.
+            $level = LogLevel::ERROR;
         }
 
         if ( empty( $message ) ) {
-            throw new InvalidArgumentException( 'Empty message' );
+            // Nothing meaningful to record.
+            return;
         }
 
-        $did_write = file_put_contents( $destination, $message . PHP_EOL, FILE_APPEND );
+        try {
+            $destination = $this->get_logs_path();
+            $did_write   = file_put_contents( $destination, $message . PHP_EOL, FILE_APPEND );
 
-        if ( ! $did_write ) {
-            throw new RuntimeException( 'Could not write to log file: ' . $destination );
+            if ( $did_write === false ) {
+                throw new RuntimeException( 'Could not write to log file: ' . $destination );
+            }
+        } catch ( Throwable $throwable ) {
+            /*
+             * `Throwable` rather than `Exception`: a failure in here can also arrive
+             * as an `Error`, and the whole point of this method is that nothing gets
+             * out of it.
+             */
+            // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
+            error_log( 'Pressidium Cookie Consent [' . $level . ']: ' . $message );
         }
     }
 
