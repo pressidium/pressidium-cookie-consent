@@ -445,15 +445,21 @@ class Migrator {
             $settings_modal = $lang_settings['settings_modal'] ?? array();
             $old_blocks     = $settings_modal['blocks']        ?? array();
 
+            /*
+             * Where a label has to be replaced, take the site's own wording for the same
+             * action from the settings modal rather than an English literal. 1.9.x stored
+             * those per language, and they are already mapped into the preferences modal
+             * below, so this needs no new data.
+             */
             // `accept_selected` has no v3 equivalent on the consent modal, so fall back to a truthful label
             $accept_all_btn = $primary_btn_role === 'accept_selected'
-                ? 'Accept all'
+                ? ( $settings_modal['accept_all_btn'] ?? 'Accept all' )
                 : ( $consent_modal['primary_btn']['text'] ?? 'Accept all' );
 
             if ( $secondary_btn_role === 'settings' ) {
                 // The old secondary button opened the preferences modal
                 $show_preferences_btn = $consent_modal['secondary_btn']['text'] ?? 'Show preferences';
-                $accept_necessary_btn = 'Accept necessary';
+                $accept_necessary_btn = $settings_modal['reject_all_btn'] ?? 'Accept necessary';
             } else {
                 $show_preferences_btn = 'Show preferences';
                 $accept_necessary_btn = $consent_modal['secondary_btn']['text'] ?? 'Accept necessary';
