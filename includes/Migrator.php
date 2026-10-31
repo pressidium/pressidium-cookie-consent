@@ -362,6 +362,33 @@ class Migrator {
     }
 
     /**
+     * Point the v2 preferences trigger at the name v3 binds.
+     *
+     * Up to 1.9.x a button carrying `data-cc="c-settings"` opened the preferences modal,
+     * and that markup shipped in the default consent modal description, so most sites have
+     * it whether they wrote any HTML themselves or not. The v3 library binds
+     * `show-preferencesModal` instead and ignores `c-settings` entirely, which leaves the
+     * button in place, looking like a link and doing nothing.
+     *
+     * This replaces the exact attribute rather than parsing the description. The value is
+     * the only one the plugin ever shipped, so an exact string swap is enough and cannot
+     * disturb the rest of a site's markup.
+     *
+     * @since 2.0.0
+     *
+     * @param string $html Description HTML.
+     *
+     * @return string
+     */
+    private function migrate_preferences_trigger( string $html ): string {
+        return str_replace(
+            array( 'data-cc="c-settings"', "data-cc='c-settings'" ),
+            array( 'data-cc="show-preferencesModal"', "data-cc='show-preferencesModal'" ),
+            $html
+        );
+    }
+
+    /**
      * Migrate settings coming from versions prior to 2.0.0.
      *
      * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
@@ -461,7 +488,9 @@ class Migrator {
 
             $new_consent_modal = array(
                 'title'              => $consent_modal['title']       ?? '',
-                'description'        => $consent_modal['description'] ?? '',
+                'description'        => $this->migrate_preferences_trigger(
+                    $consent_modal['description'] ?? ''
+                ),
                 'acceptAllBtn'       => $accept_all_btn,
                 'acceptNecessaryBtn' => $accept_necessary_btn,
                 'showPreferencesBtn' => $show_preferences_btn,
@@ -477,7 +506,9 @@ class Migrator {
             foreach ( $old_blocks as $block ) {
                 $section = array(
                     'title'       => $block['title']       ?? '',
-                    'description' => $block['description'] ?? '',
+                    'description' => $this->migrate_preferences_trigger(
+                        $block['description'] ?? ''
+                    ),
                 );
                 if ( isset( $block['toggle']['value'] ) ) {
                     $section['linkedCategory'] = $block['toggle']['value'];
