@@ -17,7 +17,7 @@ by external contributors **must be written by a human**.
 Ensure that you have read the:
 
 * [`CONTRIBUTING.md`](https://github.com/pressidium/pressidium-cookie-consent/blob/master/CONTRIBUTING.md)
-* [`CODE-OF-CONDUCT.md`](https://github.com/pressidium/pressidium-cookie-consent/blob/master/CODE-OF-CONDUCT.md)
+* [`CODE_OF_CONDUCT.md`](https://github.com/pressidium/pressidium-cookie-consent/blob/master/CODE_OF_CONDUCT.md)
 * [`AI-POLICY.md`](https://github.com/pressidium/pressidium-cookie-consent/blob/master/AI-POLICY.md)
 
 ## For maintainers
@@ -75,7 +75,7 @@ If you used generative AI to assist in preparing this pull request, please discl
 **Please review and confirm** the following before submitting your pull request:
 
 * [ ] I have read and understood the [Contributing](https://github.com/pressidium/pressidium-cookie-consent/blob/master/CONTRIBUTING.md) guidelines
-* [ ] I have read and understood the [Code of Conduct](https://github.com/pressidium/pressidium-cookie-consent/blob/master/CODE-OF-CONDUCT.md)
+* [ ] I have read and understood the [Code of Conduct](https://github.com/pressidium/pressidium-cookie-consent/blob/master/CODE_OF_CONDUCT.md)
 * [ ] I have read and understood the [AI Policy](https://github.com/pressidium/pressidium-cookie-consent/blob/master/AI-POLICY.md) and, if I used AI to prepare this pull request, I have reviewed its content and disclosed how AI was used
   * [ ] I have used generative AI to assist in preparing this pull request. I have reviewed its content, understood it, and disclosed how AI was used
   * [ ] I have **not** used generative AI to assist in preparing this pull request
