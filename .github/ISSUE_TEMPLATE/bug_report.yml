@@ -45,7 +45,6 @@ body:
     attributes:
       label: Screenshots
       description: If applicable, add screenshots to help explain your problem.
-      placeholder: Add screenshots here.
     validations:
       required: false
   - type: markdown
