@@ -1,0 +1,11 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Security & Vulnerabilities
+    url: https://github.com/pressidium/pressidium-cookie-consent/blob/master/SECURITY.md
+    about: Please email us at security@pressidium.com to report security issues or vulnerabilities. Please DO NOT file public issues for security vulnerabilities.
+  - name: Documentation
+    url: https://github.com/pressidium/pressidium-cookie-consent/wiki
+    about: Need help using the plugin? Check out our docs.
+  - name: Questions & Discussions
+    url: https://github.com/pressidium/pressidium-cookie-consent/discussions
+    about: Join our community discussions to ask questions, share ideas, and get help from other users.
