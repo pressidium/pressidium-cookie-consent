@@ -22,7 +22,7 @@
         "source": "https://github.com/pressidium/pressidium-cookie-consent"
     },
     "require": {
-        "php": ">=7.4"
+        "php": ">=8.1"
     },
     "require-dev": {
         "squizlabs/php_codesniffer": "^3.7",
