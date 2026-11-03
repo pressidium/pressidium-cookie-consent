@@ -1,0 +1,131 @@
+name: Bug report
+description: Create a report to help us improve
+title: '[Bug]'
+labels: bug
+type: bug
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to report a bug!
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: Describe the bug in detail.
+      placeholder: A clear and concise description of what the bug is.
+    validations:
+      required: true
+  - type: textarea
+    id: steps-to-reproduce
+    attributes:
+      label: Steps to reproduce
+      description: Describe the steps to reproduce the behavior.
+      placeholder: 1. Go to '...'\n2. Click on '....'\n3. Scroll down to '....'\n4. See error
+    validations:
+      required: true
+  - type: textarea
+    id: expected-behavior
+    attributes:
+      label: Expected behavior
+      description: Describe what you expected to happen.
+      placeholder: A clear and concise description of what you expected to happen.
+    validations:
+      required: true
+  - type: textarea
+    id: actual-behavior
+    attributes:
+      label: Actual behavior
+      description: Describe what actually happened.
+      placeholder: A description of what actually happened.
+    validations:
+      required: false
+  - type: upload
+    id: screenshots
+    attributes:
+      label: Screenshots
+      description: If applicable, add screenshots to help explain your problem.
+      placeholder: Add screenshots here.
+    validations:
+      required: false
+  - type: markdown
+    id: environment
+    attributes:
+      value: |
+        Please provide the following information about your environment:
+  - type: dropdown
+    id: browsers
+    attributes:
+      label: Browser(s)
+      description: The browser(s) you are using.
+      multiple: true
+      options:
+        - Chrome
+        - Firefox
+        - Safari
+        - Other
+  - type: input
+    id: wordpress-version
+    attributes:
+      label: WordPress version
+      description: The version of WordPress you are using.
+      placeholder: e.g. `7.1.3`
+    validations:
+      required: true
+  - type: input
+    id: plugin-version
+    attributes:
+      label: Plugin version
+      description: The version of the plugin you are using.
+      placeholder: e.g. `2.0.0`
+    validations:
+      required: true
+  - type: input
+    id: php-version
+    attributes:
+      label: PHP version
+      description: The version of PHP you are using.
+      placeholder: e.g. `8.1`
+    validations:
+      required: true
+  - type: textarea
+    id: server-logs
+    attributes:
+      label: Server logs
+      description: If applicable, include any server logs that could be related to this issue.
+      placeholder: Paste server logs here.
+    validations:
+      required: false
+  - type: textarea
+    id: browser-console-logs
+    attributes:
+      label: Browser console logs
+      description: If applicable, include any warnings/errors in your browser’s console. You can open the Console panel in Google Chrome, using ⌘ + ⌥ + J on macOS, or CTRL + Shift + J on Windows/Linux.
+      placeholder: Paste browser console logs here.
+    validations:
+      required: false
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Checklist
+      description: Please confirm the following before submitting your bug report.
+      options:
+        - label: I have searched the [GitHub issues](https://github.com/pressidium/pressidium-cookie-consent/issues) to ensure this is not a duplicate
+          required: true
+        - label: I have provided sufficient information to reproduce and understand the issue
+          required: true
+        - label: I have tested the issue using the latest version of the plugin
+          required: true
+        - label: I have included any relevant error messages, logs, or screenshots, where applicable
+          required: true
+        - label: I have reviewed the [wiki](https://github.com/pressidium/pressidium-cookie-consent/wiki) to ensure this issue is not related to a misconfiguration
+          required: true
+        - label: I have read the [AI Policy](https://github.com/pressidium/pressidium-cookie-consent/blob/master/AI-POLICY.md) and, if I used AI to prepare this issue, I have reviewed its content and disclosed how AI was used
+          required: true
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: Additional context
+      description: Add any other context about the problem here.
+    validations:
+      required: false

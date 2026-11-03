@@ -1,0 +1,53 @@
+name: Feature request
+description: Suggest an idea for this project
+title: '[Feat]'
+labels: enhancement
+type: feature
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to suggest a feature!
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: Is your feature request related to a problem? Please describe.
+      placeholder: A clear and concise description of what the problem is.
+    validations:
+      required: true
+  - type: textarea
+    id: proposed-solution
+    attributes:
+      label: Proposed solution
+      description: Describe the solution you'd like
+      placeholder: A clear and concise description of what you want to happen.
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives-considered
+    attributes:
+      label: Alternatives considered
+      description: Describe alternatives you've considered
+      placeholder: A clear and concise description of any alternative solutions or features you've considered.
+    validations:
+      required: false
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Checklist
+      description: Please confirm the following before submitting your bug report.
+      options:
+        - label: I have searched the [GitHub issues](https://github.com/pressidium/pressidium-cookie-consent/issues) to ensure this is not a duplicate
+          required: true
+        - label: I have confirmed that this feature is not already available in the latest version of the plugin
+          required: true
+        - label: I have read the [AI Policy](https://github.com/pressidium/pressidium-cookie-consent/blob/master/AI-POLICY.md) and, if I used AI to prepare this issue, I have reviewed its content and disclosed how AI was used
+          required: true
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: Additional context
+      description: Add any other context about the feature request here.
+    validations:
+      required: false
