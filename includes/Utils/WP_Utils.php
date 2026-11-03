@@ -31,9 +31,11 @@ class WP_Utils {
 
         if ( ! $domain ) {
             /*
-             * Fall back to the request host. There is no `HTTP_HOST` under WP-CLI or
-             * cron, and the declared return type is `string`, so coalesce rather than
-             * raise a `TypeError`.
+             * `get_site_url()` yields a host on a normally configured site, so this
+             * branch is not reached in practice. It exists because the declared return
+             * type is `string` while `$_SERVER['HTTP_HOST']` is not guaranteed to be
+             * set, and an unset index would surface as a `TypeError` from the return
+             * type rather than as anything a caller could act on.
              */
             return $_SERVER['HTTP_HOST'] ?? '';
         }
