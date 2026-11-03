@@ -19,7 +19,6 @@ import {
 import { __ } from '@wordpress/i18n';
 import { plus as PlusIcon } from '@wordpress/icons';
 
-import styled from 'styled-components';
 import iso3166 from 'iso-3166-2';
 
 import SettingsContext from '../../store/context';
@@ -29,10 +28,6 @@ import Wrapper from '../Wrapper';
 import GCMRegionsTable from '../GCMRegionsTable';
 import NewRegionModal from '../NewRegionModal';
 import TagManagerGuide from '../TagManagerGuide';
-
-const StyledNotice = styled(Notice)`
-    margin: -16px -16px 24px !important;
-`;
 
 function ConsentModeTab() {
   const { state, dispatch } = useContext(SettingsContext);
@@ -120,7 +115,7 @@ function ConsentModeTab() {
   return (
     <Wrapper>
       {isGoogleScriptBlocked && !noticeDismissed ? (
-        <StyledNotice
+        <Notice
           status="warning"
           politeness="polite"
           onDismiss={dismissNotice}
@@ -134,7 +129,7 @@ function ConsentModeTab() {
           <ExternalLink href="https://support.google.com/google-ads/answer/10000067#Pings">
             {__('Consent mode pings', 'pressidium-cookie-consent')}
           </ExternalLink>
-        </StyledNotice>
+        </Notice>
       ) : null}
       <Flex align="flex-start" gap={4}>
         <FlexItem style={{ maxWidth: '400px' }}>

@@ -18,17 +18,10 @@ import {
 } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 
-import styled from 'styled-components';
-
 import SettingsContext from '../../store/context';
 import * as ActionTypes from '../../store/actionTypes';
 
 import Badge from '../Badge';
-
-const StyledNotice = styled(Notice)`
-    width: 100%;
-    margin: -16px -16px 4px !important;
-`;
 
 function TagGatewayTab() {
   const { state, dispatch } = useContext(SettingsContext);
@@ -90,25 +83,25 @@ function TagGatewayTab() {
       <PanelBody initialOpen>
         {!properSetupNoticeDismissed ? (
           <PanelRow>
-            <StyledNotice
+            <Notice
               status="info"
               politeness="polite"
               onDismiss={dismissProperSetupNotice}
             >
               {__('We recommend setting up the Google tag gateway via your CDN or load balancer for best performance. If that’s not possible, you can enable our one-click PHP proxy as a quick and easy alternative.', 'pressidium-cookie-consent')}
-            </StyledNotice>
+            </Notice>
           </PanelRow>
         ) : null}
         {!measurementPathNoticeDismissed && state.pressidiumOptions.googleTagGateway.proxyEnabled ? (
           <PanelRow>
-            <StyledNotice
+            <Notice
               status="info"
               politeness="polite"
               onDismiss={dismissMeasurementPathNotice}
             >
               {__('Remember to update the Google tag or Google Tag Manager scripts on the website to use the following measurement path:', 'pressidium-cookie-consent')}
               <code>/pressidium-cookie-consent-metrics</code>
-            </StyledNotice>
+            </Notice>
           </PanelRow>
         ) : null}
         <PanelRow>
