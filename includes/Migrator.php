@@ -451,19 +451,28 @@ class Migrator {
             $settings_modal = $lang_settings['settings_modal'] ?? array();
             $old_blocks     = $settings_modal['blocks']        ?? array();
 
-            // `accept_selected` has no v3 equivalent on the consent modal, so fall back to a truthful label
+            /*
+             * `accept_selected` has no v3 equivalent on the consent modal.
+             * We fall back to strings the admin already translated for this language.
+             */
+            $localized_accept_all       = $settings_modal['accept_all_btn'] ?? 'Accept all';
+            $localized_accept_necessary = $settings_modal['reject_all_btn'] ?? 'Accept necessary';
+            $localized_show_preferences = $settings_modal['title']          ?? 'Show preferences';
+
             $accept_all_btn = $primary_btn_role === 'accept_selected'
-                ? 'Accept all'
-                : ( $consent_modal['primary_btn']['text'] ?? 'Accept all' );
+                ? $localized_accept_all
+                : ( $consent_modal['primary_btn']['text'] ?? $localized_accept_all );
 
             if ( $secondary_btn_role === 'settings' ) {
                 // The old secondary button opened the preferences modal
-                $show_preferences_btn = $consent_modal['secondary_btn']['text'] ?? 'Show preferences';
-                $accept_necessary_btn = 'Accept necessary';
+                $show_preferences_btn = $consent_modal['secondary_btn']['text'] ?? $localized_show_preferences;
+                $accept_necessary_btn = $localized_accept_necessary;
             } else {
-                $show_preferences_btn = 'Show preferences';
-                $accept_necessary_btn = $consent_modal['secondary_btn']['text'] ?? 'Accept necessary';
+                $show_preferences_btn = $localized_show_preferences;
+                $accept_necessary_btn = $consent_modal['secondary_btn']['text'] ?? $localized_accept_necessary;
             }
+
+            $is_english = $lang === 'en' || str_starts_with( $lang, 'en-' );
 
             $new_consent_modal = array(
                 'title'              => strtr( $consent_modal['title'] ?? '', $trigger_map ),
@@ -472,10 +481,10 @@ class Migrator {
                 'acceptNecessaryBtn' => $accept_necessary_btn,
                 'showPreferencesBtn' => $show_preferences_btn,
                 'closeIconLabel'     => 'Close',
-                'footer'             => '<a href="#link">Privacy Policy</a><a href="#link">Terms and conditions</a>',
+                'footer'             => '<a href="">Privacy Policy</a><a href="">Terms and conditions</a>',
                 'footerLinks'        => array(
-                    array( 'url' => '#link', 'label' => 'Privacy Policy' ),
-                    array( 'url' => '#link', 'label' => 'Terms and conditions' ),
+                    array( 'url' => '', 'label' => $is_english ? 'Privacy Policy' : '' ),
+                    array( 'url' => '', 'label' => $is_english ? 'Terms and conditions' : '' ),
                 ),
             );
 
