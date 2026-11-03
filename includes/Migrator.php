@@ -459,6 +459,8 @@ class Migrator {
                 $accept_necessary_btn = $consent_modal['secondary_btn']['text'] ?? 'Accept necessary';
             }
 
+            $is_english = $lang === 'en' || str_starts_with( $lang, 'en-' );
+
             $new_consent_modal = array(
                 'title'              => $consent_modal['title']       ?? '',
                 'description'        => $consent_modal['description'] ?? '',
@@ -466,10 +468,10 @@ class Migrator {
                 'acceptNecessaryBtn' => $accept_necessary_btn,
                 'showPreferencesBtn' => $show_preferences_btn,
                 'closeIconLabel'     => 'Close',
-                'footer'             => '<a href="#link">Privacy Policy</a><a href="#link">Terms and conditions</a>',
+                'footer'             => '<a href="">Privacy Policy</a><a href="">Terms and conditions</a>',
                 'footerLinks'        => array(
-                    array( 'url' => '#link', 'label' => 'Privacy Policy' ),
-                    array( 'url' => '#link', 'label' => 'Terms and conditions' ),
+                    array( 'url' => '', 'label' => $is_english ? 'Privacy Policy' : '' ),
+                    array( 'url' => '', 'label' => $is_english ? 'Terms and conditions' : '' ),
                 ),
             );
 
