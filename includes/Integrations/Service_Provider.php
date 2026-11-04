@@ -36,6 +36,7 @@ class Service_Provider extends AbstractServiceProvider {
      */
     protected $provides = array(
         'wp_consent_api',
+        'cache_control',
     );
 
     /**
@@ -50,6 +51,9 @@ class Service_Provider extends AbstractServiceProvider {
     public function register(): void {
         $this->getContainer()
              ->add( 'wp_consent_api', WP_Consent_API::class );
+
+        $this->getContainer()
+             ->add( 'cache_control', Cache_Control::class );
     }
 
 }
