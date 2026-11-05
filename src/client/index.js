@@ -200,6 +200,10 @@ import './scss/main.scss';
 
     const { rest_url: restUrl, consent_route: route } = details.api;
 
+
+    // Use both categories and level arrays for checking, with fallback to level for compatibility
+    const acceptedCategories = cookie.categories || cookie.level || [];
+
     try {
       await fetch(`${restUrl}${route}`, {
         method: 'POST',
@@ -212,10 +216,10 @@ import './scss/main.scss';
           uuid: cookie.consent_uuid,
           url: window.location.href,
           user_agent: window.navigator.userAgent,
-          necessary_consent: cookie.level.includes('necessary'),
-          analytics_consent: cookie.level.includes('analytics'),
-          targeting_consent: cookie.level.includes('targeting'),
-          preferences_consent: cookie.level.includes('preferences'),
+          necessary_consent: acceptedCategories.includes('necessary'),
+          analytics_consent: acceptedCategories.includes('analytics'),
+          targeting_consent: acceptedCategories.includes('targeting'),
+          preferences_consent: acceptedCategories.includes('preferences'),
         }),
       });
     } catch (error) {
