@@ -47,7 +47,8 @@ final class Service_Provider extends AbstractServiceProvider {
      */
     public function register(): void {
         $this->getContainer()
-             ->add( 'settings_page', Settings_Page::class );
+             ->add( 'settings_page', Settings_Page::class )
+             ->addArgument( $this->getContainer()->get( 'geo_locator' ) );
 
         $this->getContainer()
              ->add( 'settings_api', Settings_API::class )
@@ -56,7 +57,8 @@ final class Service_Provider extends AbstractServiceProvider {
              ->addArgument( $this->getContainer()->get( 'logs' ) )
              ->addArgument( $this->getContainer()->get( 'geo_locator' ) )
              ->addArgument( $this->getContainer()->get( 'consents_table' ) )
-             ->addArgument( $this->getContainer()->get( 'db_table_exporter' ) );
+             ->addArgument( $this->getContainer()->get( 'db_table_exporter' ) )
+             ->addArgument( $this->getContainer()->get( 'rate_limiter' ) );
     }
 
 }

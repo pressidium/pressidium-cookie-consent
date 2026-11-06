@@ -25,10 +25,16 @@ class Blueprint {
     private array $columns;
 
     /**
+     * @var Index[] Array of indexes.
+     */
+    private array $indexes;
+
+    /**
      * Blueprint constructor.
      */
     public function __construct() {
         $this->columns = array();
+        $this->indexes = array();
     }
 
     /**
@@ -207,6 +213,25 @@ class Blueprint {
     }
 
     /**
+     * Add an index to the table.
+     *
+     * @param string|string[] $column_names Column name(s) to index.
+     * @param string|null     $index_name   (Optional) Index name.
+     *                                      Defaults to `idx_` followed by the column name(s).
+     *
+     * @return void
+     */
+    public function index( $column_names, string $index_name = null ): void {
+        $column_names = (array) $column_names;
+
+        if ( is_null( $index_name ) ) {
+            $index_name = 'idx_' . implode( '_', $column_names );
+        }
+
+        $this->indexes[] = new Index( $index_name, $column_names );
+    }
+
+    /**
      * Return the primary key for the table's blueprint object.
      *
      * @link https://developer.wordpress.org/reference/functions/dbdelta/
@@ -256,6 +281,10 @@ class Blueprint {
 
         if ( ! empty( $primary_key ) ) {
             $columns_sql .= ", \n{$primary_key}";
+        }
+
+        foreach ( $this->indexes as $index ) {
+            $columns_sql .= ", \n{$index->get_sql()}";
         }
 
         return "CREATE TABLE {$table_name} (\n{$columns_sql}\n) {$charset_collate}";

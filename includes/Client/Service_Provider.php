@@ -48,7 +48,8 @@ final class Service_Provider extends AbstractServiceProvider {
     public function register(): void {
         $this->getContainer()
              ->add( 'cookie_consent', Cookie_Consent::class )
-             ->addArgument( $this->getContainer()->get( 'settings' ) );
+             ->addArgument( $this->getContainer()->get( 'settings' ) )
+             ->addArgument( $this->getContainer()->get( 'geo_locator' ) );
 
         $this->getContainer()
              ->add( 'consent_mode', Consent_Mode::class )

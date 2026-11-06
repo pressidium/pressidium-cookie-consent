@@ -47,6 +47,7 @@
     "clsx": "^2.1.1",
     "iso-3166-2": "^1.0.0",
     "react-beforeunload": "^2.6.0",
-    "styled-components": "^6.1.15"
+    "styled-components": "^6.1.15",
+    "vanilla-cookieconsent": "^3.1.0"
   }
 }

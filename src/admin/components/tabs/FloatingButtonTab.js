@@ -30,8 +30,12 @@ function FloatingButtonTab() {
   }, []);
 
   const Icon = useMemo(
-    () => icons.find((icon) => icon.value === state.pressidium_options.floating_button.icon).Component,
-    [icons, state.pressidium_options.floating_button.icon],
+    () => (
+      icons.find(
+        (icon) => icon.value === state.pressidiumOptions.floatingButton.icon,
+      ).Component
+    ),
+    [icons, state.pressidiumOptions.floatingButton.icon],
   );
 
   return (
@@ -40,10 +44,10 @@ function FloatingButtonTab() {
         <PanelRow>
           <ToggleControl
             label={__('Enabled', 'pressidium-cookie-consent')}
-            help={state.pressidium_options.floating_button.enabled
-              ? __('Will show a floating button to open the settings modal', 'pressidium-cookie-consent')
+            help={state.pressidiumOptions.floatingButton.enabled
+              ? __('Will show a floating button to open the preferences modal', 'pressidium-cookie-consent')
               : __('Won\'t show a floating button', 'pressidium-cookie-consent')}
-            checked={state.pressidium_options.floating_button.enabled}
+            checked={state.pressidiumOptions.floatingButton.enabled}
             className="pressidium-toggle-control"
             onChange={(value) => onSettingChange('enabled', value)}
           />
@@ -51,7 +55,7 @@ function FloatingButtonTab() {
         <PanelRow>
           <RadioControl
             label={__('Size', 'pressidium-cookie-consent')}
-            selected={state.pressidium_options.floating_button.size}
+            selected={state.pressidiumOptions.floatingButton.size}
             options={[
               { label: __('Small', 'pressidium-cookie-consent'), value: 'sm' },
               { label: __('Large', 'pressidium-cookie-consent'), value: 'lg' },
@@ -63,7 +67,7 @@ function FloatingButtonTab() {
         <PanelRow>
           <RadioControl
             label={__('Position', 'pressidium-cookie-consent')}
-            selected={state.pressidium_options.floating_button.position}
+            selected={state.pressidiumOptions.floatingButton.position}
             options={[
               { label: __('Left', 'pressidium-cookie-consent'), value: 'left' },
               { label: __('Right', 'pressidium-cookie-consent'), value: 'right' },
@@ -77,7 +81,7 @@ function FloatingButtonTab() {
             <FlexItem>
               <SelectControl
                 label={__('Icon', 'pressidium-cookie-consent')}
-                value={state.pressidium_options.floating_button.icon}
+                value={state.pressidiumOptions.floatingButton.icon}
                 options={icons.map(({ label, value }) => ({ label, value }))}
                 onChange={(value) => onSettingChange('icon', value)}
                 className="pressidium-select-control"
@@ -92,7 +96,7 @@ function FloatingButtonTab() {
         <PanelRow>
           <RadioControl
             label={__('Transition', 'pressidium-cookie-consent')}
-            selected={state.pressidium_options.floating_button.transition}
+            selected={state.pressidiumOptions.floatingButton.transition}
             options={[
               { label: __('No transition (immediately appear)', 'pressidium-cookie-consent'), value: '' },
               { label: __('Fade in', 'pressidium-cookie-consent'), value: 'fade-in' },

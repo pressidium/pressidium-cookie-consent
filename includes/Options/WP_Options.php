@@ -45,7 +45,21 @@ class WP_Options implements Options {
             return true;
         }
 
-        return update_option( $name, $value );
+        if ( update_option( $name, $value ) ) {
+            return true;
+        }
+
+        /*
+         * `update_option()` also returns `false` when the row already holds this value,
+         * but the object cache served an older copy (Trac #31245). Drop the cached copies
+         * and re-check against the database before treating it as a failure.
+         *
+         * Autoloaded options are cached in `alloptions`, others under their own key, so we drop both.
+         */
+        wp_cache_delete( 'alloptions', 'options' );
+        wp_cache_delete( $name, 'options' );
+
+        return get_option( $name ) === $value;
     }
 
     /**

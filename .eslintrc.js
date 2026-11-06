@@ -23,7 +23,7 @@ module.exports = {
     pressidiumCCClientDetails: 'readonly',
     pressidiumCCFeedbackDetails: 'readonly',
     pressidiumCookiesBlockData: 'readonly',
-    initCookieConsent: true,
+    CookieConsent: true,
   },
   rules: {
     'react/react-in-jsx-scope': 'off',

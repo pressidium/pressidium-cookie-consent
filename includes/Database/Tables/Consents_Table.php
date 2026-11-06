@@ -101,6 +101,10 @@ final class Consents_Table extends Table {
               ->default_to( $zero_int );
 
         $table->timestamps();
+
+        $table->index( 'consent_date' );
+        $table->index( 'ip_address' );
+        $table->index( 'created_at' );
     }
 
     /**
@@ -226,7 +230,7 @@ final class Consents_Table extends Table {
      * @return string
      */
     public function get_version(): string {
-        return '1.2';
+        return '1.3';
     }
 
 }

@@ -18,17 +18,10 @@ import {
 } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 
-import styled from 'styled-components';
-
 import SettingsContext from '../../store/context';
 import * as ActionTypes from '../../store/actionTypes';
 
 import Badge from '../Badge';
-
-const StyledNotice = styled(Notice)`
-    width: 100%;
-    margin: -16px -16px 4px !important;
-`;
 
 function TagGatewayTab() {
   const { state, dispatch } = useContext(SettingsContext);
@@ -90,25 +83,25 @@ function TagGatewayTab() {
       <PanelBody initialOpen>
         {!properSetupNoticeDismissed ? (
           <PanelRow>
-            <StyledNotice
+            <Notice
               status="info"
               politeness="polite"
               onDismiss={dismissProperSetupNotice}
             >
               {__('We recommend setting up the Google tag gateway via your CDN or load balancer for best performance. If that’s not possible, you can enable our one-click PHP proxy as a quick and easy alternative.', 'pressidium-cookie-consent')}
-            </StyledNotice>
+            </Notice>
           </PanelRow>
         ) : null}
-        {!measurementPathNoticeDismissed && state.pressidium_options.google_tag_gateway.proxy_enabled ? (
+        {!measurementPathNoticeDismissed && state.pressidiumOptions.googleTagGateway.proxyEnabled ? (
           <PanelRow>
-            <StyledNotice
+            <Notice
               status="info"
               politeness="polite"
               onDismiss={dismissMeasurementPathNotice}
             >
               {__('Remember to update the Google tag or Google Tag Manager scripts on the website to use the following measurement path:', 'pressidium-cookie-consent')}
               <code>/pressidium-cookie-consent-metrics</code>
-            </StyledNotice>
+            </Notice>
           </PanelRow>
         ) : null}
         <PanelRow>
@@ -116,12 +109,12 @@ function TagGatewayTab() {
             <FlexItem>
               <ToggleControl
                 label={__('Google tag gateway proxy', 'pressidium-cookie-consent')}
-                help={state.pressidium_options.google_tag_gateway.proxy_enabled
+                help={state.pressidiumOptions.googleTagGateway.proxyEnabled
                   ? __('Will route traffic to Google tag gateway', 'pressidium-cookie-consent')
                   : __('Won\'t route traffic to Google tag gateway', 'pressidium-cookie-consent')}
-                checked={state.pressidium_options.google_tag_gateway.proxy_enabled}
+                checked={state.pressidiumOptions.googleTagGateway.proxyEnabled}
                 className="pressidium-toggle-control"
-                onChange={(value) => onTagGatewaySettingChange('proxy_enabled', value)}
+                onChange={(value) => onTagGatewaySettingChange('proxyEnabled', value)}
               />
             </FlexItem>
             <FlexItem>
@@ -136,7 +129,7 @@ function TagGatewayTab() {
             direction="column"
             gap={0}
             style={{
-              opacity: state.pressidium_options.google_tag_gateway.proxy_enabled ? 1.0 : 0.4,
+              opacity: state.pressidiumOptions.googleTagGateway.proxyEnabled ? 1.0 : 0.4,
             }}
           >
             <FlexItem>
@@ -145,9 +138,9 @@ function TagGatewayTab() {
                 help={__('A Google tag ID is an identifier to load a given Google tag', 'pressidium-cookie-consent')}
                 className="pressidium-text-control"
                 placeholder="G-12345"
-                value={state.pressidium_options.google_tag_gateway.gtag_id}
-                onChange={(value) => onTagGatewaySettingChange('gtag_id', value)}
-                disabled={!state.pressidium_options.google_tag_gateway.proxy_enabled}
+                value={state.pressidiumOptions.googleTagGateway.gtagId}
+                onChange={(value) => onTagGatewaySettingChange('gtagId', value)}
+                disabled={!state.pressidiumOptions.googleTagGateway.proxyEnabled}
               />
             </FlexItem>
             <FlexItem>

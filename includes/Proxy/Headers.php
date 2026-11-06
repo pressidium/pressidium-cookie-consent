@@ -200,7 +200,8 @@ class Headers {
      */
     public function set_geo_location(): Headers {
         if ( ! empty( $_SERVER['REMOTE_ADDR'] ) ) {
-            $country_code = $this->geo_locator->maybe_get_country_code( $_SERVER['REMOTE_ADDR'] );
+            $ip_address   = $this->geo_locator->get_ip_address();
+            $country_code = $this->geo_locator->maybe_get_country_code( $ip_address );
 
             if ( $country_code ) {
                 $this->headers['X-Forwarded-Country'] = $country_code;

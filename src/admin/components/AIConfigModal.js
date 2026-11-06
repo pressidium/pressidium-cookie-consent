@@ -101,12 +101,25 @@ function AIConfigModal(props) {
     setAvailableModels(availableModelsResponse.success && availableModelsResponse.models
       ? availableModelsResponse.models : []);
 
-    const selectedModelResponse = await fetchSelectedModel();
+    // A model can only be selected if the available models could be fetched
+    const selectedModelResponse = availableModelsResponse.success
+      ? await fetchSelectedModel()
+      : { success: false };
 
     setSelectedModel(selectedModelResponse.success && selectedModelResponse.model
       ? selectedModelResponse.model : null);
 
     setIsFetching(false);
+
+    if (availableModelsResponse.code === 'ai_api_key_undecryptable') {
+      appendNotice({
+        message: availableModelsResponse.error,
+        status: 'warning',
+        id: 'ai-api-key-undecryptable-warning',
+      });
+    } else {
+      dismissNotice('ai-api-key-undecryptable-warning');
+    }
 
     if (!availableModelsResponse.success && apiKey) {
       appendNotice({
@@ -145,6 +158,11 @@ function AIConfigModal(props) {
    * We need to fetch the models again because each provider has its own models.
    */
   useEffect(() => {
+    if (!selectedProvider) {
+      // The selected provider hasn't been fetched yet
+      return;
+    }
+
     (async () => {
       await fetchModels();
     })();
