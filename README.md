@@ -153,8 +153,8 @@ GNU GPL v2 or later, check the [`LICENSE`](./LICENSE) file.
 ## About Pressidium
 
 <p align="center">
-    <a href="https://pressidium.com/free-trial/?utm_source=pccplugin&utm_medium=ghreadme&utm_campaign=wpplugins">
-        <img width="850" src="./assets/images/banner.png" />
+    <a href="https://pressidium.com/wordpress-hosting-plans/?utm_source=pccplugin&utm_medium=ghreadme&utm_campaign=wpplugins">
+        <img width="850" src="./assets/images/banner.webp" />
     </a>
 </p>
 
