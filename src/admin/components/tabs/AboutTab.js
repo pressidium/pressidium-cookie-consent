@@ -92,7 +92,7 @@ function AboutTab() {
                 {__('Fully customizable', 'pressidium-cookie-consent')}
               </StyledHeading>
               <p>
-                {__('Easily modify the cookie consent banner and settings modal text. Pick one of the built-in color presets to match your website’s aesthetic, or adjust the color of individual components via our convenient color picker. Choose from a variety of layouts, positions, and transitions directly from the WordPress dashboard.', 'pressidium-cookie-consent')}
+                {__('Easily modify the cookie consent banner and preferences modal text. Pick one of the built-in color presets to match your website’s aesthetic, or adjust the color of individual components via our convenient color picker. Choose from a variety of layouts, positions, and transitions directly from the WordPress dashboard.', 'pressidium-cookie-consent')}
               </p>
             </FlexItem>
             <FlexItem>
@@ -119,7 +119,7 @@ function AboutTab() {
                 {__('Translatable', 'pressidium-cookie-consent')}
               </StyledHeading>
               <p>
-                {__('Modify any text in the cookie consent banner and settings modal, and provide translations. Choose the language auto-detection strategy you prefer — either read the user’s browser language or read the markup of the current page to identify its primary language.', 'pressidium-cookie-consent')}
+                {__('Modify any text in the cookie consent banner and preferences modal, and provide translations. Choose the language auto-detection strategy you prefer — either read the user’s browser language or read the markup of the current page to identify its primary language.', 'pressidium-cookie-consent')}
               </p>
             </FlexItem>
             <FlexItem>
@@ -128,7 +128,7 @@ function AboutTab() {
                 {__('Responsive', 'pressidium-cookie-consent')}
               </StyledHeading>
               <p>
-                {__('Fully responsive and mobile-friendly cookie consent banner and settings modal.', 'pressidium-cookie-consent')}
+                {__('Fully responsive and mobile-friendly cookie consent banner and preferences modal.', 'pressidium-cookie-consent')}
               </p>
             </FlexItem>
             <FlexItem>
@@ -245,7 +245,7 @@ function AboutTab() {
                 {__('Control it programmatically', 'pressidium-cookie-consent')}
               </StyledHeading>
               <p>
-                {__('Programmatically control the plugin. Conditionally show/hide the cookie consent banner and/or the settings modal, accept one (or more) cookie categories, erase cookies, load previously blocked scripts, etc.', 'pressidium-cookie-consent')}
+                {__('Programmatically control the plugin. Conditionally show/hide the cookie consent banner and/or the preferences modal, accept one (or more) cookie categories, erase cookies, load previously blocked scripts, etc.', 'pressidium-cookie-consent')}
               </p>
             </FlexItem>
           </Flex>

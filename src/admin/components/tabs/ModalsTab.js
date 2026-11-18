@@ -21,7 +21,7 @@ function ModalsTab() {
   const [
     posY = 'bottom',
     posX = 'right',
-  ] = useMemo(() => state.gui_options.consent_modal.position.split(' '), [state]);
+  ] = useMemo(() => state.guiOptions.consentModal.position.split(' '), [state]);
 
   const onConsentModalSettingChange = useCallback((key, value) => {
     dispatch({
@@ -33,9 +33,9 @@ function ModalsTab() {
     });
   }, []);
 
-  const onSettingsModalSettingChange = useCallback((key, value) => {
+  const onPreferencesModalSettingChange = useCallback((key, value) => {
     dispatch({
-      type: ActionTypes.UPDATE_SETTINGS_MODAL_SETTING,
+      type: ActionTypes.UPDATE_PREFERENCES_MODAL_SETTING,
       payload: {
         key,
         value,
@@ -43,21 +43,17 @@ function ModalsTab() {
     });
   }, []);
 
-  const onPrimaryButtonRoleChange = useCallback((value) => {
+  const onCloseIconSettingChange = useCallback((value) => {
     dispatch({
-      type: ActionTypes.UPDATE_PRIMARY_BUTTON_ROLE,
-      payload: {
-        value,
-      },
+      type: ActionTypes.UPDATE_CLOSE_ICON_SETTING,
+      payload: { value },
     });
   }, []);
 
-  const onSecondaryButtonRoleChange = useCallback((value) => {
+  const onPressidiumOptionChange = useCallback((key, value) => {
     dispatch({
-      type: ActionTypes.UPDATE_SECONDARY_BUTTON_ROLE,
-      payload: {
-        value,
-      },
+      type: ActionTypes.UPDATE_PRESSIDIUM_OPTION,
+      payload: { key, value },
     });
   }, []);
 
@@ -71,7 +67,7 @@ function ModalsTab() {
         <PanelRow>
           <RadioControl
             label={__('Layout', 'pressidium-cookie-consent')}
-            selected={state.gui_options.consent_modal.layout}
+            selected={state.guiOptions.consentModal.layout}
             options={[
               { label: __('Box', 'pressidium-cookie-consent'), value: 'box' },
               { label: __('Cloud', 'pressidium-cookie-consent'), value: 'cloud' },
@@ -98,7 +94,7 @@ function ModalsTab() {
           <div
             style={{
               width: '100%',
-              opacity: ['box', 'cloud'].includes(state.gui_options.consent_modal.layout) ? 1.0 : 0.4,
+              opacity: ['box', 'cloud'].includes(state.guiOptions.consentModal.layout) ? 1.0 : 0.4,
             }}
           >
             <RadioControl
@@ -110,74 +106,32 @@ function ModalsTab() {
                 { label: __('Right', 'pressidium-cookie-consent'), value: 'right' },
               ]}
               onChange={(value) => onConsentModalSettingChange('position', `${posY} ${value}`)}
-              disabled={!['box', 'cloud'].includes(state.gui_options.consent_modal.layout)}
+              disabled={!['box', 'cloud'].includes(state.guiOptions.consentModal.layout)}
             />
           </div>
         </PanelRow>
 
         <PanelRow>
-          <RadioControl
-            label={__('Transition', 'pressidium-cookie-consent')}
-            selected={state.gui_options.consent_modal.transition}
-            options={[
-              { label: __('Slide', 'pressidium-cookie-consent'), value: 'slide' },
-              { label: __('Zoom', 'pressidium-cookie-consent'), value: 'zoom' },
-            ]}
-            onChange={(value) => onConsentModalSettingChange('transition', value)}
-          />
-        </PanelRow>
-
-        <PanelRow>
-          <RadioControl
-            label={__('Primary button', 'pressidium-cookie-consent')}
-            selected={state.pressidium_options.primary_btn_role}
-            options={[
-              { label: __('Accept selected', 'pressidium-cookie-consent'), value: 'accept_selected' },
-              { label: __('Accept all', 'pressidium-cookie-consent'), value: 'accept_all' },
-            ]}
-            onChange={(value) => onPrimaryButtonRoleChange(value)}
-          />
-        </PanelRow>
-
-        <PanelRow>
-          <RadioControl
-            label={__('Secondary button', 'pressidium-cookie-consent')}
-            selected={state.pressidium_options.secondary_btn_role}
-            options={[
-              { label: __('Settings', 'pressidium-cookie-consent'), value: 'settings' },
-              { label: __('Accept necessary', 'pressidium-cookie-consent'), value: 'accept_necessary' },
-            ]}
-            onChange={(value) => onSecondaryButtonRoleChange(value)}
+          <ToggleControl
+            label={__('Equal weight buttons', 'pressidium-cookie-consent')}
+            help={state.guiOptions.consentModal.equalWeightButtons
+              ? __('Buttons have equal weight', 'pressidium-cookie-consent')
+              : __('Buttons won\'t have equal weight', 'pressidium-cookie-consent')}
+            checked={state.guiOptions.consentModal.equalWeightButtons}
+            className="pressidium-toggle-control"
+            onChange={(value) => onConsentModalSettingChange('equalWeightButtons', value)}
           />
         </PanelRow>
 
         <PanelRow>
           <ToggleControl
-            label={__('Swap buttons', 'pressidium-cookie-consent')}
-            help={state.gui_options.consent_modal.swap_buttons
+            label={__('Flip buttons', 'pressidium-cookie-consent')}
+            help={state.guiOptions.consentModal.flipButtons
               ? __('Buttons are inverted', 'pressidium-cookie-consent')
               : __('Enable to invert buttons', 'pressidium-cookie-consent')}
-            checked={state.gui_options.consent_modal.swap_buttons}
+            checked={state.guiOptions.consentModal.flipButtons}
             className="pressidium-toggle-control"
-            onChange={(value) => onConsentModalSettingChange('swap_buttons', value)}
-          />
-        </PanelRow>
-      </PanelBody>
-
-      <PanelBody
-        title={__('Settings Modal', 'pressidium-cookie-consent')}
-        icon={CogIcon}
-        initialOpen
-      >
-        <PanelRow>
-          <RadioControl
-            label={__('Layout', 'pressidium-cookie-consent')}
-            selected={state.gui_options.settings_modal.layout}
-            options={[
-              { label: __('Box', 'pressidium-cookie-consent'), value: 'box' },
-              { label: __('Bar', 'pressidium-cookie-consent'), value: 'bar' },
-            ]}
-            onChange={(value) => onSettingsModalSettingChange('layout', value)}
+            onChange={(value) => onConsentModalSettingChange('flipButtons', value)}
           />
         </PanelRow>
 
@@ -185,33 +139,96 @@ function ModalsTab() {
           <div
             style={{
               width: '100%',
-              opacity: state.gui_options.settings_modal.layout === 'bar' ? 1.0 : 0.4,
+              opacity: state.guiOptions.consentModal.layout === 'box' ? 1.0 : 0.4,
             }}
           >
-            <RadioControl
-              label={__('Position', 'pressidium-cookie-consent')}
-              selected={state.gui_options.settings_modal.position}
-              options={[
-                { label: __('Left', 'pressidium-cookie-consent'), value: 'left' },
-                { label: __('Right', 'pressidium-cookie-consent'), value: 'right' },
-              ]}
-              onChange={(value) => onSettingsModalSettingChange('position', value)}
-              disabled={state.gui_options.settings_modal.layout !== 'bar'}
+            <ToggleControl
+              label={__('Show close icon', 'pressidium-cookie-consent')}
+              help={(state.pressidiumOptions.consentModalCloseIcon ?? true)
+                ? __('Close icon is visible', 'pressidium-cookie-consent')
+                : __('Close icon is hidden', 'pressidium-cookie-consent')}
+              checked={state.pressidiumOptions.consentModalCloseIcon ?? true}
+              className="pressidium-toggle-control"
+              disabled={state.guiOptions.consentModal.layout !== 'box'}
+              onChange={(value) => onCloseIconSettingChange(value)}
             />
           </div>
         </PanelRow>
 
         <PanelRow>
-          <RadioControl
-            label={__('Transition', 'pressidium-cookie-consent')}
-            selected={state.gui_options.settings_modal.transition}
-            options={[
-              { label: __('Slide', 'pressidium-cookie-consent'), value: 'slide' },
-              { label: __('Zoom', 'pressidium-cookie-consent'), value: 'zoom' },
-            ]}
-            onChange={(value) => onSettingsModalSettingChange('transition', value)}
+          <ToggleControl
+            label={__('Show footer', 'pressidium-cookie-consent')}
+            help={(state.pressidiumOptions.showConsentModalFooter ?? true)
+              ? __('Will show the footer', 'pressidium-cookie-consent')
+              : __('Won\'t show the footer', 'pressidium-cookie-consent')}
+            checked={state.pressidiumOptions.showConsentModalFooter ?? true}
+            className="pressidium-toggle-control"
+            onChange={(value) => onPressidiumOptionChange('showConsentModalFooter', value)}
           />
         </PanelRow>
+      </PanelBody>
+
+      <PanelBody
+        title={__('Preferences Modal', 'pressidium-cookie-consent')}
+        icon={CogIcon}
+        initialOpen
+      >
+        <PanelRow>
+          <RadioControl
+            label={__('Layout', 'pressidium-cookie-consent')}
+            selected={state.guiOptions.preferencesModal.layout}
+            options={[
+              { label: __('Box', 'pressidium-cookie-consent'), value: 'box' },
+              { label: __('Bar', 'pressidium-cookie-consent'), value: 'bar' },
+            ]}
+            onChange={(value) => onPreferencesModalSettingChange('layout', value)}
+          />
+        </PanelRow>
+
+        <PanelRow>
+          <div
+            style={{
+              width: '100%',
+              opacity: state.guiOptions.preferencesModal.layout === 'bar' ? 1.0 : 0.4,
+            }}
+          >
+            <RadioControl
+              label={__('Position', 'pressidium-cookie-consent')}
+              selected={state.guiOptions.preferencesModal.position}
+              options={[
+                { label: __('Left', 'pressidium-cookie-consent'), value: 'left' },
+                { label: __('Right', 'pressidium-cookie-consent'), value: 'right' },
+              ]}
+              onChange={(value) => onPreferencesModalSettingChange('position', value)}
+              disabled={state.guiOptions.preferencesModal.layout !== 'bar'}
+            />
+          </div>
+        </PanelRow>
+
+        <PanelRow>
+          <ToggleControl
+            label={__('Equal weight buttons', 'pressidium-cookie-consent')}
+            help={state.guiOptions.preferencesModal.equalWeightButtons
+              ? __('Buttons have equal weight', 'pressidium-cookie-consent')
+              : __('Buttons won\'t have equal weight', 'pressidium-cookie-consent')}
+            checked={state.guiOptions.preferencesModal.equalWeightButtons}
+            className="pressidium-toggle-control"
+            onChange={(value) => onPreferencesModalSettingChange('equalWeightButtons', value)}
+          />
+        </PanelRow>
+
+        <PanelRow>
+          <ToggleControl
+            label={__('Flip buttons', 'pressidium-cookie-consent')}
+            help={state.guiOptions.preferencesModal.flipButtons
+              ? __('Buttons are inverted', 'pressidium-cookie-consent')
+              : __('Enable to invert buttons', 'pressidium-cookie-consent')}
+            checked={state.guiOptions.preferencesModal.flipButtons}
+            className="pressidium-toggle-control"
+            onChange={(value) => onPreferencesModalSettingChange('flipButtons', value)}
+          />
+        </PanelRow>
+
       </PanelBody>
     </Panel>
   );
